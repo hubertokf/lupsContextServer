@@ -1,0 +1,43 @@
+.login-box{
+	border: 2px solid $azul;
+	background-color: #fafafa;
+  	margin: 50px 0;
+
+	h2{
+		font-size: 18px;
+		font-weight: bold;
+		text-align: center;
+	}
+
+	.pass-recover{
+		text-align: center;
+	}
+	
+	label{
+		font-size: 12px;
+		margin-bottom: 0;
+    }
+
+	select, input{
+		height: 100%;
+        font-size: 14px;
+        padding: 8px;
+        border: 1px solid;
+        margin-bottom: 10px;
+        border-color: rgb(169, 169, 169);
+	}
+
+	.submit{
+		input{
+			margin-bottom: 5px;
+		}
+	}
+
+	.pass-recover{
+		margin-bottom: 15px;
+	}
+
+	.campoCaptcha{
+		text-align: center;
+	}
+}

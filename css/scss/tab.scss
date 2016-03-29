@@ -1,0 +1,71 @@
+.tab{
+	.section-title{
+		h2{
+			font-size: 22px;
+			font-weight: bold;			
+		}
+	}
+
+	.dados{
+		margin: 50px 0;
+
+		.no-data{
+			font-weight: bold;
+			font-size: 20px;
+		}
+
+		.tabela{
+			width: 100%;
+			color: #666666;
+			margin-bottom: 25px;
+
+			td, th{
+				text-align: center;
+			}
+
+			thead{
+				tr{
+					background-color: $table-header;
+					border: 1px solid $table-header;
+					color: $table-header-font;
+				}
+			}
+
+			tbody{
+				tr{
+					border: 1px solid $table-border;
+
+					&:nth-child(even){ 
+						background: $table-line-even;
+					}
+				}
+				tr{
+					&:nth-child(odd){ 
+						background: $table-line-odd;
+					}
+				}
+			}
+
+			.medias{
+				.leg{
+					text-align: left;
+					background-color: $table-leg-med;
+					padding-left: 3px;
+					border: 0;
+					position: relative;
+
+					span{
+						position: absolute;
+						top: 0;
+						left: 10px;
+					}
+				}
+
+				.divider{
+					background-color: $table-divider;
+					border: 1px solid $table-divider;
+				}
+			}
+		}
+	}
+}

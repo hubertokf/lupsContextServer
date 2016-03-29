@@ -1,0 +1,77 @@
+.menu{
+	font-size: 12px;
+	height: 35px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	background-color: #f6f6f6;
+	color: gray;
+	text-decoration: none;
+
+	div, .col-xs-12{
+		height: 100%
+	}
+
+
+	ul{
+		list-style: none;
+		margin: 0;
+  		padding: 0;
+  		height: 100%;
+
+		li{
+			display: inline-block;
+  			height: 100%;
+  			position: relative;
+
+  			&:hover{
+				background-color: rgb(128, 128, 128);
+
+				a{
+					color: #FFF;
+				}
+
+				ul{
+					display: block;
+  					position: absolute;
+				}
+			}
+
+  			a{
+  				//@include vcenter;
+			    display: block;
+				color: rgb(128, 128, 128);
+				padding: 9px 20px;
+
+  				&:hover{
+					text-decoration: none;
+				}
+  			}
+
+			ul{
+				display: none;
+			  	left: 0;
+  				top: 35px;
+			  	background-color: gray;
+		  	  	width: 200px;
+	  	  	  	z-index: 5;
+
+				li{
+					background-color: #f6f6f6;
+				  	width: 100%;
+
+				  	a{
+				  		color: gray !important;				  		
+				  	}
+
+				  	&:hover{
+						background-color: rgb(128, 128, 128);
+
+						a{
+							color: #FFF !important;
+						}
+					}
+				}
+			}
+		}
+	}
+}

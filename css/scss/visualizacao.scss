@@ -1,0 +1,25 @@
+.visualizacao{
+  padding: 65px 0;
+
+  #form{
+
+    label{
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .sensor, .borda{
+      height: 35px;
+      margin-bottom: 25px;
+
+      select{
+        height: 100%;
+        font-size: 14px;
+        padding: 8px;
+        margin-bottom: 15px;
+      }
+    }
+
+
+  }
+}

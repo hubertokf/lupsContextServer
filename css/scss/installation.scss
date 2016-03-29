@@ -1,0 +1,55 @@
+.header-installation{
+	margin-bottom: 40px;
+	.installation-title{
+		h1{
+			font-weight: bold;
+			color: $azul;
+		}
+	}
+}
+.installation{
+	.installation-box{
+		border: 1px solid #ccc;
+		border-radius: 6px;
+		padding: 15px;
+		background-color: #F9F9F9;
+
+		input[type="text"]{
+			height: 30px;
+			margin-bottom: 10px;
+			padding: 5px;
+		}
+
+		p{
+			font-size: 14px;
+		}
+
+		.title{
+			margin-bottom: 30px;
+		}
+
+		.errorRequisite{
+			color: red;
+			text-align: center;
+			font-weight: bold;
+		}
+
+		.botaoConfig{
+			border-radius: 5px;
+			border: 1px solid #ccc;
+		    text-align: center;
+		    background: #EEEEEE;
+		    margin-top: 20px;
+	    	color: $azul;
+
+		    a{
+		    	display: block;
+		    	padding: 10px 0;
+		    	color: $azul;
+		    	&:hover{
+					text-decoration: none;
+		    	}
+		    }
+		}
+	}
+}

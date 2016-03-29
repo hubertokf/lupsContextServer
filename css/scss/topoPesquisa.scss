@@ -1,0 +1,43 @@
+.topoPesquisa{
+
+	.tituloListaDados{
+		
+		h2{
+			font-size: 22px;
+  			font-weight: bold;
+  		}
+	}
+
+	.NovoRegistro{
+		text-align: right;
+
+		i{
+			color: $azul;
+		  	line-height: 35px;
+  			margin-top: 20px;
+		}
+	}
+
+}
+
+.paginacao{
+	margin-bottom: 25px;
+
+	.next-page, .prev-page{
+		display: inline-block;
+	}
+
+	#perpage{
+		width: 40px;
+		margin-right: 10px;
+	}
+
+	a, strong{
+		color: $azul;
+		padding: 0 5px;
+
+		&:hover{
+			text-decoration: none;
+		}
+	}
+}

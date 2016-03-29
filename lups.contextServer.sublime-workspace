@@ -1,0 +1,757 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"for",
+				"for	for …"
+			],
+			[
+				"img_",
+				"img_cab"
+			],
+			[
+				"sensor",
+				"sensor_id"
+			],
+			[
+				"Led",
+				"LED_PIN"
+			],
+			[
+				"img",
+				"img_projeto"
+			],
+			[
+				"sele",
+				"selecionar"
+			],
+			[
+				"user",
+				"user_id"
+			],
+			[
+				"PRINT",
+				"print_r"
+			],
+			[
+				"ti",
+				"titulo"
+			],
+			[
+				"configuracao",
+				"configuracao_id"
+			],
+			[
+				"vlr",
+				"valor_flt"
+			],
+			[
+				"servi",
+				"servidorborda_nome"
+			],
+			[
+				"senso",
+				"sensor_nome"
+			],
+			[
+				"contextointeresse",
+				"regra_contextointeresse"
+			],
+			[
+				"amb",
+				"ambiente_id"
+			],
+			[
+				"ambiente",
+				"ambiente_id"
+			],
+			[
+				"type",
+				"type_s"
+			],
+			[
+				"One",
+				"OneWire"
+			],
+			[
+				"t",
+				"TRABALHA_EM"
+			],
+			[
+				"arra",
+				"arrayCampos"
+			],
+			[
+				"valor",
+				"valormin"
+			],
+			[
+				"write_c",
+				"write_config"
+			],
+			[
+				"font",
+				"font-weight"
+			],
+			[
+				"pre",
+				"pre_error"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"border",
+				"border"
+			],
+			[
+				"pad",
+				"padding"
+			],
+			[
+				"gat",
+				"gateway_id"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
+				"margin",
+				"margin-bottom"
+			],
+			[
+				"pirn",
+				"print_r"
+			],
+			[
+				"conte",
+				"contentType"
+			],
+			[
+				"publica",
+				"publicacoes"
+			],
+			[
+				"public",
+				"publicacoes"
+			],
+			[
+				"result",
+				"result_array"
+			],
+			[
+				"servidor",
+				"servidorborda_id"
+			],
+			[
+				"json",
+				"json_encode"
+			],
+			[
+				"tex",
+				"text-align"
+			],
+			[
+				"text",
+				"text-decoration"
+			],
+			[
+				"pa",
+				"padding-bottom"
+			],
+			[
+				"inline",
+				"inline-block"
+			],
+			[
+				"regra_contex",
+				"regra_contextointeresse"
+			],
+			[
+				"contextoin",
+				"contextointeresse_id"
+			],
+			[
+				"context",
+				"contextointeresse_servidorcontexto"
+			],
+			[
+				"sensor_",
+				"sensor_id"
+			],
+			[
+				"perfi",
+				"perfilusuario_id"
+			],
+			[
+				"menu",
+				"menu_id"
+			],
+			[
+				"datetime",
+				"datetimefinal"
+			],
+			[
+				"dados",
+				"dadosAgendamento"
+			],
+			[
+				"id",
+				"idEquipamento"
+			],
+			[
+				"nome_",
+				"nome_equipamento"
+			],
+			[
+				"agendamento_id",
+				"agendamento_id"
+			],
+			[
+				"date",
+				"datetimefinal"
+			],
+			[
+				"DI",
+				"disabled	Attr"
+			],
+			[
+				"Date",
+				"DateTimeFinal"
+			],
+			[
+				"sen",
+				"sensor_id"
+			],
+			[
+				"print",
+				"print_r"
+			],
+			[
+				"equipamento",
+				"equipamento_id"
+			],
+			[
+				"datetimeinicial",
+				"datetimeinicial"
+			],
+			[
+				"usuario",
+				"usuario_id"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"build",
+				"Build With: PlatformIO"
+			],
+			[
+				"Package Control: install",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Add Repository"
+			],
+			[
+				"Package Control: add",
+				"Package Control: Add Repository"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"add",
+				"Package Control: Add Repository"
+			],
+			[
+				"Package Control: insta",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 139.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/var/www/html/lups.contextServer"
+	],
+	"file_history":
+	[
+		"/var/www/html/lups.contextServer/application/config/database.php",
+		"/var/www/html/embrapa.contextServer/application/models/M_sensor.php",
+		"/var/www/html/embrapa.contextServer/application/controllers/cadastros/CI_sensor.php",
+		"/var/www/html/embrapa.contextServer/application/controllers/cadastros/CI_contextointeresse.php",
+		"/var/www/html/embrapa.contextServer/testes de sql.sql",
+		"/var/www/html/embrapa.contextServer/application/models/M_contextointeresse.php",
+		"/var/www/html/embrapa.contextServer/application/views/cadastros/sensor/pesquisa.php",
+		"/home/huberto/projects/lupsEdgeServer/lupsEdgeServer.sublime-project",
+		"/home/huberto/projects/lupsEdgeServer/lupsEdgeServer/models.py",
+		"/home/huberto/projects/lupsEdgeServer/mysite/settings.py",
+		"/home/huberto/projects/djangoteste/djangoteste/settings.py",
+		"/home/huberto/projects/djangoteste/mysite/mysite/wsgi.py",
+		"/home/huberto/projects/djangoteste/manage.py",
+		"/home/huberto/projects/djangoteste/mysite/mysite/urls.py",
+		"/home/huberto/projects/djangoteste/mysite/mysite/settings.py",
+		"/var/www/html/embrapa.contextServer/application/controllers/cadastros/CI_fabricante.php",
+		"/home/huberto/projects/djangoteste/mysite/mysite/__init__.py",
+		"/home/huberto/projects/djangoteste/mysite/manage.py",
+		"/var/www/html/embrapa.contextServer/application/views/cadastros/contextointeresse/pesquisa.php",
+		"/var/www/html/embrapa.contextServer/application/controllers/CI_visualizacao.php",
+		"/var/www/html/embrapa.contextServer/application/models/M_regras.php",
+		"/var/www/html/embrapa.contextServer/application/controllers/cadastros/CI_regras.php",
+		"/var/www/html/embrapa.contextServer/application/views/cadastros/regras/pesquisa.php",
+		"/var/www/html/embrapa.contextServer/application/models/M_ambiente.php",
+		"/var/www/html/embrapa.contextServer/application/controllers/cadastros/CI_ambiente.php",
+		"/var/www/html/embrapa.contextServer/application/views/cadastros/contextointeresse/cadastro.php",
+		"/var/www/html/embrapa.contextServer/application/models/M_permissoes.php",
+		"/var/www/html/embrapa.contextServer/update.sql",
+		"/var/www/html/embrapa.contextServer/application/views/cadastros/sensor/cadastro.php",
+		"/var/www/html/embrapa.contextServer/application/controllers/cadastros/CI_permissoes.php",
+		"/var/www/html/embrapa.contextServer/application/models/M_usuario.php",
+		"/var/www/html/embrapa.contextServer/application/controllers/cadastros/CI_usuario.php",
+		"/var/www/html/embrapa.contextServer/js/helper.js",
+		"/var/www/html/embrapa.contextServer/application/views/cadastros/publicacao/cadastro.php",
+		"/var/www/html/embrapa.contextServer/application/models/M_gateway.php",
+		"/var/www/html/embrapa.contextServer/application/controllers/cadastros/CI_gateway.php",
+		"/var/www/html/embrapa.contextServer/application/views/cadastros/sensor/cadastro2.php",
+		"/var/www/html/embrapa.contextServer/application/views/cadastros/regras/cadastro.php",
+		"/var/www/html/embrapa.contextServer/application/views/cadastros/usuario/pesquisa.php",
+		"/var/www/html/embrapa.contextServer/application/views/inc/topo.php",
+		"/var/www/html/embrapa.contextServer/application/views/cadastros/permissoes/pesquisa.php",
+		"/var/www/html/embrapa.contextServer/application/views/inc/topoPesquisa.php",
+		"/var/www/html/embrapa.contextServer/application/views/cadastros/usuario/cadastro.php",
+		"/var/www/html/embrapa.contextServer/application/views/cadastros/permissoes/cadastro.php",
+		"/tmp/fz3temp-1/pet-manager.php",
+		"/home/huberto/Documentos/perdi-meu-pet/wp-content/plugins/pet-manager/pet-manager.php",
+		"/var/www/html/embrapa.contextServer/application/models/M_publicacao.php",
+		"/home/huberto/.local/share/Trash/files/trabalho.sql",
+		"/var/www/html/casamento/wp-content/themes/weddingevent/css/font-face/Valentina-Regular/stylesheet.css",
+		"/tmp/update.sql",
+		"/home/huberto/Área de Trabalho/rfinal.def",
+		"/tmp/fz3temp-1/wp-config.php",
+		"/var/www/html/perdi-meu-pet/wp-config.php",
+		"/tmp/fz3temp-1/widgets.php",
+		"/tmp/fz3temp-1/cpt-pets.php",
+		"/tmp/fz3temp-1/form-action.php",
+		"/tmp/fz3temp-1/extend.php",
+		"/tmp/fz3temp-1/pet_options_page.php",
+		"/tmp/fz3temp-1/form.php",
+		"/home/huberto/Área de Trabalho/ORGANIZAÇÃO!/RelatorioFinalBolsa/BibRelatorio.bib",
+		"/var/www/html/embrapa.contextServer/application/config/database.php",
+		"/var/www/html/embrapa.contextServer/application/config/config.php",
+		"/tmp/fz3temp-1/.htaccess",
+		"/tmp/fz3temp-1/pet_scripts.js",
+		"/tmp/fz3temp-1/jquery_check.js",
+		"/tmp/fz3temp-1/info.php",
+		"/tmp/fz3temp-1/index.php",
+		"/tmp/fz3temp-1/page-pet-lista.php",
+		"/tmp/fz3temp-1/page.php",
+		"/var/www/html/beta/wp-config.php",
+		"/tmp/fz3temp-1/indexbkp.php",
+		"/tmp/fz3temp-1/page-Pets.php",
+		"/tmp/fz3temp-1/page-pets.php",
+		"/tmp/fz3temp-1/M_geral.php",
+		"/tmp/fz3temp-1/CI_visualizacao.php",
+		"/tmp/fz3temp-1/topo.php",
+		"/tmp/fz3temp-1/cadastro.php",
+		"/home/huberto/projects/teste/platformio.ini",
+		"/root/.arduino15/preferences.txt",
+		"/var/www/html/info.php",
+		"/tmp/fz3temp-1/database.php",
+		"/home/huberto/Área de Trabalho/SC.py",
+		"/home/huberto/Área de Trabalho/regras/teste.py",
+		"/home/huberto/Área de Trabalho/DB2.py",
+		"/home/huberto/Área de Trabalho/SC_1921681628.py",
+		"/home/huberto/NetBeansProjects/exehda-sa.UPNPdiscovery/Gateway/config.properties",
+		"/var/www/html/embrapa.contextServer/css/extra.css",
+		"/var/www/html/embrapa.contextServer/css/scss/core/main.scss",
+		"/var/www/html/embrapa.contextServer/application/models/M_relmenuperfil.php",
+		"/var/www/html/embrapa.contextServer/application/models/M_relcontextointeresse.php",
+		"/var/www/html/embrapa.contextServer/application/models/M_perfil.php",
+		"/var/www/html/embrapa.contextServer/application/models/M_menu.php",
+		"/var/www/html/embrapa.contextServer/application/models/M_geral.php",
+		"/var/www/html/embrapa.contextServer/application/models/M_fabricante.php",
+		"/var/www/html/embrapa.contextServer/application/models/M_configuracoes.php",
+		"/var/www/html/embrapa.contextServer/application/models/M_agenda.php",
+		"/var/www/html/embrapa.contextServer/application/models/M_tipo_sensor.php",
+		"/var/www/html/embrapa.contextServer/application/models/M_servidorcontexto.php",
+		"/var/www/html/embrapa.contextServer/application/models/M_servidorborda.php",
+		"/var/www/html/embrapa.contextServer/application/models/M_sensor_bkp.php",
+		"/var/www/html/embrapa.contextServer/application/views/cadastros/gateway/cadastro.php",
+		"/var/www/html/embrapa.contextServer/application/views/cadastros/servidorborda/cadastro.php",
+		"/home/huberto/projects/gatewayMCU-LUPS/lib/ESP8266UPnP/src/ESP8266UPnP.cpp",
+		"/home/huberto/projects/gatewayMCU-LUPS/lib/ESP8266UPnP/src/ESP8266UPnP.h",
+		"/home/huberto/.config/sublime-text-3/Packages/ClangAutoComplete/ClangAutoComplete.sublime-settings",
+		"/home/huberto/projects/gatewayMCU-LUPS/src/main.cpp",
+		"/home/huberto/Área de Trabalho/monitoravelho/application/controllers/cadastros/ci_sensor.php",
+		"/home/huberto/Área de Trabalho/monitoravelho/application/models/m_sensor.php",
+		"/home/huberto/Área de Trabalho/monitoravelho/application/views/cadastros/sensor/cadastro.php",
+		"/home/huberto/Área de Trabalho/monitoravelho/application/controllers/cadastros/ci_servidorborda.php",
+		"/home/huberto/Área de Trabalho/monitoravelho/application/models/m_servidorborda.php",
+		"/home/huberto/Área de Trabalho/Documento sem título 2",
+		"/home/huberto/Área de Trabalho/fazernelsi",
+		"/home/huberto/projects/gatewayMCU-LUPS/platformio.ini",
+		"/home/huberto/.config/sublime-text-3/Packages/User/Default (Linux).sublime-keymap",
+		"/home/huberto/projects/gatewayMCU-LUPS/lib/ESP8266UPnP/library.json",
+		"/home/huberto/projects/gatewayMCU-LUPS/lib/readme.txt",
+		"/home/huberto/projects/plat/src/main.cpp",
+		"/home/huberto/Arduino/teste/teste.ino",
+		"/var/www/html/exehda-rm/js/helper.js",
+		"/var/www/html/exehda-rm/application/controllers/cadastros/CI_regras.php",
+		"/var/www/html/exehda-rm/application/controllers/CI_login.php",
+		"/home/huberto/Área de Trabalho/monitora/application/views/cadastros/sensor/cadastro.php",
+		"/home/huberto/Área de Trabalho/monitora/application/controllers/cadastros/ci_sensor.php",
+		"/home/huberto/Área de Trabalho/monitora/application/models/m_sensor.php",
+		"/var/www/html/exehda-rm/application/controllers/configuracoes/CI_configuracoes.php",
+		"/home/huberto/Área de Trabalho/monitora/js/jquery.mask.min.js",
+		"/home/huberto/Área de Trabalho/monitora/js/helper.js"
+	],
+	"find":
+	{
+		"height": 23.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			"",
+			"username",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"usuario",
+			"descricao",
+			"nome",
+			"sensor.",
+			"idcontextointeresse_id",
+			"id",
+			"regras.",
+			"sensor.",
+			"sensor",
+			"M_contextointeresse->pesquisar",
+			"$this->session->userdata(",
+			"sensores",
+			"sensor_gateway",
+			"gateways",
+			"getSensor",
+			"CI_sensor",
+			"''",
+			"selecionar",
+			"$user_id=",
+			"_POST",
+			"($user_id=$",
+			"$user_id=",
+			"]){",
+			"']){\n",
+			"]){",
+			"perfilusuario",
+			"console.log",
+			"M_ambiente",
+			"perm_campo",
+			"campo",
+			"perm_campo",
+			"campo",
+			"select",
+			"ajax",
+			"usuario",
+			"Nenhum registro encontrado.",
+			"item-selected",
+			"sensor",
+			"ci",
+			"permissao_contextointeresse",
+			"usuario",
+			"permissao_usuario",
+			"sensor_servidorborda",
+			"publicacao_servidorborda",
+			"servidorborda",
+			"perfilusuario_desc",
+			"perfilusuario_nome",
+			"\"",
+			"this",
+			"registro",
+			"id=\"\"",
+			"			\n",
+			"ambiente",
+			"M_ambiente",
+			"ambiente",
+			"Sensor",
+			"sensor_id",
+			"codigo",
+			"yamin",
+			"BELLAVISTA",
+			"Lopes",
+			"LOPES",
+			"lopes",
+			"js",
+			"</h3><form action=\"",
+			"pet_category",
+			"<select id=\"pet_category\" name=\"pet-category\">",
+			"pet_status",
+			"id=\"searchpetform\"",
+			"widget_pet_searchform",
+			"pet_searchform-2",
+			"Busca de Pets",
+			"class=\"wrapper-homepet\" style=\"position: absolute; margin: 80px 10px 10px 250px; width: 850px; height: 510px;\"",
+			"<?php ",
+			"valormin_n",
+			"$titulo",
+			"val",
+			"servidorborda_id",
+			"coletor",
+			" =",
+			"  ",
+			"                  ",
+			"                 ",
+			"                ",
+			"               ",
+			"              ",
+			"             ",
+			"            ",
+			"           ",
+			"          ",
+			"         ",
+			"        ",
+			"       ",
+			"      ",
+			"     ",
+			"    ",
+			"   ",
+			"  ",
+			"espressif",
+			"regra_contextointeresse",
+			"getSensoresByCiID",
+			"#regra_sensor",
+			"regra_sensor",
+			"Interface de Visualização do CoIoT",
+			"img_projeto",
+			"Interface do EXEHDA-RM",
+			"if (isset($this->M_configuracoes->selByUser($this->session->userdata('usuario_id'))->result_array()[0][\"title\"]))\n			$this->dados['title'] = $this->M_configuracoes->selByUser($this->session->userdata('usuario_id'))->result_array()[0][\"title\"];\n		else\n			$this->dados['title'] = $title = $this->M_configuracoes->selecionar(1)->result_array()[0][\"title\"];",
+			"$this->load->model('M_geral');",
+			"$this->dados['title'] = \"Interface do EXEHDA-RM\";",
+			"usuario_id",
+			"id",
+			"_POST[\"item\"]",
+			"img_cabecalho",
+			"cover_image",
+			"ImgCabecalho",
+			"..",
+			"upload.php",
+			"personalizaPerfil",
+			"img_projeto",
+			"configuracoes_id",
+			"configuracao",
+			"Configuracao",
+			"configuracao",
+			"M_configuracao",
+			"configuracao",
+			"fabricante_nome",
+			"fabricante",
+			"set"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"if (isset($this->M_configuracoes->selByUser($this->session->userdata('usuario_id'))->result_array()[0][\"titulo\"]))\n			$this->dados['title'] = $this->M_configuracoes->selByUser($this->session->userdata('usuario_id'))->result_array()[0][\"titulo\"];\n		else\n			$this->dados['title'] = $title = $this->M_configuracoes->selecionar(1)->result_array()[0][\"titulo\"];",
+			"\n		$this->load->model('M_geral');\n		$this->load->model('M_configuracoes');",
+			"if (isset($this->M_configuracoes->selByUser($this->session->userdata('usuario_id'))->result_array()[0][\"title\"]))\n			$this->dados['title'] = $this->M_configuracoes->selByUser($this->session->userdata('usuario_id'))->result_array()[0][\"title\"];\n		else\n			$this->dados['title'] = $title = $this->M_configuracoes->selecionar(1)->result_array()[0][\"title\"];",
+			"configuracao_id",
+			"CI_",
+			"Interface do EXEHDA-RM",
+			"LUPS: IoT Tests",
+			"LUPS: IoT Tests\n				$this->dados['isLoged'] = true;\n				$this->dados['usuario_logado'] = $this->session->userdata('nome');\n			}else\n				$this->dados['isLoged'] = false;",
+			"$this->dados['title'] = \"Interface de Configuração do CoIoT\";\n				$this->dados['isLoged'] = true;\n				$this->dados['usuario_logado'] = $this->session->userdata('nome');\n			}else\n				$this->dados['isLoged'] = false;",
+			"if ($this->session->userdata('usuario_id') != 0 && $this->session->userdata('usuario_id') != \"\"){\n				$this->dados['isLoged'] = true;\n				$this->dados['usuario_logado'] = $this->session->userdata('nome');\n			}else\n				$this->dados['isLoged'] = false;",
+			"$this->dados['isLoged'] = $this->session->userdata('usuario_id') != 0;",
+			"Gerenciador de Servidores de Contexto",
+			"contextointeresse_",
+			"sensor_",
+			"ambiente",
+			"Servidores de Borda",
+			"servidorcontexto",
+			"servidor",
+			"ambiente",
+			"servidorcontexto_id",
+			"servidorcontexto",
+			"servidorborda",
+			"servidorcontexto",
+			"Ambiente",
+			"servidorborda",
+			"<option value=\"\" selected=\"\" disabled=\"\">Selecione...",
+			"Publicações",
+			"publicacao_id",
+			"M_publicacao",
+			"nome",
+			"ordem",
+			"perfilUsuario_id",
+			"relmenuperfil",
+			"perfilusuario_id",
+			"nome",
+			"cadastro",
+			"celular",
+			"telefone",
+			"email",
+			"password",
+			"username"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 33.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 100.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "PlatformIO",
+	"project": "lups.contextServer.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"~/projects/lupsEdgeServer.sublime-workspace"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 208.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

@@ -1,0 +1,121 @@
+.cadastros{
+
+
+	
+
+	label, legend{
+		font-size: 12px;
+		margin-bottom: 0;
+    }
+
+    fieldset{
+    	text-align: center;
+    	margin: 0;
+    	padding: 10px 0px 0px 0px;
+    	margin-bottom: 20px;
+
+    	legend{
+    		width: auto;
+    		font-weight: bold;
+    	}
+    }
+
+	select, input,{
+		height: 100%;
+        font-size: 14px;
+        padding: 8px;
+        border: 1px solid;
+        margin-bottom: 10px;
+        border-color: rgb(169, 169, 169);
+	}
+
+	input[type="checkbox"]{
+		height: auto;
+		width: auto;
+		margin: 5px;
+  		display: inline-block;
+  		 margin: 5px 5px 7px 5px;
+	}
+
+	.chzn-container, .chzn-container-single{
+		height: 100%;
+        font-size: 14px;
+        background-color: #FFF;
+        padding: 4px;
+        border: 1px solid;
+        margin-bottom: 10px;
+        border-color: rgb(169, 169, 169);
+        height: 34px;
+
+		.chzn-single{
+			background: none;
+			background-color: #FFF;
+			border: 0;
+			box-shadow: none;
+		}
+
+		.chzn-drop{
+			left: -1px;
+			width: 101% !important;
+			top: 32px !important;
+		}
+	}
+
+	.tituloCadastros{
+		
+		h2{
+			font-size: 22px;
+  			font-weight: bold;
+  		}
+	}
+
+	.cadastro-box{
+		border: 2px solid $azul;
+		background-color: #fafafa;
+	  	margin: 50px 0;
+  	  	padding: 25px 0;
+
+  	  	.notifcheck{
+			margin-bottom: 25px;
+		}
+
+		.addSensortoCI{
+		    margin-top: 50px;
+		}	
+
+		.container-menus-perfis{
+			margin-bottom: 20px;
+			margin-top: 10px;
+
+			.item-menu-perfil{
+				border: 2px solid;
+	        	border-color: $azul;
+
+				.titulo-menu{
+					background: $azul;
+					color: #FFF;
+
+					.nome{
+						display: inline-block;
+						line-height: 14px;
+						font-weight: bold;
+					}
+				}
+
+				.lista-menus{
+					list-style: none;
+					padding: 0;
+					margin: 0;
+					padding: 5px 0;
+
+					li{
+						margin-left: 20px;
+					}
+
+				}
+			}
+			
+		}
+	}
+
+}

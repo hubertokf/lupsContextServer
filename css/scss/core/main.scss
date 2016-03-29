@@ -1,0 +1,94 @@
+body {
+  font-size: 12px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+
+  span {
+    display: block;
+    font-size: 80%;
+    font-weight: 300;
+  }
+}
+
+.geral{
+  padding-bottom: 70px;
+}
+
+input,select, textarea{
+  width: 100%;
+  background: #FFFFFF;
+}
+
+textarea{
+  margin-bottom: 10px;
+}
+
+input[type="submit"], input[type="button"]{
+  border: 0;
+  height: 45px;
+  color: white;
+  background-color: $azul;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+input[type="checkbox"]{
+  width: auto;
+  min-height: 13px;
+}
+
+@mixin vcenter{
+  display: block;
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.fheight{
+  height: 100%;
+}
+
+input[disabled]{
+  border: 1px solid rgb(169, 169, 169);
+  background: #f5f5f5;
+  line-height: 18px;  
+}
+
+.loader{
+  padding: 70px 0;
+  display: none;
+}
+
+@media (min-width: 768px){
+  .seven-cols .col-md-1,
+  .seven-cols .col-sm-1,
+  .seven-cols .col-lg-1  {
+    width: 100%;
+    *width: 100%;
+  }
+}
+
+@media (min-width: 992px) {
+  .seven-cols .col-md-1,
+  .seven-cols .col-sm-1,
+  .seven-cols .col-lg-1 {
+    width: 14.285714285714285714285714285714%;
+    *width: 14.285714285714285714285714285714%;
+  }
+}
+
+/**
+ *  The following is not really needed in this case
+ *  Only to demonstrate the usage of @media for large screens
+ */    
+@media (min-width: 1200px) {
+  .seven-cols .col-md-1,
+  .seven-cols .col-sm-1,
+  .seven-cols .col-lg-1 {
+    width: 14.285714285714285714285714285714%;
+    *width: 14.285714285714285714285714285714%;
+  }
+}

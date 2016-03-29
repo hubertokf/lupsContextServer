@@ -1,0 +1,186 @@
+.visAgendamento{
+
+	.titulo{		
+		h2{
+			font-size: 22px;
+  			font-weight: bold;
+  		}
+	}
+	
+	.calendario{
+		.events-calendar{
+			margin: 15px auto;
+			border-left: 1px solid;
+			border-top: 1px solid;
+			.top-calendar{
+
+				.next-month{
+					border-right: 1px solid #000000;
+				}
+
+				th {
+					font-size: 16px; background: #ffffff;
+					text-align: center;
+
+					a{
+						text-decoration: none;
+						font-weight: bold;
+						font-size: 18px;
+
+						&:hover{
+							color: #333333;
+						}
+					}
+				}
+			}
+
+			.week-calendar{
+				width: 40px;
+				text-align: center;
+				background: #142b55;
+				color: #ffffff;
+				font-size: 16px;
+
+				td{
+					border-right: 1px solid #000000;
+					border-top: 1px solid #000000;
+					border-bottom: 1px solid #000000;
+				}
+			}
+
+			.days-calendar{
+
+				.highlight{
+					color:red !important;
+				}
+
+				td {
+					box-sizing: border-box;
+					width: 40px;
+					height: 40px;
+					text-align: center;
+					background: #ffffff;
+					border-right: 1px solid #000000;
+					border-bottom: 1px solid #000000;
+					font-weight: bold;
+					padding: 3px;
+
+					span{
+						display: block;
+						width: 40px;
+						height: 33px;
+						padding: 9px 0;
+						position: relative;
+					}
+				}
+
+				a{
+					text-decoration: none;
+
+					.block-gray{
+						background: #666666;
+						color: #ffffff;
+
+						&:hover{
+							background: #cccccc;
+							color: #ffffff;
+						}
+					}
+
+					.block-blue{
+						background: #327ad3;
+						color: #ffffff;
+
+						&:hover{
+							background: #51b2d6;
+							color: #ffffff;
+						}
+					}
+
+					.block-green{
+						background: #509d5f;
+						color: #ffffff;
+
+						&:hover{
+							background: #61b871;
+							color: #ffffff;
+						}
+					}
+
+					.block-red{
+						background: #892020;
+						color: #ffffff;
+
+						&:hover{
+							background: #894040;
+							color: #ffffff;
+						}
+					}
+				}
+			}			
+		}
+	}
+
+	.calendarioLegenda{
+		h2{
+			font-size: 14px;
+  			font-weight: bold;
+		}
+
+		ul{
+			list-style: none;
+			padding: 0 0 10px 0;
+			margin:0;
+
+			li{
+				padding: 0;
+				margin:0;
+				text-align: left;
+
+				.block-legenda {}
+				.block-legenda{
+					display: inline-block;
+					width: 140px;
+
+					.legenda-square {
+						display: inline-block;
+					    width: 20px;
+					    height: 20px;
+					    padding-top: 3px;
+					    margin-bottom: 4px;
+						border:1px solid #000000;
+						font-size: 8px;
+						font-weight: bold;
+						text-align: center;
+					}
+					.legenda-dia-atual {color:red;}
+					.legenda-gray {background:#666666; color:#ffffff;}
+					.legenda-blue {background:#327ad3; color:#ffffff;}
+					.legenda-green {background:#509d5f; color:#ffffff;}
+					.legenda-red {background:#894040; color:#ffffff;}
+				}
+			}
+		}		
+	}
+
+	.tabela-agendamentos{
+		border-left:1px solid #ccc;
+		border-top:1px solid #ccc;
+		margin: 25px 0;
+
+		th{
+			color:#ffffff;
+			background:#142b55;
+
+			border-right:1px solid #ccc;
+			border-bottom:1px solid #ccc;
+			text-align: center;
+		}
+
+		td {
+			border-right:1px solid #ccc;
+			border-bottom:1px solid #ccc;
+			min-width: 140px;
+		}
+	}
+}
