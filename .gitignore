@@ -1,2 +1,4 @@
 /.project
 /a.sublimeproject
+/application/config/database.php
+/application/config/config.php
