@@ -6,8 +6,8 @@
 			$regra_tipo                  = $linha->tipo;
 			$regra_status                = $linha->status;
             $regra_arquivo_py           = $linha->arquivo_py;
-            $regra_contextointeresse    = $linha->contextointeresse_id;
-            $regra_sensor               = $linha->sensor_id;
+            // $regra_contextointeresse    = $linha->contextointeresse_id;
+            // $regra_sensor               = $linha->sensor_id;
 		}
 	}
 ?>
@@ -36,43 +36,6 @@
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1 input">
                                 <input type="text" name="regra_nome" value="<?php echo @$regra_nome;?>" />
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-xs-10 col-xs-offset-1 input">
-                                <label for="regra_contextointeresse">Contexto Interesse:</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-10 col-xs-offset-1">
-                                <select name="regra_contextointeresse" id="regra_contextointeresse">
-                                    <option value="" selected="" disabled="">Selecione...</option>
-                                    <?php
-                                        $selected = "";
-                                        foreach ($contextointeresse as $ci){
-                                            if ($ci['contextointeresse_id']==@$regra_contextointeresse){
-                                                $selected = "selected";
-                                            }
-                                            echo '<option value="'.$ci['contextointeresse_id'].'" '.$selected.'>'.$ci['nome'].'</option>';
-                                            $selected = "";
-                                        }
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-xs-10 col-xs-offset-1 input">
-                                <label for="regra_sensor">Sensor:</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-10 col-xs-offset-1">
-                                <input type="hidden" id="regra_sensor_id" value="<?php echo @$regra_sensor;?>">
-                                <select name="regra_sensor" id="regra_sensor">
-                                    <option value="" selected="" disabled="">Selecione um Contexto de Interesse</option>
-                                </select>
                             </div>
                         </div>
 

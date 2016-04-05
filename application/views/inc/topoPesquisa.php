@@ -43,11 +43,11 @@
                                     <div class="row">
                                         <div class="col-xs-12">
                                             <select name="perm_tipo" id="perm_tipo">
-                                                <option value=""></option>
-                                                <option value="1">Ambiente</option>
+                                                <!-- <option value=""></option>
+                                                <option value="1">Ambiente</option> -->
                                                 <option value="2">Contexto de Interesse</option>
-                                                <option value="3">Regra</option>
-                                                <option value="4">Sensor</option>
+                                                <!-- <option value="3">Regra</option>
+                                                <option value="4">Sensor</option> -->
                                             </select>   
                                         </div>
                                     </div>                  
@@ -61,6 +61,20 @@
                                     <div class="row">
                                         <div class="col-xs-12">
                                             <select name="perm_registro" id="perm_registro"></select>                          
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-1">
+                                    <div class="row">
+                                        <div class="col-xs-12 chkPerm">
+                                            <input type="checkbox" name="canEdit" value="true">Editar
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-1">
+                                    <div class="row">
+                                        <div class="col-xs-12 chkPerm">
+                                            <input type="checkbox" name="rcvEmail" value="true">Email
                                         </div>
                                     </div>
                                 </div>

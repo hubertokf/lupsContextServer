@@ -13,9 +13,11 @@
 			<table class="tabela-dados" cellpadding="3" cellspacing="0">
 				<thead>
 					<tr class="titulos row">
-			            <td class="col-xs-4">USUÁRIO</td>
+			            <td class="col-xs-2">USUÁRIO</td>
 			            <td class="col-xs-3">TIPO</td>
 			            <td class="col-xs-3">REGISTRO</td>
+			            <td class="col-xs-1">PODE EDITAR</td>
+			            <td class="col-xs-1">RECEBE EMAIL</td>
 			            <td class="check col-xs-2"></td>
 			        </tr>
 			    </thead>
@@ -42,6 +44,14 @@
 							$row .= "<td>Regra</td>";
 							$row .= "<td>".$linha['regra_nome']."</td>";
 						}
+						if ($linha['podeeditar'] == 't')
+							$row .= "<td>SIM</td>";
+						else
+							$row .= "<td>NÃO</td>";
+						if ($linha['recebeemail'] == 't')
+							$row .= "<td>SIM</td>";
+						else
+							$row .= "<td>NÃO</td>";
 						$row .= "<td class='buttons-row'>
 									<!--a class='botaoEditar' id='edit-$linha[permissao_id]' href='javascript:;' alt='Editar Registro' title='Editar Registro'><i class='fa fa-pencil-square-o fa-2x'></i></a-->
 									<a class='botaoExcluir' id='del-$linha[permissao_id]' href='javascript:;' alt='Excluir Registro' title='Excluir Registro'><i class='fa fa-times fa-2x'></i></a>

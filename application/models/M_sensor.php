@@ -20,7 +20,7 @@ class M_sensor extends CI_Model{
         function pesquisar($select='', $where=array(), $limit=10, $offset=0, $ordem='asc', $perm=FALSE) {
         	if ($perm == FALSE){
 	            $this->db->select($select);
-	            $this->db->select('*');
+	            $this->db->select('s.*');
 
 	            $this->db->select('s.nome as sensor_nome');
 	            $this->db->select('s.descricao as sensor_descricao');
@@ -41,7 +41,7 @@ class M_sensor extends CI_Model{
 
 	        }else{
 	        	$this->db->select($select);
-	            $this->db->select('*');
+	            $this->db->select('s.*');
 
 	            $this->db->select('s.nome as sensor_nome');
 	            $this->db->select('s.descricao as sensor_descricao');
@@ -54,7 +54,8 @@ class M_sensor extends CI_Model{
 	            
 	            $this->db->from('sensor as s');
 
-	            $this->db->join('permissoes as p', 's.sensor_id = p.sensor_id', 'inner');
+	            $this->db->join('relcontextointeresse as rci', 'rci.sensor_id = s.sensor_id');
+	            $this->db->join('permissoes as p', 'rci.contextointeresse_id = p.contextointeresse_id', 'inner');
 
 	            $this->db->join('fabricante as f', 's.fabricante_id = f.fabricante_id', 'left');
 	            $this->db->join('tiposensor as t', 's.tiposensor_id = t.tiposensor_id', 'left');

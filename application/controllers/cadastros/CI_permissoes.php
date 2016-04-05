@@ -64,6 +64,8 @@ class CI_permissoes extends CI_controller {
 		else
 		{
 			$this->M_permissoes->setPermissaoUsuario($_POST["permissao_usuario"]);
+			$this->M_permissoes->setPermissaoPodeeditar(isset($_POST["canEdit"]) ? $_POST["canEdit"] : FALSE);
+			$this->M_permissoes->setPermissaoRecebeemail(isset($_POST["rcvEmail"]) ? $_POST["rcvEmail"] : FALSE);
 			switch ($this->input->post('perm_tipo')) {
 			    case "1":
 					$this->M_permissoes->setPermissaoAmbiente($_POST["perm_registro"]);				

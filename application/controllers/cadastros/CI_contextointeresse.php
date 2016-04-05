@@ -11,6 +11,7 @@ class CI_contextointeresse extends CI_controller {
 		$this->load->model('M_relcontextointeresse');
 		$this->load->model('M_servidorcontexto');
 		$this->load->model('M_sensor');
+		$this->load->model('M_regras');
 		$this->M_geral->verificaSessao();
 		if ($this->session->userdata('usuario_id') != 0 && $this->session->userdata('usuario_id') != ""){
 			$this->dados['isLoged'] = true;
@@ -57,6 +58,7 @@ class CI_contextointeresse extends CI_controller {
 		else
 			$this->dados["sensores"] = $this->M_sensor->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 100, 0, 'asc', TRUE);
 		
+		$this->dados["regras"] = $this->M_regras->pesquisar();
 		$this->load->view('inc/topo',$this->dados);
 		$this->load->view('inc/menu');
 		$this->load->view('cadastros/contextointeresse/cadastro');
@@ -80,6 +82,8 @@ class CI_contextointeresse extends CI_controller {
 			$this->M_contextointeresse->setContextoInteresseNome($_POST["contextointeresse_nome"]);
 			$this->M_contextointeresse->setContextoInteresseServidorContexto('9');
 			$this->M_contextointeresse->setContextoInteresseSensores($_POST["contextointeresse_sensores"]);
+			$this->M_contextointeresse->setContextoInteresseRegra(isset($_POST["contextointeresse_regra"]) ? $_POST["contextointeresse_regra"] : null);
+			$this->M_contextointeresse->setContextoInteresseTrigger(isset($_POST["contextointeresse_trigger"]) ? $_POST["contextointeresse_trigger"] : null);
 			if (isset($_POST["contextointeresse_publico"])){
 				$this->M_contextointeresse->setContextoInteressePublico("TRUE");
 			}else{
@@ -114,12 +118,15 @@ class CI_contextointeresse extends CI_controller {
 	}
 
    function editar($valor = "") {
+
 		
 		if(isset($_POST["item"])) {
 			$this->dados["registro"] = $this->M_contextointeresse->selecionar($_POST["item"]);
+			$this->dados["trigger"] = $this->M_relcontextointeresse->getChkByCi($_POST["item"]);
 			
 		} else if ($valor != "") {
 			$this->dados["registro"] = $this->M_contextointeresse->selecionar($valor);
+			$this->dados["trigger"] = $this->M_relcontextointeresse->getChkByCi($valor);
 			
 		}
 		$this->cadastro();

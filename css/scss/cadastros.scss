@@ -75,6 +75,48 @@
 	  	margin: 50px 0;
   	  	padding: 25px 0;
 
+  	  	#insertSensorCI{
+  	  		cursor: pointer;
+  	  	}
+		
+		.ciSensorList{
+		    list-style: none;
+		    border: 2px solid #666;
+		    border-radius: 3px;
+		    padding: 5px 10px;
+		    font-weight: bold;
+
+	  	  	.ciSensorItem{
+			    display: block;
+			    height: 25px;
+			    border-bottom: 1px solid #ccc;
+			    margin-bottom: 5px;
+			    padding: 3px 0;
+			    padding-bottom: 25px;
+
+			    .removeSensorCI{
+			    	color: red;
+			    	padding: 0;
+			    	height: 16px;
+			    	cursor: pointer;
+			    	text-align: center;		    		
+
+			    	.fa-times{
+				    	margin: -6px 0;
+			    	}
+			    }
+
+			    div{
+			    	padding: 5px 0px;
+			    }
+
+			    input[type="checkbox"]{
+			    	margin: 0;
+    				margin-right: 5px;
+			    }
+	  	  	}
+	  	}
+
   	  	.notifcheck{
 			margin-bottom: 25px;
 		}

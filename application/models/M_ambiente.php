@@ -7,16 +7,18 @@ class M_ambiente extends CI_Model{
 	
         function pesquisar($select='', $where=array(), $limit="", $offset=0, $ordem='asc', $perm=FALSE) {
         	if ($perm == FALSE){	            
-	            $this->db->select('*');
+	            $this->db->select('a.*');
 
 	            $this->db->from('ambiente as a');
 
 	        }else{
-	        	$this->db->select('*');
+	        	$this->db->select('a.*');
 
 	            $this->db->from('ambiente as a');
 
-	            $this->db->join('permissoes as p', 'a.ambiente_id = p.ambiente_id', 'inner');
+	            $this->db->join('sensor AS s', 's.ambiente_id = a.ambiente_id');
+	            $this->db->join('relcontextointeresse AS rci', 'rci.sensor_id = s.sensor_id', 'inner');
+	            $this->db->join('permissoes AS p', 'rci.contextointeresse_id = p.contextointeresse_id', 'inner');
 	        }
             
             $this->db->where($where);

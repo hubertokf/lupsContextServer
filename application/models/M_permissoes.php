@@ -6,6 +6,8 @@ class M_permissoes extends CI_Model {
     private $sensor_id;
     private $ambiente_id;
 	private $regra_id;
+    private $podeeditar;
+    private $recebeemail;
 
     function pesquisar($select='', $where=array(), $limit=10000, $offset=0, $orderby='usuario_nome', $ordem='asc') {
         $this->db->select('permissoes.*');
@@ -41,7 +43,9 @@ class M_permissoes extends CI_Model {
             "contextointeresse_id"  => $this->contextointeresse_id,
             "sensor_id"             => $this->sensor_id,
             "ambiente_id" 			=> $this->ambiente_id,
-            "regra_id" 	            => $this->regra_id
+            "regra_id" 	            => $this->regra_id,
+            "podeeditar"            => $this->podeeditar,
+            "recebeemail"           => $this->recebeemail
         );
 
         $this->db->insert('permissoes', $arrayCampos);
@@ -109,6 +113,20 @@ class M_permissoes extends CI_Model {
         return $this->regra_id;
     }
 
+    public function getPermissaoPodeeditar(){
+        if($this->podeeditar === NULL) {
+            $this->podeeditar = new PermissaoPodeeditar;
+        }
+        return $this->podeeditar;
+    }
+
+    public function getPermissaoRecebeemail(){
+        if($this->recebeemail === NULL) {
+            $this->recebeemail = new PermissaoRecebeemail;
+        }
+        return $this->recebeemail;
+    }
+
     public function setPermissaoId($valor){
         $this->permissao_id = $valor;
     }
@@ -131,6 +149,14 @@ class M_permissoes extends CI_Model {
 
     public function setPermissaoRegra($valor){
         $this->regra_id = $valor;
+    }
+
+    public function setPermissaoPodeeditar($valor){
+        $this->podeeditar = $valor;
+    }
+
+    public function setPermissaoRecebeemail($valor){
+        $this->recebeemail = $valor;
     }
 }
 ?>

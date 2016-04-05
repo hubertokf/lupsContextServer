@@ -13,28 +13,31 @@ class M_regras extends CI_Model {
         	if ($perm == FALSE){
 	            $this->db->select('r.*');
 
-	            $this->db->select('ci.nome as contextointeresse_nome');
-	            $this->db->select('s.nome as sensor_nome');
+	            // $this->db->select('ci.nome as contextointeresse_nome');
+	            // $this->db->select('s.nome as sensor_nome');
 	            
 	            $this->db->from('regras as r');
 
-	            $this->db->join('relcontextointeresse as rci', 'r.regra_id = rci.regra_id', 'left');
-	            $this->db->join('contextointeresse as ci', 'ci.contextointeresse_id = rci.contextointeresse_id', 'left');
-	            $this->db->join('sensor as s', 's.sensor_id = rci.sensor_id', 'left');
+	            // $this->db->join('relcontextointeresse as rci', 'r.regra_id = rci.regra_id', 'left');
+	            // $this->db->join('contextointeresse as ci', 'ci.contextointeresse_id = rci.contextointeresse_id', 'left');
+	            // $this->db->join('sensor as s', 's.sensor_id = rci.sensor_id', 'left');
 
 	        }else{
 	        	$this->db->select('r.*');
 
-	            $this->db->select('ci.nome as contextointeresse_nome');
-	            $this->db->select('s.nome as sensor_nome');
+	            // $this->db->select('ci.nome as contextointeresse_nome');
+	            // $this->db->select('s.nome as sensor_nome');
 	            
 	            $this->db->from('regras as r');
 
-	            $this->db->join('permissoes as p', 'r.regra_id = p.regra_id', 'inner');	            
+	            // $this->db->join('permissoes as p', 'r.regra_id = p.regra_id', 'inner');
 
-	            $this->db->join('relcontextointeresse as rci', 'r.regra_id = rci.regra_id', 'left');
-	            $this->db->join('contextointeresse as ci', 'ci.contextointeresse_id = rci.contextointeresse_id', 'left');
-	            $this->db->join('sensor as s', 's.sensor_id = rci.sensor_id', 'left');
+	            $this->db->join('contextointeresse as ci', 'ci.regra_id = r.regra_id');
+	            $this->db->join('permissoes as p', 'ci.contextointeresse_id = p.contextointeresse_id', 'inner');
+
+	            // $this->db->join('relcontextointeresse as rci', 'r.regra_id = rci.regra_id', 'left');
+	            // $this->db->join('contextointeresse as ci', 'ci.contextointeresse_id = rci.contextointeresse_id', 'left');
+	            // $this->db->join('sensor as s', 's.sensor_id = rci.sensor_id', 'left');
 	        }
 
             $this->db->where($where);
@@ -46,12 +49,12 @@ class M_regras extends CI_Model {
         function selecionar($codigo) {
         	$this->db->select('regras.*');
 
-        	$this->db->select('rci.contextointeresse_id');
-        	$this->db->select('rci.sensor_id');
+        	// $this->db->select('rci.contextointeresse_id');
+        	// $this->db->select('rci.sensor_id');
 
             $this->db->from('regras');
 
-            $this->db->join('relcontextointeresse as rci', 'regras.regra_id = rci.regra_id', 'left');
+            // $this->db->join('relcontextointeresse as rci', 'regras.regra_id = rci.regra_id', 'left');
             $this->db->where("regras.regra_id", $codigo);
             return $this->db->get();
         }
@@ -68,20 +71,21 @@ class M_regras extends CI_Model {
 	            $this->db->insert('regras', $arrayCampos);
 			    $insert_id = $this->db->insert_id();
 
-				$this->db->update('relcontextointeresse', array('regra_id' => $insert_id), array("contextointeresse_id"=>$this->regra_contextointeresse,"sensor_id"=>$this->regra_sensor));
+			    // old "insert regra_id into relcontextointeresse"
+				//$this->db->update('relcontextointeresse', array('regra_id' => $insert_id), array("contextointeresse_id"=>$this->regra_contextointeresse,"sensor_id"=>$this->regra_sensor)); 
 
 		        return "inc";
 			}
         	else{
 	            $this->db->update('regras', $arrayCampos, array("regra_id"=>$this->regra_id));
 
-	            $this->db->set('regra_id', null);
-			    $this->db->where('regra_id', $this->regra_id);
-			    $this->db->update('relcontextointeresse');
+	            /*$this->db->set('regra_id', null);
+				$this->db->where('regra_id', $this->regra_id);
+				$this->db->update('relcontextointeresse');
 
-			    $this->db->set('regra_id', $this->regra_id);
-			    $this->db->where(array("contextointeresse_id"=>$this->regra_contextointeresse,"sensor_id"=>$this->regra_sensor));
-			    $this->db->update('relcontextointeresse');
+				$this->db->set('regra_id', $this->regra_id);
+				$this->db->where(array("contextointeresse_id"=>$this->regra_contextointeresse,"sensor_id"=>$this->regra_sensor));
+				$this->db->update('relcontextointeresse');*/
 
 		        return "alt";
         	}
@@ -150,7 +154,7 @@ class M_regras extends CI_Model {
 			return $this->regra_arquivo_py;
 		}
 
-		public function getRegraContextoInteresse() {
+		/*public function getRegraContextoInteresse() {
 		    if($this->regra_contextointeresse === NULL) {
         		$this->regra_contextointeresse = new RegraContextoInteresse;
     		}			
@@ -162,7 +166,7 @@ class M_regras extends CI_Model {
         		$this->regra_sensor = new RegraSensor;
     		}			
 			return $this->regra_sensor;
-		}
+		}*/
 
 		public function setRegraId($valor){
 			$this->regra_id = $valor;
@@ -187,12 +191,12 @@ class M_regras extends CI_Model {
 			$this->regra_arquivo_py = $valor;
 		}
 
-		public function setRegraContextoInteresse($valor){
+		/*public function setRegraContextoInteresse($valor){
 			$this->regra_contextointeresse = $valor;
 		}
 
 		public function setRegraSensor($valor){
 			$this->regra_sensor = $valor;
-		}
+		}*/
 	}
 ?>

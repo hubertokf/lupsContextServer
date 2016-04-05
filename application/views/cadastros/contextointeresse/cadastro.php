@@ -5,6 +5,7 @@
 			$contextointeresse_nome		             = $linha['nome'];
             $contextointeresse_sensores              = $linha['sensores'];
 			$contextointeresse_publico	             = $linha['publico'];
+            $contextointeresse_regra                 = $linha['regra_id'];
 		}
 	}
 ?>
@@ -38,12 +39,35 @@
 
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1 input">
-                                <label for="contextointeresse_sensores[]">Sensores:</label>
+                                <label for="contextointeresse_regra">Regra:</label>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-4 col-xs-offset-1 input">
-                                <select class="sensorsOutCI" size="10" multiple>
+                            <div class="col-xs-10 col-xs-offset-1">
+                                <select name="contextointeresse_regra">
+                                    <option value="" selected="" disabled="">Selecione...</option>
+                                    <?php
+                                        $selected = "";
+                                        foreach ($regras->result() as $regra){
+                                            if ($regra->regra_id==@$contextointeresse_regra){
+                                                $selected = "selected";
+                                            }
+                                            echo '<option value="'.$regra->regra_id.'" '.$selected.'>'.$regra->nome.'</option>';
+                                            $selected = "";
+                                        }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-10 col-xs-offset-1">
+                                <label>Inclusão de sensores</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-offset-1 col-xs-9">
+                                <select class="sensorsOutCI">
                                     <?php 
                                     $sensores_id = array();
                                     if (isset($contextointeresse_sensores)){
@@ -59,21 +83,40 @@
                                     }
 
                                     ?>
-                                </select>
+                                </select>                                
                             </div>
-                            <div class="col-xs-2 input">
-                                <input type="button" class="addSensortoCI" value="&gt;&gt;" />
-                                <input type="button" class="removeSensortoCI" value="&lt;&lt;" />
+                            <div class="col-xs-1">
+                                <div id="insertSensorCI">
+                                    <i class="fa fa-plus-circle fa-3x"></i>
+                                </div>
                             </div>
-                            <div class="col-xs-4 input">
-                                <select class="sensorsInCI" name="contextointeresse_sensores[]" size="10" multiple>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-offset-1 col-xs-10">
+                                <label>Sensores</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-offset-2 col-xs-8">
+                                
+                                <ul class="ciSensorList">
                                     <?php foreach ($sensores->result_array() as $sensor){
                                         if (in_array($sensor['sensor_id'], $sensores_id)){
-                                            echo '<option value="'.$sensor['sensor_id'].'" selected>'.$sensor['nome'].'</option>';    
+                                            $checked = false;
+                                            foreach ($trigger as $trig) {
+                                                if ($trig['sensor_id'] == $sensor['sensor_id'])
+                                                    $checked = true;
+                                            }
+
+                                            if (isset($checked) && $checked == true)
+                                                echo "<li class='ciSensorItem' data-id='".$sensor['sensor_id']."' data-text='".$sensor['nome']."'><input type='hidden' name='contextointeresse_sensores[]' value='".$sensor['sensor_id']."'><div class='col-xs-7'>".$sensor['nome']."</div><div class='col-xs-4'><input type='checkbox' checked name='contextointeresse_trigger[]' value='".$sensor['sensor_id']."'>Dispara regra</div><div class='col-xs-1'><div class='removeSensorCI'><i class='fa fa-times fa-2x'></div></i></div></li>";
+                                            else
+                                                echo "<li class='ciSensorItem' data-id='".$sensor['sensor_id']."' data-text='".$sensor['nome']."'><input type='hidden' name='contextointeresse_sensores[]' value='".$sensor['sensor_id']."'><div class='col-xs-7'>".$sensor['nome']."</div><div class='col-xs-4'><input type='checkbox' name='contextointeresse_trigger[]' value='".$sensor['sensor_id']."'>Dispara regra</div><div class='col-xs-1'><div class='removeSensorCI'><i class='fa fa-times fa-2x'></div></i></div></li>";
+
                                         }
                                     }
                                     ?>
-                                </select>
+                                </ul>
                             </div>
                         </div>
 

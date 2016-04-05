@@ -5,15 +5,17 @@ class M_contextointeresse extends CI_Model {
 	private $contextointeresse_servidorcontexto;
 	private $contextointeresse_sensores;
 	private $contextointeresse_publico;
+	private $contextointeresse_regra;
+	private $contextointeresse_trigger;
 		
         function pesquisar($select='', $where=array(), $limit=10, $offset=0, $ordem='asc', $perm=FALSE) {
             if ($perm == FALSE){
-	            $this->db->select('*');
+	            $this->db->select('ci.*');
 	            
-	            $this->db->from('contextointeresse');
+	            $this->db->from('contextointeresse as ci');
 
 	        }else{
-	        	$this->db->select('*');
+	        	$this->db->select('ci.*');
 	            
 	            $this->db->from('contextointeresse as ci');
 
@@ -27,8 +29,8 @@ class M_contextointeresse extends CI_Model {
             $query = $this->db->get()->result_array();
 			// Query #2
 
-			$this->db->select('contextointeresse.*');	            
-            $this->db->from('contextointeresse');
+			$this->db->select('ci.*');	            
+            $this->db->from('contextointeresse as ci');
             $this->db->where(array('publico' => 'TRUE'));
 			$query2 = $this->db->get()->result_array();
 
@@ -95,6 +97,7 @@ class M_contextointeresse extends CI_Model {
                 "nome" 			=> $this->contextointeresse_nome,
                 "servidorcontexto_id" 	=> $this->contextointeresse_servidorcontexto,
                 "publico" => $this->contextointeresse_publico,
+                "regra_id" => $this->contextointeresse_regra,
             );
 
             if ($this->contextointeresse_id == ""){
@@ -102,9 +105,14 @@ class M_contextointeresse extends CI_Model {
 	            $insert_id = $this->db->insert_id();
 
 	            foreach ($this->contextointeresse_sensores as $sensor) {
+	            	$ativaregra = "FALSE";
+	            	if (in_array($sensor, $this->contextointeresse_trigger)) { 
+						$ativaregra = "TRUE";
+					}
 		            $arrayCampos2  = array(
 						"contextointeresse_id" 		=> $insert_id,
-		                "sensor_id"					=> $sensor
+		                "sensor_id"					=> $sensor,
+		                "ativaregra"				=> $ativaregra
 	             	);
 
 			        $this->db->insert('relcontextointeresse', $arrayCampos2);
@@ -121,9 +129,14 @@ class M_contextointeresse extends CI_Model {
 	            $this->db->delete('relcontextointeresse', $arrayCampos);
 
 	            foreach ($this->contextointeresse_sensores as $sensor) {
+	            	$ativaregra = "FALSE";
+	            	if (is_array($this->contextointeresse_trigger) && in_array($sensor, $this->contextointeresse_trigger)) { 
+						$ativaregra = "TRUE";
+					}
 	             	$arrayCampos2  = array(
 		                "contextointeresse_id" 		=> $this->contextointeresse_id,
-		                "sensor_id"					=> $sensor
+		                "sensor_id"					=> $sensor,
+		                "ativaregra"				=> $ativaregra
 	             	);
 		            $this->db->insert('relcontextointeresse', $arrayCampos2);
 		        }
@@ -184,6 +197,20 @@ class M_contextointeresse extends CI_Model {
 			return $this->contextointeresse_publico;
 		}
 
+		public function getContextoInteresseRegra() {
+		    if($this->contextointeresse_regra === NULL) {
+        		$this->contextointeresse_regra = new ContextoInteresseRegra;
+    		}			
+			return $this->contextointeresse_regra;
+		}
+
+		public function getContextoInteresseTrigger() {
+		    if($this->contextointeresse_trigger === NULL) {
+        		$this->contextointeresse_trigger = new ContextoInteresseTrigger;
+    		}			
+			return $this->contextointeresse_trigger;
+		}
+
 		public function setContextoInteresseId($valor){
 			if(!is_string($valor)) {
 				throw new InvalidArgumentException('Expected String');
@@ -211,6 +238,14 @@ class M_contextointeresse extends CI_Model {
 
 		public function setContextoInteressePublico($valor){
 			$this->contextointeresse_publico = $valor;
+		}
+
+		public function setContextoInteresseRegra($valor){
+			$this->contextointeresse_regra = $valor;
+		}
+
+		public function setContextoInteresseTrigger($valor){
+			$this->contextointeresse_trigger = $valor;
 		}
 	}
 ?>

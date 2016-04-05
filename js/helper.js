@@ -157,7 +157,23 @@ $(document).ready(function(){
 		}
 	}).change();
 
-    $('[data-toggle="tooltip"]').tooltip(); 
+	$('#insertSensorCI').click(function(){
+		itemText = $(".sensorsOutCI").find(":selected")[0].text;
+		itemVal = $(".sensorsOutCI").find(":selected")[0].value;
+		console.log("oi");
+		$(".ciSensorList").append("<li class='ciSensorItem' data-id='"+itemVal+"' data-text='"+itemText+"'><input type='hidden' name='contextointeresse_sensores[]' value='"+itemVal+"'><div class='col-xs-7'>"+itemText+"</div><div class='col-xs-4'><input type='checkbox' name='contextointeresse_trigger[]' value='"+itemVal+"'>Dispara regra</div><div class='col-xs-1'><div class='removeSensorCI'><i class='fa fa-times fa-2x'></div></i></div></li>");
+		$(".sensorsOutCI").find(":selected")[0].remove();
+	});
+
+	$('ul.ciSensorList').on('click', 'div.removeSensorCI', function(){
+		var e = $(this).parent().parent();
+		value = e.data('id');
+		text = e.data('text');
+		e.remove();
+		$(".sensorsOutCI").append('<option value="'+value+'">'+text+'</option>');
+	});
+
+	$('[data-toggle="tooltip"]').tooltip(); 
 
 		var data_inicio;
 		var data_fim;
@@ -473,3 +489,5 @@ $(document).ready(function(){
 
     jQuery.browser = browser;
 })();
+
+
