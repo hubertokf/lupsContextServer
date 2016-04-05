@@ -45,7 +45,7 @@
             <div class="invisiblemenu row">
                 <div class="col-xs-8">
                     <div class="projectName">
-                        PLENUS
+                        HELIX
                     </div>
                     <div class="app <?php if ($this->uri->segment(1) == 'CI_visualizacao' || $this->uri->segment(1) == '') echo 'ativo'; ?>">
                         <a href="<?php echo base_url(); ?>index.php/CI_visualizacao">Visualizacão</a>
