@@ -90,8 +90,6 @@ class CI_regras extends CI_controller {
 			$this->M_regras->setRegraStatus($_POST["regra_status"]);
 			$this->M_regras->setRegraTipo($_POST["regra_tipo"]);
 			$this->M_regras->setRegraArquivoPy($_POST["regra_arquivo_py"]);
-			$this->M_regras->setRegraContextoInteresse($_POST["regra_contextointeresse"]);
-			$this->M_regras->setRegraSensor($_POST["regra_sensor"]);
 			if ($this->M_regras->salvar() == "inc"){
 				$this->dados["msg"] = "Dados registrados com sucesso!";
 				$this->pesquisa();	
