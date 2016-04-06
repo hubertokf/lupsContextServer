@@ -106,8 +106,15 @@ class M_contextointeresse extends CI_Model {
 
 	            foreach ($this->contextointeresse_sensores as $sensor) {
 	            	$ativaregra = "FALSE";
-	            	if (in_array($sensor, $this->contextointeresse_trigger)) { 
-						$ativaregra = "TRUE";
+	            	if (is_array($this->contextointeresse_trigger)){
+		            	if (in_array($sensor, $this->contextointeresse_trigger)) { 
+							$ativaregra = "TRUE";
+						}
+					}
+					else{
+						if ($sensor == $this->contextointeresse_trigger) { 
+							$ativaregra = "TRUE";
+						}
 					}
 		            $arrayCampos2  = array(
 						"contextointeresse_id" 		=> $insert_id,
