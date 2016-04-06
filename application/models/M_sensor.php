@@ -75,7 +75,7 @@ class M_sensor extends CI_Model{
 		
         function selecionar($codigo) {
 
-        	$this->db->select('*');
+        	$this->db->select('s.*');
 
             $this->db->select('t.unidade as unidade');
 
