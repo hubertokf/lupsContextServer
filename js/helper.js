@@ -75,6 +75,8 @@ $(document).ready(function(){
 					$.each(data, function(key,val) {
 						$("#sensor_gateway").append('<option value="'+val.gateway_id+'">'+val.nome+'</option>');
 					});
+					if ($('#sel_sensor_gateway').val() != "")
+						$("#sensor_gateway").val($('#sel_sensor_gateway').val());
 				}
 			});
 		}
