@@ -92,7 +92,7 @@ $(document).ready(function(){
 				success: function(data) {
 					$('#publicacao_sensor').html('');
 					$("#publicacao_sensor").append('<option value="" selected="" disabled="">Selecione um Sensor</option>');
-	
+					console.log(data);
 					$.each(data, function(key,val) {
 						$("#publicacao_sensor").append('<option value="'+val.gateway_id+'">'+val.nome+'</option>');
 						console.log(val.gateway_id+" , "+val.nome);
