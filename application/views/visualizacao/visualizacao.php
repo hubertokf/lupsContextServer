@@ -39,7 +39,7 @@
 						<div class="row">
 							<div class="col-xs-12">
 								<select name="sensor"  id="sensor-value">
-									<option value="" selected="" disabled="">Selecione um Contexto de Interesse</option>		
+									<option value="" selected="" disabled="">Selecione um local</option>		
 								</select>
 							</div><!-- /.col-xs-12 -->
 						</div><!-- /.row -->
