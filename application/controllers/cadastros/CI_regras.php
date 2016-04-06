@@ -74,8 +74,6 @@ class CI_regras extends CI_controller {
 		$this->form_validation->set_rules('regra_nome', 'Nome', 'trim|required');
 		$this->form_validation->set_rules('regra_status', 'Status', 'trim|required');
 		$this->form_validation->set_rules('regra_tipo', 'Tipo', 'trim|required');
-		$this->form_validation->set_rules('regra_contextointeresse', 'Contexto de Interesse', 'trim|required');
-		$this->form_validation->set_rules('regra_sensor', 'Sensor', 'trim|required');
 		$this->form_validation->set_rules('regra_tipo', 'Tipo', 'trim|required');
 		$this->form_validation->set_error_delimiters('<div class="field-errors">', '</div>');
 		$this->form_validation->set_message('required', 'Você deve preencher o campo "%s".');
