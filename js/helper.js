@@ -96,6 +96,8 @@ $(document).ready(function(){
 					$.each(data, function(key,val) {
 						$("#publicacao_sensor").append('<option value="'+val.gateway_id+'">'+val.nome+'</option>');
 					});
+					if ($('#sel_publicacao_sensor').val() != "")
+						$("#publicacao_sensor").val($('#sel_publicacao_sensor').val());
 				}
 			});
 		}

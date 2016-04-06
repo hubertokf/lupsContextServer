@@ -56,6 +56,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1 input">
+                                <input type="hidden" id="sel_publicacao_sensor" value="<?php echo @$publicacao_sensor;?>">
                                 <select name="publicacao_sensor" id="publicacao_sensor">
                                     <option value="" selected="" disabled="">Selecione um Servidor de Borda</option>
                                 </select>
