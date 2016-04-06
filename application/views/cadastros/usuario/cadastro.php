@@ -101,48 +101,6 @@
 
 						<div class="row">
 							<div class="col-xs-10 col-xs-offset-1">
-		                		<label for="notificationldas">Notificação no LDAS</label>
-							</div>
-						</div>
-		            	<div class="row">
-		            		<div class="notifcheck col-xs-10 col-xs-offset-1">
-		            			<div class="row">
-		            				<div class="col-xs-6"><label><input class="checkbox" type="checkbox" name="notification[]" value="">Sinal Luminoso</label></div>
-		            				<div class="col-xs-6"><label><input class="checkbox" type="checkbox" name="notification[]" value="">Sinal Sonoro</label></div>
-	            				</div>
-	            				<div class="row">
-			            			<div class="col-xs-6"><label><input class="checkbox" type="checkbox" name="notification[]" value="">SMS</label></div>
-			            			<div class="col-xs-6"><label><input class="checkbox" type="checkbox" name="notification[]" value="">E-mail</label></div>
-		            			</div>
-	            				<div class="row">
-		            				<div class="col-xs-6"><label><input class="checkbox" type="checkbox" name="notification[]" value="">Aplicação Móvel</label></div>
-		            			</div>
-		            		</div>
-						</div>
-
-						<div class="row">
-							<div class="notifcheckcol-xs-10 col-xs-offset-1">
-		                		<label for="notification">Notificação fora do LDAS</label>
-							</div>
-						</div>
-		            	<div class="row">
-		            		<div class="notifcheck col-xs-10 col-xs-offset-1">
-		            			<div class="row">
-		            				<div class="col-xs-6"><label><input class="checkbox" type="checkbox" name="notification[]" value="">Sinal Luminoso</label></div>
-		            				<div class="col-xs-6"><label><input class="checkbox" type="checkbox" name="notification[]" value="">Sinal Sonoro</label></div>
-	            				</div>
-	            				<div class="row">
-			            			<div class="col-xs-6"><label><input class="checkbox" type="checkbox" name="notification[]" value="">SMS</label></div>
-			            			<div class="col-xs-6"><label><input class="checkbox" type="checkbox" name="notification[]" value="">E-mail</label></div>
-		            			</div>
-	            				<div class="row">
-		            				<div class="col-xs-6"><label><input class="checkbox" type="checkbox" name="notification[]" value="">Aplicação Móvel</label></div>
-		            			</div>
-		            		</div>
-						</div>
-
-						<div class="row">
-							<div class="col-xs-10 col-xs-offset-1">
 		                		<label for="usuario_telefone">Telefone</label>
 							</div>
 						</div>

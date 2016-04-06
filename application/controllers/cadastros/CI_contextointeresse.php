@@ -133,7 +133,7 @@ class CI_contextointeresse extends CI_controller {
 	}
 
 	function select(){
-		$registros = $this->M_contextointeresse->pesquisar();
+		$registros = $this->M_contextointeresse->pesquisar('', array(), 10000, 0, 'asc', FALSE);
 
 	    echo json_encode($registros);
 	}

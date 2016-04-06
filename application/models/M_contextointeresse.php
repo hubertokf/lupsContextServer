@@ -11,15 +11,19 @@ class M_contextointeresse extends CI_Model {
         function pesquisar($select='', $where=array(), $limit=10, $offset=0, $ordem='asc', $perm=FALSE) {
             if ($perm == FALSE){
 	            $this->db->select('ci.*');
+	            $this->db->select('r.nome as regra_nome');
 	            
 	            $this->db->from('contextointeresse as ci');
+	            $this->db->join('regras as r', 'ci.regra_id = r.regra_id');
 
 	        }else{
 	        	$this->db->select('ci.*');
+	        	$this->db->select('r.nome as regra_nome');
 	            
 	            $this->db->from('contextointeresse as ci');
 
 	            $this->db->join('permissoes as p', 'ci.contextointeresse_id = p.contextointeresse_id', 'inner');
+	            $this->db->join('regras as r', 'ci.regra_id = r.regra_id');
 	        }
 
             $this->db->where($where);

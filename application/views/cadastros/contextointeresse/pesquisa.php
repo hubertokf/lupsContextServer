@@ -9,8 +9,9 @@
 			<table class="tabela-dados" cellpadding="3" cellspacing="0">
 				<thead>
 					<tr class="titulos row">
-			            <td class="col-xs-3">NOME</td>
-						<td class="col-xs-7">SENSORES</td>
+			            <td class="col-xs-2">NOME</td>
+						<td class="col-xs-6">SENSORES</td>
+						<td class="col-xs-2">REGRA</td>
 			            <td class="check col-xs-2"></td>
 			        </tr>
 					<tbody>
@@ -27,7 +28,12 @@
 						echo "
 							<tr class='dados row'>
 								<td>".$linha['nome']."</td>
-								<td data-id=".implode(", ", $sensores_id).">".implode(", ", $sensores_nome)."</td>
+								<td data-id=".implode(", ", $sensores_id).">".implode(", ", $sensores_nome)."</td>";
+						if (isset($linha['regra_nome']))
+							echo "<td>".$linha['regra_nome']."</td>";
+						else
+							echo "<td></td>";
+						echo "	
 								<td class='buttons-row'>
 									<a class='botaoEditar' id='edit-".$linha['contextointeresse_id']."' href='javascript:;' alt='Editar Registro' title='Editar Registro'><i class='fa fa-pencil-square-o fa-2x'></i></a>
 									<a class='botaoExcluir' id='del-".$linha['contextointeresse_id']."' href='javascript:;' alt='Excluir Registro' title='Excluir Registro'><i class='fa fa-times fa-2x'></i></a>
