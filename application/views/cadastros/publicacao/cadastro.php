@@ -36,9 +36,9 @@
                             <div class="col-xs-10 col-xs-offset-1 input">
                                 <select name="publicacao_servidorborda" id="publicacao_servidorborda">
 									<option value="">Selecione...</option>
-									<?php
-										$selected = "";
+									<?php										
 										foreach ($servidorbordas->result() as $servidorborda){
+                                            $selected = "";
 											if ($servidorborda->servidorborda_id==@$publicacao_servidorborda){
 												$selected = "selected";
 											}
