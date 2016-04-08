@@ -61,7 +61,7 @@ class CI_permissoes extends CI_controller {
 		$this->form_validation->set_message('required', 'Você deve preencher o campo %s!');
 		if ($this->form_validation->run() == FALSE)
 		{
-			$this->pesquisa(10, $_POST['permissao_usuario']);
+			$this->pesquisa(1000000, $_POST['permissao_usuario']);
 		}
 		else
 		{
@@ -106,7 +106,7 @@ class CI_permissoes extends CI_controller {
 			$this->M_permissoes->excluir();
 		}
 		$this->dados["msg"] = "Registro(s) excluído(s) com sucesso!";
-		$this->pesquisa(10, $_POST['permissao_usuario']);
+		$this->pesquisa(1000000, $_POST['permissao_usuario']);
 	}
 }
 ?>
