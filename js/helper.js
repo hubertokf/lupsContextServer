@@ -141,6 +141,7 @@ $(document).ready(function(){
 				type:"POST",
 				dataType: 'json',
 				url:window.base_url+"index.php/cadastros/"+type+"/select",
+				data: {usuario:$("#permissao_usuario").val()},
 				success: function(data) {
 					$('#perm_registro').html('');
 					$('#perm_registro').empty()
@@ -253,7 +254,7 @@ $(document).ready(function(){
 			var dataItem = $(this).attr("id");
 			var selectedItem = dataItem.split("-",2);	
 			$(form).find(".item-selected").val(selectedItem[1]);	
-			document.lista.action = window.base_url+"index.php/cadastros/CI_permissoes/editar";
+			document.lista.action = window.base_url+"index.php/cadastros/CI_permissoes/pesquisa";
 			document.lista.submit();
 		});
 		

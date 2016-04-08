@@ -23,10 +23,12 @@ class CI_permissoes extends CI_controller {
 		$this->dados["caminho"] = $this->uri->segment(1)."/".$this->uri->segment(2);
 	}
 	
-	function editar($nr_pagina=10, $user_id=""){
+	function pesquisa($nr_pagina=1000000, $user_id=""){
 		$where = array();
-		if ($user_id != "")
+		if ($user_id != ""){
 			$this->dados["perm_user"] = $user_id;
+			$where = array('permissoes.usuario_id'=>$this->dados["perm_user"]);
+		}
 		else
 			if ($this->input->post('item') != FALSE){
 				$where = array('permissoes.usuario_id'=>$this->input->post('item'));
@@ -37,7 +39,7 @@ class CI_permissoes extends CI_controller {
 		$this->dados["metodo"] = "pesquisa";
 		$this->dados["linhas"] = $this->M_permissoes->pesquisar('',$where, $nr_pagina, $this->uri->segment(5), 'permissao_id', $ordem='asc');
 		$this->dados["nr_pagina"] = $nr_pagina;
-		$this->dados["total"] = $this->M_permissoes->numeroLinhasTotais();
+		$this->dados["total"] = $this->M_permissoes->numeroLinhasTotais('',array("usuario_id"=>$this->dados["perm_user"]));
 		$this->dados["tituloPesquisa"] = "Permissões cadastradas para o usuário '".$user_name."'";
 		$pag['base_url'] = base_url."index.php/".$this->dados["caminho"]."/".$this->dados["metodo"]."/".$nr_pagina."/";
 		$pag['total_rows'] = $this->dados["total"];
@@ -59,7 +61,7 @@ class CI_permissoes extends CI_controller {
 		$this->form_validation->set_message('required', 'Você deve preencher o campo %s!');
 		if ($this->form_validation->run() == FALSE)
 		{
-			$this->editar(10, $_POST['permissao_usuario']);
+			$this->pesquisa(10, $_POST['permissao_usuario']);
 		}
 		else
 		{
@@ -82,11 +84,11 @@ class CI_permissoes extends CI_controller {
 			}
 			if ($this->M_permissoes->salvar() == "inc"){
 				$this->dados["msg"] = "Dados registrados com sucesso!";
-				$this->editar(10, $_POST['permissao_usuario']);
+				$this->pesquisa(10, $_POST['permissao_usuario']);
 			}
 			else {
 				$this->dados["msg"] = "Dados alterados com sucesso!";
-				$this->editar(10, $_POST['permissao_usuario']);
+				$this->pesquisa(10, $_POST['permissao_usuario']);
 			}
 		}
 	}
@@ -104,7 +106,7 @@ class CI_permissoes extends CI_controller {
 			$this->M_permissoes->excluir();
 		}
 		$this->dados["msg"] = "Registro(s) excluído(s) com sucesso!";
-		$this->editar(10, $_POST['permissao_usuario']);
+		$this->pesquisa(10, $_POST['permissao_usuario']);
 	}
 }
 ?>

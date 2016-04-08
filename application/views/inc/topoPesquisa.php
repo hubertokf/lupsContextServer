@@ -45,7 +45,7 @@
                                             <select name="perm_tipo" id="perm_tipo">
                                                 <!-- <option value=""></option>
                                                 <option value="1">Ambiente</option> -->
-                                                <option value="2">Contexto de Interesse</option>
+                                                <option value="2" selected="selected">Contexto de Interesse</option>
                                                 <!-- <option value="3">Regra</option>
                                                 <option value="4">Sensor</option> -->
                                             </select>   
