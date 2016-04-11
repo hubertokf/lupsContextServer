@@ -18,7 +18,7 @@
 			            <td class="col-xs-4">TIPO</td>
 			            <td class="col-xs-1">PODE EDITAR</td>
 			            <td class="col-xs-1">RECEBE EMAIL</td>
-			            <td class="check col-xs-1"></td>
+			            <td class="check col-xs-1"></td> 
 			        </tr>
 			    </thead>
 				<tbody> 
