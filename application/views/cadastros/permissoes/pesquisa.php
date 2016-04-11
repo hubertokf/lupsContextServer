@@ -13,12 +13,11 @@
 			<table class="tabela-dados" cellpadding="3" cellspacing="0">
 				<thead>
 					<tr class="titulos row">
-			            <td class="col-xs-2">USUÁRIO</td>
-			            <td class="col-xs-3">TIPO</td>
-			            <td class="col-xs-3">REGISTRO</td>
+			            <td class="col-xs-5">REGISTRO</td>
+			            <td class="col-xs-4">TIPO</td>
 			            <td class="col-xs-1">PODE EDITAR</td>
 			            <td class="col-xs-1">RECEBE EMAIL</td>
-			            <td class="check col-xs-2"></td>
+			            <td class="check col-xs-1"></td>
 			        </tr>
 			    </thead>
 				<tbody> 
@@ -26,23 +25,22 @@
 					foreach($linhas->result_array() as $linha){
 						$linha = array_filter($linha);
 						$row = "
-							<tr class='dados row'>
-								<td>".$linha['usuario_nome']."</td>";
+							<tr class='dados row'>";
 						if (isset($linha['contextointeresse_nome'])){
-							$row .= "<td>Contexto de Interesse</td>";
 							$row .= "<td>".$linha['contextointeresse_nome']."</td>";
+							$row .= "<td>Contexto de Interesse</td>";
 						}
 						if (isset($linha['sensor_nome'])){
-							$row .= "<td>Sensor</td>";
 							$row .= "<td>".$linha['sensor_nome']."</td>";
+							$row .= "<td>Sensor</td>";
 						}
 						if (isset($linha['ambiente_nome'])){
-							$row .= "<td>Ambiente</td>";
 							$row .= "<td>".$linha['ambiente_nome']."</td>";
+							$row .= "<td>Ambiente</td>";
 						}
 						if (isset($linha['regra_nome'])){
-							$row .= "<td>Regra</td>";
 							$row .= "<td>".$linha['regra_nome']."</td>";
+							$row .= "<td>Regra</td>";
 						}
 						if ($linha['podeeditar'] == 't')
 							$row .= "<td>SIM</td>";
