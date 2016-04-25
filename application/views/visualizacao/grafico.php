@@ -11,7 +11,7 @@
 				</div>
 			</div>
 		</div>
-		<?php } ?>
+		<?php //} ?>
 
 
 		<div class="row">
