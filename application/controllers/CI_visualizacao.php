@@ -85,13 +85,23 @@
 		}
 
 		function comparar(){
-			if (isset($_POST['contextointeresse'])) {
+			if ($this->session->userdata('usuario_id') != null){
+				if ($this->session->userdata('perfilusuario_id') == 2)
+					$this->dados["sensores"] = $this->M_sensor->pesquisar('', array(), 10000, 0, 'asc', FALSE);
+					//$this->dados["contextos_interesse"] = $this->M_contextointeresse->pesquisar('', array(), 10000, 0, 'asc', FALSE);			
+				else
+					$this->dados["sensores"] = $this->M_sensor->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 10000, 0, 'asc', TRUE);
+					//$this->dados["contextos_interesse"] = $this->M_contextointeresse->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 10000, 0, 'asc', TRUE);
+			}else
+				$this->dados["sensores"] = $this->M_sensor->pesquisar('', array('ci.publico' => 'TRUE'), 10000, 0, 'asc', FALSE);
+			
+			/*if (isset($_POST['contextointeresse'])) {
 			     $_SESSION['contextointeresse'] = $_POST['contextointeresse'];
 			}
 
 			if(isset($_SESSION['contextointeresse'])) {
 				$this->dados["contextointeresse"] = $this->M_contextointeresse->pesquisar('', array('contextointeresse_id' => $_SESSION['contextointeresse']), 10, $this->uri->segment(5));
-			}
+			}*/
 
 			$this->load->view('inc/topo',$this->dados);
 			$this->load->view('inc/menu_vis');
