@@ -69,7 +69,7 @@
 			     $_SESSION['sensor'] = $_POST['sensor'];
 			}
 
-			$this->dados["contextointeresse"] = $this->M_contextointeresse->selecionarCI($_SESSION['contextointeresse']);
+			//$this->dados["contextointeresse"] = $this->M_contextointeresse->selecionarCI($_SESSION['contextointeresse']);
 
 			foreach (array($_SESSION['sensor']) as $key => $value) {
 				$this->dados["publicacoes"][] = $this->M_publicacao->selBySensorID($value)->result_array();
@@ -106,7 +106,7 @@
 			}
 
 			if (isset($_POST['sensor']) && is_array($_POST['sensor'])) {
-				$this->dados["contextointeresse"] = $this->M_contextointeresse->selecionarCI($_SESSION['contextointeresse']);
+				//$this->dados["contextointeresse"] = $this->M_contextointeresse->selecionarCI($_SESSION['contextointeresse']);
 
 				foreach ($_POST['sensor'] as $key => $value) {
 					$this->dados["publicacoes"][] = $this->M_publicacao->selBySensorID($value)->result_array();
@@ -171,7 +171,7 @@
 			     $_SESSION['sensor'] = $_POST['sensor'];
 			}
 			
-			$this->dados["contextointeresse"] = $this->M_contextointeresse->selecionarCI($_SESSION['contextointeresse']);
+			//$this->dados["contextointeresse"] = $this->M_contextointeresse->selecionarCI($_SESSION['contextointeresse']);
 			$this->dados["sensor"] = $this->M_sensor->selecionar($_SESSION['sensor'])->result_array();
 			$dias = 7;
 			$results = array();
@@ -209,7 +209,7 @@
 			if (isset($_POST['sensor'])) {
 			     $_SESSION['sensor'] = $_POST['sensor'];
 			}
-			$this->dados["contextointeresse"] = $this->M_contextointeresse->selecionarCI($_SESSION['contextointeresse']);
+			//$this->dados["contextointeresse"] = $this->M_contextointeresse->selecionarCI($_SESSION['contextointeresse']);
 			$this->dados["sensor"] = $this->M_sensor->selecionar($_SESSION['sensor'])->result_array();
 
 			$this->load->view('inc/topo',$this->dados);
