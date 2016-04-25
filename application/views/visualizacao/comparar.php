@@ -18,9 +18,10 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-sm-4 col-sm-offset-4 center-box">
+				<div class="col-sm-6 col-sm-offset-3 center-box">
 					<div class="row">
 					<?php 
+					
 					foreach ($sensores->result_array() as $key => $sensor) {
 					?>
 						
