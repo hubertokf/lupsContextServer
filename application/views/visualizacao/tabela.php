@@ -4,7 +4,7 @@
 			<div class="col-xs-12">
 				<div class="section-title">
 					<h2>
-						Contexto de Interesse: <?php echo $contextointeresse[0]['nome']; ?>
+						<!-- Contexto de Interesse: <?php //echo $contextointeresse[0]['nome']; ?> -->
 						Sensor: <?php echo $sensor[0]['nome']; ?>
 					</h2>
 				</div>
