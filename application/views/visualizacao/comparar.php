@@ -26,7 +26,7 @@
 					?>
 						
 						<div class="col-sm-6 col-xs-12">
-							<label><input type="checkbox" name="sensor[]" value="<?php echo $sensor['sensor_id']; ?>"> <?php echo $sensor['sensor_nome']; ?></label>
+							<label><input type="checkbox" name="sensor[]" value="<?php echo $sensor['sensor_id']; ?>"> <?php echo $sensor['nome']; ?></label>
 						</div>
 
 					<?php
