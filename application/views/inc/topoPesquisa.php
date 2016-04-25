@@ -34,7 +34,7 @@
                                 <div class="col-xs-2">
                                     <h4 style="font-weight: bold;">Nova Permissão</h4>
                                 </div>
-                                <div class="col-xs-2" style="visibility: hidden;">
+                                <div class="col-xs-2" style="display: none;">
                                     <div class="row">
                                         <div class="col-xs-12">
                                             <label for="perm_tipo">Tipo de permissão:</label>                            
