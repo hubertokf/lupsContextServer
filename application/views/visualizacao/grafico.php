@@ -1,6 +1,5 @@
 <section class="graph container-fluid">
 	<div class="container">
-		<?php //$cinome = ""; if (isset($contextointeresse)){ $cinome = $contextointeresse[0]['nome']; ?> 
 		<div class="row">
 			<div class="col-xs-12">
 				<div class="section-title">
@@ -11,7 +10,6 @@
 				</div>
 			</div>
 		</div>
-		<?php //} ?>
 
 
 		<div class="row">
