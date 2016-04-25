@@ -29,7 +29,7 @@
 						</div><!-- /.row -->
 					</div><!-- /.borda -->				
 				</div><!-- /.col-lg-6 -->
-				<div class="col-sm-6">
+				<div class="col-sm-offset-3 col-sm-6">
 					<div class="sensor">
 						<div class="row">
 							<div class="col-xs-12">
@@ -42,7 +42,6 @@
 									<option value="" selected="" disabled="">Selecione</option>
 									<?php
 										$selected = "";
-										print_r($sensores->result_array());
 										foreach ($sensores->result_array() as $s) {
 											if(isset($_SESSION['sensor']))
 												if ($s["sensor_id"]==$_SESSION['sensor']){
