@@ -4,9 +4,9 @@
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="section-title">
-						<h2>
-							Contexto de Interesse: <?php echo $contextointeresse[0]['nome']; ?>
-						</h2>
+						<!--h2>
+							Contexto de Interesse: <?php //echo $contextointeresse[0]['nome']; ?>
+						</h2-->
 					</div>
 				</div>
 			</div>
@@ -22,7 +22,7 @@
 					<div class="row">
 					<?php 
 
-					foreach ($contextointeresse[0]['sensores'] as $key => $sensor) {
+					foreach ($sensores as $key => $sensor) {
 					?>
 						
 						<div class="col-sm-6 col-xs-12">
@@ -30,7 +30,7 @@
 						</div>
 
 					<?php
-						if ($key != (count($contextointeresse[0]['sensores'])-1) && ($key%2 != 0))
+						if ($key != (count($sensores)-1) && ($key%2 != 0))
 							echo "</div><div class='row'>";
 					}
 
