@@ -42,6 +42,7 @@
 									<option value="" selected="" disabled="">Selecione</option>
 									<?php
 										$selected = "";
+										print_r($sensores);
 										foreach ($sensores as $s) {
 											if(isset($_SESSION['sensor']))
 												if ($s["sensor_id"]==$_SESSION['sensor']){
