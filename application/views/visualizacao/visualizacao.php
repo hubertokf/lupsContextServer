@@ -2,7 +2,7 @@
 	<div class="container">
 		<form id="form" action="<?php echo base_url(); ?>index.php/CI_visualizacao/tabela" class="form-contextointeresse" method="post">
 			<div class="row">
-				<div class="col-sm-6">
+				<div class="col-sm-6" style="display: none;">
 					<div class="borda">
 						<div class="row">
 							<div class="col-xs-12">
@@ -38,8 +38,19 @@
 						</div><!-- /.row -->
 						<div class="row">
 							<div class="col-xs-12">
-								<select name="sensor"  id="sensor-value">
-									<option value="" selected="" disabled="">Selecione um local</option>		
+								<select name="sensor"  id="sensor-value-self">
+									<option value="" selected="" disabled="">Selecione</option>
+									<?php
+										$selected = "";
+										foreach ($sensores as $s) {
+											if(isset($_SESSION['sensor']))
+												if ($s["sensor_id"]==$_SESSION['sensor']){
+													$selected = "selected";
+												}
+											echo '<option value="'.$s['sensor_id'].'" '.$selected.'>'.$s['nome'].'</option>';
+											$selected = "";
+										}
+									?>
 								</select>
 							</div><!-- /.col-xs-12 -->
 						</div><!-- /.row -->
