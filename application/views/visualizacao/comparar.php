@@ -21,7 +21,7 @@
 				<div class="col-sm-4 col-sm-offset-4 center-box">
 					<div class="row">
 					<?php 
-
+					print_r($sensores);
 					foreach ($sensores as $key => $sensor) {
 					?>
 						
