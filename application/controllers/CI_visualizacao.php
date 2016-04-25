@@ -36,11 +36,14 @@
 		function index(){
 			if ($this->session->userdata('usuario_id') != null){
 				if ($this->session->userdata('perfilusuario_id') == 2)
-					$this->dados["contextos_interesse"] = $this->M_contextointeresse->pesquisar('', array(), 10000, 0, 'asc', FALSE);			
+					$this->dados["sensores"] = $this->M_sensor->pesquisar('', array(), 10000, 0, 'asc', FALSE);
+					//$this->dados["contextos_interesse"] = $this->M_contextointeresse->pesquisar('', array(), 10000, 0, 'asc', FALSE);			
 				else
-					$this->dados["contextos_interesse"] = $this->M_contextointeresse->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 10000, 0, 'asc', TRUE);
+					$this->dados["sensores"] = $this->M_sensor->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 10000, 0, 'asc', TRUE);
+					//$this->dados["contextos_interesse"] = $this->M_contextointeresse->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 10000, 0, 'asc', TRUE);
 			}else
-				$this->dados["contextos_interesse"] = $this->M_contextointeresse->pesquisar('', array('publico' => 'TRUE'), 10, 0, 'asc', FALSE);			
+				$this->dados["sensores"] = $this->M_sensor->pesquisar('', array('ci.publico' => 'TRUE'), 10000, 0, 'asc', FALSE);			
+				//$this->dados["contextos_interesse"] = $this->M_contextointeresse->pesquisar('', array('publico' => 'TRUE'), 10, 0, 'asc', FALSE);			
 			$this->load->view('inc/topo',$this->dados);
 			$this->load->view('visualizacao/visualizacao');
 			$this->load->view('inc/rodape');
