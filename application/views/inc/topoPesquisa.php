@@ -34,7 +34,7 @@
                                 <div class="col-xs-2">
                                     <h4 style="font-weight: bold;">Nova Permissão</h4>
                                 </div>
-                                <div class="col-xs-2">
+                                <div class="col-xs-2" style="visibility: hidden;">
                                     <div class="row">
                                         <div class="col-xs-12">
                                             <label for="perm_tipo">Tipo de permissão:</label>                            
@@ -55,7 +55,7 @@
                                 <div class="col-xs-2">                  
                                     <div class="row">
                                         <div class="col-xs-12">
-                                            <label for="perm_registro">Registro:</label>
+                                            <label for="perm_registro">Contexto de Interesse:</label>
                                         </div>
                                     </div>
                                     <div class="row">
