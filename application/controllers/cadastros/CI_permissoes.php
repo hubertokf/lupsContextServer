@@ -45,7 +45,7 @@ class CI_permissoes extends CI_controller {
 		$pag['total_rows'] = $this->dados["total"];
 		$pag['uri_segment']	= 5;
 		$pag['per_page'] = $this->dados["nr_pagina"];
-		$this->pagination->initialize($pag); 
+		$this->pagination->initialize($pag);
 		$this->load->view('inc/topo',$this->dados);
 		$this->load->view('inc/menu');
 		$this->load->view('inc/topoPesquisa');

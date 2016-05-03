@@ -9,6 +9,7 @@
 
 		<form class="formLista" method="post" name="lista" action="">
 			<input class="item-selected" type="hidden" name="item" id="item" value="">
+			<input id="listPerm" type="hidden" value='<?php echo json_encode($linhas->result_array()); ?>'></input>
 			<input class="permissao_usuario" type="hidden" name="permissao_usuario" id="permissao_usuario" value="<?php echo $perm_user; ?>">
 			<table class="tabela-dados" cellpadding="3" cellspacing="0">
 				<thead>
