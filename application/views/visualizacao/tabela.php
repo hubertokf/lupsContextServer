@@ -25,26 +25,31 @@
 					            </tr>
 					        </thead>
 					        <tbody>
-						        <tr class="medias">
-						        	<td class="leg"><span>Méd.</span></td>
-						        	<td><?php echo number_format($meds[$i][0]['valor_med'], 2, ',', '.')." ".$dia[0]['tiposensor_unidade']; ?></td>
-						        </tr>
-						        <tr class="medias">
-						        	<td class="leg"><span>Máx.</span></td>
-						        	<td><?php echo number_format($meds[$i][0]['valor_max'], 2, ',', '.')." ".$dia[0]['tiposensor_unidade']; ?></td>
-						        </tr>
-						        <tr class="medias">
-						        	<td class="leg"><span>Mín.</span></td>
-						        	<td><?php echo number_format($meds[$i][0]['valor_min'], 2, ',', '.')." ".$dia[0]['tiposensor_unidade']; ?></td>
-						        </tr>
-						        <tr class="medias">
-						        	<td class="divider" colspan="2">&nbsp;</td>
-					        	</tr>
+					        	<?php if($sensor[0]['tiposensor_id'] != 11) {?>
+							        <tr class="medias">
+							        	<td class="leg"><span>Méd.</span></td>
+							        	<td><?php echo number_format($meds[$i][0]['valor_med'], 2, ',', '.')." ".$dia[0]['tiposensor_unidade']; ?></td>
+							        </tr>
+							        <tr class="medias">
+							        	<td class="leg"><span>Máx.</span></td>
+							        	<td><?php echo number_format($meds[$i][0]['valor_max'], 2, ',', '.')." ".$dia[0]['tiposensor_unidade']; ?></td>
+							        </tr>
+							        <tr class="medias">
+							        	<td class="leg"><span>Mín.</span></td>
+							        	<td><?php echo number_format($meds[$i][0]['valor_min'], 2, ',', '.')." ".$dia[0]['tiposensor_unidade']; ?></td>
+							        </tr>
+							        <tr class="medias">
+							        	<td class="divider" colspan="2">&nbsp;</td>
+						        	</tr>
+						        <?php } ?>
 			                	<?php 
 				                	foreach ($dia as $dado) {
 				                		echo "<tr>";
 				                		echo "<td>".Date("G:i",strtotime($dado['datacoleta']))."</td>";
-				                		echo "<td>".number_format($dado['valorcoletado'], 2, ',', '.')." ".$dado['tiposensor_unidade']."</td>";
+				                		if($sensor[0]['tiposensor_id'] != 11) {
+				                			echo "<td>".number_format($dado['valorcoletado'], 2, ',', '.')." ".$dado['tiposensor_unidade']."</td>";
+				                		else
+				                			echo "<td>".number_format($dado['valorcoletado'], 0, ',', '.')." ".$dado['tiposensor_unidade']."</td>";
 				                		echo "</tr>";
 				                	}
 			                	?>
