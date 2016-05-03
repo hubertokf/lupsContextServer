@@ -16,6 +16,7 @@ class M_sensor extends CI_Model{
 	private $sensor_ambiente;
 	private $sensor_gateway;
 	private $sensor_servidorborda;
+    private $sensor_status;
 	
         function pesquisar($select='', $where=array(), $limit=10, $offset=0, $ordem='asc', $perm=FALSE) {
         	if ($perm == FALSE){
@@ -103,6 +104,7 @@ class M_sensor extends CI_Model{
                 "ambiente_id" 		=> $this->sensor_ambiente,
                 "gateway_id" 		=> $this->sensor_gateway,
                 "servidorborda_id" 	=> $this->sensor_servidorborda,
+                "status" 			=> $this->sensor_status,
             );
 
 			$arrayCampos=array_filter($arrayCampos, function($value) {
@@ -179,6 +181,14 @@ class M_sensor extends CI_Model{
         	$this->db->where($where);
             $this->db->from('sensor');
             return $this->db->count_all_results();
+        }
+
+        function altStatus() {
+        	$arrayCampos  = array(
+                "status" 	=> $this->sensor_status
+            );
+			$this->db->update('sensor', $arrayCampos, array("sensor_id"=>$this->sensor_id));
+	        return "alt";
         }
 	
 // Getters and Setters 
@@ -295,7 +305,20 @@ class M_sensor extends CI_Model{
     		}			
 			return $this->sensor_servidorborda;
 		}
+
+		public function getSensorStatus() {
+		    if($this->sensor_status === NULL) {
+        		$this->sensor_status = new SensorStatus;
+    		}			
+			return $this->sensor_status;
+		}
 		
+		public function setSensorStatus($valor){
+			if(!is_string($valor)) {
+				throw new InvalidArgumentException('Expected String');
+			}
+			$this->sensor_status = $valor;
+		}
 		
 		public function setSensorId($valor){
 			$this->sensor_id = $valor;

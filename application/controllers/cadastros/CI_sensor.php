@@ -82,6 +82,7 @@ class CI_sensor extends CI_controller {
 		$this->form_validation->set_rules('sensor_nome', 'Nome', 'trim|required');
 		$this->form_validation->set_rules('sensor_tipo', 'Tipo', 'trim|required');
 		$this->form_validation->set_rules('sensor_servidorborda', 'Servidor de borda', 'trim|required');
+		$this->form_validation->set_rules('sensor_status', 'Status', 'trim|required');
 		$this->form_validation->set_error_delimiters('<div class="field-errors">', '</div>');
 		$this->form_validation->set_message('required', 'Você deve preencher o campo %s!');
 		if ($this->form_validation->run() == FALSE)
@@ -114,6 +115,8 @@ class CI_sensor extends CI_controller {
 			$this->M_sensor->setSensorAmbiente(isset($_POST["sensor_ambiente"]) ? $_POST["sensor_ambiente"] : null);
 			$this->M_sensor->setSensorGateway($_POST["sensor_gateway"]);
 			$this->M_sensor->setSensorServidorBorda($_POST["sensor_servidorborda"]);
+			$this->M_sensor->setSensorStatus($_POST["gateway_status"]);
+
 			if ($this->M_sensor->salvar() == "inc"){
 				$this->dados["msg"] = "Dados registrados com sucesso!";
 				$this->pesquisa();	
@@ -174,6 +177,49 @@ class CI_sensor extends CI_controller {
 		}
 
 	    echo json_encode($sensores);
+	}
+
+	function ativar($id="", $silent = false) {
+		if ($id==""){
+
+			if(isset($_POST["item"])) {
+				$this->M_sensor->setSensorId($_POST["item"]);	
+				$this->M_sensor->setSensorStatus('true');	
+				$this->M_sensor->altStatus();
+			}
+		}
+		else{
+			$this->M_sensor->setSensorId($id);	
+			$this->M_sensor->setSensorStatus('true');	
+			$this->M_sensor->altStatus();
+		}
+
+		if($silent != true){
+			$this->dados["msg"] = "Sensor ativado com sucesso!";
+			$this->pesquisa();
+		}
+	}
+
+	function desativar($id="", $silent = false) {
+
+		if ($id==""){
+
+			if(isset($_POST["item"])) {
+				$this->M_sensor->setSensorId($_POST["item"]);
+				$this->M_sensor->setSensorStatus('false');
+				$this->M_sensor->altStatus();
+			}
+		}
+		else{
+			$this->M_sensor->setSensorId($id);	
+			$this->M_sensor->setSensorStatus('false');	
+			$this->M_sensor->altStatus();
+		}
+
+		if($silent != true){
+			$this->dados["msg"] = "Sensor desativado com sucesso!";
+			$this->pesquisa();
+		}
 	}
 }
 ?>

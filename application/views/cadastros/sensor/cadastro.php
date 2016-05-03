@@ -17,6 +17,7 @@
 			$sensor_ambiente		= $linha->ambiente_id;
             $sensor_gateway         = $linha->gateway_id;
             $sensor_servidorborda   = $linha->servidorborda_id;
+            $sensor_status          = $linha->status;
 		}
 	}
 ?>
@@ -245,6 +246,20 @@
 								</select>
 							</div>
 						</div>
+
+                        <div class="row">
+                            <div class="col-xs-10 col-xs-offset-1 input">
+                                <label for="sensor_status">Status:</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-10 col-xs-offset-1 input">
+                                <select name="sensor_status">
+                                    <option value="t" <?php if(@$sensor_status == 't') echo"selected"; ?> >Ativado</option>
+                                    <option value="f" <?php if(@$sensor_status == 'f') echo"selected"; ?> >Desativado</option>
+                                </select>
+                            </div>
+                        </div>
 
                         <div class="row">
 							<div class="col-xs-10 col-xs-offset-1">
