@@ -37,7 +37,7 @@ class CI_permissoes extends CI_controller {
 		$user_name = $this->M_usuario->selecionar($this->dados["perm_user"])->result_array()[0]["nome"];
 		$this->dados["perfil_user"] = $this->M_usuario->selecionar($this->dados["perm_user"])->result_array()[0]["perfilusuario_id"];
 		$this->dados["metodo"] = "pesquisa";
-		$this->dados["linhas"] = $this->M_permissoes->pesquisar('',$where, $nr_pagina, $this->uri->segment(5), 'permissao_id', $ordem='asc');
+		$this->dados["linhas"] = $this->M_permissoes->pesquisar('',$where, $nr_pagina, $this->uri->segment(5), 'contextointeresse_nome', $ordem='asc');
 		$this->dados["nr_pagina"] = $nr_pagina;
 		$this->dados["total"] = $this->M_permissoes->numeroLinhasTotais('',array("usuario_id"=>$this->dados["perm_user"]));
 		$this->dados["tituloPesquisa"] = "Permissões cadastradas para o usuário '".$user_name."'";
