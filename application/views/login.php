@@ -56,13 +56,13 @@
 								</div>			
 							</div>
 						</div>
-						<div class="row">
+						<!--div class="row">
 							<div class="col-md-6 col-md-offset-3">
 								<div class="pass-recover">
 									<a class="btn-recover" href="<?php echo base_url(); ?>index.php/CI_login/recoverPassword" title="Esqueci minha senha">Esqueci minha senha!</a>
 								</div>
 							</div>
-						</div>
+						</div-->
 					</div>
 				</div>
 			</div>
