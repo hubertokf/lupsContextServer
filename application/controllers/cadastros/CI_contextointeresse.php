@@ -29,7 +29,7 @@ class CI_contextointeresse extends CI_controller {
 		$this->pesquisa();
 	}
 	
-	function pesquisa($nr_pagina=10){
+	function pesquisa($nr_pagina=20 ){
 		$this->dados["metodo"] = "pesquisa";
 
 		if ($this->session->userdata('perfilusuario_id') == 2)

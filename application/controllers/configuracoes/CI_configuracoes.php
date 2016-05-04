@@ -38,7 +38,7 @@ class CI_configuracoes extends CI_controller {
 		$this->load->view('inc/rodape');
 	}
 	
-	function personaliza($nr_pagina=10){
+	function personaliza($nr_pagina=20 ){
 		$this->dados["metodo"] = "pesquisa";
 		$this->dados["linhas"] = $this->M_configuracoes->pesquisar($this->session->userdata('usuario_id'));
 		$this->dados["nr_pagina"] = $nr_pagina;

@@ -33,7 +33,7 @@ class CI_regras extends CI_controller {
 	    echo json_encode($registros);
 	}
 	
-	function pesquisa($nr_pagina=10){
+	function pesquisa($nr_pagina=20 ){
 		$this->dados["metodo"] = "pesquisa";
 
 		if ($this->session->userdata('perfilusuario_id') == 2)

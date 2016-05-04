@@ -28,7 +28,7 @@ class CI_publicacao extends CI_controller {
 		$this->pesquisa();
 	}
 	
-	function pesquisa($nr_pagina=10){
+	function pesquisa($nr_pagina=20 ){
 		$this->dados["metodo"] = "pesquisa";
 		$this->dados["linhas"] = $this->M_publicacao->pesquisar('', array(), $nr_pagina, $this->uri->segment(5));
 		$this->dados["nr_pagina"] = $nr_pagina;

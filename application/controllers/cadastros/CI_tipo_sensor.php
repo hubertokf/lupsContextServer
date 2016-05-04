@@ -26,7 +26,7 @@ class CI_tipo_sensor extends CI_controller {
 		$this->pesquisa();
 	}
 	
-	function pesquisa($nr_pagina=10){
+	function pesquisa($nr_pagina=20 ){
 		$this->dados["metodo"] = "pesquisa";
 		$this->dados["linhas"] = $this->M_tipo_sensor->pesquisar('', array(), $nr_pagina, $this->uri->segment(5));
 		$this->dados["nr_pagina"] = $nr_pagina;

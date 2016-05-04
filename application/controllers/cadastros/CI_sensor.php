@@ -37,7 +37,7 @@ class CI_sensor extends CI_controller {
 	    echo json_encode($registros);
 	}
 	
-	function pesquisa($nr_pagina=10){
+	function pesquisa($nr_pagina=20 ){
 		$this->dados["metodo"] = "pesquisa";
 		$this->dados["sb"] = $this->M_servidorborda->pesquisar('', array(), 1000);
 		if (isset($_POST["pesquisa_filter"]) && $_POST["pesquisa_filter"]!= ""){

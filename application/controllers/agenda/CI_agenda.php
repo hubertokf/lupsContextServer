@@ -36,7 +36,7 @@
 			$this->pesquisa();
 		}
 		
-		function pesquisa($nr_pagina=10){
+		function pesquisa($nr_pagina=20 ){
 			$usuarioId = $this->session->userdata('usuario_id');
 			$usuarioPerfil = $this->session->userdata('perfilusuario_id');
 			$this->dados["metodo"] = "pesquisa";
