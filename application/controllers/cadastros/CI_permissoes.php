@@ -23,7 +23,7 @@ class CI_permissoes extends CI_controller {
 		$this->dados["caminho"] = $this->uri->segment(1)."/".$this->uri->segment(2);
 	}
 	
-	function pesquisa($nr_pagina=20 00000, $user_id=""){
+	function pesquisa($nr_pagina=1000000, $user_id=""){
 		$where = array();
 		if ($user_id != ""){
 			$this->dados["perm_user"] = $user_id;
