@@ -48,8 +48,9 @@
 				                		echo "<td>".Date("G:i",strtotime($dado['datacoleta']))."</td>";
 				                		if($sensor[0]['tiposensor_id'] != 11) {
 				                			echo "<td>".number_format($dado['valorcoletado'], 2, ',', '.')." ".$dado['tiposensor_unidade']."</td>";
-				                		else
+				                		}else{
 				                			echo "<td>".number_format($dado['valorcoletado'], 0, ',', '.')." ".$dado['tiposensor_unidade']."</td>";
+				                		}
 				                		echo "</tr>";
 				                	}
 			                	?>
