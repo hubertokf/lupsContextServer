@@ -115,7 +115,7 @@ class CI_sensor extends CI_controller {
 			$this->M_sensor->setSensorAmbiente(isset($_POST["sensor_ambiente"]) ? $_POST["sensor_ambiente"] : null);
 			$this->M_sensor->setSensorGateway($_POST["sensor_gateway"]);
 			$this->M_sensor->setSensorServidorBorda($_POST["sensor_servidorborda"]);
-			$this->M_sensor->setSensorStatus($_POST["gateway_status"]);
+			$this->M_sensor->setSensorStatus($_POST["sensor_status"]);
 
 			if ($this->M_sensor->salvar() == "inc"){
 				$this->dados["msg"] = "Dados registrados com sucesso!";

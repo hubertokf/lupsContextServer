@@ -5,7 +5,7 @@
 		[
 			[
 				"for",
-				"for	for …"
+				"foreach	foreach …"
 			],
 			[
 				"img_",
@@ -247,6 +247,14 @@
 	},
 	"buffers":
 	[
+		{
+			"contents": "18981129966",
+			"settings":
+			{
+				"buffer_size": 11,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -321,11 +329,66 @@
 	},
 	"expanded_folders":
 	[
-		"/var/www/html/lups.contextServer"
+		"/var/www/html/lups.contextServer",
+		"/var/www/html/lups.contextServer/application",
+		"/var/www/html/lups.contextServer/application/config",
+		"/var/www/html/lups.contextServer/application/controllers",
+		"/var/www/html/lups.contextServer/application/controllers/cadastros",
+		"/var/www/html/lups.contextServer/application/models",
+		"/var/www/html/lups.contextServer/application/views",
+		"/var/www/html/lups.contextServer/application/views/inc",
+		"/var/www/html/lups.contextServer/application/views/visualizacao",
+		"/var/www/html/lups.contextServer/js"
 	],
 	"file_history":
 	[
+		"/media/huberto/A2C7-4A1C/DATALOG.TXT",
+		"/var/www/html/lups.contextServer/application/views/visualizacao/visualizacao.php",
+		"/var/www/html/lups.contextServer/application/views/visualizacao/comparar.php",
+		"/var/www/html/lups.contextServer/application/controllers/cadastros/CI_permissoes.php",
+		"/var/www/html/lups.contextServer/application/controllers/configuracoes/CI_configuracoes.php",
+		"/var/www/html/lups.contextServer/application/controllers/cadastros/CI_usuario.php",
+		"/var/www/html/lups.contextServer/application/controllers/cadastros/CI_user.php",
+		"/var/www/html/lups.contextServer/application/controllers/cadastros/CI_tipo_sensor.php",
+		"/var/www/html/lups.contextServer/application/controllers/cadastros/CI_servidorcontexto.php",
+		"/var/www/html/lups.contextServer/application/controllers/cadastros/CI_servidorborda.php",
+		"/var/www/html/lups.contextServer/application/controllers/cadastros/CI_sensor.php",
+		"/var/www/html/lups.contextServer/application/controllers/cadastros/CI_regras.php.save",
+		"/var/www/html/lups.contextServer/application/controllers/cadastros/CI_regras.php",
+		"/var/www/html/lups.contextServer/application/controllers/cadastros/CI_publicacao.php",
+		"/var/www/html/lups.contextServer/application/controllers/cadastros/CI_perfil.php",
+		"/var/www/html/lups.contextServer/application/controllers/cadastros/CI_menu.php",
+		"/var/www/html/lups.contextServer/application/controllers/agenda/CI_agenda.php",
+		"/var/www/html/lups.contextServer/application/controllers/cadastros/CI_ambiente.php",
+		"/var/www/html/lups.contextServer/application/controllers/cadastros/CI_contextointeresse.php",
+		"/var/www/html/lups.contextServer/application/controllers/cadastros/CI_fabricante.php",
+		"/var/www/html/lups.contextServer/application/controllers/cadastros/CI_gateway.php",
+		"/var/www/html/lups.contextServer/application/views/inc/copyright.php",
+		"/var/www/html/lups.contextServer/application/views/inc/rodape.php",
+		"/var/www/html/lups.contextServer/application/views/login.php",
+		"/var/www/html/lups.contextServer/application/views/senha.php",
+		"/var/www/html/lups.contextServer/application/controllers/CI_login.php",
+		"/var/www/html/lups.contextServer/application/models/M_permissoes.php",
+		"/var/www/html/lups.contextServer/application/models/M_sensor.php",
+		"/var/www/html/lups.contextServer/application/views/visualizacao/tabela.php",
+		"/home/huberto/Downloads/White.Collar.S04.Season.4.720p.Web-DL.ReEnc-DeeJayAhmed/DeeJayAhmed ReEncodes.txt",
+		"/var/www/html/lups.contextServer/application/config/config.php",
 		"/var/www/html/lups.contextServer/application/config/database.php",
+		"/var/www/html/lups.contextServer/application/views/cadastros/permissoes/pesquisa.php",
+		"/var/www/html/lups.contextServer/application/views/inc/topoPesquisa.php",
+		"/var/www/html/lups.contextServer/js/helper.js",
+		"/var/www/html/lups.contextServer/application/views/cadastros/permissoes/cadastro.php",
+		"/var/www/html/lups.contextServer/application/models/M_gateway.php",
+		"/var/www/html/lups.contextServer/application/views/cadastros/sensor/pesquisa.php",
+		"/var/www/html/lups.contextServer/application/views/cadastros/gateway/cadastro.php",
+		"/var/www/html/lups.contextServer/application/views/cadastros/sensor/cadastro.php",
+		"/var/www/html/lups.contextServer/application/views/cadastros/gateway/pesquisa.php",
+		"/var/www/html/lups.contextServer/application/controllers/CI_visualizacao.php",
+		"/var/www/html/lups.contextServer/application/models/M_contextointeresse.php",
+		"/var/www/html/lups.contextServer/application/views/visualizacao/grafico.php",
+		"/home/huberto/projects/lupsEdgeServer/projects/lupsEdgeServer/lupsEdgeServer/models.py",
+		"/home/huberto/projects/lupsEdgeServer/projects/lupsEdgeServer/mysite/settings.py",
+		"/var/www/html/lups.contextServer/testes de sql.sql",
 		"/var/www/html/embrapa.contextServer/application/models/M_sensor.php",
 		"/var/www/html/embrapa.contextServer/application/controllers/cadastros/CI_sensor.php",
 		"/var/www/html/embrapa.contextServer/application/controllers/cadastros/CI_contextointeresse.php",
@@ -406,57 +469,11 @@
 		"/root/.arduino15/preferences.txt",
 		"/var/www/html/info.php",
 		"/tmp/fz3temp-1/database.php",
-		"/home/huberto/Área de Trabalho/SC.py",
-		"/home/huberto/Área de Trabalho/regras/teste.py",
-		"/home/huberto/Área de Trabalho/DB2.py",
-		"/home/huberto/Área de Trabalho/SC_1921681628.py",
-		"/home/huberto/NetBeansProjects/exehda-sa.UPNPdiscovery/Gateway/config.properties",
-		"/var/www/html/embrapa.contextServer/css/extra.css",
-		"/var/www/html/embrapa.contextServer/css/scss/core/main.scss",
-		"/var/www/html/embrapa.contextServer/application/models/M_relmenuperfil.php",
-		"/var/www/html/embrapa.contextServer/application/models/M_relcontextointeresse.php",
-		"/var/www/html/embrapa.contextServer/application/models/M_perfil.php",
-		"/var/www/html/embrapa.contextServer/application/models/M_menu.php",
-		"/var/www/html/embrapa.contextServer/application/models/M_geral.php",
-		"/var/www/html/embrapa.contextServer/application/models/M_fabricante.php",
-		"/var/www/html/embrapa.contextServer/application/models/M_configuracoes.php",
-		"/var/www/html/embrapa.contextServer/application/models/M_agenda.php",
-		"/var/www/html/embrapa.contextServer/application/models/M_tipo_sensor.php",
-		"/var/www/html/embrapa.contextServer/application/models/M_servidorcontexto.php",
-		"/var/www/html/embrapa.contextServer/application/models/M_servidorborda.php",
-		"/var/www/html/embrapa.contextServer/application/models/M_sensor_bkp.php",
-		"/var/www/html/embrapa.contextServer/application/views/cadastros/gateway/cadastro.php",
-		"/var/www/html/embrapa.contextServer/application/views/cadastros/servidorborda/cadastro.php",
-		"/home/huberto/projects/gatewayMCU-LUPS/lib/ESP8266UPnP/src/ESP8266UPnP.cpp",
-		"/home/huberto/projects/gatewayMCU-LUPS/lib/ESP8266UPnP/src/ESP8266UPnP.h",
-		"/home/huberto/.config/sublime-text-3/Packages/ClangAutoComplete/ClangAutoComplete.sublime-settings",
-		"/home/huberto/projects/gatewayMCU-LUPS/src/main.cpp",
-		"/home/huberto/Área de Trabalho/monitoravelho/application/controllers/cadastros/ci_sensor.php",
-		"/home/huberto/Área de Trabalho/monitoravelho/application/models/m_sensor.php",
-		"/home/huberto/Área de Trabalho/monitoravelho/application/views/cadastros/sensor/cadastro.php",
-		"/home/huberto/Área de Trabalho/monitoravelho/application/controllers/cadastros/ci_servidorborda.php",
-		"/home/huberto/Área de Trabalho/monitoravelho/application/models/m_servidorborda.php",
-		"/home/huberto/Área de Trabalho/Documento sem título 2",
-		"/home/huberto/Área de Trabalho/fazernelsi",
-		"/home/huberto/projects/gatewayMCU-LUPS/platformio.ini",
-		"/home/huberto/.config/sublime-text-3/Packages/User/Default (Linux).sublime-keymap",
-		"/home/huberto/projects/gatewayMCU-LUPS/lib/ESP8266UPnP/library.json",
-		"/home/huberto/projects/gatewayMCU-LUPS/lib/readme.txt",
-		"/home/huberto/projects/plat/src/main.cpp",
-		"/home/huberto/Arduino/teste/teste.ino",
-		"/var/www/html/exehda-rm/js/helper.js",
-		"/var/www/html/exehda-rm/application/controllers/cadastros/CI_regras.php",
-		"/var/www/html/exehda-rm/application/controllers/CI_login.php",
-		"/home/huberto/Área de Trabalho/monitora/application/views/cadastros/sensor/cadastro.php",
-		"/home/huberto/Área de Trabalho/monitora/application/controllers/cadastros/ci_sensor.php",
-		"/home/huberto/Área de Trabalho/monitora/application/models/m_sensor.php",
-		"/var/www/html/exehda-rm/application/controllers/configuracoes/CI_configuracoes.php",
-		"/home/huberto/Área de Trabalho/monitora/js/jquery.mask.min.js",
-		"/home/huberto/Área de Trabalho/monitora/js/helper.js"
+		"/home/huberto/Área de Trabalho/SC.py"
 	],
 	"find":
 	{
-		"height": 23.0
+		"height": 35.0
 	},
 	"find_in_files":
 	{
@@ -473,6 +490,32 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"$nr_pagina=1000000",
+			"1000000",
+			"$nr_pagina=20",
+			"$nr_pagina=10",
+			"class=\"credits\"",
+			"$(\"#listPerm\")",
+			"$(\"#listPerm\"), ",
+			"$(\"#listPerm\")",
+			"{\n							        return;\n							    }else",
+			" {\n							        return;\n							    }else",
+			"{\n							        return;\n							    }else",
+			"gateway",
+			"Gateway",
+			"gateway",
+			"status",
+			"Gateway",
+			"gateway",
+			"M_gateway",
+			"gateway",
+			"Status",
+			"status",
+			"gateway",
+			"cinome",
+			"title: {\n			            text",
+			"contextointeresse",
+			"ci",
 			"usuario",
 			"descricao",
 			"nome",
@@ -574,33 +617,7 @@
 			"espressif",
 			"regra_contextointeresse",
 			"getSensoresByCiID",
-			"#regra_sensor",
-			"regra_sensor",
-			"Interface de Visualização do CoIoT",
-			"img_projeto",
-			"Interface do EXEHDA-RM",
-			"if (isset($this->M_configuracoes->selByUser($this->session->userdata('usuario_id'))->result_array()[0][\"title\"]))\n			$this->dados['title'] = $this->M_configuracoes->selByUser($this->session->userdata('usuario_id'))->result_array()[0][\"title\"];\n		else\n			$this->dados['title'] = $title = $this->M_configuracoes->selecionar(1)->result_array()[0][\"title\"];",
-			"$this->load->model('M_geral');",
-			"$this->dados['title'] = \"Interface do EXEHDA-RM\";",
-			"usuario_id",
-			"id",
-			"_POST[\"item\"]",
-			"img_cabecalho",
-			"cover_image",
-			"ImgCabecalho",
-			"..",
-			"upload.php",
-			"personalizaPerfil",
-			"img_projeto",
-			"configuracoes_id",
-			"configuracao",
-			"Configuracao",
-			"configuracao",
-			"M_configuracao",
-			"configuracao",
-			"fabricante_nome",
-			"fabricante",
-			"set"
+			"#regra_sensor"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -608,6 +625,8 @@
 		"regex": false,
 		"replace_history":
 		[
+			"$nr_pagina=20 ",
+			"$nr_pagina=20",
 			"if (isset($this->M_configuracoes->selByUser($this->session->userdata('usuario_id'))->result_array()[0][\"titulo\"]))\n			$this->dados['title'] = $this->M_configuracoes->selByUser($this->session->userdata('usuario_id'))->result_array()[0][\"titulo\"];\n		else\n			$this->dados['title'] = $title = $this->M_configuracoes->selecionar(1)->result_array()[0][\"titulo\"];",
 			"\n		$this->load->model('M_geral');\n		$this->load->model('M_configuracoes');",
 			"if (isset($this->M_configuracoes->selByUser($this->session->userdata('usuario_id'))->result_array()[0][\"title\"]))\n			$this->dados['title'] = $this->M_configuracoes->selByUser($this->session->userdata('usuario_id'))->result_array()[0][\"title\"];\n		else\n			$this->dados['title'] = $title = $this->M_configuracoes->selecionar(1)->result_array()[0][\"title\"];",
@@ -659,8 +678,36 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 11,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								11,
+								11
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -727,7 +774,7 @@
 		[
 			[
 				"",
-				"~/projects/lupsEdgeServer.sublime-workspace"
+				"~/projects/lupsEdgeServer/lupsEdgeServer.sublime-workspace"
 			]
 		],
 		"width": 380.0
