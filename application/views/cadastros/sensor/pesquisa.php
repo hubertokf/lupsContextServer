@@ -33,8 +33,9 @@
 			<table class="tabela-dados" cellpadding="3" cellspacing="0">
 				<thead>
 					<tr class="titulos row">
+			            <td class="col-xs-1">ID</td>
 						<td class="col-xs-1">NOME</td>
-			            <td class="col-xs-2">DESCRIÇÃO</td>
+			            <td class="col-xs-1">DESCRIÇÃO</td>
 			            <td class="col-xs-1">MODELO</td>
 					    <td class="col-xs-1">HORA LIMITE</td>
 	 				    <td class="col-xs-1">LIMITES DIURNOS</td>
@@ -52,6 +53,7 @@
 
 							echo "
 								<tr class='dados row'>
+									<td style='text-align: center'>".$linha['sensor_id']."</td>
 									<td>".$linha['sensor_nome']."</td>
 									<td>".$linha['sensor_descricao']."</td>
 									<td>".$linha['sensor_modelo']."</td>

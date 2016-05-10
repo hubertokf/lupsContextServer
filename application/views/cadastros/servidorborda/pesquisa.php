@@ -9,11 +9,12 @@
 			<table class="tabela-dados" cellpadding="3" cellspacing="0">
 				<thead>
 					<tr class="titulos row">
+			            <td class="col-xs-1">ID</td>
 			            <td class="col-xs-3">NOME</td>
 			            <td class="col-xs-2">DESCRIÇÃO</td>
 			            <td class="col-xs-1">LATITUDE</td>
 			            <td class="col-xs-1">LONGITUDE</td>
-			            <td class="col-xs-3">URL</td>
+			            <td class="col-xs-2">URL</td>
 			            <td class="check col-xs-2"></td>
 			        </tr>
 			    </thead>
@@ -22,6 +23,7 @@
 					foreach($linhas->result_array() as $linha){
 						echo "
 							<tr class='dados row'>
+								<td style='text-align: center'>".$linha['servidorborda_id']."</td>
 								<td>".$linha['nome']."</td>
 								<td>".$linha['descricao']."</td>
 								<td>".$linha['latitude']."</td>
