@@ -184,13 +184,21 @@ class CI_sensor extends CI_controller {
 
 			if(isset($_POST["item"])) {
 				$this->M_sensor->setSensorId($_POST["item"]);	
-				$this->M_sensor->setSensorStatus('true');	
+				$this->M_sensor->setSensorStatus('true');
+				$ambiente = $this->M_sensor->selecionar($_POST["item"])->result_array();
+				$this->M_ambiente->setAmbienteId($ambiente[0]['ambiente_id']);	
+				$this->M_ambiente->setAmbienteStatus('true');	
+				$this->M_ambiente->altStatus();
 				$this->M_sensor->altStatus();
 			}
 		}
 		else{
 			$this->M_sensor->setSensorId($id);	
-			$this->M_sensor->setSensorStatus('true');	
+			$this->M_sensor->setSensorStatus('true');
+			$ambiente = $this->M_sensor->selecionar($_POST["item"])->result_array();
+			$this->M_ambiente->setAmbienteId($ambiente[0]['ambiente_id']);	
+			$this->M_ambiente->setAmbienteStatus('true');	
+			$this->M_ambiente->altStatus();	
 			$this->M_sensor->altStatus();
 		}
 

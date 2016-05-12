@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"text",
+				"text-align"
+			],
+			[
 				"for",
 				"foreach	foreach …"
 			],
@@ -156,10 +160,6 @@
 				"text-align"
 			],
 			[
-				"text",
-				"text-decoration"
-			],
-			[
 				"pa",
 				"padding-bottom"
 			],
@@ -247,14 +247,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "/home/huberto/Área de Trabalho/servidornew/SC_1921681628.py",
-			"settings":
-			{
-				"buffer_size": 5848,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -336,18 +328,19 @@
 		"/var/www/html/lups.contextServer/application/controllers/cadastros",
 		"/var/www/html/lups.contextServer/application/models",
 		"/var/www/html/lups.contextServer/application/views",
-		"/var/www/html/lups.contextServer/application/views/cadastros",
-		"/var/www/html/lups.contextServer/application/views/cadastros/sensor",
-		"/var/www/html/lups.contextServer/js"
+		"/var/www/html/lups.contextServer/application/views/cadastros"
 	],
 	"file_history":
 	[
+		"/var/www/html/lups.contextServer/application/views/cadastros/servidorborda/pesquisa.php",
+		"/var/www/html/lups.contextServer/application/views/cadastros/servidorborda/cadastro.php",
+		"/var/www/html/lups.contextServer/application/views/cadastros/sensor/cadastro.php",
+		"/var/www/html/lups.contextServer/application/views/cadastros/sensor/pesquisa.php",
+		"/home/huberto/Área de Trabalho/servidornew/SC_1921681628.py",
 		"/var/www/html/lups.contextServer/application/config/database.php",
 		"/var/www/html/lups.contextServer/application/config/config.php",
 		"/var/www/html/lups.contextServer/application/controllers/cadastros/CI_sensor.php",
 		"/var/www/html/lups.contextServer/application/models/M_sensor.php",
-		"/var/www/html/lups.contextServer/application/views/cadastros/sensor/cadastro.php",
-		"/var/www/html/lups.contextServer/application/views/cadastros/sensor/pesquisa.php",
 		"/media/huberto/A2C7-4A1C/DATALOG.TXT",
 		"/var/www/html/lups.contextServer/application/views/visualizacao/visualizacao.php",
 		"/var/www/html/lups.contextServer/application/views/visualizacao/comparar.php",
@@ -466,10 +459,7 @@
 		"/tmp/fz3temp-1/topo.php",
 		"/tmp/fz3temp-1/cadastro.php",
 		"/home/huberto/projects/teste/platformio.ini",
-		"/root/.arduino15/preferences.txt",
-		"/var/www/html/info.php",
-		"/tmp/fz3temp-1/database.php",
-		"/home/huberto/Área de Trabalho/SC.py"
+		"/root/.arduino15/preferences.txt"
 	],
 	"find":
 	{
@@ -678,37 +668,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "/home/huberto/Área de Trabalho/servidornew/SC_1921681628.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5848,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		}
 	],

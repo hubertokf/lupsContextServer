@@ -76,6 +76,7 @@
 						}else{
 							echo "
 								<tr class='dados row'>
+									<td style='text-align: center'>".$linha['sensor_id']."</td>
 									<td>".$linha['sensor_nome']."</td>
 									<td>".$linha['sensor_descricao']."</td>
 									<td>".$linha['sensor_modelo']."</td>

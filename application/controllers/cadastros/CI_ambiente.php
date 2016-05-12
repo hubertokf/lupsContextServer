@@ -9,6 +9,7 @@ class CI_ambiente extends CI_controller {
 		$this->load->model('M_configuracoes');
 		$this->load->model('M_ambiente');
 		$this->load->model('M_gateway');
+		$this->load->model('M_sensor');
 		$this->M_geral->verificaSessao();
 		if ($this->session->userdata('usuario_id') != 0 && $this->session->userdata('usuario_id') != ""){
 			$this->dados['isLoged'] = true;
@@ -116,13 +117,25 @@ class CI_ambiente extends CI_controller {
 
 			if(isset($_POST["item"])) {
 				$this->M_ambiente->setAmbienteId($_POST["item"]);	
-				$this->M_ambiente->setAmbienteStatus('true');	
+				$this->M_ambiente->setAmbienteStatus('true');
+				$sensor_list = $this->M_sensor->pesquisar('', array('s.ambiente_id'=>$_POST["item"]), 100000, 0, 'asc', FALSE);
+				foreach ($sensor_list->result_array() as $key => $sensor) {
+					$this->M_sensor->setSensorId($sensor['sensor_id']);	
+					$this->M_sensor->setSensorStatus('true');	
+					$this->M_sensor->altStatus();
+				}
 				$this->M_ambiente->altStatus();
 			}
 		}
 		else{
 			$this->M_ambiente->setAmbienteId($id);	
-			$this->M_ambiente->setAmbienteStatus('true');	
+			$this->M_ambiente->setAmbienteStatus('true');
+			$sensor_list = $this->M_sensor->pesquisar('', array('s.ambiente_id'=>$_POST["item"]), 100000, 0, 'asc', FALSE);
+			foreach ($sensor_list->result_array() as $key => $sensor) {
+				$this->M_sensor->setSensorId($sensor['sensor_id']);	
+				$this->M_sensor->setSensorStatus('true');	
+				$this->M_sensor->altStatus();
+			}
 			$this->M_ambiente->altStatus();
 		}
 		$this->dados["msg"] = "ambiente ativado com sucesso!";
@@ -136,12 +149,24 @@ class CI_ambiente extends CI_controller {
 			if(isset($_POST["item"])) {
 				$this->M_ambiente->setAmbienteId($_POST["item"]);
 				$this->M_ambiente->setAmbienteStatus('false');
+				$sensor_list = $this->M_sensor->pesquisar('', array('s.ambiente_id'=>$_POST["item"]), 100000, 0, 'asc', FALSE);
+				foreach ($sensor_list->result_array() as $key => $sensor) {
+					$this->M_sensor->setSensorId($sensor['sensor_id']);	
+					$this->M_sensor->setSensorStatus('false');	
+					$this->M_sensor->altStatus();
+				}
 				$this->M_ambiente->altStatus();
 			}
 		}
 		else{
 			$this->M_ambiente->setAmbienteId($id);	
 			$this->M_ambiente->setAmbienteStatus('false');	
+			$sensor_list = $this->M_sensor->pesquisar('', array('s.ambiente_id'=>$id), 100000, 0, 'asc', FALSE);
+			foreach ($sensor_list->result_array() as $key => $sensor) {
+				$this->M_sensor->setSensorId($sensor['sensor_id']);	
+				$this->M_sensor->setSensorStatus('false');	
+				$this->M_sensor->altStatus();
+			}
 			$this->M_ambiente->altStatus();
 		}
 		$this->dados["msg"] = "ambiente desativado com sucesso!";
