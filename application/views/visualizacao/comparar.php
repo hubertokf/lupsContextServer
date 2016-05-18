@@ -18,11 +18,11 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-sm-6 col-sm-offset-3 center-box"> 
+				<div class="col-sm-8 col-sm-offset-2 center-box"> 
 					<div class="row">
 					<?php 
 
-					foreach ($contextointeresse[$_SESSION['contextointeresse']]['sensores'] as $key => $sensor) {
+					foreach ($sensores->result_array() as $key => $sensor) {
 					?>
 						
 						<div class="col-sm-6 col-xs-12">
@@ -30,7 +30,7 @@
 						</div>
 
 					<?php
-						if ($key != (count($contextointeresse[$_SESSION['contextointeresse']]['sensores'])-1) && ($key%2 != 0))
+						if ($key != (count($sensores->result_array())-1) && ($key%2 != 0))
 							echo "</div><div class='row'>";
 					}
 
