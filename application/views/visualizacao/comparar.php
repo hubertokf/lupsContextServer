@@ -4,9 +4,15 @@
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="section-title">
+<<<<<<< HEAD
 						<h2>
 							Contexto de Interesse: <?php echo $contextointeresse[$_SESSION['contextointeresse']]['nome']; ?>
 						</h2>
+=======
+						<!--h2>
+							Contexto de Interesse: <?php //echo $contextointeresse[0]['nome']; ?>
+						</h2-->
+>>>>>>> branch 'embrapa' of https://github.com/hubertokf/lups.contextServer.git
 					</div>
 				</div>
 			</div>
@@ -18,11 +24,20 @@
 				</div>
 			</div>
 			<div class="row">
+<<<<<<< HEAD
 				<div class="col-sm-6 col-sm-offset-3 center-box"> 
+=======
+				<div class="col-sm-6 col-sm-offset-3 center-box">
+>>>>>>> branch 'embrapa' of https://github.com/hubertokf/lups.contextServer.git
 					<div class="row">
 					<?php 
+<<<<<<< HEAD
 
 					foreach ($contextointeresse[$_SESSION['contextointeresse']]['sensores'] as $key => $sensor) {
+=======
+					
+					foreach ($sensores->result_array() as $key => $sensor) {
+>>>>>>> branch 'embrapa' of https://github.com/hubertokf/lups.contextServer.git
 					?>
 						
 						<div class="col-sm-6 col-xs-12">
@@ -30,7 +45,11 @@
 						</div>
 
 					<?php
+<<<<<<< HEAD
 						if ($key != (count($contextointeresse[$_SESSION['contextointeresse']]['sensores'])-1) && ($key%2 != 0))
+=======
+						if ($key != (count($sensores)-1) && ($key%2 != 0))
+>>>>>>> branch 'embrapa' of https://github.com/hubertokf/lups.contextServer.git
 							echo "</div><div class='row'>";
 					}
 
