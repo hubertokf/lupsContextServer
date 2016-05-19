@@ -21,8 +21,8 @@
 						echo "
 							<tr class='dados row'>
 								<td>".$linha['sensor_nome']."</td>
-								<td>".mdate('%d' . '/' . '%m' .  '/' . '%Y', strtotime($linha['datacoleta']))."</td>
-								<td>".mdate('%d' . '/' . '%m' .  '/' . '%Y', strtotime($linha['datapublicacao']))."</td>
+								<td>".mdate('%d' . '/' . '%m' .  '/' . '%Y' . ' ' . '%G' . ':'.'%i', strtotime($linha['datacoleta']))."</td>
+								<td>".mdate('%d' . '/' . '%m' .  '/' . '%Y' . ' ' . '%G' . ':'.'%i', strtotime($linha['datapublicacao']))."</td>
 								<td>".$linha['valorcoletado']." ".$linha['tiposensor_unidade']."</td>
 								<td class='buttons-row'>
 									<a class='botaoEditar' id='edit-$linha[publicacao_id]' href='javascript:;' alt='Editar Registro' title='Editar Registro'><i class='fa fa-pencil-square-o fa-2x'></i></a>
