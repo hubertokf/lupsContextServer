@@ -18,6 +18,7 @@
 			$this->load->model('M_gateway');
 			$this->load->model('M_sensor');
 			$this->load->model('M_publicacao');
+			$this->load->model('M_usuario');
 			$this->load->model('M_servidorborda');
 			if ($this->session->userdata('usuario_id') != 0 && $this->session->userdata('usuario_id') != ""){
 				$this->dados['isLoged'] = true;

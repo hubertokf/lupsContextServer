@@ -34,8 +34,9 @@
 </head>
 <body>
     <?php
-    if (isset($this->M_configuracoes->selByUser($this->session->userdata('usuario_id'))->result_array()[0]["img_cabecalho"]))
-        $file = $this->M_configuracoes->selByUser($this->session->userdata('usuario_id'))->result_array()[0]["img_cabecalho"];
+    $usuario_id = $this->session->userdata('usuario_id');
+    if (isset($this->M_configuracoes->selByUser($usuario_id)->result_array()[0]["img_cabecalho"]))
+        $file = $this->M_configuracoes->selByUser($usuario_id)->result_array()[0]["img_cabecalho"];
     else
         $file = $this->M_configuracoes->selecionar(1)->result_array()[0]["img_cabecalho"];
     ?>
@@ -51,7 +52,10 @@
                         <a href="<?php echo base_url(); ?>index.php/CI_visualizacao">Visualizacão</a>
                     </div>
 
-                    <?php if ($isLoged != ""){ ?>
+                    <?php 
+                    $countMenu = $this->M_usuario->countUsuarioMenu($usuario_id);
+                    if ($isLoged != "" && $countMenu > 0){ 
+                    ?>
                         
                     <div class="app <?php if ($this->uri->segment(1) != 'CI_visualizacao') echo 'ativo'; ?>">
                         <a href="<?php echo base_url(); ?>index.php/CI_inicio">Gerenciamento</a>
@@ -87,8 +91,8 @@
                 <!--div class="col-sm-2" >
                     <div class="logo" style="text-align: center;">
                         <?php
-                        if (isset($this->M_configuracoes->selByUser($this->session->userdata('usuario_id'))->result_array()[0]["img_projeto"]))
-                            $file = $this->M_configuracoes->selByUser($this->session->userdata('usuario_id'))->result_array()[0]["img_projeto"];
+                        if (isset($this->M_configuracoes->selByUser($usuario_id)->result_array()[0]["img_projeto"]))
+                            $file = $this->M_configuracoes->selByUser($usuario_id)->result_array()[0]["img_projeto"];
                         else
                             $file = $this->M_configuracoes->selecionar(1)->result_array()[0]["img_projeto"];
                         ?>
