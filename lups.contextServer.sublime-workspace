@@ -251,14 +251,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "/tmp/fz3temp-1/SC_work.py",
-			"settings":
-			{
-				"buffer_size": 5561,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -337,14 +329,17 @@
 		"/var/www/html/lups.contextServer/application",
 		"/var/www/html/lups.contextServer/application/config",
 		"/var/www/html/lups.contextServer/application/controllers",
-		"/var/www/html/lups.contextServer/application/controllers/cadastros",
 		"/var/www/html/lups.contextServer/application/models",
 		"/var/www/html/lups.contextServer/application/views",
-		"/var/www/html/lups.contextServer/application/views/cadastros",
-		"/var/www/html/lups.contextServer/application/views/cadastros/sensor"
+		"/var/www/html/lups.contextServer/application/views/visualizacao"
 	],
 	"file_history":
 	[
+		"/var/www/html/lups.contextServer/application/config/database.php",
+		"/var/www/html/lups.contextServer/application/config/config.php",
+		"/var/www/html/lups.contextServer/application/controllers/CI_visualizacao.php",
+		"/var/www/html/lups.contextServer/application/views/visualizacao/comparar.php",
+		"/tmp/fz3temp-1/SC_work.py",
 		"/home/huberto/Área de Trabalho/script/SC_novo.py",
 		"/var/www/html/lups.contextServer/application/controllers/cadastros/CI_sensor.php",
 		"/var/www/html/lups.contextServer/application/models/M_ambiente.php",
@@ -355,11 +350,8 @@
 		"/var/www/html/lups.contextServer/application/views/cadastros/servidorborda/pesquisa.php",
 		"/var/www/html/lups.contextServer/application/views/cadastros/servidorborda/cadastro.php",
 		"/home/huberto/Área de Trabalho/servidornew/SC_1921681628.py",
-		"/var/www/html/lups.contextServer/application/config/database.php",
-		"/var/www/html/lups.contextServer/application/config/config.php",
 		"/media/huberto/A2C7-4A1C/DATALOG.TXT",
 		"/var/www/html/lups.contextServer/application/views/visualizacao/visualizacao.php",
-		"/var/www/html/lups.contextServer/application/views/visualizacao/comparar.php",
 		"/var/www/html/lups.contextServer/application/controllers/cadastros/CI_permissoes.php",
 		"/var/www/html/lups.contextServer/application/controllers/configuracoes/CI_configuracoes.php",
 		"/var/www/html/lups.contextServer/application/controllers/cadastros/CI_usuario.php",
@@ -391,7 +383,6 @@
 		"/var/www/html/lups.contextServer/application/models/M_gateway.php",
 		"/var/www/html/lups.contextServer/application/views/cadastros/gateway/cadastro.php",
 		"/var/www/html/lups.contextServer/application/views/cadastros/gateway/pesquisa.php",
-		"/var/www/html/lups.contextServer/application/controllers/CI_visualizacao.php",
 		"/var/www/html/lups.contextServer/application/models/M_contextointeresse.php",
 		"/var/www/html/lups.contextServer/application/views/visualizacao/grafico.php",
 		"/home/huberto/projects/lupsEdgeServer/projects/lupsEdgeServer/lupsEdgeServer/models.py",
@@ -471,8 +462,7 @@
 		"/tmp/fz3temp-1/page-pets.php",
 		"/tmp/fz3temp-1/M_geral.php",
 		"/tmp/fz3temp-1/CI_visualizacao.php",
-		"/tmp/fz3temp-1/topo.php",
-		"/tmp/fz3temp-1/cadastro.php"
+		"/tmp/fz3temp-1/topo.php"
 	],
 	"find":
 	{
@@ -493,6 +483,7 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"[0]",
 			"selecionar",
 			"sensor",
 			"altStatus",
@@ -619,8 +610,7 @@
 			"        ",
 			"       ",
 			"      ",
-			"     ",
-			"    "
+			"     "
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -681,37 +671,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "/tmp/fz3temp-1/SC_work.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5561,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2627,
-								2627
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 675.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		}
 	],
