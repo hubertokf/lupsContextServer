@@ -67,9 +67,16 @@ class CI_login extends CI_Controller {
 	        			break;
 	        		}
 
-	        		if($this->session->userdata('usuario_id') != 0) {
+	        		$usuario_id = $this->session->userdata('usuario_id');
+
+	        		if($usuario_id != 0) {
 	        			$this->dados["msg"] = "Logado.";
-						header("location:".base_url()."index.php/CI_inicio");
+	        			$countMenu = $this->M_usuario->countUsuarioMenu($usuario_id);
+	        			if ($countMenu > 0) {
+							header("location:".base_url()."index.php/CI_inicio");
+	        			}else{
+							header("location:".base_url()."index.php/CI_visualizacao");
+	        			}
 	        		} else {
 	        			$this->dados["msg"] = '<span class="camposObrigatorios ">Usuário ou senha inválida.</span>';
 	        			$this->index();

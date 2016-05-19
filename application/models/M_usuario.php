@@ -43,6 +43,15 @@
             $this->db->where("usuario_id", $codigo);
             return $this->db->get('usuario');
         }
+
+        function countUsuarioMenu($usuario_id){
+        	$this->db->select('rmp.*');
+            $this->db->from('usuario as u');
+			$this->db->join('relmenuperfil as rmp','rmp.perfilusuario_id = u.perfilusuario_id');
+            $this->db->where(array('u.usuario_id' => $usuario_id));
+            return $this->db->count_all_results();
+        }
+
 		function salvar() {
             $arrayCampos  = array(
                 "nome"	 				=> $this->usuario_nome,
