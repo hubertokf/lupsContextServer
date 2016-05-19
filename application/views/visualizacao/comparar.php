@@ -4,9 +4,9 @@
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="section-title">
-						<h2>
-							Contexto de Interesse: <?php echo $contextointeresse[$_SESSION['contextointeresse']]['nome']; ?>
-						</h2>
+						<!--h2>
+							Contexto de Interesse: <?php //echo $contextointeresse[0]['nome']; ?>
+						</h2-->
 					</div>
 				</div>
 			</div>
