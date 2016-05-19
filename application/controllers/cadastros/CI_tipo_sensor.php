@@ -8,6 +8,7 @@ class CI_tipo_sensor extends CI_controller {
 		$this->load->model('M_geral');
 		$this->load->model('M_configuracoes');
 		$this->load->model('M_tipo_sensor');
+		$this->load->model('M_usuario');
 		$this->M_geral->verificaSessao();
 		if ($this->session->userdata('usuario_id') != 0 && $this->session->userdata('usuario_id') != ""){
 				$this->dados['isLoged'] = true;

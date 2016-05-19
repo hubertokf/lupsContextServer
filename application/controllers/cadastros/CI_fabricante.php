@@ -6,6 +6,7 @@
 			
 		$this->load->model('M_geral');
 		$this->load->model('M_configuracoes');
+		$this->load->model('M_usuario');
 			$this->load->model('M_fabricante');
 			$this->M_geral->verificaSessao();
 			if ($this->session->userdata('usuario_id') != 0 && $this->session->userdata('usuario_id') != ""){

@@ -10,6 +10,7 @@ class CI_regras extends CI_controller {
 		$this->load->model('M_configuracoes');
 		$this->load->model('M_regras');
 		$this->load->model('M_relcontextointeresse');
+		$this->load->model('M_usuario');
 		$this->load->model('M_contextointeresse');
 		$this->load->model('M_sensor');
 		$this->M_geral->verificaSessao();

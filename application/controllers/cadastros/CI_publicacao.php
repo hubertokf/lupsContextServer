@@ -10,6 +10,7 @@ class CI_publicacao extends CI_controller {
 		$this->load->model('M_servidorborda');
 		$this->load->model('M_sensor');
 		$this->load->model('M_publicacao');
+		$this->load->model('M_usuario');
 		$this->M_geral->verificaSessao();
 		if ($this->session->userdata('usuario_id') != 0 && $this->session->userdata('usuario_id') != ""){
 				$this->dados['isLoged'] = true;

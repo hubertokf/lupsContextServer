@@ -8,6 +8,7 @@ class CI_servidorborda extends CI_controller {
 		$this->load->model('M_geral');
 		$this->load->model('M_configuracoes');
 		$this->load->model('M_servidorborda');
+		$this->load->model('M_usuario');
 		$this->load->model('M_servidorcontexto');
 		$this->M_geral->verificaSessao();
 		if ($this->session->userdata('usuario_id') != 0 && $this->session->userdata('usuario_id') != ""){

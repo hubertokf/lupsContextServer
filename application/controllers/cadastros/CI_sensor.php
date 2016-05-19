@@ -8,6 +8,7 @@ class CI_sensor extends CI_controller {
 		$this->load->model('M_geral');
 		$this->load->model('M_configuracoes');
 		$this->load->model('M_sensor');
+		$this->load->model('M_usuario');
 		$this->load->model('M_fabricante');
 		$this->load->model('M_tipo_sensor');
 		$this->load->model('M_ambiente');

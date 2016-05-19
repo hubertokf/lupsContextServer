@@ -11,6 +11,7 @@ class CI_contextointeresse extends CI_controller {
 		$this->load->model('M_relcontextointeresse');
 		$this->load->model('M_servidorcontexto');
 		$this->load->model('M_sensor');
+		$this->load->model('M_usuario');
 		$this->load->model('M_regras');
 		$this->M_geral->verificaSessao();
 		if ($this->session->userdata('usuario_id') != 0 && $this->session->userdata('usuario_id') != ""){
