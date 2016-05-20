@@ -4,7 +4,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="credits">
-					<p>© EXEHDA</p>
+					<p>© plenUS - Embrapa Clima Temperado</p>
 	            </div>					
 			</div><!-- /.row -->
 		</div>			
