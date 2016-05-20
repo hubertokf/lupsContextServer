@@ -146,49 +146,66 @@ $(document).ready(function(){
 					$('#perm_registro').html('');
 					$('#perm_registro').empty()
 					$("#perm_registro").append('<option value="" selected="" disabled="">Selecione</option>');
-					var listPerm = jQuery.parseJSON($("#listPerm").val());
+					if ($("#listPerm").val() != null)
+						var listPerm = jQuery.parseJSON($("#listPerm").val());
 					$.each(data, function(key,val) {
 						var tempb = false;
-						if (type_id == 1){
-							$.each(listPerm, function(i, v) {
-							    if (v.ambiente_id == val.ambiente_id) {
-									tempb = true;
-							        return;
-							    }
-							});
-							if (!tempb)
+						if ($("#listPerm").val() != null){
+							if (type_id == 1){
+								$.each(listPerm, function(i, v) {
+								    if (v.ambiente_id == val.ambiente_id) {
+										tempb = true;
+								        return;
+								    }
+								});
+								if (!tempb)
+									$("#perm_registro").append('<option value="'+val.ambiente_id+'">'+val.nome+'</option>');
+							}
+							if (type_id == 2){
+								$.each(listPerm, function(i, v) {
+								    if (v.contextointeresse_id == val.contextointeresse_id) {
+										tempb = true;
+								        return;
+								    }
+								});
+								if (!tempb)
+									$("#perm_registro").append('<option value="'+val.contextointeresse_id+'">'+val.nome+'</option>');
+
+							}
+							if (type_id == 3){
+								$.each(listPerm, function(i, v) {
+								    if (v.regra_id != val.regra_id) {
+										tempb = true;
+								        return;
+								    }
+								});
+								if (!tempb)
+									$("#perm_registro").append('<option value="'+val.regra_id+'">'+val.nome+'</option>');
+							}
+							if (type_id == 4){
+								$.each(listPerm, function(i, v) {
+								    if (v.sensor_id != val.sensor_id) {
+										tempb = true;
+								        return;
+								    }
+								});
+								if (!tempb)
+									$("#perm_registro").append('<option value="'+val.sensor_id+'">'+val.nome+'</option>');						
+							}
+						}else{
+							if (type_id == 1){
 								$("#perm_registro").append('<option value="'+val.ambiente_id+'">'+val.nome+'</option>');
-						}
-						if (type_id == 2){
-							$.each(listPerm, function(i, v) {
-							    if (v.contextointeresse_id == val.contextointeresse_id) {
-									tempb = true;
-							        return;
-							    }
-							});
-							if (!tempb)
+							}
+							if (type_id == 2){
 								$("#perm_registro").append('<option value="'+val.contextointeresse_id+'">'+val.nome+'</option>');
 
-						}
-						if (type_id == 3){
-							$.each(listPerm, function(i, v) {
-							    if (v.regra_id != val.regra_id) {
-									tempb = true;
-							        return;
-							    }
-							});
-							if (!tempb)
+							}
+							if (type_id == 3){
 								$("#perm_registro").append('<option value="'+val.regra_id+'">'+val.nome+'</option>');
-						}
-						if (type_id == 4){
-							$.each(listPerm, function(i, v) {
-							    if (v.sensor_id != val.sensor_id) {
-									tempb = true;
-							        return;
-							    }
-							});
-							if (!tempb)
-								$("#perm_registro").append('<option value="'+val.sensor_id+'">'+val.nome+'</option>');						
+							}
+							if (type_id == 4){
+								$("#perm_registro").append('<option value="'+val.sensor_id+'">'+val.nome+'</option>');
+							}
 						}
 					});
 				}

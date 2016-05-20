@@ -25,6 +25,8 @@ class M_regras extends CI_Model {
 	        }else{
 	        	$this->db->select('r.*');
 
+	            $this->db->select('p.podeeditar as podeeditar');
+
 	            // $this->db->select('ci.nome as contextointeresse_nome');
 	            // $this->db->select('s.nome as sensor_nome');
 	            

@@ -19,6 +19,7 @@ class M_contextointeresse extends CI_Model {
 	        }else{
 	        	$this->db->select('ci.*');
 	        	$this->db->select('r.nome as regra_nome');
+	            $this->db->select('p.podeeditar as podeeditar');
 	            
 	            $this->db->from('contextointeresse as ci');
 
@@ -33,14 +34,14 @@ class M_contextointeresse extends CI_Model {
             $query = $this->db->get()->result_array();
 			// Query #2
 
-			$this->db->select('ci.*');	            
+			/*$this->db->select('ci.*');	            
             $this->db->from('contextointeresse as ci');
             $this->db->where(array('publico' => 'TRUE'));
 			$query2 = $this->db->get()->result_array();
 
 			// Merge both query results
 
-			$query = array_unique(array_merge($query, $query2), SORT_REGULAR);
+			$query = array_unique(array_merge($query, $query2), SORT_REGULAR);*/
 
 			$result = array();
 			foreach($query as $arr){

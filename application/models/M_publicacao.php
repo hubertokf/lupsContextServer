@@ -7,19 +7,38 @@
 		private $publicacao_datapublicacao;
 		private $publicacao_valorcoletado;
 
-	    function pesquisar($select='', $where=array(), $limit=10, $offset=0, $orderby='publicacao_id', $ordem='asc') {
-	        $this->db->select('publicacao.*');
+	    function pesquisar($select='', $where=array(), $limit=10, $offset=0, $orderby='publicacao_id', $ordem='asc', $perm=FALSE) {
+	    	if ($perm == FALSE){
+		        $this->db->select('pu.*');
 
-			$this->db->select('b.nome as servidorborda_nome');
-			$this->db->select('s.nome as sensor_nome');
-			$this->db->select('ts.unidade as tiposensor_unidade');			
+				$this->db->select('b.nome as servidorborda_nome');
+				$this->db->select('s.nome as sensor_nome');
+				$this->db->select('ts.unidade as tiposensor_unidade');			
 
-	        $this->db->from('publicacao');
+		        $this->db->from('publicacao as pu');
 
-			$this->db->join('servidorborda as b', 'publicacao.servidorborda_id = b.servidorborda_id', 'left');
-			$this->db->join('sensor as s','publicacao.sensor_id = s.sensor_id', 'left');
-			$this->db->join('tiposensor as ts','s.tiposensor_id = ts.tiposensor_id', 'left');
+				$this->db->join('servidorborda as b', 'pu.servidorborda_id = b.servidorborda_id', 'left');
+				$this->db->join('sensor as s','pu.sensor_id = s.sensor_id', 'left');
+				$this->db->join('tiposensor as ts','s.tiposensor_id = ts.tiposensor_id', 'left');
+		    }else{
+		    	$this->db->select('pu.*');
 
+				$this->db->select('b.nome as servidorborda_nome');
+				$this->db->select('s.nome as sensor_nome');
+				$this->db->select('ts.unidade as tiposensor_unidade');
+	            $this->db->select('p.podeeditar as podeeditar');
+
+		        $this->db->from('publicacao as pu');
+
+				$this->db->join('servidorborda as b', 'pu.servidorborda_id = b.servidorborda_id', 'left');
+				$this->db->join('sensor as s','pu.sensor_id = s.sensor_id', 'left');
+
+	            $this->db->join('relcontextointeresse as rci', 'rci.sensor_id = s.sensor_id');
+	            $this->db->join('permissoes as p', 'rci.contextointeresse_id = p.contextointeresse_id', 'inner');
+
+				$this->db->join('tiposensor as ts','s.tiposensor_id = ts.tiposensor_id', 'left');
+		    }
+		    
 	        $this->db->where($where);
 	        $this->db->order_by($orderby,$ordem);
 	   	    $this->db->limit($limit, $offset);
@@ -109,9 +128,27 @@
 	        	return false;
 		}
 	
-	    function numeroLinhasTotais($select='', $where=array()) {
-	    	$this->db->where($where);
-	        $this->db->from('publicacao');
+	    function numeroLinhasTotais($select='', $where=array(), $perm=FALSE) {
+	    	if ($perm == FALSE){
+		        $this->db->from('publicacao as pu');
+
+				$this->db->join('servidorborda as b', 'pu.servidorborda_id = b.servidorborda_id', 'left');
+				$this->db->join('sensor as s','pu.sensor_id = s.sensor_id', 'left');
+				$this->db->join('tiposensor as ts','s.tiposensor_id = ts.tiposensor_id', 'left');
+		    }else{
+		        $this->db->from('publicacao as pu');
+
+				$this->db->join('servidorborda as b', 'pu.servidorborda_id = b.servidorborda_id', 'left');
+				$this->db->join('sensor as s','pu.sensor_id = s.sensor_id', 'left');
+
+	            $this->db->join('relcontextointeresse as rci', 'rci.sensor_id = s.sensor_id');
+	            $this->db->join('permissoes as p', 'rci.contextointeresse_id = p.contextointeresse_id', 'inner');
+
+				$this->db->join('tiposensor as ts','s.tiposensor_id = ts.tiposensor_id', 'left');
+		    }
+		    
+	        $this->db->where($where);
+
 	        return $this->db->count_all_results();
 	    }
 

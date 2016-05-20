@@ -13,6 +13,7 @@ class M_ambiente extends CI_Model{
 
 	        }else{
 	        	$this->db->select('a.*');
+	            $this->db->select('p.podeeditar as podeeditar');
 
 	            $this->db->from('ambiente as a');
 

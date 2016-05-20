@@ -31,9 +31,17 @@ class CI_publicacao extends CI_controller {
 	
 	function pesquisa($nr_pagina=20 ){
 		$this->dados["metodo"] = "pesquisa";
-		$this->dados["linhas"] = $this->M_publicacao->pesquisar('', array(), $nr_pagina, $this->uri->segment(5));
+		if ($this->session->userdata('perfilusuario_id') == 2)
+			$this->dados["linhas"] = $this->M_publicacao->pesquisar('', array(), $nr_pagina, $this->uri->segment(5));
+		else
+			$this->dados["linhas"] = $this->M_publicacao->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5), 'publicacao_id', 'asc', TRUE);
 		$this->dados["nr_pagina"] = $nr_pagina;
-		$this->dados["total"] = $this->M_publicacao->numeroLinhasTotais();
+
+		if ($this->session->userdata('perfilusuario_id') == 2)
+			$this->dados["total"] = $this->M_publicacao->numeroLinhasTotais();
+		else
+			$this->dados["total"] = $this->M_publicacao->numeroLinhasTotais('',array("p.usuario_id"=>$this->session->userdata('usuario_id')), TRUE);
+
 		$this->dados["tituloPesquisa"] = "Publicações Cadastradas";
 		$pag['base_url'] = base_url."index.php/".$this->dados["caminho"]."/".$this->dados["metodo"]."/".$nr_pagina."/";
 		$pag['total_rows'] = $this->dados["total"];

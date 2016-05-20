@@ -52,6 +52,7 @@ class M_sensor extends CI_Model{
 	            $this->db->select('e.nome as ambiente_nome');
 	            $this->db->select('g.nome as gateway_nome');
 	            $this->db->select('b.nome as servidorborda_nome');
+	            $this->db->select('p.podeeditar as podeeditar');
 	            
 	            $this->db->from('sensor as s');
 

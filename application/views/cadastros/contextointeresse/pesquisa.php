@@ -33,11 +33,12 @@
 							echo "<td>".$linha['regra_nome']."</td>";
 						else
 							echo "<td></td>";
-						echo "	
-								<td class='buttons-row'>
-									<a class='botaoEditar' id='edit-".$linha['contextointeresse_id']."' href='javascript:;' alt='Editar Registro' title='Editar Registro'><i class='fa fa-pencil-square-o fa-2x'></i></a>
-									<a class='botaoExcluir' id='del-".$linha['contextointeresse_id']."' href='javascript:;' alt='Excluir Registro' title='Excluir Registro'><i class='fa fa-times fa-2x'></i></a>
-								</td>
+						echo "<td class='buttons-row'>";
+
+						if ($this->session->userdata('perfilusuario_id') == 2 || $linha['podeeditar'] == "t")
+							echo "<a class='botaoEditar' id='edit-".$linha['contextointeresse_id']."' href='javascript:;' alt='Editar Registro' title='Editar Registro'><i class='fa fa-pencil-square-o fa-2x'></i></a>
+							<a class='botaoExcluir' id='del-".$linha['contextointeresse_id']."' href='javascript:;' alt='Excluir Registro' title='Excluir Registro'><i class='fa fa-times fa-2x'></i></a>";
+						echo "</td>
 							</tr>
 						";	
 					}
