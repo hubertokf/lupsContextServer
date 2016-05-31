@@ -1,3 +1,9 @@
+
+asdfasdf
+
+
+
+
 SELECT sensor_id
 FROM relcontextointeresse AS rci
 
