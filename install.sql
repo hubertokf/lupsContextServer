@@ -16,6 +16,31 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: KEYS; Type: TABLE; Schema: public; Owner: huberto; Tablespace: 
+--
+
+CREATE SEQUENCE keys_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER TABLE public.keys_id_seq OWNER TO postgres;
+
+CREATE TABLE keys (
+    id integer DEFAULT nextval('keys_id_seq'::regclass) NOT NULL,
+    key character varying NOT NULL,
+    level integer NOT NULL,
+    ignore_limits integer NOT NULL DEFAULT 0,
+    date_created integer NOT NULL,
+    PRIMARY KEY (id)
+);
+
+
+ALTER TABLE public.keys OWNER TO postgres;
+
+--
 -- Name: agendamento; Type: TABLE; Schema: public; Owner: huberto; Tablespace: 
 --
 
