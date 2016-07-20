@@ -4,7 +4,7 @@
 
 <section class="tabelas">
 	<div class="container">
-		<form class="formLista" method="post" name="lista" action="./CI_sensor">
+		<form class="formLista" method="post" name="lista" action=".">
 			<input class="item-selected" type="hidden" name="item" id="item" value="">
 			<div class="row">
 				<div class="col-xs-2">
