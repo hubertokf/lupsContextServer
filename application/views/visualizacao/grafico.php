@@ -11,7 +11,13 @@
 				</div>
 			</div>
 		</div>
-		<?php } ?>
+		<?php } 
+		// pegar a diferença de timezone para o brasil. GMT-3 <-
+		$dateTimeZone = new DateTimeZone("America/Sao_Paulo");
+		$dateTime = new DateTime("now", $dateTimeZone);
+		$timeOffset = $dateTimeZone->getOffset($dateTime)/60/60;
+
+		?>
 
 
 		<div class="row">
@@ -25,6 +31,7 @@
 				var maxvalue = Number.NEGATIVE_INFINITY;
 				var tmp;
 				var data = <?php echo $serie; ?>;
+				console.log(data);
 				for (var i=data.length-1; i>=0; i--) {
 				    tmp = data[i].minvalue;
 				    tmp2 = data[i].maxvalue;
@@ -33,7 +40,7 @@
 				}
 				Highcharts.setOptions({
 			        global: {
-			            timezoneOffset: 2 * 60
+			            timezoneOffset: <?php echo $timeOffset; ?> * 60
 			        }
 			    });
 				

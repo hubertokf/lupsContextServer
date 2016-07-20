@@ -106,7 +106,14 @@
 				$this->dados["contextointeresse"] = $this->M_contextointeresse->selecionarCI($_SESSION['contextointeresse']);
 
 				foreach ($_POST['sensor'] as $key => $value) {
-					$this->dados["publicacoes"][] = $this->M_publicacao->selBySensorID($value)->result_array();
+
+					$pub = $this->M_publicacao->selBySensorID($value)->result_array();
+					for ($i=0; $i < sizeof($pub); $i++) {
+						$date = new DateTime($pub[$i]["datacoleta"]);
+						$pub[$i]["datacoleta"] = $date->format('Y-m-d H:i');
+					}
+					$this->dados["publicacoes"][] = $pub;
+
 					$sensor_temp = $this->M_sensor->selecionar($value)->result_array();
 
 					$this->dados["sensor"][] = $sensor_temp[0];
