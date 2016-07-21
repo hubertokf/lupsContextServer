@@ -15,7 +15,7 @@
 		// pegar a diferença de timezone para o brasil. GMT-3 <-
 		$dateTimeZone = new DateTimeZone("America/Sao_Paulo");
 		$dateTime = new DateTime("now", $dateTimeZone);
-		$timeOffset = $dateTimeZone->getOffset($dateTime)/60/60;
+		$timeOffset = (($dateTimeZone->getOffset($dateTime)*-1)/60)-60;
 
 		?>
 
@@ -40,7 +40,7 @@
 				}
 				Highcharts.setOptions({
 			        global: {
-			            timezoneOffset: <?php echo $timeOffset; ?> * 60
+			            timezoneOffset: <?php echo $timeOffset; ?>
 			        }
 			    });
 				
