@@ -80,7 +80,7 @@
                 </div>
             </div>
             <div class="out-content row">
-                <div class="col-sm-12" style="height: 110px;">
+                <div class="col-sm-9" style="height: 110px;">
                 	<div class="content" style="text-align:right;">
                 		<a href="<?php echo base_url(); ?>index.php/CI_visualizacao">
 	                        <h1 id="title"><?php echo $this->dados['title']; ?></h1>
@@ -88,7 +88,7 @@
                 	</div>
                 </div>                    
                 
-                <!--div class="col-sm-2" >
+                <div class="col-sm-3" >
                     <div class="logo" style="text-align: center;">
                         <?php
                         if (isset($this->M_configuracoes->selByUser($usuario_id)->result_array()[0]["img_projeto"]))
@@ -99,7 +99,7 @@
                         <img src="<?php echo base_url()?>uploads/<?php echo $file?>" />
                         
                     </div>
-                </div-->                    
+                </div>                 
             </div>
         </div>
     </section>

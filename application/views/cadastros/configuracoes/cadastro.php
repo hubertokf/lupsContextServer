@@ -50,6 +50,17 @@
                         </div>
 
                         <div class="row">
+                            <div class="col-xs-10 col-xs-offset-1 input">
+                                <label for="img_projeto">Imagem de projeto:</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-10 col-xs-offset-1 input">
+                                <input type="file" id="fileuploader" name="img_projeto" size="30" />
+                            </div>
+                        </div>
+
+                        <div class="row">
                             <div class="col-xs-10 col-xs-offset-1">
                                 <div class="erro-login-msg">
                                     <?php echo validation_errors(); ?>
