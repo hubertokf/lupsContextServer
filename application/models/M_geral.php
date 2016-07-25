@@ -83,7 +83,7 @@
 	                    echo '<ul>';
 	                }
 					
-					if ($value['caminho'] === NULL) {
+					if ($value['caminho'] == NULL || $value['caminho'] == "") {
 		                echo '<li><a href="javascript:;"  title="">' .$value['name'] . '</a>';
 					} else {
 		                echo '<li><a href="'.base_url().'index.php/'.$value['caminho'].'"  title="">' . $value['name'] . '</a>';						
