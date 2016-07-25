@@ -81,7 +81,7 @@
             </div>
             <div class="out-content row">
                 <div class="col-sm-9" style="height: 110px;">
-                	<div class="content" style="text-align:right;">
+                	<div class="content" style="text-align:left;">
                 		<a href="<?php echo base_url(); ?>index.php/CI_visualizacao">
 	                        <h1 id="title"><?php echo $this->dados['title']; ?></h1>
 	                    </a>                   		
