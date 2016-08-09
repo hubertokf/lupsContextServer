@@ -12,9 +12,9 @@
     				<li>
     					<a href="<?php echo base_url(); ?>index.php/CI_visualizacao/grafico">Gráfico</a>
     				</li>
-    				<!--li>
+    				<li>
     					<a href="<?php echo base_url(); ?>index.php/CI_visualizacao/busca">Busca</a>
-    				</li-->
+    				</li>
                     <li>
                         <a href="<?php echo base_url(); ?>index.php/CI_visualizacao/comparar">Comparar</a>
                     </li>

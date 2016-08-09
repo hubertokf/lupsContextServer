@@ -7,7 +7,7 @@
 		private $publicacao_datapublicacao;
 		private $publicacao_valorcoletado;
 
-	    function pesquisar($select='', $where=array(), $limit=10, $offset=0, $orderby='publicacao_id', $ordem='asc', $perm=FALSE) {
+	    function pesquisar($select='', $where=array(), $limit=10, $offset=0, $orderby='publicacao_id', $ordem='asc', $perm=FALSE, $whereOR=array()) {
 	    	if ($perm == FALSE){
 		        $this->db->select('pu.*');
 
@@ -35,11 +35,13 @@
 
 	            $this->db->join('relcontextointeresse as rci', 'rci.sensor_id = s.sensor_id');
 	            $this->db->join('permissoes as p', 'rci.contextointeresse_id = p.contextointeresse_id', 'inner');
+	            $this->db->join('contextointeresse as ci', 'ci.contextointeresse_id = rci.contextointeresse_id');
 
 				$this->db->join('tiposensor as ts','s.tiposensor_id = ts.tiposensor_id', 'left');
 		    }
 		    
 	        $this->db->where($where);
+	        $this->db->or_where($whereOR);
 	        $this->db->order_by($orderby,$ordem);
 	   	    $this->db->limit($limit, $offset);
 

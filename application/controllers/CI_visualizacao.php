@@ -216,10 +216,119 @@
 			$this->dados["contextointeresse"] = $this->M_contextointeresse->selecionarCI($_SESSION['contextointeresse']);
 			$this->dados["sensor"] = $this->M_sensor->selecionar($_SESSION['sensor'])->result_array();
 
+			if ($this->session->userdata('usuario_id') != null){
+				if ($this->session->userdata('perfilusuario_id') == 2){
+					$this->dados["sensores"] = $this->M_sensor->pesquisar('', array(), 10000, 0, 'asc', FALSE);
+				}
+				else
+					$this->dados["sensores"] = $this->M_sensor->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 10000, 0, 'asc', TRUE);
+			}else{
+				$this->dados["sensores"] = $this->M_sensor->pesquisar('', array('ci.publico' => 'TRUE'), 10000, 0, 'asc', FALSE);	
+			}
+
 			$this->load->view('inc/topo',$this->dados);
 			$this->load->view('inc/menu_vis');
 			$this->load->view('visualizacao/busca');
 			$this->load->view('inc/rodape');
+		}
+
+		function getResults($where, $whereOR){
+			/*$fullSearch = "SELECT * FROM (SELECT contexto_dthr, to_char(contexto_dthr,'DD/MM/YYYY') 
+				as data,to_char(contexto_dthr,'HH24:MI') as horario, sensor_vlr_flt, sensor_public.sensor_public_id, sensor_observacao
+			FROM publicacoes
+			inner join sensor_public on publicacoes.sensor_public_id = sensor_public.sensor_public_id " . $where . "
+			 ORDER BY contexto_dthr ASC) AS A" ;*/
+
+			if ($this->session->userdata('perfilusuario_id') == 2)
+				$dados = $this->M_publicacao->pesquisar('', $where, 100000, 0, "datacoleta", 'asc', FALSE, $whereOR);
+			else{
+				if ($this->session->userdata('usuario_id') != null)
+					$dados = $this->M_publicacao->pesquisar('', array_merge($where, array('p.usuario_id' => $this->session->userdata('usuario_id'))), 100000, 0, 'datacoleta', 'asc', TRUE, $whereOR);
+				else
+					$dados = $this->M_publicacao->pesquisar('', array_merge($where, array('ci.publico' => true)), 100000, 0, 'datacoleta', 'asc', TRUE, $whereOR);
+
+			}
+	   	    //echo $this->db->last_query();
+	   	    $dados = $dados->result_array();
+			//print "<pre>";
+			//print_r($dados->result_array());
+			//print "</pre>";
+			$table=	'[["SensorId","DataCompleta","Medicao"],';
+			$total = count($dados);
+			$i=0;
+			$totalMedicao=0;
+			$media=0;
+			$desvioPadrao=0;
+			if($total != 0 ){
+				foreach ($dados as $dado) {
+					//print_r($dado);
+					$myvar = $dado['valorcoletado'];
+					$tmp = strlen($myvar);
+					$strObs = (string)$dado['valorcoletado'];
+
+					$fltObs = (float)$strObs;
+
+					$table .= '["'.$dado['sensor_id'].'","'.$dado['datacoleta'].'","'.$dado['valorcoletado'].'"]';
+					$i++;
+
+					if($i!=$total)
+					{
+						$table .=',';
+					}
+				}
+				$table.=']';
+				return $table;
+			}else
+				return '';
+		}
+
+		function buscaTeste(){
+			//['data','valor','sensorId','sensorNome','hora']
+			if($_POST['filtro']!=''){
+				$filtroPost = $_POST['filtro'];
+
+				$json=json_decode($filtroPost);
+
+				if(json_last_error()==JSON_ERROR_NONE){
+
+					$where = array(
+						"datacoleta >=" => $json->dataInicial,
+						"datacoleta <=" => $json->dataFinal
+						);
+
+					$whereOR = array();
+
+					//$query="where  ( contexto_dthr >= TO_TIMESTAMP('".$json->dataInicial." ".$json->horaInicial.":00', 'DD/MM/YYYY HH24:MI:SS') AND contexto_dthr <= TO_TIMESTAMP('".$json->dataFinal." ".$json->horaFinal.":59', 		'DD/MM/YYYY HH24:MI:SS')	 		) AND ( (";
+																																											
+					$sensorId='';
+					
+					foreach($json->filtros as $filter){
+						$subQuery='';
+						switch($filter->conectorEOU){
+							case 'AND':
+								$arrayT = array("sensor_id" => $filter->sensorId);
+								array_merge($where, $arrayT);
+								break;
+							case 'OR':
+								$arrayT = array("sensor_id" => $filter->sensorId);
+								array_merge($whereOR, $arrayT);
+								break;
+							default:
+							
+								break;
+							
+						}
+						if($filter->operacaoLogica!='all'){
+							$arrayT = array("valorcoletado ".$filter->operacaoLogica => $filter->valor);
+							array_merge($where, $arrayT);
+						}
+						
+					}
+					print_r(json_encode($this->getResults($where, $whereOR)));
+				}else
+					echo 'ERR1';
+				
+			}
 		}
 	}
 ?>

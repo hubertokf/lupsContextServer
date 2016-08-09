@@ -12,6 +12,7 @@ $(document).ready(function(){
 	});
 
 	$('.timemask').mask('00:00:00');
+	$('.datemask').mask('00/00/0000');
 
 	$(".removeSensortoCI").click(function () {
 	    var selectedItem = $(".sensorsInCI option:selected");
@@ -41,6 +42,275 @@ $(document).ready(function(){
 	      	$(this).parent().parent().remove();        
     	});
   	});
+
+  	$('.btsubmitrules').click(function(e){
+		e.preventDefault();
+
+		if(ValidateFields()){
+			var filtros='';
+			var dadosPost;
+			var dataInicial=$('#dataInicial').val();
+			var dataFinal=$('#dataFinal').val();
+
+			var qtdFiltros=0;
+			var totalFiltros = $('.rules li').length;
+
+			$('.rules li').each(function(){
+			    var conectorEOU="";
+			    var sensorId=$(this).find(".sensoresFiltros").val();
+			    var operacaoLogica=$(this).find(".operacaoLogica").val();
+			    var operacaoLogicaValue=$(this).find(".operacaoLogicaValue").val();
+
+			    if(operacaoLogicaValue=='')
+					operacaoLogicaValue=0;
+			    if(qtdFiltros!=0)
+					conectorEOU = $(this).find(".conectorEOU").val();
+
+			    var dadoTemp='{"conectorEOU":"'+conectorEOU+'","sensorId":'+sensorId+',"operacaoLogica":"'+operacaoLogica+'","valor":'+operacaoLogicaValue+'}';
+			    qtdFiltros++;
+			    filtros +=dadoTemp;
+			    if(qtdFiltros!=totalFiltros)
+					filtros+=",";
+		  	});
+
+			dadosPost = '{"dataInicial":"'+dataInicial+'","dataFinal":"'+dataFinal+'", "filtros": ['+filtros+']}';
+			if(ValidateFields()){
+		    	jQuery.ajax({
+					url: window.base_url+'index.php?/CI_visualizacao/buscaTeste',
+					type: 'POST',
+					data: {filtro: dadosPost},
+					dataType: "html",
+		      		
+		      		success: function(result){
+		        		if(result==''){
+							$('#resultado').empty();
+
+							$('#resultDataTable').empty();
+		          
+							alert('Sem resultados');
+						}else{
+							dataTable=eval("(" + result + ")");
+							//console.log(dataTable);
+							CarregarTabelas(dataTable);
+		        		}
+		      		}
+		    	});
+			}
+		}
+	});
+
+	function CarregarTabelas(dataTable){
+		$('#resultado-table').empty();
+		$.each(jQuery.parseJSON(dataTable), function(key, value) {
+			if(key==0){
+				$('#resultado-table').append("<thead><tr><th>"+value[0]+"</th><th>"+value[1]+"</th><th>"+value[2]+"</th></tr></thead>");
+				$('#resultado-table').append("<tfoot><tr><th>"+value[0]+"</th><th>"+value[1]+"</th><th>"+value[2]+"</th></tr></tfoot>");
+				$('#resultado-table').append("<tbody></tbody>");
+			}else
+				$('#resultado-table tbody').append("<tr><td>"+value[0]+"</td><td>"+value[1]+"</td><td>"+value[2]+"</td></tr>");
+		});
+
+		$('#resultado-table').DataTable( {
+	        "language": {
+	        	"decimal":        "",
+			    "emptyTable":     "Nenhum registro disponível na tabela",
+			    "info":           "Mostrando de _START_ a _END_ de _TOTAL_ registros",
+			    "infoEmpty":      "Nenhum registro disponível",
+			    "infoFiltered":   "(Filtrado de _MAX_ registros totais)",
+			    "infoPostFix":    "",
+			    "thousands":      ",",
+			    "lengthMenu":     "Mostrando _MENU_ registros por página",
+			    "loadingRecords": "Carregando...",
+			    "processing":     "Processando...",
+			    "search":         "Busca:",
+			    "zeroRecords":    "Nenhum registro encontrado",
+			    "paginate": {
+			        "first":      "Primeiro",
+			        "last":       "Último",
+			        "next":       "Próximo",
+			        "previous":   "Anterior"
+			    },
+			    "aria": {
+			        "sortAscending":  ": ative para ordenar em ordem crescente",
+			        "sortDescending": ": ative para ordenar em ordem decrescente"
+			    }
+	        }
+	    });
+		/*$dt = new google.visualization.arrayToDataTable(dataTable);
+		var dataView1 = new google.visualization.DataView($dt);
+		dataView1.setColumns([2,3,6,5]);
+
+		var wrapper = new google.visualization.ChartWrapper({
+			chartType: 'Table',
+			dataTable: dataView1,
+			options: {'title': 'Resultados da busca','page':'enable','pageSize':20,'startPage':0,'showRowNumber':true},
+
+			containerId: 'resultDataTable'
+		});
+
+		wrapper.draw();
+		$('#resultado').empty();
+
+		$('#resultado').append("<div id='groupSensor'></div>");
+		var ocorrenciasTable = google.visualization.data.group($dt,[5],[{'column': 3, 'aggregation': google.visualization.data.count, 'type': 'number', 'label':'Ocorrências'},
+				{'column': 4, 'aggregation': MediaNova, 'type': 'number', 'label':'Média'},
+				{'column': 4, 'aggregation': desvioPadrao, 'type': 'number', 'label':'Desvio Padrão'}]);
+
+		var wrapperGroup = new google.visualization.ChartWrapper({
+			chartType: 'Table',
+			dataTable: ocorrenciasTable,
+			options: {'title': 'Resultados por Contexto'},
+			containerId: 'groupSensor'
+		});
+
+		wrapperGroup.draw();
+
+		if(ocorrenciasTable.getNumberOfRows()>1){
+			$('#resultado').append("<br/><b>Ocorrências Múltiplas: </b><br/><div id='divOcorrenciasMultiplas'></div>");
+			var dtgp = google.visualization.data.group(  $dt,  [2,3],  [{'column': 4, 'aggregation': google.visualization.data.count, 
+			'type': 'number','label':   'Ocorrências'},
+			{'column': 5, 'aggregation': ReturnContexts, 'type': 'string','label':'Contextos'}]);
+			var view = new google.visualization.DataView(dtgp);
+			view.setRows(view.getFilteredRows([{column: 2, minValue:2}]));
+			view.setColumns([0, 1,3]);
+			new google.visualization.ChartWrapper({
+			      chartType: 'Table',
+			      dataTable: view,
+			      options: {'title': 'Resultados'},
+			      containerId: 'divOcorrenciasMultiplas'}).draw();
+		}
+
+		google.visualization.events.addListener(wrapper, 'ready', function(){
+		editaTabela();
+		$(".thead td").click(editaTabela());
+		});
+		google.visualization.events.addListener(wrapperGroup, 'ready', function(){
+		editaTabela();
+		$(".thead td").click(editaTabela());
+		});*/
+	}
+
+	function ValidateFields(){
+		var ok = true;
+
+		/*if($('#horaInicial').val()!=''){
+			horaInicial= $('#horaInicial').val();
+		}else{
+			$('#horaInicial').val("00:00");
+		}
+		if($('#horaFinal').val()!=''){
+			horaFinal= $('#horaFinal').val();
+		}else{
+			$('#horaFinal').val("23:59");
+		}*/
+
+		$('.ranges .date').each(function(){
+			if ($(this).val() ==''){
+				ok=false;    
+				$(this).addClass('error');
+				$(this).parent().parent().parent().find('label').addClass('error');
+			}else{
+				$(this).removeClass('error');
+				$(this).parent().parent().parent().find('label').removeClass('error');
+				ok=true;
+			}
+		});
+
+		$('.rules .operacaoLogicaValue').each(function(){
+			if ($(this).val() =='' && $(this).is(':enabled')){
+				ok=false;    
+				$(this).addClass('error');
+			}else{
+				$(this).removeClass('error');
+				ok=true; 
+			}
+		});
+
+		$('.rules .sensoresFiltros').each(function(){
+			if ($(this).val() =='' || $(this).val() == null){
+				ok=false;    
+				$(this).addClass('error');
+				$(this).parent().parent().parent().find('label').addClass('error');
+			}else{
+				$(this).removeClass('error');
+				$(this).parent().parent().parent().find('label').removeClass('error');
+				ok=true;
+			}
+		});
+
+		return ok;
+	}
+
+
+	function editaTabela(){
+		$(".google-visualization-table-tr-head").addClass("thead");
+		$(".google-visualization-table-table").find('*').each(function (i, e) {
+			var classList = e.className ? e.className.split(/\s+/) : [];
+			$.each(classList, function (index, item) {
+				if (item.indexOf("google-visualization") === 0) {
+					$(e).removeClass(item);
+				}
+			});
+		});
+
+		$(".gradient").removeClass('gradient');
+		$(".google-visualization-table-table")
+			.removeClass('google-visualization-table-table')
+			.addClass('table table-striped table-hover')
+			.css("width", "");
+	}
+
+	// Input type: Array of any type
+	// Return type: string
+	function ReturnContexts(values) {
+		var ret='';
+		for(i=0;i<values.length;i++){
+			ret += values[i];
+			if((i+1)!=values.length)
+				ret += ", "; 
+			}
+		return ret;
+	}
+
+	// Input type: Array of any type
+	// Return type: number
+	function desvioPadrao(values) {
+		var x = average(values);
+
+		return parseFloat((x.deviation).toFixed(2));
+	}
+
+	// Input type: Array of any type
+	// Return type: number
+	function MediaNova(values) {
+		var x = average(values);
+
+		return parseFloat(x.mean.toFixed(2));
+	}
+
+	function Verifica_Hora(hora){
+		hrs = (hora.substring(0,2));
+		min = (hora.substring(3,5));
+		estado = "";
+
+		if ((hrs < 00 ) || (hrs > 23) || ( min < 00) ||( min > 59)){
+			estado = "errada"; 
+		}
+
+		if (estado == "errada") {
+			return false; 
+		}else
+			return true;
+	}
+
+	average = function(a){
+		var r = {mean: 0, variance: 0, deviation: 0}, t = a.length;
+		for(var m, s = 0, l = t; l--; s += a[l]);
+		for(m = r.mean = s / t, l = t, s = 0; l--; s += Math.pow(a[l] - m, 2));
+		return r.deviation = Math.sqrt(r.variance = s / t), r;
+	}
+
+
 
 	$('#contextointeresse-value').on('change', function() {
 		if (this.value != 0 && this.value != "") {

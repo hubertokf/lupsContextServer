@@ -1,19 +1,3 @@
-<?php
-
-/*$sql = "SELECT sensor_public_id,sensor_observacao FROM sensor_public order by sensor_observacao asc";
-
-foreach ($dados as $dado) {
-	$option .="<option value='" . $dado['sensor_public_id'] . "'>" . $dado['sensor_observacao'] . "</option>";
-}
-
-if ($_GET) {
-    $sensores = Array();
-    $sensores = $_GET['sensores'];
-	$sensor = $sensores[0];
-}*/
-
-?>
-
 <section class="busca container-fluid">
 	<div class="container">
 		<div class="row">
@@ -24,20 +8,12 @@ if ($_GET) {
 			</div>
 		</div>
 		<div class="row ranges">
-			<div class="col-sm-3">
+			<div class="col-sm-offset-3 col-sm-3">
 				<div class="row">
 					<div class="col-xs-12"><label for="dataInicial">Data Inicial</label></div>
 				</div>
 				<div class="row">
-					<div class="col-xs-12"><input type="text" id="dataInicial" class="date"/></div>
-				</div>
-			</div>			
-			<div class="col-sm-3">
-				<div class="row">
-					<div class="col-xs-12"><label for="horaInicial">Hora Inicial</label></div>
-				</div>
-				<div class="row">
-					<div class="col-xs-12"><input type="text" id="horaInicial" class="hora"/></div>
+					<div class="col-xs-12"><input readonly="readonly" type="text" id="dataInicial" class="date"/></div>
 				</div>
 			</div>
 			<div class="col-sm-3">
@@ -45,15 +21,7 @@ if ($_GET) {
 					<div class="col-xs-12"><label for="dataFinal">Data Final</label></div>
 				</div>
 				<div class="row">
-					<div class="col-xs-12"><input type="text" id="dataFinal" class="date"/></div>
-				</div>
-			</div>
-			<div class="col-sm-3">
-				<div class="row">
-					<div class="col-xs-12"><label for="horaFinal">Hora Final</label></div>
-				</div>
-				<div class="row">
-					<div class="col-xs-12"><input id="horaFinal" class="hora"/></div>
+					<div class="col-xs-12"><input readonly="readonly" type="text" id="dataFinal" class="date"/></div>
 				</div>
 			</div>
 		</div>
@@ -62,13 +30,23 @@ if ($_GET) {
 				<ul class="rules">
 					<li class="row">
 						<div class="col-xs-2 col-xs-1 col-sm-offset-1">
-							<label for="sensores">Contexto</label>
+							<label for="sensores">Sensor</label>
 						</div>
 						<div class="col-xs-5 col-sm-4 col-sm-5">
-							<select name="sensores" class="sensoresFiltros">
-			                    <?php
-			                    	echo $option;
-			                    ?>
+		                    <select id="sensoresFiltros" name="sensores" class="sensoresFiltros">
+								<option value="" selected="" disabled="">Selecione</option>
+								<?php
+									$selected = "";
+									foreach ($sensores->result_array() as $s) {
+										/*if(isset($_SESSION['contextointeresse']))
+											if ($ci["contextointeresse_id"]==$_SESSION['contextointeresse']){
+												$selected = "selected";
+											}*/
+										echo '<option value="'.$s['sensor_id'].'" '.$selected.'>'.$s['nome'].'</option>';
+										$selected = "";
+									}
+								?>
+							</select>
 			                </select>
 						</div>
 						<div class="col-xs-3">
@@ -104,7 +82,10 @@ if ($_GET) {
 		</div>
 		<div class="row">
 			<div class="col-xs-12">
-				<div id="resultado"></div>
+				<div id="resultado">
+					<table id="resultado-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+					</table>
+				</div>
 			</div><!-- /.col-xs-12 -->
 		</div><!-- /.row -->
 		<div class="row">

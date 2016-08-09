@@ -130,4 +130,71 @@
             }
         }
     });
-	});
+
+    $('#dataInicial').datetimepicker({
+      dateFormat : "yy-mm-dd",
+        onClose: function(dateText, inst) {
+            var startDateTextBox = $('#dataInicial');
+            if (startDateTextBox.val() != '') {
+                var testStartDate = new Date(startDateTextBox.val());
+                var testEndDate = new Date(dateText);
+                if (testStartDate > testEndDate) {
+                    startDateTextBox.val(dateText);
+              }
+            }
+            else {
+                startDateTextBox.val(dateText);
+            }
+        },
+        onSelect: function (selectedDateTime){
+            var end = $(this).datetimepicker('getDate');
+            var start = $('#dataInicial').val();
+            
+            if (start != "") {
+              var arrStart = start.split(' ');
+              var arrDate = arrStart[0].split('-');
+              var formatedDate = arrDate[1] + '-' + arrDate[0] + '-' + arrDate[2] + ' ' + arrStart[1];
+              var dateStart = new Date(formatedDate);
+      
+              if (start > dateStart) {
+                $('#dataInicial').val(selectedDateTime);
+                $('#dataInicial').datetimepicker('option', 'minDate', new Date(start.getTime()));
+          }
+            }
+        }
+    });
+
+    $('#dataFinal').datetimepicker({
+      dateFormat : "yy-mm-dd",
+        onClose: function(dateText, inst) {
+            var startDateTextBox = $('#dataFinal');
+            if (startDateTextBox.val() != '') {
+                var testStartDate = new Date(startDateTextBox.val());
+                var testEndDate = new Date(dateText);
+                if (testStartDate > testEndDate) {
+                    startDateTextBox.val(dateText);
+              }
+            }
+            else {
+                startDateTextBox.val(dateText);
+            }
+        },
+        onSelect: function (selectedDateTime){
+            var end = $(this).datetimepicker('getDate');
+            var start = $('#dataFinal').val();
+            
+            if (start != "") {
+              var arrStart = start.split(' ');
+              var arrDate = arrStart[0].split('-');
+              var formatedDate = arrDate[1] + '-' + arrDate[0] + '-' + arrDate[2] + ' ' + arrStart[1];
+              var dateStart = new Date(formatedDate);
+      
+              if (start > dateStart) {
+                $('#dataFinal').val(selectedDateTime);
+                $('#dataFinal').datetimepicker('option', 'minDate', new Date(start.getTime()));
+          }
+            }
+        }
+    });
+
+});
