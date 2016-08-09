@@ -13,25 +13,22 @@
 	<link type="text/css" rel="stylesheet"  media="screen" href="<?php echo base_url()?>css/principal.css" />
 	<link type="text/css" rel="stylesheet"  media="screen" href="<?php echo base_url()?>css/extra.css" />
     <link type="text/css" rel="stylesheet"  media="screen" href="<?php echo base_url()?>css/jquery-ui.css">
-    <link type="text/css" rel="stylesheet"  media="screen" href="//cdn.datatables.net/plug-ins/1.10.12/integration/font-awesome/dataTables.fontAwesome.css">
+    <link type="text/css" rel="stylesheet"  media="screen" href="<?php echo base_url()?>css/dataTables.fontAwesome.css">
     
     
     <script type="text/javascript" language="javascript" src="<?php echo base_url()?>js/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" language="javascript" src="<?php echo base_url()?>js/jquery-ui.min.js"></script>
     <script type="text/javascript" language="javascript" src="<?php echo base_url()?>js/chosen.jquery.js"></script>
     <script type="text/javascript" language="javascript" src="<?php echo base_url()?>js/jquery-ui-timepicker-addon.js"></script>
-    <!--script type="text/javascript" language="javascript" src="<?php echo base_url()?>js/masked.js"></script-->
     <script type="text/javascript" language="javascript" src="<?php echo base_url()?>js/calendar.js"></script>
     <script type="text/javascript" language="javascript" src="<?php echo base_url()?>js/bootstrap.min.js"></script>
     <script type="text/javascript" language="javascript" src="<?php echo base_url()?>js/jquery.xdomainajax.js"></script>
     <script type="text/javascript" language="javascript" src="<?php echo base_url()?>js/jquery.numeric.js"></script>
     <script type="text/javascript" language="javascript" src="<?php echo base_url()?>js/jquery.mask.min.js"></script>
-    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript" language="javascript" src="<?php echo base_url()?>js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" language="javascript" src="<?php echo base_url()?>js/dataTables.bootstrap.min.js"></script>
     <script type="text/javascript" language="javascript" src="<?php echo base_url()?>js/highstock/highstock.js"></script>
     <script type="text/javascript" language="javascript" src="<?php echo base_url()?>js/highstock/exporting.js"></script>
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript">google.load('visualization', '1.0', {'packages':['corechart']});</script>
     <script type="text/javascript" language="javascript" src="<?php echo base_url()?>js/helper.js"></script>
     <script>
         window.base_url = <?php echo json_encode(base_url()); ?>;
