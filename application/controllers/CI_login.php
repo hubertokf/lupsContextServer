@@ -73,9 +73,9 @@ class CI_login extends CI_Controller {
 	        			$this->dados["msg"] = "Logado.";
 	        			$countMenu = $this->M_usuario->countUsuarioMenu($usuario_id);
 	        			if ($countMenu > 0) {
-							header("location:".base_url()."index.php/CI_inicio");
+							header("location:".base_url()."CI_inicio");
 	        			}else{
-							header("location:".base_url()."index.php/CI_visualizacao");
+							header("location:".base_url()."CI_visualizacao");
 	        			}
 	        		} else {
 	        			$this->dados["msg"] = '<span class="camposObrigatorios ">Usuário ou senha inválida.</span>';
@@ -134,7 +134,7 @@ class CI_login extends CI_Controller {
 	
 	function deslogar() {
        	$this->session->sess_destroy();
-		header('Location:'.base_url().'index.php/CI_login');
+		header('Location:'.base_url().'CI_login');
 	}
 	
 	function recoverPassword(){

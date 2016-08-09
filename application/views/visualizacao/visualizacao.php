@@ -1,6 +1,6 @@
 <section class="visualizacao">
 	<div class="container">
-		<form id="form" action="<?php echo base_url(); ?>index.php/CI_visualizacao/tabela" class="form-contextointeresse" method="post">
+		<form id="form" action="<?php echo base_url(); ?>CI_visualizacao/tabela" class="form-contextointeresse" method="post">
 			<div class="row">
 				<div class="col-sm-6">
 					<div class="borda">

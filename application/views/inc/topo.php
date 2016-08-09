@@ -52,7 +52,7 @@
                         PLENUS
                     </div>
                     <div class="app <?php if ($this->uri->segment(1) == 'CI_visualizacao' || $this->uri->segment(1) == '') echo 'ativo'; ?>">
-                        <a href="<?php echo base_url(); ?>index.php/CI_visualizacao">Visualizacão</a>
+                        <a href="<?php echo base_url(); ?>CI_visualizacao">Visualizacão</a>
                     </div>
 
                     <?php 
@@ -61,7 +61,7 @@
                     ?>
                         
                     <div class="app <?php if ($this->uri->segment(1) != 'CI_visualizacao') echo 'ativo'; ?>">
-                        <a href="<?php echo base_url(); ?>index.php/CI_inicio">Gerenciamento</a>
+                        <a href="<?php echo base_url(); ?>CI_inicio">Gerenciamento</a>
                     </div>
 
                     <?php } ?>
@@ -69,7 +69,7 @@
                 <div class="session col-xs-4">
                     <?php if ($isLoged == "" || $isLoged == "0"){ ?>
                         <div class="logar">
-                            <a href="<?php echo base_url(); ?>index.php/CI_login" style="padding:0;">Logar-se</a>                           
+                            <a href="<?php echo base_url(); ?>CI_login" style="padding:0;">Logar-se</a>                           
                         </div>
                     <?php } else { ?>
                         <div class="usuariologado">
@@ -77,7 +77,7 @@
                             <?php echo $usuario_logado; ?>
                         </div>
                         <div class="logout">
-                            <a href="<?php echo base_url(); ?>index.php/CI_login/deslogar">Sair</a>
+                            <a href="<?php echo base_url(); ?>CI_login/deslogar">Sair</a>
                         </div>
                     <?php } ?>
                 </div>
@@ -85,7 +85,7 @@
             <div class="out-content row">
                 <div class="col-sm-9" style="height: 110px;">
                 	<div class="content" style="text-align:left;">
-                		<a href="<?php echo base_url(); ?>index.php/CI_visualizacao">
+                		<a href="<?php echo base_url(); ?>CI_visualizacao">
 	                        <h1 id="title"><?php echo $this->dados['title']; ?></h1>
 	                    </a>                   		
                 	</div>

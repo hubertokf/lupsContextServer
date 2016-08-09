@@ -1,6 +1,6 @@
 <section class="login">
 	<div class="container">
-		<form class="formLogin" id="formLogin" name="formLogin" action="<?php echo base_url();?>index.php/CI_login/logar" method="post">
+		<form class="formLogin" id="formLogin" name="formLogin" action="<?php echo base_url();?>CI_login/logar" method="post">
 			<div class="row">
 				<div class="col-sm-4 col-sm-offset-4">
 					<div class="login-box">
@@ -59,7 +59,7 @@
 						<div class="row">
 							<div class="col-md-6 col-md-offset-3">
 								<div class="pass-recover">
-									<a class="btn-recover" href="<?php echo base_url(); ?>index.php/CI_login/recoverPassword" title="Esqueci minha senha">Esqueci minha senha!</a>
+									<a class="btn-recover" href="<?php echo base_url(); ?>CI_login/recoverPassword" title="Esqueci minha senha">Esqueci minha senha!</a>
 								</div>
 							</div>
 						</div>

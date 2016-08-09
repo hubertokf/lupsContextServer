@@ -76,7 +76,7 @@ $(document).ready(function(){
 			dadosPost = '{"dataInicial":"'+dataInicial+'","dataFinal":"'+dataFinal+'", "filtros": ['+filtros+']}';
 			if(ValidateFields()){
 		    	jQuery.ajax({
-					url: window.base_url+'index.php?/CI_visualizacao/buscaTeste',
+					url: window.base_url+'CI_visualizacao/buscaTeste',
 					type: 'POST',
 					data: {filtro: dadosPost},
 					dataType: "html",
@@ -317,7 +317,7 @@ $(document).ready(function(){
 			$.ajax({
 				type:"POST",
 				dataType: 'json',
-				url:window.base_url+"index.php?/CI_visualizacao/getSensoresByCiID",
+				url:window.base_url+"CI_visualizacao/getSensoresByCiID",
 				data: {contextointeresse:$("#contextointeresse-value").val()},
 				success: function(data) {
 					$('#sensor-value').html('');
@@ -336,7 +336,7 @@ $(document).ready(function(){
 			$.ajax({
 				type:"POST",
 				dataType: 'json',
-				url:window.base_url+"index.php/cadastros/CI_gateway/getGatewaysBySBID",
+				url:window.base_url+"cadastros/CI_gateway/getGatewaysBySBID",
 				data: {servidorborda:$("#sensor_servidorborda").val()},
 				success: function(data) {
 					$('#sensor_gateway').html('');
@@ -357,7 +357,7 @@ $(document).ready(function(){
 			$.ajax({
 				type:"POST",
 				dataType: 'json',
-				url:window.base_url+"index.php/cadastros/CI_sensor/getSensoresBySBID",
+				url:window.base_url+"cadastros/CI_sensor/getSensoresBySBID",
 				data: {servidorborda:$("#publicacao_servidorborda").val()},
 				success: function(data) {
 					$('#publicacao_sensor').html('');
@@ -378,7 +378,7 @@ $(document).ready(function(){
 			$.ajax({
 				type:"POST",
 				dataType: 'json',
-				url:window.base_url+"index.php/cadastros/CI_regras/getSensorByRci",
+				url:window.base_url+"cadastros/CI_regras/getSensorByRci",
 				data: {contextointeresse:$("#regra_contextointeresse").val()},
 				success: function(data) {
 					$('#regra_sensor').html('');
@@ -410,7 +410,7 @@ $(document).ready(function(){
 			$.ajax({
 				type:"POST",
 				dataType: 'json',
-				url:window.base_url+"index.php/cadastros/"+type+"/select",
+				url:window.base_url+"cadastros/"+type+"/select",
 				data: {usuario:$("#permissao_usuario").val()},
 				success: function(data) {
 					$('#perm_registro').html('');
@@ -516,7 +516,7 @@ $(document).ready(function(){
 		$('#modalView').on('shown.bs.modal', function (e){
 			$.ajax({
 			  	method: "POST",
-			  	url: window.base_url+"index.php/CI_visualizacao/geraJsonSeries",
+			  	url: window.base_url+"CI_visualizacao/geraJsonSeries",
 			  	crossDomain: true,
 			  	dataType : "json",
                 contentType: "application/x-www-form-urlencoded",
@@ -576,7 +576,7 @@ $(document).ready(function(){
 			var dataItem = $(this).attr("id");
 			var selectedItem = dataItem.split("-",2);	
 			$(form).find(".item-selected").val(selectedItem[1]);	
-			document.lista.action = window.base_url+"index.php/cadastros/CI_permissoes/pesquisa";
+			document.lista.action = window.base_url+"cadastros/CI_permissoes/pesquisa";
 			document.lista.submit();
 		});
 		
@@ -587,7 +587,7 @@ $(document).ready(function(){
 				var dataItem = $(this).attr("id");
 				var selectedItem = dataItem.split("-",2);	
 				$(form).find(".item-selected").val(selectedItem[1]);						  
-				document.lista.action = window.base_url+"index.php/"+ secao +"/excluir";
+				document.lista.action = window.base_url+ secao +"/excluir";
 				document.lista.submit();
 			}	
 		});
@@ -598,7 +598,7 @@ $(document).ready(function(){
 			var dataItem = $(this).attr("id");
 			var selectedItem = dataItem.split("-",2);	
 			$(form).find(".item-selected").val(selectedItem[1]);						  
-			document.lista.action = window.base_url+"index.php/"+ secao +"/editar";
+			document.lista.action = window.base_url+ secao +"/editar";
 			document.lista.submit();
 		});
 
@@ -618,9 +618,9 @@ $(document).ready(function(){
 				$(form).find(".item-selected").val(selectedItem[1]);
 
 				if (status == 'f')				  
-					document.lista.action = window.base_url+"index.php/"+ secao +"/ativar";
+					document.lista.action = window.base_url+ secao +"/ativar";
 				else if (status == 't')
-					document.lista.action = window.base_url+"index.php/"+ secao +"/desativar";
+					document.lista.action = window.base_url+ secao +"/desativar";
 				document.lista.submit();
 			}
 		});
@@ -634,7 +634,7 @@ $(document).ready(function(){
 			var caminho = $("#caminho").val();
 			var metodo = $("#metodo").val();
 			var nr_pagina = $("#perpage").val();
-			var href		= window.base_url+'index.php/'+caminho+'/'+metodo+'/'+nr_pagina;
+			var href		= window.base_url+caminho+'/'+metodo+'/'+nr_pagina;
 			location.href 	= href;
 		}
 	
@@ -686,7 +686,7 @@ $(document).ready(function(){
 		$(".days-calendar td a").bind('click',function(ev){
 			var events = $(this).attr('rel').split('||');
 			var idEvent = events;
-			var caminhoAgenda = window.base_url+"index.php/agenda/CI_agenda/buscar";
+			var caminhoAgenda = window.base_url+"agenda/CI_agenda/buscar";
 			$.ajax ({
 				type:'post',
 				data:{item:idEvent},
@@ -703,7 +703,7 @@ $(document).ready(function(){
 			var DateTimeFinal = "";
 			var idVerificacao = $('#agendamento_id').val();
 			var agendamentoambiente = $('#agendamento_ambiente').val();
-			var caminhoVerificacao = window.base_url+"index.php/agenda/CI_agenda/verificarData";
+			var caminhoVerificacao = window.base_url+"agenda/CI_agenda/verificarData";
 			
 			if (idVerificacao == "") {
 				idVerificacao = 0;
@@ -740,7 +740,7 @@ $(document).ready(function(){
 		});
 
 		$('.btn-cancelar-operacao').bind("click",function(){
-			var href		= window.base_url+'index.php/CI_inicio';
+			var href		= window.base_url+'CI_inicio';
 			location.href 	= href;
 		});
 		

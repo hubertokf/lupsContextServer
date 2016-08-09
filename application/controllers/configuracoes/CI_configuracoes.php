@@ -45,7 +45,7 @@ class CI_configuracoes extends CI_controller {
 		$this->dados["nr_pagina"] = $nr_pagina;
 		$this->dados["total"] = $this->M_configuracoes->numeroLinhasTotais($select='', $where=array('usuario_id' => $this->session->userdata('usuario_id')));
 		$this->dados["tituloPesquisa"] = "Configurações do Perfil";
-		$pag['base_url'] = base_url."index.php/".$this->dados["caminho"]."/".$this->dados["metodo"]."/".$nr_pagina."/";
+		$pag['base_url'] = base_url.$this->dados["caminho"]."/".$this->dados["metodo"]."/".$nr_pagina."/";
 		$pag['total_rows'] = $this->dados["total"];
 		$pag['uri_segment']	= 5;
 		$pag['per_page'] = $this->dados["nr_pagina"];

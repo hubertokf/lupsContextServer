@@ -7,7 +7,7 @@
 		function verificaSessao(){ 
 			if($this->session->userdata('usuario_id') == '' or $this->session->userdata('usuario_id') == null or $this->session->userdata('usuario_id') == 0){
 				$this->session->sess_destroy();
-        		header('Location: '.base_url().'index.php?c_login');
+        		header('Location: '.base_url().'CI_login');
 			}
     	}
 
@@ -86,7 +86,7 @@
 					if ($value['caminho'] == NULL || $value['caminho'] == "") {
 		                echo '<li><a href="javascript:;"  title="">' .$value['name'] . '</a>';
 					} else {
-		                echo '<li><a href="'.base_url().'index.php/'.$value['caminho'].'"  title="">' . $value['name'] . '</a>';						
+		                echo '<li><a href="'.base_url().$value['caminho'].'"  title="">' . $value['name'] . '</a>';						
 					}
 	
 	                $this->_generate_menu($arr, $key);

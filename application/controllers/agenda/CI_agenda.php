@@ -54,7 +54,7 @@
 
 			//$this->dados["sensores"] = $this->M_agenda->getSensorList();		
 			
-			$pag['base_url'] = base_url."index.php/".$this->dados["caminho"]."/".$this->dados["metodo"]."/".$nr_pagina."/";
+			$pag['base_url'] = base_url.$this->dados["caminho"]."/".$this->dados["metodo"]."/".$nr_pagina."/";
 			$pag['total_rows'] = $this->dados["total"];
 			$pag['uri_segment']	= 5;
 			$pag['per_page'] = $this->dados["nr_pagina"];
@@ -146,7 +146,7 @@
 		function visualizar() {
 			$prefs = array (
                'show_next_prev'  => TRUE,
-               'next_prev_url'   => ''.base_url().'index.php/agenda/CI_agenda/visualizar',
+               'next_prev_url'   => ''.base_url().'agenda/CI_agenda/visualizar',
                'template' =>  '
 				   {table_open}<table class="events-calendar" border="0" cellpadding="3" cellspacing="0">{/table_open}
 

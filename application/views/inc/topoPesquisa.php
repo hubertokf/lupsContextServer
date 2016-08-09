@@ -18,7 +18,7 @@
 
                 <div class="col-xs-1">
                     <div class="NovoRegistro">
-                        <a class="botaoNovoRegistro" href="<?php echo base_url();?>index.php/<?php echo $caminho;?>/cadastro" alt='Novo Registro' title='Novo Registro'>
+                        <a class="botaoNovoRegistro" href="<?php echo base_url(); echo $caminho;?>/cadastro" alt='Novo Registro' title='Novo Registro'>
                             <i class="fa fa-plus-circle fa-3x"></i>
                         </a>
                     </div>

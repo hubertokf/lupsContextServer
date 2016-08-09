@@ -5,20 +5,20 @@
     			<ul>
                     <?php if(!isset($index)){ ?>
     				<li>
-    					<a href="<?php echo base_url(); ?>index.php/CI_visualizacao" title="">Início</a>
+    					<a href="<?php echo base_url(); ?>CI_visualizacao" title="">Início</a>
     				</li>
     				<li>
-    					<a href="<?php echo base_url(); ?>index.php/CI_visualizacao/tabela">Tabela</a>
+    					<a href="<?php echo base_url(); ?>CI_visualizacao/tabela">Tabela</a>
     				</li>
     				<li>
-    					<a href="<?php echo base_url(); ?>index.php/CI_visualizacao/grafico">Gráfico</a>
+    					<a href="<?php echo base_url(); ?>CI_visualizacao/grafico">Gráfico</a>
                     </li>
                     <li>
-                        <a href="<?php echo base_url(); ?>index.php/CI_visualizacao/comparar">Comparar</a>
+                        <a href="<?php echo base_url(); ?>CI_visualizacao/comparar">Comparar</a>
                     </li>
                     <?php } ?>
                     <li>
-                        <a href="<?php echo base_url(); ?>index.php/CI_visualizacao/busca">Busca</a>
+                        <a href="<?php echo base_url(); ?>CI_visualizacao/busca">Busca</a>
                     </li>
     			</ul>
     		</div>
