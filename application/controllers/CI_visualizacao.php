@@ -40,8 +40,11 @@
 				else
 					$this->dados["contextos_interesse"] = $this->M_contextointeresse->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 10000, 0, 'asc', TRUE);
 			}else
-				$this->dados["contextos_interesse"] = $this->M_contextointeresse->pesquisar('', array('publico' => 'TRUE'), 10, 0, 'asc', FALSE);			
-			$this->load->view('inc/topo',$this->dados);
+				$this->dados["contextos_interesse"] = $this->M_contextointeresse->pesquisar('', array('publico' => 'TRUE'), 10, 0, 'asc', FALSE);
+
+			$this->dados["index"] = true;		
+			$this->load->view('inc/topo',$this->dados);			
+			$this->load->view('inc/menu_vis');
 			$this->load->view('visualizacao/visualizacao');
 			$this->load->view('inc/rodape');
 		}
