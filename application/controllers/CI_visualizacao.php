@@ -218,8 +218,6 @@
 			$this->dados["contextointeresse"] = $this->M_contextointeresse->selecionarCI($_SESSION['contextointeresse']);
 
 			$this->dados["sensor"] = $this->M_sensor->selecionar($_SESSION['sensor'])->result_array();
-			
-			$this->dados["sensor"] = array_unique($this->dados["sensor"]);;
 
 			if ($this->session->userdata('usuario_id') != null){
 				if ($this->session->userdata('perfilusuario_id') == 2){
