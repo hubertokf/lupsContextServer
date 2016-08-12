@@ -37,11 +37,11 @@
 								<option value="" selected="" disabled="">Selecione</option>
 								<?php
 									$selected = "";
-									foreach ($sensores->result_array() as $s) {
-										/*if(isset($_SESSION['contextointeresse']))
-											if ($ci["contextointeresse_id"]==$_SESSION['contextointeresse']){
+									foreach ($sensores as $s) {
+										if(isset($sensor))
+											if ($sensor[0]["sensor_id"]==$s['sensor_id']){
 												$selected = "selected";
-											}*/
+											}
 										echo '<option value="'.$s['sensor_id'].'" '.$selected.'>'.$s['nome'].'</option>';
 										$selected = "";
 									}

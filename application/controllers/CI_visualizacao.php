@@ -44,7 +44,6 @@
 
 			$this->dados["index"] = true;		
 			$this->load->view('inc/topo',$this->dados);			
-			$this->load->view('inc/menu_vis');
 			$this->load->view('visualizacao/visualizacao');
 			$this->load->view('inc/rodape');
 		}
@@ -217,7 +216,10 @@
 			     $_SESSION['sensor'] = $_POST['sensor'];
 			}
 			$this->dados["contextointeresse"] = $this->M_contextointeresse->selecionarCI($_SESSION['contextointeresse']);
+
 			$this->dados["sensor"] = $this->M_sensor->selecionar($_SESSION['sensor'])->result_array();
+			
+			$this->dados["sensor"] = array_unique($this->dados["sensor"]);;
 
 			if ($this->session->userdata('usuario_id') != null){
 				if ($this->session->userdata('perfilusuario_id') == 2){
@@ -228,6 +230,8 @@
 			}else{
 				$this->dados["sensores"] = $this->M_sensor->pesquisar('', array('ci.publico' => 'TRUE'), 10000, 0, 'asc', FALSE);	
 			}
+
+			$this->dados["sensores"] = array_unique($this->dados["sensores"]->result_array(),SORT_REGULAR);
 
 			$this->load->view('inc/topo',$this->dados);
 			$this->load->view('inc/menu_vis');
