@@ -46,7 +46,6 @@
 										$selected = "";
 									}
 								?>
-							</select>
 			                </select>
 						</div>
 						<div class="col-xs-3">
@@ -110,9 +109,18 @@
 	</div>
 	<div class="col-xs-4 col-sm-4">
 		<select name="sensores" class="sensoresFiltros">
-            <?php
-            	echo $option;
-            ?>
+            <option value="" selected="" disabled="">Selecione</option>
+				<?php
+					$selected = "";
+					foreach ($sensores as $s) {
+						if(isset($sensor))
+							if ($sensor[0]["sensor_id"]==$s['sensor_id']){
+								$selected = "selected";
+							}
+						echo '<option value="'.$s['sensor_id'].'" '.$selected.'>'.$s['nome'].'</option>';
+						$selected = "";
+					}
+				?>
         </select>
 	</div>
 	<div class="col-xs-5 col-sm-3">

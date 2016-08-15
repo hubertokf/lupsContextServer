@@ -43,8 +43,26 @@ $(document).ready(function(){
     	});
   	});
 
+  	var table;
+
+  	$('.operacaoLogica').on('change', function() {
+  		if($(this).val()=="all"){
+  			$('.operacaoLogica').parent().parent().find(".operacaoLogicaValue").prop('disabled', true);
+  		}else{
+			$('.operacaoLogica').parent().parent().find(".operacaoLogicaValue").prop('disabled', false);
+  		}
+  	});
+
   	$('.btsubmitrules').click(function(e){
 		e.preventDefault();
+		if ( $.fn.dataTable.isDataTable('#resultado-table') ) {
+		    table.destroy();
+			$('#resultado-table').empty();
+		    console.log("oiin");
+		}
+		
+		    console.log("oiout");
+		    console.log("oiafter");
 
 		if(ValidateFields()){
 			var filtros='';
@@ -100,7 +118,6 @@ $(document).ready(function(){
 	});
 
 	function CarregarTabelas(dataTable){
-		$('#resultado-table').empty();
 		$.each(jQuery.parseJSON(dataTable), function(key, value) {
 			if(key==0){
 				$('#resultado-table').append("<thead><tr><th>"+value[0]+"</th><th>"+value[1]+"</th><th>"+value[2]+"</th></tr></thead>");
@@ -110,7 +127,7 @@ $(document).ready(function(){
 				$('#resultado-table tbody').append("<tr><td>"+value[0]+"</td><td>"+value[1]+"</td><td>"+value[2]+"</td></tr>");
 		});
 
-		$('#resultado-table').DataTable( {
+		table = $('#resultado-table').DataTable( {
 	        "language": {
 	        	"decimal":        "",
 			    "emptyTable":     "Nenhum registro disponível na tabela",

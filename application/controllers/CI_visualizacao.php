@@ -243,7 +243,6 @@
 			FROM publicacoes
 			inner join sensor_public on publicacoes.sensor_public_id = sensor_public.sensor_public_id " . $where . "
 			 ORDER BY contexto_dthr ASC) AS A" ;*/
-
 			if ($this->session->userdata('perfilusuario_id') == 2)
 				$dados = $this->M_publicacao->pesquisar('', $where, 100000, 0, "datacoleta", 'asc', FALSE, $whereOR);
 			else{
@@ -311,12 +310,12 @@
 						$subQuery='';
 						switch($filter->conectorEOU){
 							case 'AND':
-								$arrayT = array("sensor_id" => $filter->sensorId);
-								array_merge($where, $arrayT);
+								$arrayT = array("s.sensor_id" => $filter->sensorId,"valorcoletado ".$filter->operacaoLogica => (string)$filter->valor);
+								$where = array_merge($where, $arrayT);
 								break;
 							case 'OR':
-								$arrayT = array("sensor_id" => $filter->sensorId);
-								array_merge($whereOR, $arrayT);
+								$arrayT = array("s.sensor_id" => $filter->sensorId,"valorcoletado ".$filter->operacaoLogica => (string)$filter->valor);
+								$whereOR = array_merge($whereOR, $arrayT);
 								break;
 							default:
 							
@@ -324,8 +323,8 @@
 							
 						}
 						if($filter->operacaoLogica!='all'){
-							$arrayT = array("valorcoletado ".$filter->operacaoLogica => $filter->valor);
-							array_merge($where, $arrayT);
+							$arrayT = array("valorcoletado ".$filter->operacaoLogica => (string)$filter->valor);
+							$where = array_merge($where, $arrayT);
 						}
 						
 					}
