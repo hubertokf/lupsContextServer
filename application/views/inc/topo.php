@@ -5,17 +5,18 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 	<title><?php echo $title;?></title>
-    
+
 	<link type="text/css" rel="stylesheet"  media="screen" href="<?php echo base_url()?>css/chosen.css" />
 	<link type="text/css" rel="stylesheet"  media="screen" href="<?php echo base_url()?>css/jquery-ui-timepicker-addon.css" />
 	<link type="text/css" rel="stylesheet"  media="screen" href="<?php echo base_url()?>css/bootstrap.min.css" >
 	<link type="text/css" rel="stylesheet"  media="screen" href="<?php echo base_url()?>css/font-awesome.min.css" />
 	<link type="text/css" rel="stylesheet"  media="screen" href="<?php echo base_url()?>css/principal.css" />
 	<link type="text/css" rel="stylesheet"  media="screen" href="<?php echo base_url()?>css/extra.css" />
-    <link type="text/css" rel="stylesheet"  media="screen" href="<?php echo base_url()?>css/jquery-ui.css">
-    <link type="text/css" rel="stylesheet"  media="screen" href="<?php echo base_url()?>css/dataTables.fontAwesome.css">
-    
-    
+  <link type="text/css" rel="stylesheet"  media="screen" href="<?php echo base_url()?>css/jquery-ui.css">
+  <link type="text/css" rel="stylesheet"  media="screen" href="<?php echo base_url()?>css/dataTables.fontAwesome.css">
+	<link href="<?php echo base_url()?>css/main.css" rel="stylesheet">
+  <link href="<?php echo base_url()?>css/aquisition.css" rel="stylesheet">
+
     <script type="text/javascript" language="javascript" src="<?php echo base_url()?>js/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" language="javascript" src="<?php echo base_url()?>js/jquery-ui.min.js"></script>
     <script type="text/javascript" language="javascript" src="<?php echo base_url()?>js/chosen.jquery.js"></script>
@@ -36,6 +37,8 @@
 
 </head>
 <body>
+	<script data-main="../js/config/index_aquisition" src="../js/node_modules/requirejs/require.js" ></script>
+
     <?php
     $usuario_id = $this->session->userdata('usuario_id');
     if (isset($this->M_configuracoes->selByUser($usuario_id)->result_array()[0]["img_cabecalho"]))
@@ -55,11 +58,11 @@
                         <a href="<?php echo base_url(); ?>CI_visualizacao">Visualizacão</a>
                     </div>
 
-                    <?php 
+                    <?php
                     $countMenu = $this->M_usuario->countUsuarioMenu($usuario_id);
-                    if ($isLoged != "" && $countMenu > 0){ 
+                    if ($isLoged != "" && $countMenu > 0){
                     ?>
-                        
+
                     <div class="app <?php if ($this->uri->segment(1) != 'CI_visualizacao') echo 'ativo'; ?>">
                         <a href="<?php echo base_url(); ?>CI_inicio">Gerenciamento</a>
                     </div>
@@ -69,7 +72,7 @@
                 <div class="session col-xs-4">
                     <?php if ($isLoged == "" || $isLoged == "0"){ ?>
                         <div class="logar">
-                            <a href="<?php echo base_url(); ?>CI_login" style="padding:0;">Logar-se</a>                           
+                            <a href="<?php echo base_url(); ?>CI_login" style="padding:0;">Logar-se</a>
                         </div>
                     <?php } else { ?>
                         <div class="usuariologado">
@@ -87,10 +90,10 @@
                 	<div class="content" style="text-align:left;">
                 		<a href="<?php echo base_url(); ?>CI_visualizacao">
 	                        <h1 id="title"><?php echo $this->dados['title']; ?></h1>
-	                    </a>                   		
+	                    </a>
                 	</div>
-                </div>                    
-                
+                </div>
+
                 <div class="col-sm-3" >
                     <div class="logo" style="text-align: center;">
                         <?php
@@ -100,9 +103,9 @@
                             $file = $this->M_configuracoes->selecionar(1)->result_array()[0]["img_projeto"];
                         ?>
                         <img src="<?php echo base_url()?>uploads/<?php echo $file?>" />
-                        
+
                     </div>
-                </div>                 
+                </div>
             </div>
         </div>
     </section>
@@ -110,4 +113,3 @@
 
 
 <div class="geral">
-	
