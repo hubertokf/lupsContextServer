@@ -16,7 +16,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: KEYS; Type: TABLE; Schema: public; Owner: huberto; Tablespace: 
+-- Name: KEYS; Type: TABLE; Schema: public; Owner: huberto; Tablespace:
 --
 
 CREATE SEQUENCE keys_id_seq
@@ -41,7 +41,7 @@ CREATE TABLE keys (
 ALTER TABLE public.keys OWNER TO postgres;
 
 --
--- Name: agendamento; Type: TABLE; Schema: public; Owner: huberto; Tablespace: 
+-- Name: agendamento; Type: TABLE; Schema: public; Owner: huberto; Tablespace:
 --
 
 CREATE TABLE agendamento (
@@ -78,7 +78,7 @@ ALTER SEQUENCE agendamento_id_seq OWNED BY agendamento.agendamento_id;
 
 
 --
--- Name: ambiente; Type: TABLE; Schema: public; Owner: huberto; Tablespace: 
+-- Name: ambiente; Type: TABLE; Schema: public; Owner: huberto; Tablespace:
 --
 
 CREATE TABLE ambiente (
@@ -127,7 +127,7 @@ CREATE SEQUENCE configuracao_id_seq
 ALTER TABLE public.configuracao_id_seq OWNER TO postgres;
 
 --
--- Name: configuracoes; Type: TABLE; Schema: public; Owner: huberto; Tablespace: 
+-- Name: configuracoes; Type: TABLE; Schema: public; Owner: huberto; Tablespace:
 --
 
 CREATE TABLE configuracoes (
@@ -157,7 +157,7 @@ CREATE SEQUENCE contextointeresse_id_seq_1
 ALTER TABLE public.contextointeresse_id_seq_1 OWNER TO postgres;
 
 --
--- Name: contextointeresse; Type: TABLE; Schema: public; Owner: huberto; Tablespace: 
+-- Name: contextointeresse; Type: TABLE; Schema: public; Owner: huberto; Tablespace:
 --
 
 CREATE TABLE contextointeresse (
@@ -172,7 +172,7 @@ CREATE TABLE contextointeresse (
 ALTER TABLE public.contextointeresse OWNER TO postgres;
 
 --
--- Name: fabricante; Type: TABLE; Schema: public; Owner: huberto; Tablespace: 
+-- Name: fabricante; Type: TABLE; Schema: public; Owner: huberto; Tablespace:
 --
 
 CREATE TABLE fabricante (
@@ -211,7 +211,7 @@ ALTER SEQUENCE fabricante_id_seq OWNED BY fabricante.fabricante_id;
 
 
 --
--- Name: gateway; Type: TABLE; Schema: public; Owner: huberto; Tablespace: 
+-- Name: gateway; Type: TABLE; Schema: public; Owner: huberto; Tablespace:
 --
 
 CREATE TABLE gateway (
@@ -270,7 +270,7 @@ ALTER SEQUENCE gateway_uid_seq OWNED BY gateway.uid;
 
 
 --
--- Name: gatewaytemp; Type: TABLE; Schema: public; Owner: huberto; Tablespace: 
+-- Name: gatewaytemp; Type: TABLE; Schema: public; Owner: huberto; Tablespace:
 --
 
 CREATE TABLE gatewaytemp (
@@ -412,7 +412,7 @@ ALTER SEQUENCE gatewaytemp_uid_seq OWNED BY gatewaytemp.uid;
 
 
 --
--- Name: menu; Type: TABLE; Schema: public; Owner: huberto; Tablespace: 
+-- Name: menu; Type: TABLE; Schema: public; Owner: huberto; Tablespace:
 --
 
 CREATE TABLE menu (
@@ -448,7 +448,7 @@ ALTER SEQUENCE menu_id_seq OWNED BY menu.menu_id;
 
 
 --
--- Name: perfilusuario; Type: TABLE; Schema: public; Owner: huberto; Tablespace: 
+-- Name: perfilusuario; Type: TABLE; Schema: public; Owner: huberto; Tablespace:
 --
 
 CREATE TABLE perfilusuario (
@@ -496,7 +496,7 @@ CREATE SEQUENCE permissao_id_seq
 ALTER TABLE public.permissao_id_seq OWNER TO postgres;
 
 --
--- Name: permissoes; Type: TABLE; Schema: public; Owner: huberto; Tablespace: 
+-- Name: permissoes; Type: TABLE; Schema: public; Owner: huberto; Tablespace:
 --
 
 CREATE TABLE permissoes (
@@ -514,7 +514,7 @@ CREATE TABLE permissoes (
 ALTER TABLE public.permissoes OWNER TO postgres;
 
 --
--- Name: publicacao; Type: TABLE; Schema: public; Owner: huberto; Tablespace: 
+-- Name: publicacao; Type: TABLE; Schema: public; Owner: huberto; Tablespace:
 --
 
 CREATE TABLE publicacao (
@@ -565,7 +565,7 @@ CREATE SEQUENCE regra_id_seq
 ALTER TABLE public.regra_id_seq OWNER TO postgres;
 
 --
--- Name: regras; Type: TABLE; Schema: public; Owner: huberto; Tablespace: 
+-- Name: regras; Type: TABLE; Schema: public; Owner: huberto; Tablespace:
 --
 
 CREATE TABLE regras (
@@ -576,8 +576,44 @@ CREATE TABLE regras (
     arquivo_py character varying
 );
 
-
 ALTER TABLE public.regras OWNER TO postgres;
+
+CREATE SEQUENCE seq_id_conditions
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER TABLE public.seq_id_conditions OWNER TO postgres;
+--
+-- Name: condicoes; Type: TABLE; Schema: public; Owner: Tainã; Tablespace:
+--
+CREATE TABLE "condicoes" (
+    id_conditcoes integer DEFAULT nextval('regra_id_seq'::regclass) NOT NULL,
+    nome character varying NOT NULL,
+    nome_legivel character varying NOT NULL,
+    tipo character varying NOT NULL,
+    tipo_server integer DEFAULT 1,
+    sensor_id integer
+);
+
+CREATE SEQUENCE seq_id_actions
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ALTER TABLE public.seq_id_actions OWNER TO postgres;
+--
+-- Name: acoes; Type: TABLE; Schema: public; Owner: Tainã; Tablespace:
+--
+CREATE TABLE "acoes" (
+    acoes_id integer DEFAULT nextval('seq_id_actions'::regclass) NOT NULL,
+    nome character varying NOT NULL,
+    nome_legivel character varying NOT NULL,
+    tipo_server integer DEFAULT 1
+);
 
 --
 -- Name: COLUMN regras.tipo; Type: COMMENT; Schema: public; Owner: huberto
@@ -586,7 +622,7 @@ ALTER TABLE public.regras OWNER TO postgres;
 COMMENT ON COLUMN regras.tipo IS '1->Script Python';
 
 --
--- Name: relcontextointeresse; Type: TABLE; Schema: public; Owner: huberto; Tablespace: 
+-- Name: relcontextointeresse; Type: TABLE; Schema: public; Owner: huberto; Tablespace:
 --
 
 CREATE TABLE relcontextointeresse (
@@ -599,7 +635,7 @@ CREATE TABLE relcontextointeresse (
 ALTER TABLE public.relcontextointeresse OWNER TO postgres;
 
 --
--- Name: relmenuperfil; Type: TABLE; Schema: public; Owner: huberto; Tablespace: 
+-- Name: relmenuperfil; Type: TABLE; Schema: public; Owner: huberto; Tablespace:
 --
 
 CREATE TABLE relmenuperfil (
@@ -611,7 +647,7 @@ CREATE TABLE relmenuperfil (
 ALTER TABLE public.relmenuperfil OWNER TO postgres;
 
 --
--- Name: sensor; Type: TABLE; Schema: public; Owner: huberto; Tablespace: 
+-- Name: sensor; Type: TABLE; Schema: public; Owner: huberto; Tablespace:
 --
 
 CREATE TABLE sensor (
@@ -659,7 +695,7 @@ ALTER SEQUENCE sensor_id_seq OWNED BY sensor.sensor_id;
 
 
 --
--- Name: servidorborda; Type: TABLE; Schema: public; Owner: huberto; Tablespace: 
+-- Name: servidorborda; Type: TABLE; Schema: public; Owner: huberto; Tablespace:
 --
 
 CREATE TABLE servidorborda (
@@ -697,7 +733,7 @@ ALTER SEQUENCE servidorborda_servidorborda_id_seq OWNED BY servidorborda.servido
 
 
 --
--- Name: servidorcontexto; Type: TABLE; Schema: public; Owner: huberto; Tablespace: 
+-- Name: servidorcontexto; Type: TABLE; Schema: public; Owner: huberto; Tablespace:
 --
 
 CREATE TABLE servidorcontexto (
@@ -733,7 +769,7 @@ ALTER SEQUENCE servidorcontexto_id_seq OWNED BY servidorcontexto.servidorcontext
 
 
 --
--- Name: tiposensor; Type: TABLE; Schema: public; Owner: huberto; Tablespace: 
+-- Name: tiposensor; Type: TABLE; Schema: public; Owner: huberto; Tablespace:
 --
 
 CREATE TABLE tiposensor (
@@ -768,7 +804,7 @@ ALTER SEQUENCE tiposensor_id_seq_1 OWNED BY tiposensor.tiposensor_id;
 
 
 --
--- Name: usuario; Type: TABLE; Schema: public; Owner: huberto; Tablespace: 
+-- Name: usuario; Type: TABLE; Schema: public; Owner: huberto; Tablespace:
 --
 
 CREATE TABLE usuario (
@@ -1232,7 +1268,7 @@ SELECT pg_catalog.setval('usuario_id_seq', 2, true);
 
 
 --
--- Name: agendamento_id; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace: 
+-- Name: agendamento_id; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace:
 --
 
 ALTER TABLE ONLY agendamento
@@ -1240,7 +1276,7 @@ ALTER TABLE ONLY agendamento
 
 
 --
--- Name: ambiente_id; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace: 
+-- Name: ambiente_id; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace:
 --
 
 ALTER TABLE ONLY ambiente
@@ -1248,7 +1284,7 @@ ALTER TABLE ONLY ambiente
 
 
 --
--- Name: configuracoes_pkey; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace: 
+-- Name: configuracoes_pkey; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace:
 --
 
 ALTER TABLE ONLY configuracoes
@@ -1256,7 +1292,7 @@ ALTER TABLE ONLY configuracoes
 
 
 --
--- Name: contexto_id; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace: 
+-- Name: contexto_id; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace:
 --
 
 ALTER TABLE ONLY servidorcontexto
@@ -1264,7 +1300,7 @@ ALTER TABLE ONLY servidorcontexto
 
 
 --
--- Name: contextointeresse_id; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace: 
+-- Name: contextointeresse_id; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace:
 --
 
 ALTER TABLE ONLY contextointeresse
@@ -1272,7 +1308,7 @@ ALTER TABLE ONLY contextointeresse
 
 
 --
--- Name: fabricante_id; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace: 
+-- Name: fabricante_id; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace:
 --
 
 ALTER TABLE ONLY fabricante
@@ -1280,7 +1316,7 @@ ALTER TABLE ONLY fabricante
 
 
 --
--- Name: gateway_id; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace: 
+-- Name: gateway_id; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace:
 --
 
 ALTER TABLE ONLY gateway
@@ -1288,7 +1324,7 @@ ALTER TABLE ONLY gateway
 
 
 --
--- Name: gatewaytemp_pkey; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace: 
+-- Name: gatewaytemp_pkey; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace:
 --
 
 ALTER TABLE ONLY gatewaytemp
@@ -1296,7 +1332,7 @@ ALTER TABLE ONLY gatewaytemp
 
 
 --
--- Name: menu_id; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace: 
+-- Name: menu_id; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace:
 --
 
 ALTER TABLE ONLY menu
@@ -1304,7 +1340,7 @@ ALTER TABLE ONLY menu
 
 
 --
--- Name: nome_unique; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace: 
+-- Name: nome_unique; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace:
 --
 
 ALTER TABLE ONLY tiposensor
@@ -1312,7 +1348,7 @@ ALTER TABLE ONLY tiposensor
 
 
 --
--- Name: perfilusuario_id; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace: 
+-- Name: perfilusuario_id; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace:
 --
 
 ALTER TABLE ONLY perfilusuario
@@ -1320,7 +1356,7 @@ ALTER TABLE ONLY perfilusuario
 
 
 --
--- Name: permissoes_pkey; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace: 
+-- Name: permissoes_pkey; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace:
 --
 
 ALTER TABLE ONLY permissoes
@@ -1328,7 +1364,7 @@ ALTER TABLE ONLY permissoes
 
 
 --
--- Name: publicacao_id; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace: 
+-- Name: publicacao_id; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace:
 --
 
 ALTER TABLE ONLY publicacao
@@ -1336,7 +1372,7 @@ ALTER TABLE ONLY publicacao
 
 
 --
--- Name: regras_id; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace: 
+-- Name: regras_id; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace:
 --
 
 ALTER TABLE ONLY regras
@@ -1344,7 +1380,7 @@ ALTER TABLE ONLY regras
 
 
 --
--- Name: relcontextointeresse_id; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace: 
+-- Name: relcontextointeresse_id; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace:
 --
 
 ALTER TABLE ONLY relcontextointeresse
@@ -1352,7 +1388,7 @@ ALTER TABLE ONLY relcontextointeresse
 
 
 --
--- Name: relmenuperfil_id; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace: 
+-- Name: relmenuperfil_id; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace:
 --
 
 ALTER TABLE ONLY relmenuperfil
@@ -1360,7 +1396,7 @@ ALTER TABLE ONLY relmenuperfil
 
 
 --
--- Name: sensor_id; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace: 
+-- Name: sensor_id; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace:
 --
 
 ALTER TABLE ONLY sensor
@@ -1368,7 +1404,7 @@ ALTER TABLE ONLY sensor
 
 
 --
--- Name: servidorborda_id; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace: 
+-- Name: servidorborda_id; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace:
 --
 
 ALTER TABLE ONLY servidorborda
@@ -1376,7 +1412,7 @@ ALTER TABLE ONLY servidorborda
 
 
 --
--- Name: tiposensor_id; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace: 
+-- Name: tiposensor_id; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace:
 --
 
 ALTER TABLE ONLY tiposensor
@@ -1384,7 +1420,7 @@ ALTER TABLE ONLY tiposensor
 
 
 --
--- Name: usuario_id; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace: 
+-- Name: usuario_id; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace:
 --
 
 ALTER TABLE ONLY usuario
@@ -1392,22 +1428,34 @@ ALTER TABLE ONLY usuario
 
 
 --
--- Name: usuario_id_unique; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace: 
+-- Name: usuario_id_unique; Type: CONSTRAINT; Schema: public; Owner: huberto; Tablespace:
 --
 
 ALTER TABLE ONLY configuracoes
     ADD CONSTRAINT usuario_id_unique UNIQUE (usuario_id);
 
+--
+-- Name: id_condicoes; Type: CONSTRAINT; Schema: public; Owner: Tainã; Tablespace:
+--
+
+ALTER TABLE ONLY condicoes
+    ADD CONSTRAINT id_condicoes PRIMARY KEY (id_condicoes);
 
 --
--- Name: uid_unique; Type: INDEX; Schema: public; Owner: huberto; Tablespace: 
+-- Name: id_condicoes; Type: CONSTRAINT; Schema: public; Owner: Tainã; Tablespace:
+--
+
+ALTER TABLE ONLY acoes
+    ADD CONSTRAINT acoes_id PRIMARY KEY (acoes_id);
+--
+-- Name: uid_unique; Type: INDEX; Schema: public; Owner: huberto; Tablespace:
 --
 
 CREATE UNIQUE INDEX uid_unique ON gateway USING btree (uid);
 
 
 --
--- Name: username_unique; Type: INDEX; Schema: public; Owner: huberto; Tablespace: 
+-- Name: username_unique; Type: INDEX; Schema: public; Owner: huberto; Tablespace:
 --
 
 CREATE UNIQUE INDEX username_unique ON usuario USING btree (username);
@@ -1626,4 +1674,3 @@ GRANT ALL ON SCHEMA public TO PUBLIC;
 --
 -- PostgreSQL database dump complete
 --
-

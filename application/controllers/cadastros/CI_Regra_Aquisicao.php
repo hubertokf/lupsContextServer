@@ -53,25 +53,23 @@ class CI_regra_SB extends CI_controller {
 		$this->load->view('inc/topo',$this->dados);
 		$this->load->view('inc/menu');
 		$this->load->view('inc/topoPesquisa');
-		$this->load->view('cadastros/regras_sb/pesquisaEca');
+		$this->load->view('cadastros/regras_sb/pesquisa');
 		$this->load->view('inc/rodape');
 	}
-		function cadastro(){
+
+	function cadastro(){
 		$this->dados["regras"] = $this->M_regras->pesquisar();
 		if ($this->session->userdata('perfilusuario_id') == 2)
 			$this->dados["contextointeresse"] = $this->M_contextointeresse->pesquisar($select='', $where=array(), $limit=100, $offset=0, $ordem='asc');
 		else
 			$this->dados["contextointeresse"] = $this->M_contextointeresse->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 100, 0, 'asc', TRUE);
 
-			$this->load->view('inc/topo',$this->dados);
-			$this->load->view('inc/menu');
-			// $this->load->view('cadastros/regras/cadastro');
-			 $this->load->view('cadastros/regras_sb/cadastroEca');
-			// $this->load->view('cadastros/regras_sb/cadastro');
-			$this->load->view('inc/rodape');
-
+		$this->load->view('inc/topo',$this->dados);
+		$this->load->view('inc/menu');
+		// $this->load->view('cadastros/regras/cadastro');
+		$this->load->view('cadastros/regras_sb/cadastro');
+		$this->load->view('inc/rodape');
 	}
-
 	function gravar(){
 		$this->form_validation->set_rules('regra_nome', 'Nome', 'trim|required');
 		$this->form_validation->set_rules('regra_status', 'Status', 'trim|required');
