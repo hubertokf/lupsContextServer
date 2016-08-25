@@ -76,8 +76,32 @@ class Ambientes extends REST_Controller {
 
     public function index_post(){
         $content = $this->post('content');
+        //verifica se o content da requisição veio
         if ($content === NULL){
+            //se não veio, retorna erro 204 (no content)
+            $message = ['status' => FALSE,
+                        'message' => 'No content was found'];
+            $this->set_response($message, REST_Controller::HTTP_NO_CONTENT);
+        }else{
+            //se veio, transforma em json
+            $content_json = json_decode($content);
 
+            //salva no objeto do model
+            $this->M_ambiente->setAmbienteNome($content_json->{'ambiente_nome'});
+            $this->M_ambiente->setAmbienteDesc($content_json->{'ambiente_desc'});
+            $this->M_ambiente->setAmbienteStatus($content_json->{'ambiente_status'});
+            //salva o model no banco
+            if ($this->M_ambiente->salvar() == "inc"){
+                //se retornou inc, está salvo no banco
+                $message = "Dados registrados com sucesso!";
+                // retorna 201 (criado)
+                $this->set_response($message, REST_Controller::HTTP_CREATED);
+            }else{
+                //se não retornou inc
+                $message = "Dados não registrados com sucesso!";
+                // retorna 409 (conflito)
+                $this->set_response($message, REST_Controller::HTTP_CONFLICT);
+            }
         }
     }
 
@@ -85,33 +109,56 @@ class Ambientes extends REST_Controller {
         // Requisições sem ID - lista todos os elementos
         $id = $this->get('id');
         if ($id === NULL){
-
+            //se não veio, retorna erro 204 (no content)
+            $message = ['status' => FALSE,
+                        'message' => 'No ambiente was found'];
+            $this->set_response($message, REST_Controller::HTTP_NOT_FOUND);
         }else{
-        // Requisições com ID - lista informações do elemento
+            // Requisições com ID - lista informações do elemento
             $content = $this->post('content');
             if ($content === NULL){
+                //se não veio, retorna erro 204 (no content)
+                $message = ['status' => FALSE,
+                            'message' => 'No content was found'];
+                $this->set_response($message, REST_Controller::HTTP_NO_CONTENT);
+            }else{
+                //se veio, transforma em json
+                $content_json = json_decode($content);
 
+                //salva no objeto do model
+                $this->M_ambiente->setAmbienteId($content_json->{'ambiente_id'});
+                $this->M_ambiente->setAmbienteNome($content_json->{'ambiente_nome'});
+                $this->M_ambiente->setAmbienteDesc($content_json->{'ambiente_desc'});
+                $this->M_ambiente->setAmbienteStatus($content_json->{'ambiente_status'});
+                if ($this->M_ambiente->salvar() == "alt"){
+                    //se retornou alt, está salvo no banco
+                    $message = "Dados registrados com sucesso!";
+                    // retorna 200 (OK)
+                    $this->set_response($message, REST_Controller::HTTP_OK);
+                }
+                else {
+                    //se não retornou alt
+                    $message = "Dados não registrados com sucesso!";
+                    // retorna 409 (conflito)
+                    $this->set_response($message, REST_Controller::HTTP_CONFLICT);
+                }
             }
-        }
-        
+        }        
     }
 
     public function index_delete(){
         $id = $this->get('id');
-        if ($id != NULL){
-            if ($id==""){
+        if ($id !== NULL || $id != ""){
+            $this->M_ambiente->setAmbienteId($id);  
+            $this->M_ambiente->excluir();
 
-                if(isset($_POST["item"])) {
-                    $this->M_ambiente->setAmbienteId($_POST["item"]);   
-                    $this->M_ambiente->excluir();
-                }
-            }
-            else{
-                $this->M_ambiente->setAmbienteId($id);  
-                $this->M_ambiente->excluir();
-            }
-            $this->dados["msg"] = "Registro(s) excluído(s) com sucesso!";
-            $this->pesquisa();
+            $message = "Registro(s) excluído(s) com sucesso!";
+            $this->set_response($message, REST_Controller::HTTP_OK);
+        }else{
+            $this->response([
+                    'status' => FALSE,
+                    'message' => 'No ambient was found'
+                ], REST_Controller::HTTP_NOT_FOUND);
         }
     }
 }
