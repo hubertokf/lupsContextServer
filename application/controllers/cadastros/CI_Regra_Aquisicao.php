@@ -1,6 +1,6 @@
 <?php
 
-class CI_regra_SB extends CI_controller {
+class CI_regra_Aquisicao extends CI_controller {
 
 	public function __construct()
 	{
@@ -13,7 +13,6 @@ class CI_regra_SB extends CI_controller {
 		$this->load->model('M_usuario');
 		$this->load->model('M_contextointeresse');
 		$this->load->model('M_sensor');
-		$this->load->model('M_Regras_SB');
 		$this->M_geral->verificaSessao();
 		if ($this->session->userdata('usuario_id') != 0 && $this->session->userdata('usuario_id') != ""){
 			$this->dados['isLoged'] = true;
@@ -54,26 +53,23 @@ class CI_regra_SB extends CI_controller {
 		$this->load->view('inc/topo',$this->dados);
 		$this->load->view('inc/menu');
 		$this->load->view('inc/topoPesquisa');
-		$this->load->view('cadastros/regras_sb/pesquisaEca');
+		$this->load->view('cadastros/regras_sb/pesquisa');
 		$this->load->view('inc/rodape');
 	}
-		function cadastro(){
+
+	function cadastro(){
 		$this->dados["regras"] = $this->M_regras->pesquisar();
 		if ($this->session->userdata('perfilusuario_id') == 2)
 			$this->dados["contextointeresse"] = $this->M_contextointeresse->pesquisar($select='', $where=array(), $limit=100, $offset=0, $ordem='asc');
 		else
 			$this->dados["contextointeresse"] = $this->M_contextointeresse->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 100, 0, 'asc', TRUE);
 
-			$this->load->view('inc/topo',$this->dados);
-			$this->load->view('inc/menu');
-			// $this->load->view('cadastros/regras/cadastro');
-			 $this->load->view('cadastros/regras_sb/cadastroEca');
-			// $this->load->view('cadastros/regras_sb/cadastro');
-			$this->load->view('inc/rodape');
-
-
+		$this->load->view('inc/topo',$this->dados);
+		$this->load->view('inc/menu');
+		// $this->load->view('cadastros/regras/cadastro');
+		$this->load->view('cadastros/regras_sb/cadastro');
+		$this->load->view('inc/rodape');
 	}
-
 	function gravar(){
 		$this->form_validation->set_rules('regra_nome', 'Nome', 'trim|required');
 		$this->form_validation->set_rules('regra_status', 'Status', 'trim|required');
@@ -168,32 +164,16 @@ class CI_regra_SB extends CI_controller {
 	}
 
 	function getSensorByRci($id=""){
-		// if ($id==""){
-		// 	if(isset($_POST["contextointeresse"])) {
-		// 		$sensores = $this->M_relcontextointeresse->getByCi($_POST["contextointeresse"]);
-		// 	}
-		// }else{
-		// 	$sensores = $this->M_relcontextointeresse->getByCi($id);
-		// }
+		if ($id==""){
+			if(isset($_POST["contextointeresse"])) {
+				$sensores = $this->M_relcontextointeresse->getByCi($_POST["contextointeresse"]);
+			}
+		}else{
+			$sensores = $this->M_relcontextointeresse->getByCi($id);
+		}
 
 	    echo json_encode($sensores);
 	}
 
-	function getConditions($value="")
-	{
-		$condicoes = $this->M_Regras_SB->get_conditions();
-		$output    = array();
-
-		foreach($condicoes as $v) {
-				$obj      = array('nome_legivel'=>$v['nome'],'nome'=>$v['nome_legivel'],'tipo'=>$v['tipo']);
-				$obj      = json_encode($obj,JSON_FORCE_OBJECT);
-				$output[] = $obj;
-					}
-			echo json_encode($output);
-		// echo $output;
-
-	}
-
 }
-
 ?>

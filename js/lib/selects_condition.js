@@ -1,15 +1,15 @@
 define (["lib/ConditionsRules"], function(ConditionsRules){
 
-    var SelectCondition = function (select){
+    var SelectCondition = function (select,data_condition){
 
-        this.id_select = "#"+select;
         this.select_construct = $('<select>',{
           class: "form-control select_rules_context conditions",
-          id: select
+          id: "condition"+select,
         });
-
         this.select_compare = $('<select>',{class: "form-control select_rules_context compare",id: "compare"+select})
-        this.select = new ConditionsRules(this.select_construct);
+        var opt = data_condition;
+        console.log(this.select_construct);
+        this.select = new ConditionsRules(this.select_construct,opt);
         //cria div referente ao seletor de condição
         this.generateRow(this.select_construct,4,select);
         //cria div referente ao seletor de comparação

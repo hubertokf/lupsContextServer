@@ -37,7 +37,6 @@
 
 </head>
 <body>
-	<script data-main="../js/config/index_aquisition" src="../js/node_modules/requirejs/require.js" ></script>
 
     <?php
     $usuario_id = $this->session->userdata('usuario_id');

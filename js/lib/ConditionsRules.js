@@ -1,19 +1,24 @@
 
 define (["jquery"],function($){
 
-    var ConditionRules = function(seletor) {
-
+    var ConditionRules = function(seletor,data) {
+      console.log(seletor);
       this.conditions = [["get_value","number"],["set_value","number"],["compare_vent","string"]];
-      this.id_seletor = seletor.attr('id');
 
       for(i = 0; i < this.conditions.length; i++){
 
+              data[i] = JSON.parse(data[i]);
+              // console.log(typeof data[i]);
             var opt = $('<option>', {
-                id: "Opr"+this.id_seletor,
-                "data-type" : this.conditions[i][1],
-                value: this.conditions[i][0],
-                text: this.conditions[i][0]
+                "data-type" : data[i]['tipo'],
+                value: data[i]['nome'],
+                text: data[i]['nome_legivel']
+                // "data-type" :0,
+                // value: 1,
+                // text: 2
+
             })
+
             seletor.append(opt);
 
       }

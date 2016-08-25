@@ -7,13 +7,16 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
         this.button_add_condition = $("#button_add");  //pega referência do botão adiconar condição
         this.button_add_action    = $("#button_add_action"); //pega referência do botão adiconar ação
         this.button_create_rule   = $("#create_rule");
+        this.data_contition;
         this.set_events(); // seta os eventos dos botões
     };
     AddRule.prototype.set_events = function(){
 
+        // console.log(this.data_contition);
         this.button_add_condition.click(this.press_button.bind(this));
         this.button_add_action.click(this.press_button_action.bind(this));
         this.button_create_rule.click(this.press_button_create_rule.bind(this));
+
     }
 
     AddRule.prototype.press_button = function () {
@@ -21,15 +24,17 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
         if($('#condition_label').is(':hidden')){
             $('#condition_label').show();
             }
-        var condition = $('<div>',{class: "row", id: "Condition"+this.iterator})
+        // console.log(this.data_contition);
+        var condition      = $('<div>',{class: "row", id: "Condition"+this.iterator})
         $("#div_conditions").append(condition);
         $("#div_conditions").css({"border": "double 1px", "border-color": "red"});
+        get_bd_conditions(handle_data);
         var logicOperators = new LogicOperators(this.iterator);
-        var seletor = new SelectCondition(this.iterator)
-        var inputs = new Inputs(this.iterator)
+        // var seletor        = new SelectCondition(this.data_contition);
+
+        var inputs         = new Inputs(this.iterator);
 
 
-        //this.array_selects.push(seletor);
         this.iterator++;
     };
 
@@ -65,7 +70,23 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
                }}).find('.modal-content').css({'background-color': '#fcf8e3','border-color':'#faebcc', 'font-weight' : 'bold', 'color': '#8a6d3b', 'font-size': '2em', 'font-weight' : 'bold'} );
 
     }
+    var iterator = 0;
+    function handle_data(data) {
+       console.log(iterator);
+      new SelectCondition(iterator,data);
+      iterator++;
+    }
+    var get_bd_conditions= function(handle){
 
+      $.ajax({
+        type:"POST",
+        dataType: 'json',
+        url:window.base_url+"cadastros/CI_Regra_SB/getConditions",
+        complete: function (data) {
+            handle(data['responseJSON']);
+         }
+      });
+  }
     return AddRule;
 
 });
