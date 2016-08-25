@@ -597,6 +597,7 @@ CREATE TABLE "condicoes" (
     tipo_server integer DEFAULT 1,
     sensor_id integer
 );
+
 ALTER TABLE public.condicoes OWNER TO postgres;
 
 CREATE SEQUENCE seq_id_actions

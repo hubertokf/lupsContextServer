@@ -71,7 +71,6 @@ class CI_regra_SB extends CI_controller {
 			// $this->load->view('cadastros/regras_sb/cadastro');
 			$this->load->view('inc/rodape');
 
-
 	}
 
 	function gravar(){

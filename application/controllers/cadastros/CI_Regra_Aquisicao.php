@@ -1,5 +1,6 @@
 <?php
 
+
 class CI_regra_Aquisicao extends CI_controller {
 
 	public function __construct()

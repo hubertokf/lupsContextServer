@@ -1,4 +1,4 @@
-<script data-main="../../js/config/index" src="../../js/node_modules/requirejs/require.js" ></script>      <div class="container"> -->
+<script data-main="../../js/config/index" src="../../js/node_modules/requirejs/require.js" ></script>      <div class="container"> 
          <div class="row" id = "button_rule">
            <div class="col-md-2 col-md-offset-3">
               <button type="button" class = "button_rule" id = "button_add">Adicionar Condição</button>
