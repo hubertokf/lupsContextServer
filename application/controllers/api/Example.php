@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 require APPPATH . '/libraries/REST_Controller.php';
 
 /**
- * This is an example of a few basic userrrrr interaction methods you could use
+ * This is an example of a few basic user interaction methods you could use
  * all done with a hardcoded array
  *
  * @package         CodeIgniter
@@ -16,52 +16,52 @@ require APPPATH . '/libraries/REST_Controller.php';
  * @license         MIT
  * @link            https://github.com/chriskacerguis/codeigniter-restserver
  */
-class Ambiente extends REST_Controller {
+class Example extends REST_Controller {
 
-    function __construct(){
+    function __construct()
+    {
         // Construct the parent class
         parent::__construct();
 
         // Configure limits on our controller methods
         // Ensure you have created the 'limits' table and enabled 'limits' within application/config/rest.php
-        $this->methods['ambiente_get']['limit'] = 500; // 500 requests per hour per userrrrr/key
-        $this->methods['ambiente_post']['limit'] = 100; // 100 requests per hour per userrrrr/key
-        $this->methods['ambiente_delete']['limit'] = 50; // 50 requests per hour per userrrrr/key
-
-        //Load Models
-        $this->load->model('M_geral');
-        $this->load->model('M_configuracoes');
-        $this->load->model('M_ambiente');
-        $this->load->model('M_gateway');
-        $this->load->model('M_usuario');
-        $this->load->model('M_sensor');
+        $this->methods['user_get']['limit'] = 500; // 500 requests per hour per user/key
+        $this->methods['user_post']['limit'] = 100; // 100 requests per hour per user/key
+        $this->methods['user_delete']['limit'] = 50; // 50 requests per hour per user/key
     }
 
-    public function ambiente_get(){
+    public function users_get()
+    {
+        // Users from a data store e.g. database
+        $users = [
+            ['id' => 1, 'name' => 'John', 'email' => 'john@example.com', 'fact' => 'Loves coding'],
+            ['id' => 2, 'name' => 'Jim', 'email' => 'jim@example.com', 'fact' => 'Developed on CodeIgniter'],
+            ['id' => 3, 'name' => 'Jane', 'email' => 'jane@example.com', 'fact' => 'Lives in the USA', ['hobbies' => ['guitar', 'cycling']]],
+        ];
 
         $id = $this->get('id');
-        // Ambientes from a data store e.g. database
-        $ambientes = $this->M_ambiente->pesquisar('', array('p.usuario_id' => $id), "ALL", 0, 'asc', FALSE);
 
-        
-        // If the id parameter doesn't exist return all the ambients
+        // If the id parameter doesn't exist return all the users
 
-        if ($id === NULL){
-            // Check if the ambients data store contains ambient (in case the database result returns NULL)
-            if ($userrrrrs){
+        if ($id === NULL)
+        {
+            // Check if the users data store contains users (in case the database result returns NULL)
+            if ($users)
+            {
                 // Set the response and exit
-                $this->response($userrrrrs, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+                $this->response($users, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
             }
-            else{
+            else
+            {
                 // Set the response and exit
                 $this->response([
                     'status' => FALSE,
-                    'message' => 'No userrrrrs were found'
+                    'message' => 'No users were found'
                 ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
             }
         }
 
-        // Find and return a single record for a particular userrrrr.
+        // Find and return a single record for a particular user.
 
         $id = (int) $id;
 
@@ -72,38 +72,38 @@ class Ambiente extends REST_Controller {
             $this->response(NULL, REST_Controller::HTTP_BAD_REQUEST); // BAD_REQUEST (400) being the HTTP response code
         }
 
-        // Get the userrrrr from the array, using the id as key for retreival.
+        // Get the user from the array, using the id as key for retreival.
         // Usually a model is to be used for this.
 
-        $userrrrr = NULL;
+        $user = NULL;
 
-        if (!empty($userrrrrs))
+        if (!empty($users))
         {
-            foreach ($userrrrrs as $key => $value)
+            foreach ($users as $key => $value)
             {
                 if (isset($value['id']) && $value['id'] === $id)
                 {
-                    $userrrrr = $value;
+                    $user = $value;
                 }
             }
         }
 
-        if (!empty($userrrrr))
+        if (!empty($user))
         {
-            $this->set_response($userrrrr, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+            $this->set_response($user, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
         }
         else
         {
             $this->set_response([
                 'status' => FALSE,
-                'message' => 'userrrrr could not be found'
+                'message' => 'User could not be found'
             ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
         }
     }
 
-    public function userrrrrs_post()
+    public function users_post()
     {
-        // $this->some_model->update_userrrrr( ... );
+        // $this->some_model->update_user( ... );
         $message = [
             'id' => 100, // Automatically generated by the model
             'name' => $this->post('name'),
@@ -114,7 +114,7 @@ class Ambiente extends REST_Controller {
         $this->set_response($message, REST_Controller::HTTP_CREATED); // CREATED (201) being the HTTP response code
     }
 
-    public function userrrrrs_delete()
+    public function users_delete()
     {
         $id = (int) $this->get('id');
 
