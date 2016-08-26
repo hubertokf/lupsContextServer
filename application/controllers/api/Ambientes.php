@@ -58,7 +58,6 @@ class Ambientes extends REST_Controller {
         }else{
         // Requisições com ID - lista informações do elemento
             $ambiente = $this->M_ambiente->selecionar($id)->result_array();
-
             if ($ambiente){
                 // Converte os dados adquiridos do banco (array) para Json
                 $ambiente_json = json_encode($ambiente, JSON_UNESCAPED_UNICODE);
@@ -83,13 +82,12 @@ class Ambientes extends REST_Controller {
                         'message' => 'No content was found'];
             $this->set_response($message, REST_Controller::HTTP_NO_CONTENT);
         }else{
-            //se veio, transforma em json
-            $content_json = json_decode($content);
+            //se veio, o framework já transforma o json para array associativo com os dados
 
             //salva no objeto do model
-            $this->M_ambiente->setAmbienteNome($content_json->{'ambiente_nome'});
-            $this->M_ambiente->setAmbienteDesc($content_json->{'ambiente_desc'});
-            $this->M_ambiente->setAmbienteStatus($content_json->{'ambiente_status'});
+            $this->M_ambiente->setAmbienteNome($content['ambiente_nome']);
+            $this->M_ambiente->setAmbienteDesc($content['ambiente_desc']);
+            $this->M_ambiente->setAmbienteStatus($content['ambiente_status']);
             //salva o model no banco
             if ($this->M_ambiente->salvar() == "inc"){
                 //se retornou inc, está salvo no banco
@@ -107,7 +105,8 @@ class Ambientes extends REST_Controller {
 
     public function index_put(){
         // Requisições sem ID - lista todos os elementos
-        $id = $this->get('id');
+        $id = $this->_args['id']; // precisei utilizar esse metodo para obter os paramentros pois a biblioteca não funciona se enviados por PUT
+        //$id = $this->put('id');
         if ($id === NULL){
             //se não veio, retorna erro 204 (no content)
             $message = ['status' => FALSE,
@@ -115,21 +114,19 @@ class Ambientes extends REST_Controller {
             $this->set_response($message, REST_Controller::HTTP_NOT_FOUND);
         }else{
             // Requisições com ID - lista informações do elemento
-            $content = $this->post('content');
+            $content = $this->_args['content']; // precisei utilizar esse metodo para obter os paramentros pois a biblioteca não funciona se enviados por PUT
             if ($content === NULL){
                 //se não veio, retorna erro 204 (no content)
                 $message = ['status' => FALSE,
                             'message' => 'No content was found'];
                 $this->set_response($message, REST_Controller::HTTP_NO_CONTENT);
             }else{
-                //se veio, transforma em json
-                $content_json = json_decode($content);
-
+                //se veio, o framework já transforma o json para array associativo com os dados
                 //salva no objeto do model
-                $this->M_ambiente->setAmbienteId($content_json->{'ambiente_id'});
-                $this->M_ambiente->setAmbienteNome($content_json->{'ambiente_nome'});
-                $this->M_ambiente->setAmbienteDesc($content_json->{'ambiente_desc'});
-                $this->M_ambiente->setAmbienteStatus($content_json->{'ambiente_status'});
+                $this->M_ambiente->setAmbienteId($id);
+                $this->M_ambiente->setAmbienteNome($content['ambiente_nome']);
+                $this->M_ambiente->setAmbienteDesc($content['ambiente_desc']);
+                $this->M_ambiente->setAmbienteStatus($content['ambiente_status']);
                 if ($this->M_ambiente->salvar() == "alt"){
                     //se retornou alt, está salvo no banco
                     $message = "Dados registrados com sucesso!";
@@ -147,8 +144,10 @@ class Ambientes extends REST_Controller {
     }
 
     public function index_delete(){
+        // Obtem o paramentro id passado na url através de GET, pois a função DELETE e PUT da biblioteca não funcionam.
         $id = $this->get('id');
         if ($id !== NULL || $id != ""){
+            //se o id estiver setado, salva o id em um objeto do model ambinete e aciona metodo de excluir
             $this->M_ambiente->setAmbienteId($id);  
             $this->M_ambiente->excluir();
 
