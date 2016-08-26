@@ -37,7 +37,6 @@ class CI_regra_SB extends CI_controller {
 
 	function pesquisa($nr_pagina=20 ){
 		$this->dados["metodo"] = "pesquisa";
-		// vai ser importante
 		if ($this->session->userdata('perfilusuario_id') == 2)
 			$this->dados["linhas"] = $this->M_regras->pesquisar('', array(), $nr_pagina, $this->uri->segment(5), 'asc', FALSE);
 		else
@@ -57,7 +56,9 @@ class CI_regra_SB extends CI_controller {
 		$this->load->view('cadastros/regras_sb/pesquisaEca');
 		$this->load->view('inc/rodape');
 	}
+
 	function cadastro(){
+
 		$this->dados["regras"] = $this->M_regras->pesquisar();
 		if ($this->session->userdata('perfilusuario_id') == 2)
 			$this->dados["contextointeresse"] = $this->M_contextointeresse->pesquisar($select='', $where=array(), $limit=100, $offset=0, $ordem='asc');
@@ -70,7 +71,6 @@ class CI_regra_SB extends CI_controller {
 			 $this->load->view('cadastros/regras_sb/cadastroEca');
 			// $this->load->view('cadastros/regras_sb/cadastro');
 			$this->load->view('inc/rodape');
-
 
 	}
 
@@ -186,6 +186,7 @@ class CI_regra_SB extends CI_controller {
 
 		foreach($condicoes as $v) {
 				$obj      = array('nome'=> $v['nome'],'nome_legivel'=>$v['nome'],'tipo'=>$v['tipo']);
+
 				$obj      = json_encode($obj,JSON_FORCE_OBJECT);
 				$output[] = $obj;
 					}
@@ -193,6 +194,7 @@ class CI_regra_SB extends CI_controller {
 		// echo $output;
 
 	}
+
 	function getActions($value="") // busca no banco as açoes pre definidas e retorna para a app
 	{
 		$actions = $this->M_Regras_SB->get_acoes();
@@ -206,5 +208,7 @@ class CI_regra_SB extends CI_controller {
 			echo json_encode($output);
 
 }
+
 }
+
 ?>

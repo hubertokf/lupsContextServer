@@ -590,13 +590,14 @@ ALTER TABLE public.seq_id_conditions OWNER TO postgres;
 -- Name: condicoes; Type: TABLE; Schema: public; Owner: Tainã; Tablespace:
 --
 CREATE TABLE "condicoes" (
-    id_conditcoes integer DEFAULT nextval('regra_id_seq'::regclass) NOT NULL,
+    id_condicoes integer DEFAULT nextval('regra_id_seq'::regclass) NOT NULL,
     nome character varying NOT NULL,
     nome_legivel character varying NOT NULL,
     tipo character varying NOT NULL,
     tipo_server integer DEFAULT 1,
     sensor_id integer
 );
+
 ALTER TABLE public.condicoes OWNER TO postgres;
 
 CREATE SEQUENCE seq_id_actions

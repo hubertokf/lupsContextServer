@@ -31,10 +31,6 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
         get_bd_conditions(handle_data_condition);
         var logicOperators = new LogicOperators(this.iterator);
         // var seletor        = new SelectCondition(this.data_contition);
-
-
-
-
         this.iterator++;
     };
 
@@ -85,16 +81,16 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
       iterator_action++;
     }
 
+
     var get_bd_conditions= function(handle){
       $.ajax({
         type:"POST",
         dataType: 'json',
         url:window.base_url+"cadastros/CI_Regra_SB/getConditions",
         complete: function (data) {
-
             handle(data['responseJSON']);
          }
-      });get_bd_action
+      });
   }
 
   var get_bd_action = function(handle_act) {
@@ -103,7 +99,6 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
       dataType: 'json',
       url:window.base_url+"cadastros/CI_Regra_SB/getActions",
       complete: function (data) {
-        
           handle_act(data['responseJSON']);
        }
     });

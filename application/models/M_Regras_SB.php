@@ -14,6 +14,7 @@ class M_Regras_SB extends CI_Model{
           //  echo "<br>";
           return $respost;
         }
+
         public function get_acoes($value='')
         {
           $this->db->select('*');

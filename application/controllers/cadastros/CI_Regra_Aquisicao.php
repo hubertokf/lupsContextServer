@@ -36,7 +36,7 @@ class CI_regra_Aquisicao extends CI_controller {
 
 	function pesquisa($nr_pagina=20 ){
 		$this->dados["metodo"] = "pesquisa";
-// vai ser importante
+
 		if ($this->session->userdata('perfilusuario_id') == 2) // É  um superuser?
 			$this->dados["linhas"]       = $this->M_regras->pesquisar('', array(), $nr_pagina, $this->uri->segment(5), 'asc', FALSE);
 		else
