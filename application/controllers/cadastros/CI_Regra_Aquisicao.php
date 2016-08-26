@@ -1,6 +1,6 @@
 <?php
 
-class CI_regra_SB extends CI_controller {
+class CI_regra_Aquisicao extends CI_controller {
 
 	public function __construct()
 	{
@@ -13,7 +13,6 @@ class CI_regra_SB extends CI_controller {
 		$this->load->model('M_usuario');
 		$this->load->model('M_contextointeresse');
 		$this->load->model('M_sensor');
-		$this->load->model('M_Regras_SB');
 		$this->M_geral->verificaSessao();
 		if ($this->session->userdata('usuario_id') != 0 && $this->session->userdata('usuario_id') != ""){
 			$this->dados['isLoged'] = true;
@@ -37,26 +36,27 @@ class CI_regra_SB extends CI_controller {
 
 	function pesquisa($nr_pagina=20 ){
 		$this->dados["metodo"] = "pesquisa";
-		// vai ser importante
-		if ($this->session->userdata('perfilusuario_id') == 2)
-			$this->dados["linhas"] = $this->M_regras->pesquisar('', array(), $nr_pagina, $this->uri->segment(5), 'asc', FALSE);
+// vai ser importante
+		if ($this->session->userdata('perfilusuario_id') == 2) // É  um superuser?
+			$this->dados["linhas"]       = $this->M_regras->pesquisar('', array(), $nr_pagina, $this->uri->segment(5), 'asc', FALSE);
 		else
-			$this->dados["linhas"] = $this->M_regras->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5), 'asc', TRUE);
+			$this->dados["linhas"]       = $this->M_regras->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5), 'asc', TRUE);
 
-		$this->dados["nr_pagina"] = $nr_pagina;
-		$this->dados["total"] = $this->M_regras->numeroLinhasTotais();
+		$this->dados["nr_pagina"]      = $nr_pagina;
+		$this->dados["total"]          = $this->M_regras->numeroLinhasTotais();
 		$this->dados["tituloPesquisa"] = "Regras Cadastradas";
-		$pag['base_url'] = base_url.$this->dados["caminho"]."/".$this->dados["metodo"]."/".$nr_pagina."/";
-		$pag['total_rows'] = $this->dados["total"];
-		$pag['uri_segment']	= 5;
-		$pag['per_page'] = $this->dados["nr_pagina"];
+		$pag['base_url']               = base_url.$this->dados["caminho"]."/".$this->dados["metodo"]."/".$nr_pagina."/";
+		$pag['total_rows']             = $this->dados["total"];
+		$pag['uri_segment']	           = 5;
+		$pag['per_page']               = $this->dados["nr_pagina"];
 		$this->pagination->initialize($pag);
 		$this->load->view('inc/topo',$this->dados);
 		$this->load->view('inc/menu');
 		$this->load->view('inc/topoPesquisa');
-		$this->load->view('cadastros/regras_sb/pesquisaEca');
+		$this->load->view('cadastros/regras_sb/pesquisa');
 		$this->load->view('inc/rodape');
 	}
+
 	function cadastro(){
 		$this->dados["regras"] = $this->M_regras->pesquisar();
 		if ($this->session->userdata('perfilusuario_id') == 2)
@@ -64,16 +64,12 @@ class CI_regra_SB extends CI_controller {
 		else
 			$this->dados["contextointeresse"] = $this->M_contextointeresse->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 100, 0, 'asc', TRUE);
 
-			$this->load->view('inc/topo',$this->dados);
-			$this->load->view('inc/menu');
-			// $this->load->view('cadastros/regras/cadastro');
-			 $this->load->view('cadastros/regras_sb/cadastroEca');
-			// $this->load->view('cadastros/regras_sb/cadastro');
-			$this->load->view('inc/rodape');
-
-
+		$this->load->view('inc/topo',$this->dados);
+		$this->load->view('inc/menu');
+		// $this->load->view('cadastros/regras/cadastro');
+		$this->load->view('cadastros/regras_sb/cadastro');
+		$this->load->view('inc/rodape');
 	}
-
 	function gravar(){
 		$this->form_validation->set_rules('regra_nome', 'Nome', 'trim|required');
 		$this->form_validation->set_rules('regra_status', 'Status', 'trim|required');
@@ -168,43 +164,16 @@ class CI_regra_SB extends CI_controller {
 	}
 
 	function getSensorByRci($id=""){
-		// if ($id==""){
-		// 	if(isset($_POST["contextointeresse"])) {
-		// 		$sensores = $this->M_relcontextointeresse->getByCi($_POST["contextointeresse"]);
-		// 	}
-		// }else{
-		// 	$sensores = $this->M_relcontextointeresse->getByCi($id);
-		// }
+		if ($id==""){
+			if(isset($_POST["contextointeresse"])) {
+				$sensores = $this->M_relcontextointeresse->getByCi($_POST["contextointeresse"]);
+			}
+		}else{
+			$sensores = $this->M_relcontextointeresse->getByCi($id);
+		}
 
 	    echo json_encode($sensores);
 	}
 
-	function getConditions($value="")
-	{
-		$condicoes = $this->M_Regras_SB->get_conditions();
-		$output    = array();
-
-		foreach($condicoes as $v) {
-				$obj      = array('nome'=> $v['nome'],'nome_legivel'=>$v['nome'],'tipo'=>$v['tipo']);
-				$obj      = json_encode($obj,JSON_FORCE_OBJECT);
-				$output[] = $obj;
-					}
-			echo json_encode($output);
-		// echo $output;
-
-	}
-	function getActions($value="") // busca no banco as açoes pre definidas e retorna para a app
-	{
-		$actions = $this->M_Regras_SB->get_acoes();
-		$output    = array();
-
-		foreach($actions as $v) {
-				$obj      = array('nome_legivel'=>$v['nome_legivel'],'nome'=>$v['nome']);
-				$obj      = json_encode($obj,JSON_FORCE_OBJECT);
-				$output[] = $obj;
-					}
-			echo json_encode($output);
-
-}
 }
 ?>

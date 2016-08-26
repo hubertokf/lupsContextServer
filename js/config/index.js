@@ -1,11 +1,11 @@
 require.config({
-    baseUrl: "./node_modules",
+    baseUrl: "../../js/node_modules/",
     paths: {
-        lib: "../lib",
-        aquisitionsRules : "../aquisitionsRules/lib",
-        root: "../",
-        jquery: "jquery/dist/jquery.min",
-        bootbox: "bootbox/bootbox.min"
+        lib: "../../js/lib",
+        aaquisitionsRules : "../../js/lib/aquisitionsRules",
+        root: "../../js/",
+        jquery: "../../js/node_modules/jquery/dist/jquery.min",
+        bootbox: "../../js/node_modules/bootbox/bootbox.min"
     }
 });
 

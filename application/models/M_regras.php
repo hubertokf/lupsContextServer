@@ -8,14 +8,14 @@ class M_regras extends CI_Model {
 	private $regra_contextointeresse;
 	private $regra_sensor;
 	private $regra_arquivo_py;
-		
+
         function pesquisar($select='', $where=array(), $limit=10, $offset=0, $ordem='asc', $perm=FALSE) {
         	if ($perm == FALSE){
 	            $this->db->select('r.*');
 
 	            // $this->db->select('ci.nome as contextointeresse_nome');
 	            // $this->db->select('s.nome as sensor_nome');
-	            
+
 	            $this->db->from('regras as r');
 
 	            // $this->db->join('relcontextointeresse as rci', 'r.regra_id = rci.regra_id', 'left');
@@ -23,13 +23,13 @@ class M_regras extends CI_Model {
 	            // $this->db->join('sensor as s', 's.sensor_id = rci.sensor_id', 'left');
 
 	        }else{
-	        	$this->db->select('r.*');
+	        		$this->db->select('r.*');
 
 	            $this->db->select('p.podeeditar as podeeditar');
 
 	            // $this->db->select('ci.nome as contextointeresse_nome');
 	            // $this->db->select('s.nome as sensor_nome');
-	            
+
 	            $this->db->from('regras as r');
 
 	            // $this->db->join('permissoes as p', 'r.regra_id = p.regra_id', 'inner');
@@ -43,6 +43,7 @@ class M_regras extends CI_Model {
 	        }
 
             $this->db->where($where);
+	
             $this->db->order_by('r.nome',$ordem);
        	    $this->db->limit($limit, $offset);
             return $this->db->get();
@@ -63,9 +64,9 @@ class M_regras extends CI_Model {
 
 		function salvar() {
             $arrayCampos  = array(
-                "status" 		=> $this->regra_status,
-                "nome" 			=> $this->regra_nome,
-                "tipo" 			=> $this->regra_tipo,
+                "status" 		  => $this->regra_status,
+                "nome" 			  => $this->regra_nome,
+                "tipo" 			  => $this->regra_tipo,
                 "arquivo_py" 	=> $this->regra_arquivo_py
             );
 
@@ -74,7 +75,7 @@ class M_regras extends CI_Model {
 			    $insert_id = $this->db->insert_id();
 
 			    // old "insert regra_id into relcontextointeresse"
-				//$this->db->update('relcontextointeresse', array('regra_id' => $insert_id), array("contextointeresse_id"=>$this->regra_contextointeresse,"sensor_id"=>$this->regra_sensor)); 
+				//$this->db->update('relcontextointeresse', array('regra_id' => $insert_id), array("contextointeresse_id"=>$this->regra_contextointeresse,"sensor_id"=>$this->regra_sensor));
 
 		        return "inc";
 			}
@@ -95,7 +96,7 @@ class M_regras extends CI_Model {
 
 		function excluir() {
             $arrayCampos  = array(
-                "regra_id" => $this->regra_id                
+                "regra_id" => $this->regra_id
             );
             if ($this->db->delete('regras', $arrayCampos)){
 	            if ($this->db->delete('regras', $arrayCampos))
@@ -118,8 +119,8 @@ class M_regras extends CI_Model {
 			$this->db->update('regras', $arrayCampos, array("regra_id"=>$this->regra_id));
 	        return "alt";
         }
-			
-// Getters and Setters 
+
+// Getters and Setters
 
 		public function getRegraId(){
 			if($this->regra_id === NULL) {
@@ -131,42 +132,42 @@ class M_regras extends CI_Model {
 		public function getRegraNome() {
 		    if($this->regra_nome === NULL) {
         		$this->regra_nome = new RegraNome;
-    		}			
+    		}
 			return $this->regra_nome;
 		}
 
 		public function getRegraStatus() {
 		    if($this->regra_status === NULL) {
         		$this->regra_status = new RegraStatus;
-    		}			
+    		}
 			return $this->regra_status;
 		}
 
 		public function getRegraTipo() {
 		    if($this->regra_tipo === NULL) {
         		$this->regra_tipo = new RegraTipo;
-    		}			
+    		}
 			return $this->regra_tipo;
 		}
 
 		public function getRegraArquivoPy() {
 		    if($this->regra_arquivo_py === NULL) {
         		$this->regra_arquivo_py = new RegraArquivoPy;
-    		}			
+    		}
 			return $this->regra_arquivo_py;
 		}
 
 		/*public function getRegraContextoInteresse() {
 		    if($this->regra_contextointeresse === NULL) {
         		$this->regra_contextointeresse = new RegraContextoInteresse;
-    		}			
+    		}
 			return $this->regra_contextointeresse;
 		}
 
 		public function getRegraSensor() {
 		    if($this->regra_sensor === NULL) {
         		$this->regra_sensor = new RegraSensor;
-    		}			
+    		}
 			return $this->regra_sensor;
 		}*/
 
