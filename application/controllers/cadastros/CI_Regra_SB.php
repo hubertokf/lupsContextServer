@@ -67,7 +67,7 @@ class CI_regra_SB extends CI_controller {
 
 			$this->load->view('inc/topo',$this->dados);
 			$this->load->view('inc/menu');
-			// $this->load->view('cadastros/regras/cadastro');
+
 			 $this->load->view('cadastros/regras_sb/cadastroEca');
 			// $this->load->view('cadastros/regras_sb/cadastro');
 			$this->load->view('inc/rodape');
@@ -75,34 +75,10 @@ class CI_regra_SB extends CI_controller {
 	}
 
 	function gravar(){
-		$this->form_validation->set_rules('regra_nome', 'Nome', 'trim|required');
-		$this->form_validation->set_rules('regra_status', 'Status', 'trim|required');
-		$this->form_validation->set_rules('regra_tipo', 'Tipo', 'trim|required');
-		$this->form_validation->set_rules('regra_tipo', 'Tipo', 'trim|required');
-		$this->form_validation->set_error_delimiters('<div class="field-errors">', '</div>');
-		$this->form_validation->set_message('required', 'Você deve preencher o campo "%s".');
-		if ($this->form_validation->run() == FALSE) {
-			if ($_POST['regra_id'] != "") {
-				$this->editar($_POST['regra_id']);
-			} else {
-				$this->cadastro();
-			}
-
-		} else {
-			$this->M_regras->setRegraId($_POST["regra_id"]);
-			$this->M_regras->setRegraNome($_POST["regra_nome"]);
-			$this->M_regras->setRegraStatus($_POST["regra_status"]);
-			$this->M_regras->setRegraTipo($_POST["regra_tipo"]);
-			$this->M_regras->setRegraArquivoPy($_POST["regra_arquivo_py"]);
-			if ($this->M_regras->salvar() == "inc"){
-				$this->dados["msg"] = "Dados registrados com sucesso!";
-				$this->pesquisa();
-			}
-			else {
-				$this->dados["msg"] = "Dados alterados com sucesso!";
-				$this->pesquisa();
-			}
+		if(isset($_POST["context"])){
+			echo $_POST["context"];
 		}
+		print("Ok");
 	}
 
 	function excluir($id=""){

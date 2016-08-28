@@ -5,6 +5,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
       this.compose_rule;
       this.ruler;
       this.condition = {};
+      this.send_informations = {}
       this.action = {};
 
   }
@@ -40,14 +41,30 @@ define(["jquery","bootbox"],function ($,bootbox) {
         //------finaliza coleta
         this.compose_rule = compose_rule;
         var finish = this.compose_rule['conditions'];
-
         this.to_number();
         this.condition['conditions'] = this.composition_conditions(0,finish.length);
         this.action['actions'] = this.composition_actions();
         this.ruler.push(this.condition);
         this.ruler.push(this.action);
-        console.log(JSON.stringify(this.ruler));
+        this.send_informations['rule'] = JSON.stringify(this.ruler);
+        this.send_data();
+        // console.log(JSON.stringify(this.ruler));
 
+  };
+  CreateRule.prototype.send_data = function () { //função que envia os dados para o servidor
+    if(true){
+      this.send_informations['context'] = '';
+    };
+    // else{};
+    $.ajax({
+      type:"POST",
+      data: this.send_informations,
+      dataType: 'json',
+      url:window.base_url+"cadastros/CI_Regra_SB/gravar",
+      complete: function (data) {
+        console.log("ko");   
+          }
+    });
   };
 
   CreateRule.prototype. composition_conditions = function (init,finish) {
@@ -72,7 +89,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
         before[this.compose_rule['logic_op'][i+1]].push(rule);
       }
       else{
-        // console.log(this.compose_rule['logic_op'][i],this.compose_rule['logic_op'][i+1]);
+
         if(this.compose_rule['logic_op'][i] != this.compose_rule['logic_op'][i+1]){
             merger = before;
             before = {};
@@ -109,8 +126,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
         var regex = new RegExp(/[0-9]|[0-9].[0-9]+|[0-9][0-9]|[0-9][0-9].[0-9]+/);
         // console.log(this.compose_rule['condtions_type'][i]);
         if(this.compose_rule['condtions_type'][i] == 'number' && regex.test(this.compose_rule['inputs'][i])){
-          console.log('ok');
-          this.compose_rule['inputs'][i] = Number(this.compose_rule['inputs'][i]);
+            this.compose_rule['inputs'][i] = Number(this.compose_rule['inputs'][i]);
         }
       }
   };
