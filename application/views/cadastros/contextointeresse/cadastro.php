@@ -25,7 +25,7 @@
                 <div class="col-sm-8 col-sm-offset-2">
                     <div class="cadastro-box">
 		            	<input type="hidden" name="contextointeresse_id" value="<?php echo @$contextointeresse_id;?>">
-                        
+
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1 input">
                                 <label for="contextointeresse_nome">Nome:</label>
@@ -68,7 +68,7 @@
                         <div class="row">
                             <div class="col-xs-offset-1 col-xs-9">
                                 <select class="sensorsOutCI">
-                                    <?php 
+                                    <?php
                                     $sensores_id = array();
                                     if (isset($contextointeresse_sensores)){
                                         foreach ($contextointeresse_sensores as $teste) {
@@ -78,12 +78,12 @@
 
                                     foreach ($sensores->result_array() as $sensor){
                                         if (!in_array($sensor['sensor_id'], $sensores_id)){
-                                            echo '<option value="'.$sensor['sensor_id'].'">'.$sensor['nome'].'</option>';    
+                                            echo '<option value="'.$sensor['sensor_id'].'">'.$sensor['nome'].'</option>';
                                         }
                                     }
 
                                     ?>
-                                </select>                                
+                                </select>
                             </div>
                             <div class="col-xs-1">
                                 <div id="insertSensorCI">
@@ -98,7 +98,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-offset-2 col-xs-8">
-                                
+
                                 <ul class="ciSensorList">
                                     <?php foreach ($sensores->result_array() as $sensor){
                                         if (in_array($sensor['sensor_id'], $sensores_id)){
@@ -123,7 +123,7 @@
                         <div class="row">
                             <div class="col-xs-3 col-xs-offset-1">
                                 <label for="contextointeresse_publico">Visível ao público:</label>
-                                <?php 
+                                <?php
                                 if(isset($contextointeresse_publico)) {
                                     if ($contextointeresse_publico == "f"){
                                         echo '<input type="checkbox" name="contextointeresse_publico" />';
@@ -143,12 +143,12 @@
 									<?php echo validation_errors(); ?>
 								</div>
 							</div>
-						</div>                        
+						</div>
                         <div class="row">
                             <div class="submit">
                                 <div class="col-md-6 col-md-offset-3">
                                     <input type="submit" name="botao" value="Cadastrar" />
-                                </div>          
+                                </div>
                             </div>
                         </div>
                     </div>

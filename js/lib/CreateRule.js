@@ -38,12 +38,18 @@ define(["jquery","bootbox"],function ($,bootbox) {
         $('.inputs').each(function(){
             compose_rule['inputs'].push($(this).val());
         });
+        this.send_informations['name_rule'] = $("#name_rule").val();
+        var str = $("#sensors").find(":selected").attr('id');
+        var res = str.split("-")
+        this.send_informations['id_sensor'] = Number(res[1]);
+        // console.log(this.send_informations['id_sensor']);
         //------finaliza coleta
-        this.compose_rule = compose_rule;
-        var finish = this.compose_rule['conditions'];
+
+        this.compose_rule              = compose_rule;
+        var finish                     = this.compose_rule['conditions'];
         this.to_number();
-        this.condition['conditions'] = this.composition_conditions(0,finish.length);
-        this.action['actions'] = this.composition_actions();
+        this.condition['conditions']   = this.composition_conditions(0,finish.length);
+        this.action['actions']         = this.composition_actions();
         this.ruler.push(this.condition);
         this.ruler.push(this.action);
         this.send_informations['rule'] = JSON.stringify(this.ruler);
@@ -61,8 +67,8 @@ define(["jquery","bootbox"],function ($,bootbox) {
       data: this.send_informations,
       dataType: 'json',
       url:window.base_url+"cadastros/CI_Regra_SB/gravar",
-      complete: function (data) {
-        console.log("ko");   
+      complete: function (response) {
+        console.log(response);
           }
     });
   };
@@ -102,7 +108,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
             before[this.compose_rule['logic_op'][i]].push(rule);
         }
       }
-       console.log(JSON.stringify(before));
+      //  console.log(JSON.stringify(before));
     }
       // console.log(before);
       return before;
