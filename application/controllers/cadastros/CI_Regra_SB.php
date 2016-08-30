@@ -59,26 +59,55 @@ class CI_regra_SB extends CI_controller {
 
 	function cadastro(){
 
-		$this->dados["regras"] = $this->M_regras->pesquisar();
-		if ($this->session->userdata('perfilusuario_id') == 2)
-			$this->dados["contextointeresse"] = $this->M_contextointeresse->pesquisar($select='', $where=array(), $limit=100, $offset=0, $ordem='asc');
-		else
+		// $this->dados["regras"] = $this->M_regras->pesquisar();
+		if ($this->session->userdata('perfilusuario_id') == 2){
+			// $this->dados["contextointeresse"] = $this->M_contextointeresse->pesquisar($select='', $where=array(), $limit=100, $offset=0, $ordem='asc');
+			$this->dados["sensores"] = $this->M_sensor->pesquisar($select='', $where=array(), $limit=100, $offset=0, $ordem='asc');
+			$this->dados["sensores"] = $this->M_sensor->pesquisar_livre();
+		}else{
+			// $this->dados["sensores"] = $this->M_sensor->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 100, 0, 'asc', TRUE);
+			$this->dados["sensores"] = $this->M_sensor->pesquisar_livre();
 			$this->dados["contextointeresse"] = $this->M_contextointeresse->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 100, 0, 'asc', TRUE);
-
-			$this->load->view('inc/topo',$this->dados);
-			$this->load->view('inc/menu');
-
-			 $this->load->view('cadastros/regras_sb/cadastroEca');
+		}$this->load->view('inc/topo',$this->dados);
+		$this->load->view('inc/menu');
+		$this->load->view('cadastros/regras_sb/cadastroEca');
 			// $this->load->view('cadastros/regras_sb/cadastro');
-			$this->load->view('inc/rodape');
+		$this->load->view('inc/rodape');
 
 	}
 
 	function gravar(){
-		if(isset($_POST["context"])){
-			echo $_POST["context"];
-		}
-		print("Ok");
+		// if(isset($_POST["context"])){
+		// }
+		$get_test  = array('sensor' => $_POST["id_sensor"],
+	  'jsonRule' => $_POST["rule"],
+	 	'status' => $_POST["status"]);
+	 	$data_string = json_encode($get_test,JSON_FORCE_OBJECT);
+
+		$url = "http://localhost:8000/rules/";
+		$ch = curl_init($url);
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+			 	'Authorization: token 9517048ac92b9f9b5c7857e988580a66ba5d5061',
+    		'Content-Type: application/json',
+    	'Content-Length: ' . strlen($data_string))
+		);
+		// $result = curl_exec($ch);
+		curl_close($ch);
+		// $this->M_regras->setRegraNome($_POST["name_rule"]);
+		// $this->M_regras->setRegraStatus($_POST["status"]);
+		// $this->M_regras->setRegraTipo($_POST["tipo"]);
+		// $this->M_regras->setRegraArquivoPy($_POST["rule"]);
+		// if ($this->M_regras->salvar() == "inc"){
+		// 	$this->dados["msg"] = "Dados registrados com sucesso!";
+		// 	$this->pesquisa();
+		$this->dados["msg"] = "Dados alterados com sucesso!";
+		// echo $result;
+		echo json_encode($get_test,JSON_FORCE_OBJECT);
+
+
 	}
 
 	function excluir($id=""){
