@@ -1,7 +1,8 @@
 define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/input","lib/Add_actions","bootbox","lib/CreateRule"], function($,SelectCondition,LogicOperators,Inputs,AddActions,bootbox,CreateRule){
 
     var AddRule = function(){
-
+        this.controller_conditition = 0; // controla quantas condiçoes podem ser instanciadas
+        this.set_button_logic     = false; //resposnável por instanciar a primeira condição se, o botão de operadores logicos
         this.create_rule          = new CreateRule();
         this.iterator             = 0;
         this.button_add_condition = $("#button_add");  //pega referência do botão adiconar condição
@@ -21,17 +22,19 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
 
     AddRule.prototype.press_button = function () {
 
-        if($('#condition_label').is(':hidden')){
-            $('#condition_label').show();
-            }
-        // console.log(this.data_contition);
-        var condition      = $('<div>',{class: "row", id: "Condition"+this.iterator})
-        $("#div_conditions").append(condition);
-        $("#div_conditions").css({"border": "double 1px", "border-color": "red"});
-        get_bd_conditions(handle_data_condition);
-        var logicOperators = new LogicOperators(this.iterator);
-        // var seletor        = new SelectCondition(this.data_contition);
-        this.iterator++;
+          if(this.controller_conditition <= 5){
+            if($('#condition_label').is(':hidden')){
+                $('#condition_label').show();
+                }
+            var condition         = $('<div>',{class: "row", id: "Condition"+this.iterator})
+            $("#div_conditions").append(condition);
+            $("#div_conditions").css({"border": "double 1px", "border-color": "red"});
+            get_bd_conditions(handle_data_condition);
+            var logicOperators    = new LogicOperators(this.iterator,this.set_button_logic);
+            this.set_button_logic = true;
+            this.iterator++;
+            this.controller_conditition++;
+          }
     };
 
     AddRule.prototype.press_button_action = function () {

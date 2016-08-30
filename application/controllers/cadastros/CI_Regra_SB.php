@@ -79,26 +79,33 @@ class CI_regra_SB extends CI_controller {
 	function gravar(){
 		// if(isset($_POST["context"])){
 		// }
-		$get_test  = array('sensor' => 1,
+		$get_test  = array('sensor' => $_POST["id_sensor"],
 	  'jsonRule' => $_POST["rule"],
-	 	'status' => TRUE);
+	 	'status' => $_POST["status"]);
 	 	$data_string = json_encode($get_test,JSON_FORCE_OBJECT);
+
 		$url = "http://localhost:8000/rules/";
-		// $get_test = json_encode($get_test,JSON_FORCE_OBJECT);
-		 $ch = curl_init($url);
-		 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-		 curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-		 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+		$ch = curl_init($url);
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 			 	'Authorization: token 9517048ac92b9f9b5c7857e988580a66ba5d5061',
     		'Content-Type: application/json',
     	'Content-Length: ' . strlen($data_string))
 		);
-
-		$result = curl_exec($ch);
+		// $result = curl_exec($ch);
 		curl_close($ch);
-		echo $result;
-		// echo json_encode($get_test,JSON_FORCE_OBJECT);
+		// $this->M_regras->setRegraNome($_POST["name_rule"]);
+		// $this->M_regras->setRegraStatus($_POST["status"]);
+		// $this->M_regras->setRegraTipo($_POST["tipo"]);
+		// $this->M_regras->setRegraArquivoPy($_POST["rule"]);
+		// if ($this->M_regras->salvar() == "inc"){
+		// 	$this->dados["msg"] = "Dados registrados com sucesso!";
+		// 	$this->pesquisa();
+		$this->dados["msg"] = "Dados alterados com sucesso!";
+		// echo $result;
+		echo json_encode($get_test,JSON_FORCE_OBJECT);
 
 
 	}

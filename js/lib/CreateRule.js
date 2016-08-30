@@ -39,6 +39,8 @@ define(["jquery","bootbox"],function ($,bootbox) {
             compose_rule['inputs'].push($(this).val());
         });
         this.send_informations['name_rule'] = $("#name_rule").val();
+        this.send_informations['status']    = true;
+        this.send_informations['tipo']      = 1;
         var str = $("#sensors").find(":selected").attr('id');
         var res = str.split("-")
         this.send_informations['id_sensor'] = Number(res[1]);
@@ -61,6 +63,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
     if(true){
       this.send_informations['context'] = '';
     };
+    console.log(this.send_informations);
     // else{};
     $.ajax({
       type:"POST",
