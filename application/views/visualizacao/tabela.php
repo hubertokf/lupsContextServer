@@ -21,7 +21,7 @@
 						<table class="tabela">
 					        <thead>
 					            <tr>
-					                <th scope="col" colspan="2"><?php echo date('d/m', strtotime($dia[0]['datacoleta'])); ?></th>
+					                <th scope="col" colspan="2"><?php echo date('d/m/y', strtotime($dia[0]['datacoleta'])); ?></th>
 					            </tr>
 					        </thead>
 					        <tbody>

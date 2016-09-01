@@ -183,8 +183,13 @@
 			$results = array();
 			$meds = array();
 			$date = date("Y-m-d");
+			$i = 0;
 			
-			for ($i = 0; $i < $dias; $i++) {
+			while ( $i < $dias) {
+				# code...
+			//}
+			
+			//for ( $i < $dias; $i++) {
 
 				$where = array(
 					'publicacao.sensor_id' => $_SESSION["sensor"],
@@ -193,8 +198,12 @@
 
 				$rows = $this->M_publicacao->getDataByDay($where)->result_array();
 
-				array_push($results, $rows);
-				array_push($meds, $this->M_publicacao->getMMM($where)->result_array());
+				if (!empty($rows)){
+					array_push($results, $rows);
+					array_push($meds, $this->M_publicacao->getMMM($where)->result_array());
+					$i++;
+				}
+
 
 				$date = date('Y-m-d', strtotime($date . ' -1 day'));
 			}
