@@ -16,7 +16,7 @@ require APPPATH . '/libraries/REST_Controller.php';
  * @license         MIT
  * @link            https://github.com/chriskacerguis/codeigniter-restserver
  */
-class Ambientes extends REST_Controller {
+class Regras extends REST_Controller {
 
     function __construct()
     {
@@ -30,9 +30,9 @@ class Ambientes extends REST_Controller {
         $this->methods['index_delete']['limit'] = 50; // 50 requests per hour per user/key
 
         //Load Models
-        $this->load->model('M_ambiente');
-        $this->load->model('M_gateway');
-        $this->load->model('M_usuario');
+        $this->load->model('M_regras');
+        $this->load->model('M_relcontextointeresse');
+        $this->load->model('M_contextointeresse');
         $this->load->model('M_sensor');
     }
     // Requisições GET enviadas para o index.
@@ -40,34 +40,34 @@ class Ambientes extends REST_Controller {
         // Requisições sem ID - lista todos os elementos
         $id = $this->get('id');
         if ($id === NULL){
-            // Pega ambientes do banco através do model ambiente
-            $ambientes = $this->M_ambiente->pesquisar('', array(), '', 0, 'asc', FALSE)->result_array();
+            // Pega regras do banco através do model regras
+            $regras = $this->M_regras->pesquisar('', array(), '', 0, 'asc', FALSE)->result_array();
 
-            if ($ambientes){
+            if ($regras){
                 // Converte os dados adquiridos do banco (array) para Json
-                $ambientes_json = json_encode($ambientes, JSON_UNESCAPED_UNICODE);
+                $regras_json = json_encode($regras, JSON_UNESCAPED_UNICODE);
                 // Define a resposta e finaliza com codigo 200 - OK
-                $this->response($ambientes_json, REST_Controller::HTTP_OK);
+                $this->response($regras_json, REST_Controller::HTTP_OK);
             }else{
                 // Define a resposta de ERRO e finaliza com codigo 404 - Não encontrado (NOT_FOUND)
                 $this->response([
                     'status' => FALSE,
-                    'message' => 'No ambients were found'
+                    'message' => 'No regras were found'
                 ], REST_Controller::HTTP_NOT_FOUND);
             }
         }else{
         // Requisições com ID - lista informações do elemento
-            $ambiente = $this->M_ambiente->selecionar($id)->result_array();
-            if ($ambiente){
+            $regra = $this->M_regras->selecionar($id)->result_array();
+            if ($regra){
                 // Converte os dados adquiridos do banco (array) para Json
-                $ambiente_json = json_encode($ambiente, JSON_UNESCAPED_UNICODE);
+                $regra_json = json_encode($regra, JSON_UNESCAPED_UNICODE);
                 // Define a resposta e finaliza com codigo 200 - OK
-                $this->response($ambiente_json, REST_Controller::HTTP_OK);
+                $this->response($regra_json, REST_Controller::HTTP_OK);
             }else{
                 // Define a resposta de ERRO e finaliza com codigo 404 - Não encontrado (NOT_FOUND)
                 $this->response([
                     'status' => FALSE,
-                    'message' => 'No ambient was found'
+                    'message' => 'No regra was found'
                 ], REST_Controller::HTTP_NOT_FOUND);
             }
         }
@@ -76,7 +76,7 @@ class Ambientes extends REST_Controller {
     public function index_post(){
         $content = $this->post('content');
         //verifica se o content da requisição veio
-        if ($content === NULL){
+        if ($content === NULL || empty($content)){
             //se não veio, retorna erro 204 (no content)
             $message = ['status' => FALSE,
                         'message' => 'No content was found'];
@@ -85,11 +85,13 @@ class Ambientes extends REST_Controller {
             //se veio, o framework já transforma o json para array associativo com os dados
 
             //salva no objeto do model
-            $this->M_ambiente->setAmbienteNome($content['ambiente_nome']);
-            $this->M_ambiente->setAmbienteDesc($content['ambiente_desc']);
-            $this->M_ambiente->setAmbienteStatus($content['ambiente_status']);
+            $this->M_regras->setRegraNome($content["nome"]);
+            $this->M_regras->setRegraStatus($content["status"]);
+            $this->M_regras->setRegraTipo($content["tipo"]);
+            $this->M_regras->setRegraArquivoPy($content["arquivo_py"]);
+
             //salva o model no banco
-            if ($this->M_ambiente->salvar() == "inc"){
+            if ($this->M_regras->salvar() == "inc"){
                 //se retornou inc, está salvo no banco
                 $message = "Dados registrados com sucesso!";
                 // retorna 201 (criado)
@@ -110,7 +112,7 @@ class Ambientes extends REST_Controller {
         if ($id === NULL){
             //se não veio, retorna erro 204 (no content)
             $message = ['status' => FALSE,
-                        'message' => 'No ambiente was found'];
+                        'message' => 'No regra was found'];
             $this->set_response($message, REST_Controller::HTTP_NOT_FOUND);
         }else{
             // Requisições com ID - lista informações do elemento
@@ -123,11 +125,12 @@ class Ambientes extends REST_Controller {
             }else{
                 //se veio, o framework já transforma o json para array associativo com os dados
                 //salva no objeto do model
-                $this->M_ambiente->setAmbienteId($id);
-                $this->M_ambiente->setAmbienteNome($content['ambiente_nome']);
-                $this->M_ambiente->setAmbienteDesc($content['ambiente_desc']);
-                $this->M_ambiente->setAmbienteStatus($content['ambiente_status']);
-                if ($this->M_ambiente->salvar() == "alt"){
+                $this->M_regras->setRegraId($id);
+                $this->M_regras->setRegraNome($content["nome"]);
+                $this->M_regras->setRegraStatus($content["status"]);
+                $this->M_regras->setRegraTipo($content["tipo"]);
+                $this->M_regras->setRegraArquivoPy($content["arquivo_py"]);
+                if ($this->M_regras->salvar() == "alt"){
                     //se retornou alt, está salvo no banco
                     $message = "Dados registrados com sucesso!";
                     // retorna 200 (OK)
@@ -148,15 +151,15 @@ class Ambientes extends REST_Controller {
         $id = $this->get('id');
         if ($id !== NULL || $id != ""){
             //se o id estiver setado, salva o id em um objeto do model ambinete e aciona metodo de excluir
-            $this->M_ambiente->setAmbienteId($id);  
-            $this->M_ambiente->excluir();
+            $this->M_regras->setRegraId($id);  
+            $this->M_regras->excluir();
 
             $message = "Registro(s) excluído(s) com sucesso!";
             $this->set_response($message, REST_Controller::HTTP_OK);
         }else{
             $this->response([
                     'status' => FALSE,
-                    'message' => 'No ambient was found'
+                    'message' => 'No regra was found'
                 ], REST_Controller::HTTP_NOT_FOUND);
         }
     }
