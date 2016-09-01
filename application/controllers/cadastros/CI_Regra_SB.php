@@ -190,7 +190,7 @@ class CI_regra_SB extends CI_controller {
 		$output    = array();
 
 		foreach($condicoes as $v) {
-				$obj      = array('nome'=> $v['nome'],'nome_legivel'=>$v['nome'],'tipo'=>$v['tipo']);
+				$obj      = array('nome'=> $v['nome'],'nome_legivel'=>$v['nome'],'tipo'=>$v['tipo'],"sensor"=>$v['sensor_id']);
 
 				$obj      = json_encode($obj,JSON_FORCE_OBJECT);
 				$output[] = $obj;

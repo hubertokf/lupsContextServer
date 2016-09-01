@@ -10,6 +10,7 @@ define (["jquery"],function($){
             data[i] = JSON.parse(data[i]);
             var opt = $('<option>', {
                 "data-type" : data[i]['tipo'],
+                "data-sensor": data[i]['sensor'],
                 value: data[i]['nome'],
                 text: data[i]['nome_legivel']
 

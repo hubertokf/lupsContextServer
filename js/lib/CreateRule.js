@@ -3,31 +3,36 @@ define(["jquery","bootbox"],function ($,bootbox) {
   var CreateRule = function() {
 
       this.compose_rule;
-      this.ruler;
-      this.condition = {};
+      this.rules_list;
+      this.rules_main = {};
       this.send_informations = {}
-      this.action = {};
+      this.rules_main = {};
 
   }
 
   CreateRule.prototype.create_rule = function () {
         // variavel do método responsável por armazenar info da app web
-        this.ruler                     = [];
+        this.rules_list                = [];
         var compose_rule               = {};
         compose_rule['compare']        = [];
         compose_rule['conditions']     = [];
+        compose_rule['id_sensor']      = [];
         compose_rule['condtions_type'] = [];
         compose_rule['logic_op']       = [];
         compose_rule['inputs']         = [];
         compose_rule['actions']        = [];
         //-----------inicia coleta:
+        // atributo this não podem ser inseridos em funções do tipo each, change,
         $('.form-control.select_rules_context.compare').each(function(){
             compose_rule['compare'].push($(this).val());
         });
         $('.form-control.select_rules_context.conditions').each(function(){
             compose_rule['conditions'].push($(this).val());
-
             compose_rule['condtions_type'].push($(this).find(":selected").data('type'));
+            var index = $(this).find(":selected").data('sensor');
+            if(compose_rule['id_sensor'].indexOf(index)){
+              compose_rule['id_sensor'].push(index);
+            }
         });
         $('.form-control.select_rules_context.operators').each(function(){
             compose_rule['logic_op'].push($(this).val());
@@ -42,28 +47,28 @@ define(["jquery","bootbox"],function ($,bootbox) {
         this.send_informations['status']    = true;
         this.send_informations['tipo']      = 1;
         var str = $("#sensors").find(":selected").attr('id');
-        var res = str.split("-")
+        var res = str.split("-");
         this.send_informations['id_sensor'] = Number(res[1]);
-        // console.log(this.send_informations['id_sensor']);
         //------finaliza coleta
-
         this.compose_rule              = compose_rule;
         var finish                     = this.compose_rule['conditions'];
         this.to_number();
-        this.condition['conditions']   = this.composition_conditions(0,finish.length);
-        this.action['actions']         = this.composition_actions();
-        this.ruler.push(this.condition);
-        this.ruler.push(this.action);
-        this.send_informations['rule'] = JSON.stringify(this.ruler);
+        this.rules_main['conditions']  = this.composition_conditions(finish.length);
+        this.rules_main['actions']     = this.composition_actions();
+        this.rules_list.push(this.rules_main);
+        this.send_informations['rule'] = JSON.stringify(this.rules_list);
+        this.insert_rules_error();
+        console.log(this.rules_main);
+        console.log(JSON.stringify(this.rules_list));
         this.send_data();
-        // console.log(JSON.stringify(this.ruler));
+        //  console.log(JSON.stringify(this.rules_main['conditions']));
 
   };
   CreateRule.prototype.send_data = function () { //função que envia os dados para o servidor
     if(true){
       this.send_informations['context'] = '';
     };
-    console.log(this.send_informations);
+    // console.log(this.send_informations);
     // else{};
     $.ajax({
       type:"POST",
@@ -76,53 +81,147 @@ define(["jquery","bootbox"],function ($,bootbox) {
     });
   };
 
-  CreateRule.prototype. composition_conditions = function (init,finish) {
+  CreateRule.prototype. composition_conditions = function (finish) {
+    var i           = 0;
+    var before      = {}; // objeto de condição
+    var rule        = {}; //  este vetor é o vetor pase para criar as regras
+    var all         = {}; // vetor para combinação secundárias, do tipo all
+    rule['any']     = [];  //  este vetor é o vetor pase para criar as regras
+    all['all']      = []; // vetor para combinação secundárias, do tipo all
 
-    var before = {};
-    var rule;
-    var merger;
-    var before_logic;
 
-    for(i = finish-1; i >= init; i--){
-      rule   = {};
-      rule['name']     = this.compose_rule['conditions'][i];
-      rule['operator'] = this.compose_rule['compare'][i];
-      rule['value']    = this.compose_rule['inputs'][i];
-      if(i === finish-1){
+    do {
+      if(finish == 2){ // se possui apenas duas condições
+        if(this.compose_rule['logic_op'][i] == "any"){ // se OU coloca as condições na vet base
+          before['name']     = this.compose_rule['conditions'][i];
+          before['operator'] = this.compose_rule['compare'][i];
+          before['value']    = this.compose_rule['inputs'][i];
+          rule['any'].push(before);
+          before             = {};
+          before['name']     = this.compose_rule['conditions'][i+1];
+          before['operator'] = this.compose_rule['compare'][i+1];
+          before['value']    = this.compose_rule['inputs'][i+1];
+          rule['any'].push(before);
+        }
+        else{ // Se op E insere condiçoes em um vetor all, este vetor é inserido no vetor base
+          before['name']     = this.compose_rule['conditions'][i];
+          before['operator'] = this.compose_rule['compare'][i];
+          before['value']    = this.compose_rule['inputs'][i];
+          all['all'].push(before);
+          before             = {};
+          before['name']     = this.compose_rule['conditions'][i+1];
+          before['operator'] = this.compose_rule['compare'][i+1];
+          before['value']    = this.compose_rule['inputs'][i+1];
+          all['all'].push(before);
+          rule['any'].push(all);
+          // console.log(rule);
+        }
+        i = i + 2;
 
-        before[this.compose_rule['logic_op'][i]] = []
-        before[this.compose_rule['logic_op'][i]].push(rule);
       }
-      else if(i === 0){
-
-        before[this.compose_rule['logic_op'][i+1]].push(rule);
-      }
+      else if(i == 0 && finish == 1){ // se finish é 1, condiz com uma regra que possiu apenas uma condição
+            before['name']     = this.compose_rule['conditions'][i];
+            before['operator'] = this.compose_rule['compare'][i];
+            before['value']    = this.compose_rule['inputs'][i];
+            rule['any'].push(before);
+            i = i + 2 ;
+          }
       else{
+          // verifica os a relação dos dois primeiros termos
+          if(i == 0 && this.compose_rule['logic_op'][i] == "any"){ // coloca a primeira condição no vetor base. O segundo deve ser nalisado em uma proxima etapa (considere que uma relação AvB^C)
+              before['name']     = this.compose_rule['conditions'][i];
+              before['operator'] = this.compose_rule['compare'][i];
+              before['value']    = this.compose_rule['inputs'][i];
+              rule['any'].push(before);
+              i= i + 2;
+          }
+          else if(i == 0 && this.compose_rule['logic_op'][i] == "all"){//cria vetor secundário e insere os dois termos no mesmo, não insere tal vetor no vetor base pois neessita de uma segunda analise
+            before['name']     = this.compose_rule['conditions'][i];
+            before['operator'] = this.compose_rule['compare'][i];
+            before['value']    = this.compose_rule['inputs'][i];
+            all['all'].push(before);
+            before             = {};
+            before['name']     = this.compose_rule['conditions'][i+1];
+            before['operator'] = this.compose_rule['compare'][i+1];
+            before['value']    = this.compose_rule['inputs'][i+1];
+            all['all'].push(before);
+            // rule['any'].push(all);
+            i = i + 2;
+          }
+          else if(this.compose_rule['logic_op'][i-1] == "all"){
+            if(this.compose_rule['logic_op'][i-2] == "all"){ // Se operador atual for e o anterior tbm, insere a condição atual no vetor sec existente
+              before             = {};
+              before['name']     = this.compose_rule['conditions'][i];
+              before['operator'] = this.compose_rule['compare'][i];
+              before['value']    = this.compose_rule['inputs'][i];
+              all['all'].push(before);
 
-        if(this.compose_rule['logic_op'][i] != this.compose_rule['logic_op'][i+1]){
-            merger = before;
-            before = {};
-            before[this.compose_rule['logic_op'][i]] = [];
-            before[this.compose_rule['logic_op'][i]].push(merger);
-            before[this.compose_rule['logic_op'][i]].push(rule);
+            }
+            else{ //caso o op anterior for ou, insere vetor sec no vetor base
+              all['all']         = [];
+              before             = {};
+              before['name']     = this.compose_rule['conditions'][i];
+              before['operator'] = this.compose_rule['compare'][i];
+              before['value']    = this.compose_rule['inputs'][i];
+              all['all'].push(before);
+              before             = {};
+              before['name']     = this.compose_rule['conditions'][i-1];
+              before['operator'] = this.compose_rule['compare'][i-1];
+              before['value']    = this.compose_rule['inputs'][i-1];
+              all['all'].push(before);
+            }
+            if(i == finish-1){// chegou no final, deve colocar o vetor sec. all dentro do vetor base, incrementa +3 para sair do laço
+              rule['any'].push(all);
+              i = i + 3 ;
+            }
+            else{
+              i++;
+            }
+          }
+          else if(this.compose_rule['logic_op'][i-1] == "any"){
+            if(this.compose_rule['logic_op'][i-2] == "any"){
+              before             = {};
+              before['name']     = this.compose_rule['conditions'][i-1];
+              before['operator'] = this.compose_rule['compare'][i-1];
+              before['value']    = this.compose_rule['inputs'][i-1];
+              rule['any'].push(before);
+              if(i == finish-1){
+                before             = {};
+                before['name']     = this.compose_rule['conditions'][i];
+                before['operator'] = this.compose_rule['compare'][i];
+                before['value']    = this.compose_rule['inputs'][i];
+                rule['any'].push(before);
+                i = i + 3;
+              }
+              else{i++;}
+            }
+            else{
+              rule['any'].push(all);
+              if(i == finish-1){
+                before             = {};
+                before['name']     = this.compose_rule['conditions'][i];
+                before['operator'] = this.compose_rule['compare'][i];
+                before['value']    = this.compose_rule['inputs'][i];
+                rule['any'].push(before);
+                i = i + 3;
+              }
+              else{i++;}
+            }
+          }
+          //  i--;
         }
-        else {
 
-            before[this.compose_rule['logic_op'][i]].push(rule);
-        }
-      }
-      //  console.log(JSON.stringify(before));
-    }
-      // console.log(before);
-      return before;
+    }while (i < finish);
+      console.log(JSON.stringify(rule));
+      return rule;
   };
 
   CreateRule.prototype.composition_actions = function () {
-      var action_group = [];
-      var action = {};
 
-      for(i=0; i<this.compose_rule['actions'].length; i++){
-        action['name'] = this.compose_rule['actions'][i];
+      var action_group = [];
+      for(i = 0; i < this.compose_rule['actions'].length; i++){
+        var action       = {};
+        action['name']   = this.compose_rule['actions'][i];
         action['params'] = '"foo": ""';
         action_group.push(action);
       }
@@ -133,12 +232,13 @@ define(["jquery","bootbox"],function ($,bootbox) {
       for(i = 0; i < this.compose_rule['condtions_type'].length ;i++){
         // var regex = new RegExp(/\d\d|\d/);
         var regex = new RegExp(/[0-9]|[0-9].[0-9]+|[0-9][0-9]|[0-9][0-9].[0-9]+/);
-        // console.log(this.compose_rule['condtions_type'][i]);
+        // .log(this.compose_rule['condtions_type'][i]);
         if(this.compose_rule['condtions_type'][i] == 'number' && regex.test(this.compose_rule['inputs'][i])){
             this.compose_rule['inputs'][i] = Number(this.compose_rule['inputs'][i]);
         }
       }
   };
+
   CreateRule.prototype.analysis_type = function () {
 
     var correct_information = true;
@@ -161,6 +261,24 @@ define(["jquery","bootbox"],function ($,bootbox) {
     }
 
   };
+
+  CreateRule.prototype.insert_rules_error = function () { // insere regras de verificação de erro dos sensores nas lista de regra
+    var before    = {};
+    var rule      = {};
+    var rules_sensor       = this.compose_rule['id_sensor'];
+    var action             = {name: "test_post_Event", params:{info_adicional:""}};
+    for(i=0; i < rules_sensor.length;i++){
+        before['name']     = "fault_check"+rules_sensor[i];
+        before['operator'] = "equal"
+        before['value']    = false;
+        rule['conditions'] = before;
+        rule['actions']    = action;
+        this.rules_list.push(rule);
+        rule               = {};
+        before             = {};
+    }
+  };
+
   var view_error = function(title_error,string) {
 
     bootbox.dialog({
