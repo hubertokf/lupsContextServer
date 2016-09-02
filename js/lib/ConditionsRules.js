@@ -8,11 +8,12 @@ define (["jquery"],function($){
       for(i = 0; i < Object.keys(data).length; i++){
 
             data[i] = JSON.parse(data[i]);
+            console.log(data[i]);
             var opt = $('<option>', {
                 "data-type" : data[i]['tipo'],
                 "data-sensor": data[i]['sensor'],
-                value: data[i]['nome'],
-                text: data[i]['nome_legivel']
+                value: data[i]['nome_legivel'],
+                text: data[i]['nome']
 
             })
 

@@ -84,7 +84,7 @@ class CI_regra_SB extends CI_controller {
 	 	'status' => $_POST["status"]);
 	 	$data_string = json_encode($get_test,JSON_FORCE_OBJECT);
 
-		$url = "http://localhost:8000/rules/";
+		$url = "http://10.0.1.106:8000/rules/";
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
@@ -94,15 +94,16 @@ class CI_regra_SB extends CI_controller {
     		'Content-Type: application/json',
     	'Content-Length: ' . strlen($data_string))
 		);
-		// $result = curl_exec($ch);
+		$result = curl_exec($ch);
 		curl_close($ch);
-		// $this->M_regras->setRegraNome($_POST["name_rule"]);
-		// $this->M_regras->setRegraStatus($_POST["status"]);
-		// $this->M_regras->setRegraTipo($_POST["tipo"]);
-		// $this->M_regras->setRegraArquivoPy($_POST["rule"]);
-		// if ($this->M_regras->salvar() == "inc"){
-		// 	$this->dados["msg"] = "Dados registrados com sucesso!";
-		// 	$this->pesquisa();
+		$this->M_regras->setRegraNome($_POST["name_rule"]);
+		$this->M_regras->setRegraStatus($_POST["status"]);
+		$this->M_regras->setRegraArquivoPy($_POST["rule"]);
+		$this->M_regras->setRegraTipo($_POST["tipo"]);
+		if ($this->M_regras->salvar() == "inc"){
+			$this->dados["msg"] = "Dados registrados com sucesso!";
+		}
+			$this->pesquisa();
 		$this->dados["msg"] = "Dados alterados com sucesso!";
 		// echo $result;
 		echo json_encode($get_test,JSON_FORCE_OBJECT);
@@ -173,13 +174,13 @@ class CI_regra_SB extends CI_controller {
 	}
 
 	function getSensorByRci($id=""){
-		// if ($id==""){
-		// 	if(isset($_POST["contextointeresse"])) {
-		// 		$sensores = $this->M_relcontextointeresse->getByCi($_POST["contextointeresse"]);
-		// 	}
-		// }else{
-		// 	$sensores = $this->M_relcontextointeresse->getByCi($id);
-		// }
+		if ($id==""){
+			if(isset($_POST["contextointeresse"])) {
+				$sensores = $this->M_relcontextointeresse->getByCi($_POST["contextointeresse"]);
+			}
+		}else{
+			$sensores = $this->M_relcontextointeresse->getByCi($id);
+		}
 
 	    echo json_encode($sensores);
 	}
@@ -190,7 +191,7 @@ class CI_regra_SB extends CI_controller {
 		$output    = array();
 
 		foreach($condicoes as $v) {
-				$obj      = array('nome'=> $v['nome'],'nome_legivel'=>$v['nome'],'tipo'=>$v['tipo'],"sensor"=>$v['sensor_id']);
+				$obj      = array('nome'=> $v['nome'],'nome_legivel'=>$v['nome_legivel'],'tipo'=>$v['tipo'],"sensor"=>$v['sensor_id']);
 
 				$obj      = json_encode($obj,JSON_FORCE_OBJECT);
 				$output[] = $obj;

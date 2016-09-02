@@ -58,18 +58,14 @@ define(["jquery","bootbox"],function ($,bootbox) {
         this.rules_list.push(this.rules_main);
         this.send_informations['rule'] = JSON.stringify(this.rules_list);
         this.insert_rules_error();
-        console.log(this.rules_main);
         console.log(JSON.stringify(this.rules_list));
         this.send_data();
-        //  console.log(JSON.stringify(this.rules_main['conditions']));
 
   };
   CreateRule.prototype.send_data = function () { //função que envia os dados para o servidor
     if(true){
       this.send_informations['context'] = '';
     };
-    // console.log(this.send_informations);
-    // else{};
     $.ajax({
       type:"POST",
       data: this.send_informations,
@@ -114,7 +110,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
           before['value']    = this.compose_rule['inputs'][i+1];
           all['all'].push(before);
           rule['any'].push(all);
-          // console.log(rule);
+
         }
         i = i + 2;
 
@@ -167,7 +163,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
               before             = {};
               before['name']     = this.compose_rule['conditions'][i-1];
               before['operator'] = this.compose_rule['compare'][i-1];
-              before['value']    = this.compose_rule['inputs'][i-1];
+              before['value']    = this.compose_rRegra_teste_2ule['inputs'][i-1];
               all['all'].push(before);
             }
             if(i == finish-1){// chegou no final, deve colocar o vetor sec. all dentro do vetor base, incrementa +3 para sair do laço
@@ -208,11 +204,11 @@ define(["jquery","bootbox"],function ($,bootbox) {
               else{i++;}
             }
           }
-          //  i--;
+          //  i--;Regra_teste_2
         }
 
     }while (i < finish);
-      console.log(JSON.stringify(rule));
+      // console.log(JSON.stringify(rule));
       return rule;
   };
 
@@ -221,8 +217,10 @@ define(["jquery","bootbox"],function ($,bootbox) {
       var action_group = [];
       for(i = 0; i < this.compose_rule['actions'].length; i++){
         var action       = {};
+        var params       = {};
         action['name']   = this.compose_rule['actions'][i];
-        action['params'] = '"foo": ""';
+        params["foo"]    = "";
+        action['params'] = params;
         action_group.push(action);
       }
       return action_group
@@ -272,7 +270,8 @@ define(["jquery","bootbox"],function ($,bootbox) {
         before['operator'] = "equal"
         before['value']    = false;
         rule['conditions'] = before;
-        rule['actions']    = action;
+        rule['actions']    = [];
+        rule['actions'].push(action);
         this.rules_list.push(rule);
         rule               = {};
         before             = {};
