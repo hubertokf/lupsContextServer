@@ -5,13 +5,23 @@ class M_Regras_SB extends CI_Model{
     private $ambiente_desc;
     private $ambiente_status;
 
+
+        public function get_sensor($value)
+        {
+          // print_r($value);
+          $this->db->select('selecoes.nome');
+          $this->db->from('regras as r');
+          $this->db->join('sensor as selecoes','r.sensor_id = selecoes.sensor_id');
+          $this->db->where('r.regra_id ='.$value);
+          $respost = $this->db->get();
+          return $respost;
+        }
         public function get_conditions($value='')
         {
           $this->db->select('*');
           $this->db->from('condicoes');
           $this->db->where('tipo_server = 1');
           $respost = $this->db->get()->result_array();
-          //  echo "<br>";
           return $respost;
         }
 

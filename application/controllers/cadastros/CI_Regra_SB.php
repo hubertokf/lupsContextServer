@@ -1,11 +1,10 @@
 <?php
 
 class CI_regra_SB extends CI_controller {
-
+	 // faz a interoperação de regra entre o metodo editar com o sendInformation
 	public function __construct()
 	{
 		parent::__construct();
-
 		$this->load->model('M_geral');
 		$this->load->model('M_configuracoes');
 		$this->load->model('M_regras');
@@ -57,18 +56,19 @@ class CI_regra_SB extends CI_controller {
 		$this->load->view('inc/rodape');
 	}
 
-	function cadastro(){
-
-		// $this->dados["regras"] = $this->M_regras->pesquisar();
+	function cadastro($value = ""){
 		if ($this->session->userdata('perfilusuario_id') == 2){
-			// $this->dados["contextointeresse"] = $this->M_contextointeresse->pesquisar($select='', $where=array(), $limit=100, $offset=0, $ordem='asc');
-			$this->dados["sensores"] = $this->M_sensor->pesquisar($select='', $where=array(), $limit=100, $offset=0, $ordem='asc');
-			$this->dados["sensores"] = $this->M_sensor->pesquisar_livre();
+			// $this->dados["sensores"] = $this->M_sensor->pesquisar($select='', $where=array(), $limit=100, $offset=0, $ordem='asc');
+			 $this->dados["sensores"] = $this->M_sensor->pesquisar_livre();
 		}else{
 			// $this->dados["sensores"] = $this->M_sensor->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 100, 0, 'asc', TRUE);
 			$this->dados["sensores"] = $this->M_sensor->pesquisar_livre();
 			$this->dados["contextointeresse"] = $this->M_contextointeresse->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 100, 0, 'asc', TRUE);
-		}$this->load->view('inc/topo',$this->dados);
+		}
+		if(!isset($this->dados["editable"])){
+			$this->dados["editable"] = "false";
+		}
+		$this->load->view('inc/topo',$this->dados);
 		$this->load->view('inc/menu');
 		$this->load->view('cadastros/regras_sb/cadastroEca');
 			// $this->load->view('cadastros/regras_sb/cadastro');
@@ -113,7 +113,6 @@ class CI_regra_SB extends CI_controller {
 
 	function excluir($id=""){
 		if ($id==""){
-
 			if(isset($_POST["item"])) {
 				$this->M_regras->setRegraId($_POST["item"]);
 				$this->M_regras->excluir();
@@ -128,10 +127,18 @@ class CI_regra_SB extends CI_controller {
 	}
 
    function editar($valor = "") {
+		//  print_r($_POST);
 		if(isset($_POST["item"])) {
+
 			$this->dados["registro"] = $this->M_regras->selecionar($_POST["item"]);
+			$this->dados["editable"] = "true";
+			$registro = $this->dados["registro"]->result_array();
+			$this->dados["sensor"]   = $this->M_Regras_SB->get_sensor($registro[0]['regra_id']);
 		} else if ($valor != "") {
 			$this->dados["registro"] = $this->M_regras->selecionar($valor);
+			$this->dados["editable"] = "true";
+			$registro = $this->dados["registro"]->result_array();
+			$this->dados["sensor"]   = $this->M_Regras_SB->get_sensor($registro[0]['regra_id']);
 		}
 		$this->cadastro();
 	}
@@ -214,6 +221,31 @@ class CI_regra_SB extends CI_controller {
 			echo json_encode($output);
 
 }
+function sendInformation($value='')
+{
+
+	$actions              = $this->M_Regras_SB->get_acoes();
+	$condicoes            = $this->M_Regras_SB->get_conditions();
+	$output               = array();
+	$output_condiction    = array();
+	$output_action        = array();
+	$rule                 = $this->M_regras->selecionar($_POST["index"])->result_array();
+	$rule 								= $rule[0]["arquivo_py"];
+	foreach($actions as $v) {
+			$obj              = array('nome_legivel'=>$v['nome_legivel'],'nome'=>$v['nome']);
+			$obj              = json_encode($obj,JSON_FORCE_OBJECT);
+			$output_action[]  = $obj;
+	}
+	foreach($condicoes as $v) {
+				$obj                  = array('nome'=> $v['nome'],'nome_legivel'=>$v['nome_legivel'],'tipo'=>$v['tipo'],"sensor"=>$v['sensor_id']);
+				$obj                  = json_encode($obj,JSON_FORCE_OBJECT);
+				$output_condiction[]  = $obj;
+	}
+	$output               = array('rule'=>$rule,"condictions" =>$output_condiction,"action"=>$output_action);
+	echo json_encode($output);
+	// echo $rule;
+}
+
 
 }
 

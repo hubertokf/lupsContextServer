@@ -6,10 +6,12 @@ define (["jquery"],function($){
       seletor.append(opt_base);
 
       for(i = 0; i < Object.keys(data).length; i++){
+              if(typeof data[i] === "string"){
+                data[i] = JSON.parse(data[i]);
+                // console.log("QWQWQ");
+              }
 
-            data[i] = JSON.parse(data[i]);
-            console.log(data[i]);
-            var opt = $('<option>', {
+                var opt = $('<option>', {
                 "data-type" : data[i]['tipo'],
                 "data-sensor": data[i]['sensor'],
                 value: data[i]['nome_legivel'],
@@ -19,6 +21,7 @@ define (["jquery"],function($){
 
             seletor.append(opt);
       }
+
     }
       return ConditionRules;
 });
