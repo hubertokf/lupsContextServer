@@ -1,39 +1,13 @@
 <?php
 class M_Regras_SB extends CI_Model{
-    private $ambiente_id;
-    private $ambiente_nome;
-    private $ambiente_desc;
-    private $ambiente_status;
 
-
-        public function get_sensor($value)
-        {
-          // print_r($value);
-          $this->db->select('selecoes.nome');
-          $this->db->from('regras as r');
-          $this->db->join('sensor as selecoes','r.sensor_id = selecoes.sensor_id');
-          $this->db->where('r.regra_id ='.$value);
-          $respost = $this->db->get();
-          return $respost;
-        }
-        public function get_conditions($value='')
-        {
-          $this->db->select('*');
-          $this->db->from('condicoes');
-          $this->db->where('tipo_server = 1');
-          $respost = $this->db->get()->result_array();
-          return $respost;
-        }
-
-        public function get_acoes($value='')
-        {
-          $this->db->select('*');
-          $this->db->from('acoes');
-          $this->db->where('tipo_server = 1');
-          $respost = $this->db->get()->result_array();
-          //  echo "<br>";
-          return $respost;
-        }
+        private $regra_id;
+        private $regra_status;
+        private $regra_tipo;
+        private $regra_nome;
+        private $regra_contextointeresse;
+        private $regra_sensor;
+        private $regra_arquivo_py;
 
 
     function pesquisar($select='', $where=array(), $limit=10, $offset=0, $ordem='asc', $perm=FALSE) {
@@ -94,7 +68,8 @@ class M_Regras_SB extends CI_Model{
             "status" 		  => $this->regra_status,
             "nome" 			  => $this->regra_nome,
             "tipo" 			  => $this->regra_tipo,
-            "arquivo_py" 	=> $this->regra_arquivo_py
+            "arquivo_py" 	=> $this->regra_arquivo_py,
+            "sensor_id"   => $this->regra_sensor
         );
 
   if ($this->regra_id == ""){
@@ -148,6 +123,15 @@ class M_Regras_SB extends CI_Model{
     }
 
   // Getters and Setters
+  public function get_sensor($value){
+    // print_r($value);
+    $this->db->select('selecoes.nome');
+    $this->db->from('regras as r');
+    $this->db->join('sensor as selecoes','r.sensor_id = selecoes.sensor_id');
+    $this->db->where('r.regra_id ='.$value);
+    $respost = $this->db->get();
+    return $respost;
+  }
 
   public function getRegraId(){
   if($this->regra_id === NULL) {
@@ -199,18 +183,18 @@ class M_Regras_SB extends CI_Model{
   }*/
 
   public function setRegraId($valor){
-  $this->regra_id = $valor;
+    $this->regra_id = $valor;
   }
 
   public function setRegraNome($valor){
   if(!is_string($valor)) {
     throw new InvalidArgumentException('Expected String');
   }
-  $this->regra_nome = $valor;
+    $this->regra_nome = $valor;
   }
 
   public function setRegraStatus($valor){
-  $this->regra_status = $valor;
+    $this->regra_status = $valor;
   }
 
     public function setRegraTipo($valor){
@@ -219,6 +203,10 @@ class M_Regras_SB extends CI_Model{
 
     public function setRegraArquivoPy($valor){
       $this->regra_arquivo_py = $valor;
+    }
+
+    public function setSensor($valor){
+      $this->regra_sensor = $valor;
     }
 
 	}

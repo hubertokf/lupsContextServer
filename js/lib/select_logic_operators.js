@@ -17,7 +17,7 @@ define (['jquery'], function($){
     //this.div_row.append(this.col_operator);
     $('#Condition'+id).append(this.col_operator);
     if(selectd !== undefined){
-      console.log(id,selectd,"#logic"+id);
+      // console.log(id,selectd,"#logic"+id);
       $("#logic"+id).val(selectd);
     }
   }

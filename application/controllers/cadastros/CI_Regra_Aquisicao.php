@@ -9,6 +9,7 @@ class CI_regra_Aquisicao extends CI_controller {
 		$this->load->model('M_geral');
 		$this->load->model('M_configuracoes');
 		$this->load->model('M_regras');
+		$this->load->model('M_Regras_SB');
 		$this->load->model('M_relcontextointeresse');
 		$this->load->model('M_usuario');
 		$this->load->model('M_contextointeresse');
@@ -37,13 +38,13 @@ class CI_regra_Aquisicao extends CI_controller {
 	function pesquisa($nr_pagina=20 ){
 		$this->dados["metodo"] = "pesquisa";
 
-		if ($this->session->userdata('perfilusuario_id') == 2) // É  um superuser?
-			$this->dados["linhas"]       = $this->M_regras->pesquisar('', array(), $nr_pagina, $this->uri->segment(5), 'asc', FALSE);
+		if ($this->session->userdata('perfilusuario_id') == 2) // É um superuser?
+			$this->dados["linhas"]       = $this->M_regras->pesquisar('', array(), $nr_pagina, $this->uri->segment(5), 'asc', FALSE,2);
 		else
-			$this->dados["linhas"]       = $this->M_regras->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5), 'asc', TRUE);
+			$this->dados["linhas"]       = $this->M_regras->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5), 'asc', TRUE,2);
 
 		$this->dados["nr_pagina"]      = $nr_pagina;
-		$this->dados["total"]          = $this->M_regras->numeroLinhasTotais();
+		$this->dados["total"]          = $this->M_regras->numeroLinhasTotais('',array('tipo'=>2));
 		$this->dados["tituloPesquisa"] = "Regras Cadastradas";
 		$pag['base_url']               = base_url.$this->dados["caminho"]."/".$this->dados["metodo"]."/".$nr_pagina."/";
 		$pag['total_rows']             = $this->dados["total"];
@@ -59,46 +60,62 @@ class CI_regra_Aquisicao extends CI_controller {
 
 	function cadastro(){
 		$this->dados["regras"] = $this->M_regras->pesquisar();
-		if ($this->session->userdata('perfilusuario_id') == 2)
+		if ($this->session->userdata('perfilusuario_id') == 2){
 			$this->dados["contextointeresse"] = $this->M_contextointeresse->pesquisar($select='', $where=array(), $limit=100, $offset=0, $ordem='asc');
-		else
+			$this->dados["sensores"] = $this->M_sensor->pesquisar_livre();
+		}
+		else{
 			$this->dados["contextointeresse"] = $this->M_contextointeresse->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 100, 0, 'asc', TRUE);
+			$this->dados["sensores"] = $this->M_sensor->pesquisar_livre();
+}
 
-		$this->load->view('inc/topo',$this->dados);
 		$this->load->view('inc/menu');
+		$this->load->view('inc/topo',$this->dados);
 		// $this->load->view('cadastros/regras/cadastro');
 		$this->load->view('cadastros/regras_sb/cadastro');
 		$this->load->view('inc/rodape');
 	}
 	function gravar(){
-		$this->form_validation->set_rules('regra_nome', 'Nome', 'trim|required');
-		$this->form_validation->set_rules('regra_status', 'Status', 'trim|required');
-		$this->form_validation->set_rules('regra_tipo', 'Tipo', 'trim|required');
-		$this->form_validation->set_rules('regra_tipo', 'Tipo', 'trim|required');
-		$this->form_validation->set_error_delimiters('<div class="field-errors">', '</div>');
-		$this->form_validation->set_message('required', 'Você deve preencher o campo "%s".');
-		if ($this->form_validation->run() == FALSE) {
-			if ($_POST['regra_id'] != "") {
-				$this->editar($_POST['regra_id']);
-			} else {
-				$this->cadastro();
-			}
 
-		} else {
-			$this->M_regras->setRegraId($_POST["regra_id"]);
-			$this->M_regras->setRegraNome($_POST["regra_nome"]);
-			$this->M_regras->setRegraStatus($_POST["regra_status"]);
-			$this->M_regras->setRegraTipo($_POST["regra_tipo"]);
-			$this->M_regras->setRegraArquivoPy($_POST["regra_arquivo_py"]);
-			if ($this->M_regras->salvar() == "inc"){
-				$this->dados["msg"] = "Dados registrados com sucesso!";
-				$this->pesquisa();
-			}
-			else {
-				$this->dados["msg"] = "Dados alterados com sucesso!";
-				$this->pesquisa();
-			}
+		if(isset($_POST["id_rule"])and $_POST["id_rule"] != ""){
+			print_r("<br>Regra</br>");
+			$this->M_Regras_SB->setRegraId($_POST["id_rule"]);
 		}
+		$get_test  = array('sensor' => $_POST["id_sensor"],
+	  'jsonRule' => $_POST["rule"],
+	 	'status' => $_POST["status"]);
+	 	$data_string = json_encode($get_test,JSON_FORCE_OBJECT);
+
+		$url = "http://10.0.1.106:8000/rules/";
+		// $ch = curl_init($url);
+		// curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+		// curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+		// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		// curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+		// 	 	'Authorization: token 9517048ac92b9f9b5c7857e988580a66ba5d5061',
+    // 		'Content-Type: application/json',
+    // 	'Content-Length: ' . strlen($data_string))
+		// );
+		// $result = curl_exec($ch);
+		// curl_close($ch);
+		$name = $this->session->userdata('nome');
+		// print_r($_POST["name_rule"],$_POST["status"],$_POST["rule"],$_POST["tipo"],$_POST["id_sensor"]);
+		$this->M_Regras_SB->setRegraNome($_POST["id_sensor"]."".$name);
+		$this->M_Regras_SB->setRegraStatus($_POST["status"]);
+		$this->M_Regras_SB->setRegraArquivoPy($_POST["rule"]);
+		$this->M_Regras_SB->setRegraTipo(2);
+		$this->M_Regras_SB->setSensor(intval($_POST["id_sensor"]));
+		if ($this->M_Regras_SB->salvar() == "inc"){
+			$this->dados["msg"] = "Dados registrados com sucesso!";
+			$this->pesquisa();
+		}
+		else{
+		$this->dados["msg"] = "Dados alterados com sucesso!";
+		$this->pesquisa();
+	}
+		// echo json_encode($get_test,JSON_FORCE_OBJECT);
+
+
 	}
 
 	function excluir($id=""){
@@ -118,11 +135,25 @@ class CI_regra_Aquisicao extends CI_controller {
 	}
 
    function editar($valor = "") {
+
 		if(isset($_POST["item"])) {
+
 			$this->dados["registro"] = $this->M_regras->selecionar($_POST["item"]);
-		} else if ($valor != "") {
+			$this->dados["editable"] = "true";
+			$registro = $this->dados["registro"]->result_array();
+		// print "<pre>";
+		// print_r($this->M_Regras_SB);
+		// print "</pre>";
+		// print "<pre>";
+		// print_r($registro[0]);
+		// print "</pre>";
+			$this->dados["sensor"]   = $this->M_Regras_SB->get_sensor($registro[0]['regra_id']);
+	} else if ($valor != "") {
 			$this->dados["registro"] = $this->M_regras->selecionar($valor);
-		}
+			$this->dados["editable"] = "true";
+			$registro = $this->dados["registro"]->result_array();
+			$this->dados["sensor"]   = $this->M_Regras_SB->get_sensor($registro[0]['regra_id']);
+	}
 		$this->cadastro();
 	}
 
@@ -176,4 +207,5 @@ class CI_regra_Aquisicao extends CI_controller {
 	}
 
 }
+
 ?>

@@ -13,6 +13,8 @@ class CI_regra_SB extends CI_controller {
 		$this->load->model('M_contextointeresse');
 		$this->load->model('M_sensor');
 		$this->load->model('M_Regras_SB');
+		$this->load->model('M_conditions');
+		$this->load->model('M_actions');
 		$this->M_geral->verificaSessao();
 		if ($this->session->userdata('usuario_id') != 0 && $this->session->userdata('usuario_id') != ""){
 			$this->dados['isLoged'] = true;
@@ -37,9 +39,9 @@ class CI_regra_SB extends CI_controller {
 	function pesquisa($nr_pagina=20 ){
 		$this->dados["metodo"] = "pesquisa";
 		if ($this->session->userdata('perfilusuario_id') == 2)
-			$this->dados["linhas"] = $this->M_regras->pesquisar('', array(), $nr_pagina, $this->uri->segment(5), 'asc', FALSE);
+			$this->dados["linhas"] = $this->M_regras->pesquisar('', array(), $nr_pagina, $this->uri->segment(5), 'asc', FALSE,1);
 		else
-			$this->dados["linhas"] = $this->M_regras->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5), 'asc', TRUE);
+			$this->dados["linhas"] = $this->M_regras->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5), 'asc', TRUE,1);
 
 		$this->dados["nr_pagina"] = $nr_pagina;
 		$this->dados["total"] = $this->M_regras->numeroLinhasTotais();
@@ -77,36 +79,43 @@ class CI_regra_SB extends CI_controller {
 	}
 
 	function gravar(){
-		// if(isset($_POST["context"])){
-		// }
+		if(isset($_POST["id_rule"])and $_POST["id_rule"] != ""){
+			print_r("<br>Regra</br>");
+			$this->M_Regras_SB->setRegraId($_POST["id_rule"]);
+		}
 		$get_test  = array('sensor' => $_POST["id_sensor"],
 	  'jsonRule' => $_POST["rule"],
 	 	'status' => $_POST["status"]);
 	 	$data_string = json_encode($get_test,JSON_FORCE_OBJECT);
 
 		$url = "http://10.0.1.106:8000/rules/";
-		$ch = curl_init($url);
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-			 	'Authorization: token 9517048ac92b9f9b5c7857e988580a66ba5d5061',
-    		'Content-Type: application/json',
-    	'Content-Length: ' . strlen($data_string))
-		);
-		$result = curl_exec($ch);
-		curl_close($ch);
-		$this->M_regras->setRegraNome($_POST["name_rule"]);
-		$this->M_regras->setRegraStatus($_POST["status"]);
-		$this->M_regras->setRegraArquivoPy($_POST["rule"]);
-		$this->M_regras->setRegraTipo($_POST["tipo"]);
-		if ($this->M_regras->salvar() == "inc"){
+		// $ch = curl_init($url);
+		// curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+		// curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+		// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		// curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+		// 	 	'Authorization: token 9517048ac92b9f9b5c7857e988580a66ba5d5061',
+    // 		'Content-Type: application/json',
+    // 	'Content-Length: ' . strlen($data_string))
+		// );
+		// $result = curl_exec($ch);
+		// curl_close($ch);
+		print_r($_POST["id_sensor"]);
+		// print_r($_POST["name_rule"],$_POST["status"],$_POST["rule"],$_POST["tipo"],$_POST["id_sensor"]);
+		$this->M_Regras_SB->setRegraNome($_POST["name_rule"]);
+		$this->M_Regras_SB->setRegraStatus($_POST["status"]);
+		$this->M_Regras_SB->setRegraArquivoPy($_POST["rule"]);
+		$this->M_Regras_SB->setRegraTipo($_POST["tipo"]);
+		// $this->M_Regras_SB_SB->setRegraSensor($_POST["id_sensor"]);
+		if ($this->M_Regras_SB->salvar() == "inc"){
 			$this->dados["msg"] = "Dados registrados com sucesso!";
-		}
 			$this->pesquisa();
+		}
+		else{
 		$this->dados["msg"] = "Dados alterados com sucesso!";
-		// echo $result;
-		echo json_encode($get_test,JSON_FORCE_OBJECT);
+		$this->pesquisa();
+	}
+		// echo json_encode($get_test,JSON_FORCE_OBJECT);
 
 
 	}
@@ -133,6 +142,12 @@ class CI_regra_SB extends CI_controller {
 			$this->dados["registro"] = $this->M_regras->selecionar($_POST["item"]);
 			$this->dados["editable"] = "true";
 			$registro = $this->dados["registro"]->result_array();
+			// print "<pre>";
+			// print_r($this->M_Regras_SB);
+			// print "</pre>";
+			// print "<pre>";
+			// print_r($registro[0]);
+			// print "</pre>";
 			$this->dados["sensor"]   = $this->M_Regras_SB->get_sensor($registro[0]['regra_id']);
 		} else if ($valor != "") {
 			$this->dados["registro"] = $this->M_regras->selecionar($valor);
@@ -194,7 +209,7 @@ class CI_regra_SB extends CI_controller {
 
 	function getConditions($value="")
 	{
-		$condicoes = $this->M_Regras_SB->get_conditions();
+		$condicoes = $this->M_conditions->get_conditions_SB();
 		$output    = array();
 
 		foreach($condicoes as $v) {
@@ -210,7 +225,7 @@ class CI_regra_SB extends CI_controller {
 
 	function getActions($value="") // busca no banco as açoes pre definidas e retorna para a app
 	{
-		$actions = $this->M_Regras_SB->get_acoes();
+		$actions = $this->M_actions->get_acoes_SB();
 		$output    = array();
 
 		foreach($actions as $v) {
@@ -224,8 +239,8 @@ class CI_regra_SB extends CI_controller {
 function sendInformation($value='')
 {
 
-	$actions              = $this->M_Regras_SB->get_acoes();
-	$condicoes            = $this->M_Regras_SB->get_conditions();
+	$actions              = $this->M_actions->get_acoes_SB();
+	$condicoes            = $this->M_conditions->get_conditions_SB();
 	$output               = array();
 	$output_condiction    = array();
 	$output_action        = array();

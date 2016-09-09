@@ -51,11 +51,11 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
 
     AddRule.prototype.press_button_create_rule = function () {
 
-      if($('#action_label').is(':hidden')){view_error("Escolha ao menos uma Ação")}
-      else if($('#condition_label').is(':hidden')){view_error("Escolha ao menos uma condição")}
-      else {
+      // if($('#action_label').is(':hidden')){view_error("Escolha ao menos uma Ação")}
+      // else if($('#condition_label').is(':hidden')){view_error("Escolha ao menos uma condição")}
+      // else {
         this.create_rule.create_rule();
-      }
+      // }
     };
 
     // var view_error = function(string) {
@@ -126,6 +126,7 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
     var get_information_editable = function (handle_edit) {
       var index      = {};
       index['index'] = $("#editable_id_rule").val();
+      $('#condition_label').show();
       $.ajax({
         type:"POST",
         data: index,
@@ -139,17 +140,17 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
 
   }
   function handle_edit(data) {
-    var iterator = 0;
+    var iterator       = 0;
+    var iterator_action = 0;
     var e;
     console.log(data['rule']);
     var option_select_condition = data['condictions']; // informações para construição do  seletor de condições
-    // console.log(typeof option_select_condition[0]);
-    var rules    = JSON.parse(data['rule']);
-    rule         = rules[0]['conditions']['any'];
-    // console.log(rule[0].hasOwnProperty('all'));
+    var option_select_action    = data['action'];
+    var rules                   = JSON.parse(data['rule']);
+    rule                        = rules[0]['conditions']['any'];
     for (var i = 0; i < rule.length; i++){
       e  = "ed-"+iterator;
-      if(rule[i].hasOwnProperty('all')){
+      if(rule[i].hasOwnProperty('all')){ // verifica se o elemento i do vetor base é um vetor tipo e
         var all = rule[i]['all'];
         var enable_logic;
         if(i==0){
@@ -161,12 +162,12 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
           var objetc_condition = all[0]; // pega o primeiro obj do vetor
           var condition_div = $('<div>',{class: "row", id: "Condition"+e})
           $("#div_conditions").append(condition_div);
-          console.log(typeof option_select_condition[0]);
+          // console.log(typeof option_select_condition[0]);
           //processo de setagem dos parametros
           new LogicOperators(e,enable_logic,'any');
           new SelectCondition(e,option_select_condition,objetc_condition['name'],objetc_condition['operator']);
           new Inputs(e,objetc_condition['value']);
-          console.log(typeof option_select_condition[0]);
+          // console.log(typeof option_select_condition[0]);
           iterator++;
           e  = "ed-"+iterator;
 
@@ -193,18 +194,31 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
         else{
             enable_logic = true;
         }
-    var objetc_condition = rule[i]; // pega o  obj do vetor base
-    var condition_div = $('<div>',{class: "row", id: "Condition"+e})
-    $("#div_conditions").append(condition_div);
+        var objetc_condition = rule[i]; // pega o  obj do vetor base
+        var condition_div = $('<div>',{class: "row", id: "Condition"+e})
+        $("#div_conditions").append(condition_div);
 
-    new LogicOperators(e,enable_logic,'any');
-    new SelectCondition(e,option_select_condition,objetc_condition['name'],objetc_condition['operator']);
-    new Inputs(e,objetc_condition['value']);
+        new LogicOperators(e,enable_logic,'any');
+        new SelectCondition(e,option_select_condition,objetc_condition['name'],objetc_condition['operator']);
+        new Inputs(e,objetc_condition['value']);
 
-    iterator++;
-    e  = "ed-"+iterator;
+        iterator++;
+        e  = "ed-"+iterator;
 
       }
+    }
+
+    $('#action_label').show();
+   var rules                    = JSON.parse(data['rule']);
+    e = "ed"+iterator_action;
+    rules                        = rules[0]['actions'];
+
+    for (var i = 0; i < rules.length; i++) {
+      console.log(rules[i]['name']);
+      var action = new AddActions(e,option_select_action,rules[i]['name']);
+      $("#div_action").append(action);
+      iterator_action++;
+      e = "ed"+iterator_action;
     }
   }
     return AddRule;

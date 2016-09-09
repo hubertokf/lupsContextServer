@@ -46,6 +46,11 @@ define(["jquery","bootbox"],function ($,bootbox) {
         this.send_informations['name_rule'] = $("#name_rule").val();
         this.send_informations['status']    = true;
         this.send_informations['tipo']      = 1;
+        this.send_informations['id_rule']   = $("#editable_id_rule").val();
+        if(this.send_informations['id_rule']){
+            console.log("ok");
+        }
+
         var str = $("#sensors").find(":selected").attr('id');
         var res = str.split("-");
         this.send_informations['id_sensor'] = Number(res[1]);
@@ -72,9 +77,12 @@ define(["jquery","bootbox"],function ($,bootbox) {
       dataType: 'json',
       url:window.base_url+"cadastros/CI_Regra_SB/gravar",
       complete: function (response) {
-        console.log(response);
+         console.log("bugg",response['responseText']);
           }
     });
+    // $.ajax({type:"POST",
+    // dataType: 'json',
+    // url:window.base_url+"cadastros/CI_Regra_SB"})
   };
 
   CreateRule.prototype. composition_conditions = function (finish) {
@@ -163,7 +171,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
               before             = {};
               before['name']     = this.compose_rule['conditions'][i-1];
               before['operator'] = this.compose_rule['compare'][i-1];
-              before['value']    = this.compose_rRegra_teste_2ule['inputs'][i-1];
+              before['value']    = this.compose_rule['inputs'][i-1];
               all['all'].push(before);
             }
             if(i == finish-1){// chegou no final, deve colocar o vetor sec. all dentro do vetor base, incrementa +3 para sair do laço
