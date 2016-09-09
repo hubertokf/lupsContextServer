@@ -6,17 +6,22 @@ define (["jquery"],function($){
       seletor.append(opt_base);
 
       for(i = 0; i < Object.keys(data).length; i++){
+              if(typeof data[i] === "string"){
+                data[i] = JSON.parse(data[i]);
+                // console.log("QWQWQ");
+              }
 
-            data[i] = JSON.parse(data[i]);
-            var opt = $('<option>', {
+                var opt = $('<option>', {
                 "data-type" : data[i]['tipo'],
-                value: data[i]['nome'],
-                text: data[i]['nome_legivel']
+                "data-sensor": data[i]['sensor'],
+                value: data[i]['nome_legivel'],
+                text: data[i]['nome']
 
             })
 
             seletor.append(opt);
       }
+
     }
       return ConditionRules;
 });

@@ -2,7 +2,8 @@ define(["jquery","bootbox"],function($,bootbox){
 
   ModelAquisition = function(){
     this.select_sensor             = $("#select_sensor");
-    this.parent_element            =   $("#create_aquisiton");
+    this.parent_element            = $("#create_aquisiton");
+    // this.select_ruler              = $("#select_rules");
     this.option_generate_scheduler = {}; //contem todas as informações para da regra de aquisição, bem como infromações do sensor selecionado
     this.rules_scheduler           = {}; // objeto para criar regra de aquisição,
     this.checked_information;
@@ -12,9 +13,9 @@ define(["jquery","bootbox"],function($,bootbox){
   ModelAquisition.prototype.get_informations= function () { //coleta informaços do view.
 
     var bar = {};
-    this.option_generate_scheduler['value']  = this.parent_element.find(":selected").val(); //pega valor da opção de aquisição
-    this.option_generate_scheduler['sensor'] = this.select_sensor.find(":selected").val(); //pega id do sensor
-    this.option_generate_scheduler['data']   = this.select_sensor.find(":selected").data(); //pega os dados do sensors selecionado
+    this.rules_scheduler['value']  = this.parent_element.find(":selected").val(); //pega valor da opção de aquisição
+    this.option_generate_scheduler['id_sensor'] = this.select_sensor.find(":selected").val(); //pega id do sensor
+    // this.option_generate_scheduler['data']   = this.select_sensor.find(":selected").data(); //pega os dados do sensors selecionado
     this.parent_element.find("input:checked").each(function() { //pega informações de cada checkobx selecionado e seus respectivos inputs
 
         var name_val         = $(this).val();
@@ -33,7 +34,7 @@ define(["jquery","bootbox"],function($,bootbox){
 
     var generate_open = true;
     this.get_informations();
-    switch (this.option_generate_scheduler['value']) {
+    switch (this.rules_scheduler['value']) {
 
       case "A cada":
          if(this.checked_information.hasOwnProperty('minutes')){
@@ -125,7 +126,11 @@ define(["jquery","bootbox"],function($,bootbox){
        break;
 
     }
-    if(generate_open){this.send_scheduler();}
+    if(generate_open){
+
+      this.send_scheduler();
+
+    }
 
 
   }
@@ -248,19 +253,33 @@ define(["jquery","bootbox"],function($,bootbox){
 
   };
 
-  ModelAquisition.prototype.send_scheduler = function () {
+  ModelAquisition.prototype.send_scheduler = function () { //metodo que pegaas ibfomarções e envia ára o back=end
     if(this.option_generate_scheduler['sensor'] === ''){
-      view_error("Sensor não selecionado");
+      // view_error("Sensor não selecionado");
+      alert("Sensor não selecionado");
     }
     else{
-      this.option_generate_scheduler['rule'] = this.rules_scheduler;
+
+      this.option_generate_scheduler['rule']   = JSON.stringify(this.rules_scheduler);
+      this.option_generate_scheduler['status'] = true;
+      $.ajax({
+        type:"POST",
+        data: this.option_generate_scheduler,
+        dataType: 'json',
+        url:window.base_url+"cadastros/CI_Regra_Aquisicao/gravar",
+        complete: function (response) {
+           console.log("bugg",response['responseText']);
+            }
+      });
+
     }
-    console.log(this.option_generate_scheduler);
+    console.log(this.rules_scheduler);
   };
   //--------- fim ------------------
 
   ModelAquisition.prototype.view_rule = function () {
-    this.option_generate_scheduler['sensor'] = this.select_sensor.find(":selected").val();
+    // no lugar  this.option_generate_scheduler['sensor'] colocar this.option_generate_scheduler['rules'],exemplo.
+    this.option_generate_scheduler['id_sensor'] = this.select_sensor.find(":selected").val();
     // inserir ajax
     var view_rule = construct_view_rules(this.option_generate_scheduler);
     console.log(view_rule);
@@ -278,8 +297,12 @@ define(["jquery","bootbox"],function($,bootbox){
               $(".modal-title").css({'text-align':'center','font-weight': 'bold'})
   }
 var number_NaN = function(num){ // transforma string em numero, se ampo vazio retorna NaN
-    if(num == ''){return NaN}
-    else{return Number(num)}
+    if(num == ''){
+      return NaN;
+    }
+    else{
+      return Number(num);
+    }
 
 }
 var construct_view_rules = function (data) { // estrutura a função em um formato legíel para o usuário
@@ -291,7 +314,7 @@ var construct_view_rules = function (data) { // estrutura a função em um forma
    var months    = data['rule']['months'];
 
 
-   if(minutes.length > 5){ // tam minimo para "30 60"
+   if(minutes.length > 5){ // tem minimo para "30 60"
       var minutes_split = minutes.split(" ");
       view_rule = view_rule + "Minutos: " + minutes_split[1] +"\n";
    }

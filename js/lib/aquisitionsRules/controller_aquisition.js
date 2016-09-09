@@ -4,7 +4,9 @@ define(["aquisitionsRules/sensors","aquisitionsRules/create_sched","aquisitionsR
 
       this.get_has_scheduler;
       this.has_scheduler = true; // true se a pessoa vai gerar uma nova regra, false se a pessoa vai pegar uma regra já existente referente ao sensor x
-      this.select_sensor     = new Sensors();
+      //inerir new sensor no ajax.Este ajax pega como parametro, um vetor com os sensores
+      new Sensors();
+
       this.model             = new ModelAquisition();
       this.buttons           = new CreateSchedulerOptions();
       this.checkboxs         = new CheckBoxs();
@@ -19,7 +21,7 @@ ControllerAquisition.prototype.set_events_buttons = function () {
          this.buttons.button_create.click(this.press_button_create_scheduler.bind(this));
          this.buttons.button_get.click(this.press_button_get_scheduler.bind(this));
          this.buttons.send_scheduler.click(this.press_button_send.bind(this));
-         this.buttons.button_view.click(this.press_button_view.bind(this));
+        //  this.buttons.button_view.click(this.press_button_view.bind(this));
          this.checkboxs.check_minutes.click(this.verify_check.bind(this));
          this.checkboxs.check_hours.click(this.verify_check.bind(this));
          this.checkboxs.check_days.click(this.verify_check.bind(this));
@@ -82,9 +84,9 @@ ControllerAquisition.prototype.verify_check = function () {
           this.checkboxs.input_months.hide()
         }
 };
-  ControllerAquisition.prototype.press_button_view = function () {
-        this.model.view_rule();
-  };
+// ControllerAquisition.prototype.press_button_view = function () {
+//         this.model.view_rule();
+//   };
 ControllerAquisition.prototype.super_hide = function () {
   this.checkboxs.label_minutes.hide();
   this.checkboxs.label_hours.hide();

@@ -1,25 +1,32 @@
 <?php
-	// if(isset($registro)){
-	// 	foreach ($registro as $linha){
-	// 		$contextointeresse_id 			         = $linha['contextointeresse_id'];
-	// 		$contextointeresse_nome		             = $linha['nome'];
-  //           $contextointeresse_sensores              = $linha['sensores'];
-	// 		$contextointeresse_publico	             = $linha['publico'];
-  //           $contextointeresse_regra                 = $linha['regra_id'];
-	// 	}
-	// }
+	if(isset($registro)){
+    // print_r($registro->result_object());
+    $regra = $registro->result_array();
+		$sensor_name = $sensor->result_array();
+
+	  }
+
+  else{
+    $regra = "";
+  }
+
+
 ?>
 <script data-main="../../js/config/index" src="../../js/node_modules/requirejs/require.js" ></script>
+      <input type="hidden" id="editable" value="<?php echo $editable ?>">
+      <input type="hidden" id="editable_ruler_name" value="<?php echo @$regra[0]['nome'] ?>">
+      <input type="hidden" id="editable_sensor_chose" value="<?php echo @$sensor_name[0]['nome'] ?>">
+			<input type="hidden" id="editable_id_rule" value="<?php echo @$regra[0]['regra_id'] ?>">
       <div class="container">
         <div id="container_rules">
-          
+
         </div>
-         <div class="row" id = "button_rule">
+         <div  id = "button_rule">
            <div class="col-md-2 input">
               <label id = "label_name_rule">Nome da Regra</label>
            </div>
            <div class="col-md-4">
-             <input type="input"  id = "name_rule" >
+             <input type="input" class="form-control "  id = "name_rule" >
            </div>
            <div class="col-md-2 input">
              <label id = "label_name_sensor">Lista de sensores</label>

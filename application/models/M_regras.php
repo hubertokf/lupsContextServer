@@ -9,7 +9,7 @@ class M_regras extends CI_Model {
 	private $regra_sensor;
 	private $regra_arquivo_py;
 
-        function pesquisar($select='', $where=array(), $limit=10, $offset=0, $ordem='asc', $perm=FALSE) {
+        function pesquisar($select='', $where=array(), $limit=10, $offset=0, $ordem='asc', $perm=FALSE,$sens='') {
         	if ($perm == FALSE){
 	            $this->db->select('r.*');
 
@@ -43,7 +43,8 @@ class M_regras extends CI_Model {
 	        }
 
             $this->db->where($where);
-	
+						$this->db->where("r.tipo=".$sens);
+
             $this->db->order_by('r.nome',$ordem);
        	    $this->db->limit($limit, $offset);
             return $this->db->get();

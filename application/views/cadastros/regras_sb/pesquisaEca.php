@@ -10,7 +10,7 @@
 				<thead>
 					<tr class="titulos row">
 			            <td class="col-xs-5">NOME DA REGRA</td>
-			            <td class="col-xs-5">NOME</td>
+			            <td class="col-xs-5">MODIFICAÇÃO E EXCLUSÃO</td>
 			            <td class="check col-xs-2"></td>
 			        </tr>
 			    </thead>
@@ -21,8 +21,8 @@
 							<tr class='dados row'>
 								 <td>".$linha['nome']."</td>
 								<td class='buttons-row'>
-									<a class='botaoEditar' id='edit-$linha[perfilusuario_id]' href='javascript:;' alt='Editar Registro' title='Editar Registro'><i class='fa fa-pencil-square-o fa-2x'></i></a>
-									<a class='botaoExcluir' id='del-$linha[perfilusuario_id]' href='javascript:;' alt='Excluir Registro' title='Excluir Registro'><i class='fa fa-times fa-2x'></i></a>
+									<a class='botaoEditar' id='edit-$linha[regra_id]' href='javascript:;' alt='Editar Registro' title='Editar Registro'><i class='fa fa-pencil-square-o fa-2x'></i></a>
+									<a class='botaoExcluir' id='del-$linha[regra_id]' href='javascript:;' alt='Excluir Registro' title='Excluir Registro'><i class='fa fa-times fa-2x'></i></a>
 								</td>
 							</tr>
 						";
