@@ -26,16 +26,30 @@ define(["jquery"], function($){
     Sensors.prototype.set_events = function () {
           $('#select_sensors').change(function() {
               //  var selected = $(this).find(':selected').data();
-              //  var selected_value = $(this).find(':selected').val();
-              // inserir ajax para  criação do seletor com as regras
-              // if(selected['have_rule']){
-              //    $("#alert_sensor").show();
-              //    $(".button_rule.visible").show();
-              // }
-              // else{
-              //   $("#alert_sensor").hide();
-              //   $(".button_rule.visible").hide();
-              // }
+               var selected_value = $(this).find(':selected').val();
+               $.ajax({
+                 type:"POST",
+                 data: {id_sensor:selected_value},
+                 dataType: 'json',
+                 url:window.base_url+"cadastros/CI_Regra_Aquisicao/get_rules_names",
+                 complete: function (response) {
+                   $("#select_rules").empty();
+                   $("#select_rules").append($('<option value selected disabled>Selecione</option> '));
+                    if(response['responseJSON'].length === 0){
+                        $("#alert_sensor").hide();
+                    }
+
+                    else{
+                      $("#alert_sensor").show();
+
+                      for (var i = 0; i < response['responseJSON'].length; i++) {
+                          var opt = $('<option>',{value:response['responseJSON'][i]['regra_id'] ,text:response['responseJSON'][i]['nome']});
+                          $("#select_rules").append(opt);
+                      }
+                    }
+
+                  }
+               });
 
           });
     };

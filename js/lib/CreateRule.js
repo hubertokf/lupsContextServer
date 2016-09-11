@@ -1,5 +1,6 @@
 define(["jquery","bootbox"],function ($,bootbox) {
 
+  var path       = window.location.pathname.split('/');
   var CreateRule = function() {
 
       this.compose_rule;
@@ -75,11 +76,12 @@ define(["jquery","bootbox"],function ($,bootbox) {
       type:"POST",
       data: this.send_informations,
       dataType: 'json',
-      url:window.base_url+"cadastros/CI_Regra_SB/gravar",
+      url:window.base_url+"cadastros/"+path[3]+"/gravar",
       complete: function (response) {
          console.log("bugg",response['responseText']);
           }
     });
+    window.location.replace(window.base_url+"/cadastros/"+path[3]);
     // $.ajax({type:"POST",
     // dataType: 'json',
     // url:window.base_url+"cadastros/CI_Regra_SB"})

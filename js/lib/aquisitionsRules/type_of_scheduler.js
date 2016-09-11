@@ -9,7 +9,7 @@ define(["jquery","aquisitionsRules/checkbox"], function($,CheckBoxs){
      }
 
      TypeOfScheduler.prototype.setOptions = function () {
-       var option_sensors = [["De x em x"],["A cada"],["Exatamente"],["Todos os dias as"],["Todos os meses"]];
+       var option_sensors = [["A cada"],["Exatamente"],["Todos os dias as"],["Todos os meses"]];
        for(i = 0; i < option_sensors.length ; i++){
          //Segunda ideia: enviar o id do sensor para o back, lá verifica a borda e a regra
          var option = $('<option>',{ text: option_sensors[i][0],

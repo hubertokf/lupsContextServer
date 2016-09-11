@@ -10,6 +10,15 @@ class M_Regras_SB extends CI_Model{
         private $regra_arquivo_py;
 
 
+    function get_rules($value='')
+    {
+      $this->db->select('nome, regra_id');
+      $this->db->from('regras');
+      $this->db->where('sensor_id='.$value);
+      $this->db->where('tipo = 2');
+      return $this->db->get();
+
+    }
     function pesquisar($select='', $where=array(), $limit=10, $offset=0, $ordem='asc', $perm=FALSE) {
       if ($perm == FALSE){
           $this->db->select('r.*');
@@ -126,6 +135,15 @@ class M_Regras_SB extends CI_Model{
   public function get_sensor($value){
     // print_r($value);
     $this->db->select('selecoes.nome');
+    $this->db->from('regras as r');
+    $this->db->join('sensor as selecoes','r.sensor_id = selecoes.sensor_id');
+    $this->db->where('r.regra_id ='.$value);
+    $respost = $this->db->get();
+    return $respost;
+  }
+  public function get_sensor_id($value){
+    // print_r($value);
+    $this->db->select('selecoes.sensor_id');
     $this->db->from('regras as r');
     $this->db->join('sensor as selecoes','r.sensor_id = selecoes.sensor_id');
     $this->db->where('r.regra_id ='.$value);

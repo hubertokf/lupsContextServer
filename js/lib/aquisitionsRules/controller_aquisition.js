@@ -1,16 +1,27 @@
 define(["aquisitionsRules/sensors","aquisitionsRules/create_sched","aquisitionsRules/type_of_scheduler","aquisitionsRules/checkbox","aquisitionsRules/model_aquisition","jquery"],function(Sensors,CreateSchedulerOptions,TypeOfScheduler,CheckBoxs,ModelAquisition,$){
  // as eventos setados pelas tag select estão em suas respectivas classes
     var ControllerAquisition = function(){
-
+      
       this.get_has_scheduler;
       this.has_scheduler = true; // true se a pessoa vai gerar uma nova regra, false se a pessoa vai pegar uma regra já existente referente ao sensor x
-      //inerir new sensor no ajax.Este ajax pega como parametro, um vetor com os sensores
       new Sensors();
-
       this.model             = new ModelAquisition();
       this.buttons           = new CreateSchedulerOptions();
       this.checkboxs         = new CheckBoxs();
       this.type_of_scheduler = new TypeOfScheduler();
+      // metodo para verificar se é adição ou ciração de regras
+      if($("#editable").val()== 'true'){
+        $("#rules_name").val($("#editable_ruler_name").val());
+        // $("#name_rule").prop("disabled","true");
+
+        var sensor = $("#editable_sensor_chose").val();
+        $("#select_sensors").val(sensor);
+        $("#select_sensors").prop("disabled","true");
+        $("#select_rules").hide();
+        this.buttons.button_get.hide();
+        this.buttons.button_create.hide();
+        this.model.edit_view_rule($("#editable_id_rule").val());
+      };
       this.set_events_buttons();
 
     }
@@ -34,23 +45,18 @@ ControllerAquisition.prototype.press_button_create_scheduler = function () { //p
      this.type_of_scheduler.select_type.show(); // mostra a opção de seleção dos tipos de agendamento
 };
 
-ControllerAquisition.prototype.press_button_get_scheduler = function () {
+ControllerAquisition.prototype.press_button_get_scheduler = function () {     //método para coletar regra exixtente --> passar como referencia id da regra
     this.get_has_scheduler = false;
-    //método para coletar regra exixtente --> passar como referencia id do sensor
     this.super_hide();
-
+    var value_of_selected_rule = $("#select_rules").find(":selected").val();
+    //passar meotdo edit_view_rule: serve tanto para regras existentes selecionadas pelo usuario, quanto regras que vão ser editadas
+    this.model.edit_view_rule(value_of_selected_rule);
 };
 
 ControllerAquisition.prototype.press_button_send = function () {
-    if(this.get_has_scheduler){
 
       this.model.get_selected_type_scheduler(); // tem_que_dar nome ao agendamento, interessante id + nome da pessoa
 
-    }
-    else{
-      this.get_has_scheduler;
-      //método para regra antiga -- gerar um id especifico para o usuário
-    }
 };
 
 ControllerAquisition.prototype.verify_check = function () {

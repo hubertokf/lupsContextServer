@@ -4,7 +4,7 @@
   border: solid 1px;
   border-radius: 4px;
   border-color: #bce8f1;
-    margin-top: 50px;;
+  margin-top: 10px;;
 }
 
 
@@ -15,7 +15,10 @@
   background-repeat: no-repeat;
   text-align: center;
 }
-
+#get_scheduler{
+  margin-top: 2px !important;
+  margin-bottom: 20px;
+}
 .information_time {
   display: none;
   margin-top: 5 px;
@@ -27,8 +30,14 @@
 #inputdays{display: none;}
 #inputmonths{display: none;}
 
+#label_name_rules{
+  padding-top: 10px;
+}
 #labelminutes{display: none;}
 #labelhour{display: none;}
+#label_sensor{
+  margin-top: 10px;
+}
 #labelday{display: none;}
 #labelmonth{display: none;}
 .mind{
@@ -41,6 +50,11 @@
   border-color: #CFD2CD;
   color: #847577;
 }
+#regulate_1{
+  border-bottom: solid 1px;
+  margin-bottom: 20px;
+  padding-top: 35px;
+}
 .reguler{
   text-align: center;
   margin-left: 25%;
@@ -51,7 +65,7 @@
 }
 
 #select_sensor{
-  margin-top: 50px;
+  margin-top: 10px;
   margin-bottom: 30px;
 }
 

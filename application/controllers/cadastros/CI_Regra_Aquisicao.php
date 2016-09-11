@@ -31,7 +31,6 @@ class CI_regra_Aquisicao extends CI_controller {
 
 	function select(){
 		$registros = $this->M_regras->pesquisar()->result_array();
-
 	    echo json_encode($registros);
 	}
 
@@ -67,10 +66,14 @@ class CI_regra_Aquisicao extends CI_controller {
 		else{
 			$this->dados["contextointeresse"] = $this->M_contextointeresse->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 100, 0, 'asc', TRUE);
 			$this->dados["sensores"] = $this->M_sensor->pesquisar_livre();
-}
+		}
 
-		$this->load->view('inc/menu');
+		if(!isset($this->dados["editable"])){
+			$this->dados["editable"] = "false";
+		}
+
 		$this->load->view('inc/topo',$this->dados);
+		$this->load->view('inc/menu');
 		// $this->load->view('cadastros/regras/cadastro');
 		$this->load->view('cadastros/regras_sb/cadastro');
 		$this->load->view('inc/rodape');
@@ -98,9 +101,8 @@ class CI_regra_Aquisicao extends CI_controller {
 		// );
 		// $result = curl_exec($ch);
 		// curl_close($ch);
-		$name = $this->session->userdata('nome');
-		// print_r($_POST["name_rule"],$_POST["status"],$_POST["rule"],$_POST["tipo"],$_POST["id_sensor"]);
-		$this->M_Regras_SB->setRegraNome($_POST["id_sensor"]."".$name);
+
+		$this->M_Regras_SB->setRegraNome($_POST["rules_name"]);
 		$this->M_Regras_SB->setRegraStatus($_POST["status"]);
 		$this->M_Regras_SB->setRegraArquivoPy($_POST["rule"]);
 		$this->M_Regras_SB->setRegraTipo(2);
@@ -114,8 +116,29 @@ class CI_regra_Aquisicao extends CI_controller {
 		$this->pesquisa();
 	}
 		// echo json_encode($get_test,JSON_FORCE_OBJECT);
+	}
+	function get_rules(){
+		if(isset($_POST["sensor_id"])){
+			$response = $this->M_regras->selecionar($_POST["sensor_id"])->result_array();
+			$response = $response[0]['arquivo_py'];
+		}
+		else{
+			$response = "algo de errado";
+		}
 
+		echo json_encode($response);
+	}
 
+	function get_rules_names(){
+
+		if(isset($_POST["id_sensor"])){
+			$response = $this->M_Regras_SB->get_rules($_POST["id_sensor"])->result_array();
+		}
+		else{
+			$response = "algo de errado";
+		}
+
+		echo json_encode($response);
 	}
 
 	function excluir($id=""){
@@ -147,12 +170,12 @@ class CI_regra_Aquisicao extends CI_controller {
 		// print "<pre>";
 		// print_r($registro[0]);
 		// print "</pre>";
-			$this->dados["sensor"]   = $this->M_Regras_SB->get_sensor($registro[0]['regra_id']);
+			$this->dados["sensor"]   = $this->M_Regras_SB->get_sensor_id($registro[0]['regra_id']);
 	} else if ($valor != "") {
 			$this->dados["registro"] = $this->M_regras->selecionar($valor);
 			$this->dados["editable"] = "true";
 			$registro = $this->dados["registro"]->result_array();
-			$this->dados["sensor"]   = $this->M_Regras_SB->get_sensor($registro[0]['regra_id']);
+			$this->dados["sensor"]   = $this->M_Regras_SB->get_sensor_id($registro[0]['regra_id']);
 	}
 		$this->cadastro();
 	}

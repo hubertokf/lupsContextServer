@@ -1,7 +1,9 @@
 define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/input","lib/Add_actions","bootbox","lib/CreateRule"], function($,SelectCondition,LogicOperators,Inputs,AddActions,bootbox,CreateRule){
 
     var set_button_logic     = false; //resposnável por instanciar a primeira condição se, o botão de operadores logicos
+    var path                 = window.location.pathname.split('/');
     var AddRule = function(){
+        console.log(window.location.pathname.split('/'));
         this.controller_conditition = 0; // controla quantas condiçoes podem ser instanciadas
         this.create_rule          = new CreateRule();
         this.iterator             = 0;
@@ -104,7 +106,7 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
       $.ajax({
         type:"POST",
         dataType: 'json',
-        url:window.base_url+"cadastros/CI_Regra_SB/getConditions",
+        url:window.base_url+"cadastros/"+path[3]+"/getConditions",
         complete: function (data) {
             handle(data['responseJSON']);
          }
@@ -115,7 +117,7 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
       $.ajax({
         type:"POST",
         dataType: 'json',
-        url:window.base_url+"cadastros/CI_Regra_SB/getActions",
+        url:window.base_url+"cadastros/"+path[3]+"/getActions",
         complete: function (data) {
             handle_act(data['responseJSON']);
           }
@@ -131,7 +133,7 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
         type:"POST",
         data: index,
         dataType: 'json',
-        url:window.base_url+"cadastros/CI_Regra_SB/sendInformation",
+        url:window.base_url+"cadastros/"+path[3]+"/sendInformation",
         complete: function (information) {
           // console.log(JSON.stringify(information['responseJSON']));
           handle_edit(information['responseJSON']);

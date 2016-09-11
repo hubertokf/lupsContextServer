@@ -44,7 +44,7 @@ class CI_regra_SB extends CI_controller {
 			$this->dados["linhas"] = $this->M_regras->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5), 'asc', TRUE,1);
 
 		$this->dados["nr_pagina"] = $nr_pagina;
-		$this->dados["total"] = $this->M_regras->numeroLinhasTotais();
+		$this->dados["total"] = $this->M_regras->numeroLinhasTotais('',array('tipo'=>1));
 		$this->dados["tituloPesquisa"] = "Regras Cadastradas";
 		$pag['base_url'] = base_url.$this->dados["caminho"]."/".$this->dados["metodo"]."/".$nr_pagina."/";
 		$pag['total_rows'] = $this->dados["total"];
@@ -106,15 +106,14 @@ class CI_regra_SB extends CI_controller {
 		$this->M_Regras_SB->setRegraStatus($_POST["status"]);
 		$this->M_Regras_SB->setRegraArquivoPy($_POST["rule"]);
 		$this->M_Regras_SB->setRegraTipo($_POST["tipo"]);
-		// $this->M_Regras_SB_SB->setRegraSensor($_POST["id_sensor"]);
+		$this->M_Regras_SB->setSensor($_POST["id_sensor"]);
 		if ($this->M_Regras_SB->salvar() == "inc"){
 			$this->dados["msg"] = "Dados registrados com sucesso!";
-			$this->pesquisa();
 		}
 		else{
 		$this->dados["msg"] = "Dados alterados com sucesso!";
-		$this->pesquisa();
 	}
+	$this->pesquisa();
 		// echo json_encode($get_test,JSON_FORCE_OBJECT);
 
 

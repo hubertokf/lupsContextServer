@@ -4,7 +4,7 @@ class CI_contextointeresse extends CI_controller {
 	public function __construct()
 	{
 		parent::__construct();
-		
+
 		$this->load->model('M_geral');
 		$this->load->model('M_configuracoes');
 		$this->load->model('M_contextointeresse');
@@ -26,10 +26,10 @@ class CI_contextointeresse extends CI_controller {
 		$this->dados["caminho"] = $this->uri->segment(1)."/".$this->uri->segment(2);
 	}
 
-	function index(){	
+	function index(){
 		$this->pesquisa();
 	}
-	
+
 	function pesquisa($nr_pagina=20 ){
 		$this->dados["metodo"] = "pesquisa";
 
@@ -45,7 +45,7 @@ class CI_contextointeresse extends CI_controller {
 		$pag['total_rows'] = $this->dados["total"];
 		$pag['uri_segment']	= 5;
 		$pag['per_page'] = $this->dados["nr_pagina"];
-		$this->pagination->initialize($pag); 
+		$this->pagination->initialize($pag);
 		$this->load->view('inc/topo',$this->dados);
 		$this->load->view('inc/menu');
 		$this->load->view('inc/topoPesquisa');
@@ -58,14 +58,15 @@ class CI_contextointeresse extends CI_controller {
 			$this->dados["sensores"] = $this->M_sensor->pesquisar($select='', $where=array(), $limit=100, $offset=0, $ordem='asc');
 		else
 			$this->dados["sensores"] = $this->M_sensor->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 100, 0, 'asc', TRUE);
-		
+
 		$this->dados["regras"] = $this->M_regras->pesquisar();
+		// print_r($this->dados["regras"]->result_array());
 		$this->load->view('inc/topo',$this->dados);
 		$this->load->view('inc/menu');
 		$this->load->view('cadastros/contextointeresse/cadastro');
 		$this->load->view('inc/rodape');
 	}
-	
+
 	function gravar(){
 		$this->form_validation->set_rules('contextointeresse_sensores[]', 'Sensores', 'required');
 		$this->form_validation->set_rules('contextointeresse_nome', 'Nome', 'required');
@@ -93,25 +94,25 @@ class CI_contextointeresse extends CI_controller {
 
 			if ($this->M_contextointeresse->salvar() == "inc"){
 				$this->dados["msg"] = "Dados registrados com sucesso!";
-				$this->pesquisa();	
+				$this->pesquisa();
 			}
 			else {
 				$this->dados["msg"] = "Dados alterados com sucesso!";
-				$this->pesquisa();	
+				$this->pesquisa();
 			}
 		}
 	}
-	
+
 	function excluir($id=""){
 		if ($id==""){
 
 			if(isset($_POST["item"])) {
-				$this->M_contextointeresse->setContextoInteresseId($_POST["item"]);	
+				$this->M_contextointeresse->setContextoInteresseId($_POST["item"]);
 				$this->M_contextointeresse->excluir();
 			}
-		
+
 		}else{
-			$this->M_contextointeresse->setContextoInteresseId($id);	
+			$this->M_contextointeresse->setContextoInteresseId($id);
 			$this->M_contextointeresse->excluir();
 		}
 		$this->dados["msg"] = "Registro(s) excluído(s) com sucesso!";
@@ -120,15 +121,15 @@ class CI_contextointeresse extends CI_controller {
 
    function editar($valor = "") {
 
-		
+
 		if(isset($_POST["item"])) {
 			$this->dados["registro"] = $this->M_contextointeresse->selecionar($_POST["item"]);
 			$this->dados["trigger"] = $this->M_relcontextointeresse->getChkByCi($_POST["item"]);
-			
+
 		} else if ($valor != "") {
 			$this->dados["registro"] = $this->M_contextointeresse->selecionar($valor);
 			$this->dados["trigger"] = $this->M_relcontextointeresse->getChkByCi($valor);
-			
+
 		}
 		$this->cadastro();
 	}

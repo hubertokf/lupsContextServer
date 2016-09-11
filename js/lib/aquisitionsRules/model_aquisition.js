@@ -12,7 +12,7 @@ define(["jquery","bootbox"],function($,bootbox){
 
   ModelAquisition.prototype.get_informations= function () { //coleta informaços do view.
 
-    var bar = {};
+    var bar = {}; // variavel intermediária. Responsável por armazenar quais opções de tempo foram selecionada
     this.rules_scheduler['value']  = this.parent_element.find(":selected").val(); //pega valor da opção de aquisição
     this.option_generate_scheduler['id_sensor'] = this.select_sensor.find(":selected").val(); //pega id do sensor
     // this.option_generate_scheduler['data']   = this.select_sensor.find(":selected").data(); //pega os dados do sensors selecionado
@@ -40,13 +40,13 @@ define(["jquery","bootbox"],function($,bootbox){
          if(this.checked_information.hasOwnProperty('minutes')){
            if(isNaN(this.checked_information['minutestext'])){
              generate_open = false;
-             view_error("Campo 'Minutos' não preenchido")
+            //  view_error("Campo 'Minutos' não preenchido")
            }
          }
          if(this.checked_information.hasOwnProperty('hours')){
            if(isNaN(this.checked_information['hourstext'])){
              generate_open = false;
-             view_error("Campo 'Horas' não preenchido")
+            //  view_error("Campo 'Horas' não preenchido")
            }
          }
 
@@ -57,25 +57,25 @@ define(["jquery","bootbox"],function($,bootbox){
           if(this.checked_information.hasOwnProperty('minutes')){
             if(isNaN(this.checked_information['minutestext'])){
               generate_open = false;
-              view_error("Campo 'Minutos' não preenchido")
+              // view_error("Campo 'Minutos' não preenchido")
             }
           }
           if(this.checked_information.hasOwnProperty('hours')){
             if(isNaN(this.checked_information['hourstext'])){
               generate_open = false;
-              view_error("Campo 'Horas' não preenchido")
+              // view_error("Campo 'Horas' não preenchido")
             }
           }
           if(this.checked_information.hasOwnProperty('days')){
             if(isNaN(this.checked_information['daystext'])){
               generate_open = false;
-              view_error("Campo 'Dias' não preenchido")
+              // view_error("Campo 'Dias' não preenchido")
             }
           }
           if(this.checked_information.hasOwnProperty('months')){
             if(isNaN(this.checked_information['monthstext'])){
               generate_open = false;
-              view_error("Campo 'Meses' não preenchido")
+              // view_error("Campo 'Meses' não preenchido")
             }
           }
           if(generate_open){
@@ -89,13 +89,13 @@ define(["jquery","bootbox"],function($,bootbox){
             if(this.checked_information.hasOwnProperty('minutes')){
               if(isNaN(this.checked_information['minutestext'])){
                 generate_open = false;
-                view_error("Campo 'Minutos' não preenchido")
+                // view_error("Campo 'Minutos' não preenchido")
               }
             }
             if(this.checked_information.hasOwnProperty('hours')){
               if(isNaN(this.checked_information['hourstext'])){
                 generate_open = false;
-                view_error("Campo 'Horas' não preenchido")
+                // view_error("Campo 'Horas' não preenchido")
               }
             }
             if(generate_open){
@@ -106,17 +106,17 @@ define(["jquery","bootbox"],function($,bootbox){
       case "Todos os meses":
             if(this.checked_information.hasOwnProperty('minutes') && isNaN(this.checked_information['minutestext'])){
                 generate_open = false;
-                view_error("Campo 'Minutos' não preenchido");
+                // view_error("Campo 'Minutos' não preenchido");
 
             }
             else if(this.checked_information.hasOwnProperty('hours') && isNaN(this.checked_information['hourstext'])){
                 generate_open = false;
-                view_error("Campo 'Horas' não preenchido")
+                // view_error("Campo 'Horas' não preenchido")
               }
 
             else if(this.checked_information.hasOwnProperty('days') && isNaN(this.checked_information['daystext'])){
                 generate_open = false;
-                view_error("Campo 'Dias' não preenchido")
+                // view_error("Campo 'Dias' não preenchido")
               }
 
             if(generate_open){this.generate_rule_everymonth()}
@@ -183,7 +183,7 @@ define(["jquery","bootbox"],function($,bootbox){
           this.rules_scheduler['months'] = String(this.checked_information['monthstext']);
       }
       else{
-        this.rules_scheduler['months']   = date.getMonth();
+        this.rules_scheduler['months']   = date.getMonth()+1;
       }
 
       // console.log(this.rules_scheduler);
@@ -254,7 +254,15 @@ define(["jquery","bootbox"],function($,bootbox){
   };
 
   ModelAquisition.prototype.send_scheduler = function () { //metodo que pegaas ibfomarções e envia ára o back=end
-    if(this.option_generate_scheduler['sensor'] === ''){
+
+    console.log(this.option_generate_scheduler['id_sensor'])
+    // console.log($("#editable_id_rule").val());
+    this.option_generate_scheduler['rules_name'] = $("#rules_name").val();
+    if($("#editable_id_rule").val() != ""){
+      console.log("okkk");
+      this.option_generate_scheduler['id_rule'] = $("#editable_id_rule").val() ;
+    }
+    if(this.option_generate_scheduler['id_sensor'] === ''){
       // view_error("Sensor não selecionado");
       alert("Sensor não selecionado");
     }
@@ -268,12 +276,13 @@ define(["jquery","bootbox"],function($,bootbox){
         dataType: 'json',
         url:window.base_url+"cadastros/CI_Regra_Aquisicao/gravar",
         complete: function (response) {
-           console.log("bugg",response['responseText']);
+          //  console.log("bugg",response['responseText'])
             }
       });
+      window.location.replace(window.base_url+"/cadastros/CI_Regra_Aquisicao");
 
     }
-    console.log(this.rules_scheduler);
+    // console.log(this.rules_scheduler);
   };
   //--------- fim ------------------
 
@@ -296,75 +305,145 @@ define(["jquery","bootbox"],function($,bootbox){
               $('.modal-content').css({'background-color': '#E5E6E4','border-color':'#E5E6E4','font-weight': 'normal', 'color': '#847577', 'font-size': '20px'} );
               $(".modal-title").css({'text-align':'center','font-weight': 'bold'})
   }
-var number_NaN = function(num){ // transforma string em numero, se ampo vazio retorna NaN
+
+  ModelAquisition.prototype.edit_view_rule = function (id_rule) {
+      // console.log("passou");
+      get_ruler(id_rule,construct_view_rules);
+  };
+
+  var number_NaN = function(num){ // transforma string em numero, se ampo vazio retorna NaN
     if(num == ''){
       return NaN;
     }
     else{
       return Number(num);
     }
+  }
 
-}
-var construct_view_rules = function (data) { // estrutura a função em um formato legíel para o usuário
+  var get_ruler = function(sensor_id,handle){
+    $.ajax({
+      type:"POST",
+      data: {sensor_id:sensor_id},
+      dataType: 'json',
+      url:window.base_url+"cadastros/CI_Regra_Aquisicao/get_rules",
+      complete: function (data) {
+          // console.log(data['responseJSON']);
+          data_json = JSON.parse(data['responseJSON']);
+          handle(data_json);
+       }
+    });
+  }
 
-   var view_rule = 'Tipo de agendamento: "'+ data['value'] +'"\n';
-   var minutes   = data['rule']['minutes'];
-   var hours     = data['rule']['hours'];
-   var days      = data['rule']['days'];
-   var months    = data['rule']['months'];
+  var construct_view_rules = function (data) { // estrutura a função em um formato legível para o usuário, quando a mesma é apra a edição ou visualização.
+    console.log(data);
+    $("#select_aquisiiton").val(data['value']).show();
+    var view_rule;
+    var minutes   = data['minutes'];
+    var hours     = data['hours'];
+    var days      = data['days'];
+    var months    = data['months'];
+
+    switch (data['value']) {
+      case "A cada":
+        $("#labelminutes").show();
+        $("#labelhour").show();
+
+        break;
+      case "Exatamente":
+        $("#labelminutes").show();
+        $("#labelhour").show();
+        $("#labelday").show();
+        $("#labelmonth").show();
+        break;
+      case "Todos os dias as":
+        $("#labelminutes").show();
+        $("#labelhour").show();
+
+        break;
+      case "Todos os meses":
+        $("#labelminutes").show();
+        $("#labelhour").show();
+        $("#labelday").show();
+        break;
+      default:
+
+    }
 
 
-   if(minutes.length > 5){ // tem minimo para "30 60"
-      var minutes_split = minutes.split(" ");
-      view_rule = view_rule + "Minutos: " + minutes_split[1] +"\n";
-   }
-   else if(minutes.length >= 3 && minutes.length <= 4){
-       view_rule = view_rule + "Minutos: " + minutes.substr(2,minutes.length) +"\n";
-   }
-   else if(minutes === "*"){
-      view_rule = view_rule + "Minutos: De minuto em Minuto\n";
-   }
-   else{
-      view_rule = view_rule + "Minutos: " + minutes +"\n";
-   }
-   if(hours.length >= 3 && hours.length <= 4){
-       view_rule = view_rule + "Horas: " + hours.substr(2,hours.length) +"\n";
-   }
-   else if(hours === "*"){
-      view_rule = view_rule + "Horas: De hora em hora\n";
-   }
-   else{
-      view_rule = view_rule + "Horas: " + hours +"\n";
-   }
-  if(days === "*"){
-      view_rule = view_rule + "Horas: Todo os dias \n";
-   }
-   else{
-      view_rule = view_rule + "Horas: " + days +"\n";
-   }
-   if(months === "*"){
-      view_rule = view_rule + "Dia: Todo os meses\n";
-   }
-   else{
-      view_rule = view_rule + "Mês: " + months +"\n";
-   }
-   view_rule = view_rule.replace(/\n/g, "<br />");
+    if(minutes.length > 5){ // tem minimo para "30 60"
+        var minutes_split = minutes.split(" ");
+        view_rule = minutes_split[1];
+        $("#inputminutes").val(view_rule).show();
+        $("#checkminutes").prop("checked",true);
+
+    }
+    else if(minutes.length >= 3 && minutes.length <= 4){
+        view_rule = minutes.substr(2,minutes.length);
+        $("#inputminutes").val(view_rule).show();
+        $("#checkminutes").prop("checked",true);
+
+    }
+    else if(minutes !== "*"){
+        view_rule = minutes;
+        $("#inputminutes").val(view_rule).show();
+        $("#checkminutes").prop("checked",true);
+
+    }
+    else{
+      $("#checkminutes").prop("checked",false);
+    }
+    if(hours.length >= 3 && hours.length <= 4){
+       view_rule = hours.substr(2,hours.length);
+       $("#inputhours").val(view_rule).show();
+       $("#checkhour").prop("checked",true);
+    }
+    else if(hours !== "*"){
+      view_rule = hours;
+      // console.log("q");
+      $("#inputhours").val(view_rule).show();
+      $("#checkhour").prop("checked",true);
+    }
+    else{
+      $("#checkhour").prop("checked",false);
+    }
+
+    if(days !== "*"){
+      view_rule = days;
+      $("#inputdays").val(view_rule).show();
+      $("#checkday").prop("checked",true);
+    }
+    else{
+      $("#checkday").prop("checked",false);
+    }
+    if(months !== "*"){
+      view_rule = months;
+      $("#inputmonths").val(view_rule).show();
+      $("#checkmonth").prop("checked",true);
+    }
+    else{
+      $("#checkday").prop("checked",false);
+    }
+
 
    return view_rule;
 }
-var view_error = function(string){
-    bootbox.dialog({
-         message: string,
-         title: "Cuidado",
-           buttons: {
-               success: {
-                   label: "ok!!",
-                   className: "btn-danger",
 
-               },
-             }}).find('.modal-content').css({'background-color': '#fcf8e3','border-color':'#faebcc', 'font-weight' : 'bold', 'color': '#8a6d3b', 'font-size': '2em', 'font-weight' : 'bold'} );
 
-  }
+
+
+// var view_error = function(string){
+//     bootbox.dialog({
+//          message: string,
+//          title: "Cuidado",
+//            buttons: {
+//                success: {
+//                    label: "ok!!",
+//                    className: "btn-danger",
+//
+//                },
+//              }}).find('.modal-content').css({'background-color': '#fcf8e3','border-color':'#faebcc', 'font-weight' : 'bold', 'color': '#8a6d3b', 'font-size': '2em', 'font-weight' : 'bold'} );
+//
+//   }
 
   return ModelAquisition;
 }) // função que apresenta uma informação visual sobre algum erro
