@@ -57,6 +57,55 @@ $route['translate_uri_dashes'] = TRUE;
 | -------------------------------------------------------------------------
 | Sample REST API Routes
 | -------------------------------------------------------------------------
-*/
+
 $route['api/example/users/(:num)'] = 'api/example/users/id/$1'; // Example 4
 $route['api/example/users/(:num)(\.)([a-zA-Z0-9_-]+)(.*)'] = 'api/example/users/id/$1/format/$3$4'; // Example 8
+*/
+
+/* --------------------------------------------------------------
+ * Ambientes
+ * ------------------------------------------------------------ */
+$route['api/ambientes'] = 'api/ambientes';
+$route['api/ambiente/(:num)'] = 'api/ambientes/index/id/$1';
+
+/* --------------------------------------------------------------
+ * Publicações
+ * ------------------------------------------------------------ */
+$route['api/publicacoes'] = 'api/publicacoes';
+$route['api/publicacao/(:num)'] = 'api/publicacoes/index/id/$1';
+
+/* --------------------------------------------------------------
+ * Sensores
+ * ------------------------------------------------------------ */
+$route['api/sensores'] = 'api/sensores';
+$route['api/sensor/(:num)'] = 'api/sensores/index/id/$1';
+
+/* --------------------------------------------------------------
+ * Gateway
+ * ------------------------------------------------------------ */
+$route['api/gateways'] = 'api/gateways';
+$route['api/gateway/(:num)'] = 'api/gateways/index/id/$1';
+
+/* --------------------------------------------------------------
+ * Regras
+ * ------------------------------------------------------------ */
+$route['api/regras'] = 'api/regras';
+$route['api/regra/(:num)'] = 'api/regras/index/id/$1';
+
+/* --------------------------------------------------------------
+ * Contexto de Interesse
+ * ------------------------------------------------------------ */
+$route['api/contextosinteresse'] = 'api/contextointeresse';
+$route['api/contextointeresse/(:num)'] = 'api/contextointeresse/index/id/$1';
+
+/* --------------------------------------------------------------
+ * Servidor de Borda
+ * ------------------------------------------------------------ */
+$route['api/servidoresborda'] = 'api/servidorborda';
+$route['api/servidorborda/(:num)'] = 'api/servidorborda/index/id/$1';
+
+/* --------------------------------------------------------------
+ * Servidor de Contexto
+ * ------------------------------------------------------------ */
+$route['api/servidorescontexto'] = 'api/servidorcontexto';
+$route['api/servidorcontexto/(:num)'] = 'api/servidorcontexto/index/id/$1';

@@ -34,8 +34,8 @@ class M_sensor extends CI_Model{
 
 	            $this->db->from('sensor as s');
 
-	            $this->db->join('relcontextointeresse as rci', 'rci.sensor_id = s.sensor_id');
-	            $this->db->join('contextointeresse as ci', 'ci.contextointeresse_id = rci.contextointeresse_id');
+	            //$this->db->join('relcontextointeresse as rci', 'rci.sensor_id = s.sensor_id');
+	            //$this->db->join('contextointeresse as ci', 'ci.contextointeresse_id = rci.contextointeresse_id');
 
 	            $this->db->join('fabricante as f', 's.fabricante_id = f.fabricante_id', 'left');
 	            $this->db->join('tiposensor as t', 's.tiposensor_id = t.tiposensor_id', 'left');
