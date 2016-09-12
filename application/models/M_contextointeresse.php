@@ -7,24 +7,25 @@ class M_contextointeresse extends CI_Model {
 	private $contextointeresse_publico;
 	private $contextointeresse_regra;
 	private $contextointeresse_trigger;
-		
-        function pesquisar($select='', $where=array(), $limit=10, $offset=0, $ordem='asc', $perm=FALSE) {
-            if ($perm == FALSE){
-	            $this->db->select('ci.*');
+
+  function pesquisar($select='', $where=array(), $limit=10, $offset=0, $ordem='asc', $perm=FALSE) {
+          if ($perm == FALSE){
+
+							$this->db->select('ci.*');
 	            $this->db->select('r.nome as regra_nome');
-	            
+
 	            $this->db->from('contextointeresse as ci');
-	            $this->db->join('regras as r', 'ci.regra_id = r.regra_id');
+	            $this->db->join('regras as r', 'ci.regra_id = r.regra_id','left');
 
 	        }else{
-	        	$this->db->select('ci.*');
-	        	$this->db->select('r.nome as regra_nome');
+	        		$this->db->select('ci.*');
+	        		$this->db->select('r.nome as regra_nome');
 	            $this->db->select('p.podeeditar as podeeditar');
-	            
+
 	            $this->db->from('contextointeresse as ci');
 
 	            $this->db->join('permissoes as p', 'ci.contextointeresse_id = p.contextointeresse_id', 'inner');
-	            $this->db->join('regras as r', 'ci.regra_id = r.regra_id');
+	            $this->db->join('regras as r', 'ci.regra_id = r.regra_id','left');
 	        }
 
             $this->db->where($where);
@@ -32,9 +33,10 @@ class M_contextointeresse extends CI_Model {
        	    $this->db->limit($limit, $offset);
 
             $query = $this->db->get()->result_array();
+
 			// Query #2
 
-			/*$this->db->select('ci.*');	            
+			/*$this->db->select('ci.*');
             $this->db->from('contextointeresse as ci');
             $this->db->where(array('publico' => 'TRUE'));
 			$query2 = $this->db->get()->result_array();
@@ -43,28 +45,28 @@ class M_contextointeresse extends CI_Model {
 
 			$query = array_unique(array_merge($query, $query2), SORT_REGULAR);*/
 
-			$result = array();
-			foreach($query as $arr){
-			   if(!isset($result[$arr["contextointeresse_id"]])){
-			      $result[$arr["contextointeresse_id"]] = $arr;
-			   }
-			}
+				$result = array();
+				foreach($query as $arr){
+			   	if(!isset($result[$arr["contextointeresse_id"]])){
+			      	$result[$arr["contextointeresse_id"]] = $arr;
+			   	}
+				}
 
-	   	    foreach($result as $i=>$contextointeresse) {
-	   	    	$this->db->select('*');
-            	$this->db->select('s.nome as sensor_nome');
+	   	  foreach($result as $i=>$contextointeresse) {
+	   	    $this->db->select('*');
+            $this->db->select('s.nome as sensor_nome');
 
 	        	$this->db->from('relcontextointeresse');
-            	
-            	$this->db->join('sensor as s', 'relcontextointeresse.sensor_id = s.sensor_id', 'left');
 
-            	$this->db->where(array('contextointeresse_id' => $contextointeresse['contextointeresse_id']));
+            $this->db->join('sensor as s', 'relcontextointeresse.sensor_id = s.sensor_id', 'left');
 
-				$sensor_query = $this->db->get()->result_array();
+            $this->db->where(array('contextointeresse_id' => $contextointeresse['contextointeresse_id']));
 
-			   	$result[$i]['sensores'] = $sensor_query;
-			}
+						$sensor_query = $this->db->get()->result_array();
 
+			   		$result[$i]['sensores'] = $sensor_query;
+					}
+					
 	        return $result;
         }
 
@@ -77,7 +79,7 @@ class M_contextointeresse extends CI_Model {
             	$this->db->select('s.nome as sensor_nome');
 
 	        	$this->db->from('relcontextointeresse');
-            	
+
             	$this->db->join('sensor as s', 'relcontextointeresse.sensor_id = s.sensor_id', 'left');
 
             	$this->db->where(array('contextointeresse_id' => $contextointeresse['contextointeresse_id']));
@@ -112,12 +114,12 @@ class M_contextointeresse extends CI_Model {
 	            foreach ($this->contextointeresse_sensores as $sensor) {
 	            	$ativaregra = "FALSE";
 	            	if (is_array($this->contextointeresse_trigger)){
-		            	if (in_array($sensor, $this->contextointeresse_trigger)) { 
+		            	if (in_array($sensor, $this->contextointeresse_trigger)) {
 							$ativaregra = "TRUE";
 						}
 					}
 					else{
-						if ($sensor == $this->contextointeresse_trigger) { 
+						if ($sensor == $this->contextointeresse_trigger) {
 							$ativaregra = "TRUE";
 						}
 					}
@@ -136,13 +138,13 @@ class M_contextointeresse extends CI_Model {
 	            $this->db->update('contextointeresse', $arrayCampos, array("contextointeresse_id"=>$this->contextointeresse_id));
 
 	            $arrayCampos  = array(
-	                "contextointeresse_id" => $this->contextointeresse_id                
+	                "contextointeresse_id" => $this->contextointeresse_id
              	);
 	            $this->db->delete('relcontextointeresse', $arrayCampos);
 
 	            foreach ($this->contextointeresse_sensores as $sensor) {
 	            	$ativaregra = "FALSE";
-	            	if (is_array($this->contextointeresse_trigger) && in_array($sensor, $this->contextointeresse_trigger)) { 
+	            	if (is_array($this->contextointeresse_trigger) && in_array($sensor, $this->contextointeresse_trigger)) {
 						$ativaregra = "TRUE";
 					}
 	             	$arrayCampos2  = array(
@@ -158,7 +160,7 @@ class M_contextointeresse extends CI_Model {
 
 		function excluir() {
             $arrayCampos  = array(
-                "contextointeresse_id" => $this->contextointeresse_id                
+                "contextointeresse_id" => $this->contextointeresse_id
             );
             if ($this->db->delete('contextointeresse', $arrayCampos))
             	return true;
@@ -171,8 +173,8 @@ class M_contextointeresse extends CI_Model {
         $this->db->from('contextointeresse');
         return $this->db->count_all_results();
     }
-			
-// Getters and Setters 
+
+// Getters and Setters
 
 		public function getContextoInteresseId(){
 			if($this->contextointeresse_id === NULL) {
@@ -184,42 +186,42 @@ class M_contextointeresse extends CI_Model {
 		public function getContextoInteresseNome() {
 		    if($this->contextointeresse_nome=== NULL) {
         		$this->contextointeresse_nome = new ContextoInteresseNome;
-    		}			
+    		}
 			return $this->contextointeresse_nome;
 		}
 
 		public function getContextoInteresseServidorContexto() {
 		    if($this->contextointeresse_servidorcontexto === NULL) {
         		$this->contextointeresse_servidorcontexto = new ContextoInteresseServidorContexto;
-    		}			
+    		}
 			return $this->contextointeresse_servidorcontexto;
 		}
 
 		public function getContextoInteresseSensores() {
 		    if($this->contextointeresse_sensores === NULL) {
         		$this->contextointeresse_sensores = new ContextoInteresseSensores;
-    		}			
+    		}
 			return $this->contextointeresse_sensores;
 		}
 
 		public function getContextoInteressePublico() {
 		    if($this->contextointeresse_publico === NULL) {
         		$this->contextointeresse_publico = new ContextoInteressePublico;
-    		}			
+    		}
 			return $this->contextointeresse_publico;
 		}
 
 		public function getContextoInteresseRegra() {
 		    if($this->contextointeresse_regra === NULL) {
         		$this->contextointeresse_regra = new ContextoInteresseRegra;
-    		}			
+    		}
 			return $this->contextointeresse_regra;
 		}
 
 		public function getContextoInteresseTrigger() {
 		    if($this->contextointeresse_trigger === NULL) {
         		$this->contextointeresse_trigger = new ContextoInteresseTrigger;
-    		}			
+    		}
 			return $this->contextointeresse_trigger;
 		}
 
