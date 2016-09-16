@@ -16,8 +16,8 @@ define (["lib/ConditionsRules"], function(ConditionsRules){
         //cria div referente ao seletor de comparação
         this.generateRow(this.select_compare,3,select);
 
-        if(isNaN(selected)){ // se for umas string, seta o valor
-
+        if(selected !== undefined){ // se for umas string, seta o valor
+          console.log(selected)
           var type = $("#condition"+select).val(selected).find(':selected').data("type");
 
           switch (type){

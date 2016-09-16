@@ -12,7 +12,7 @@
 
 
 ?>
-<script data-main="../../js/config/index" src="../../js/node_modules/requirejs/require.js" ></script>
+<script data-main="../../js/config/index_context" src="../../js/node_modules/requirejs/require.js" ></script>
       <input type="hidden" id="editable" value="<?php echo $editable ?>">
       <input type="hidden" id="editable_ruler_name" value="<?php echo @$regra[0]['nome'] ?>">
       <input type="hidden" id="editable_sensor_chose" value="<?php echo @$sensor_name[0]['nome'] ?>">

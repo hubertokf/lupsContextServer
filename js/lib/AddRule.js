@@ -1,4 +1,4 @@
-define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/input","lib/Add_actions","bootbox","lib/CreateRule"], function($,SelectCondition,LogicOperators,Inputs,AddActions,bootbox,CreateRule){
+define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/input","lib/Add_actions","bootbox","lib/CreateRule","lib/ButtonRemove"], function($,SelectCondition,LogicOperators,Inputs,AddActions,bootbox,CreateRule,ButtonRemove){
 
     var set_button_logic     = false; //resposnável por instanciar a primeira condição se, o botão de operadores logicos
     var path                 = window.location.pathname.split('/');
@@ -91,6 +91,7 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
       console.log(iterator_condition);
       new SelectCondition(iterator_condition-1,data);
       new Inputs(iterator_condition-1);
+      new ButtonRemove(iterator_condition-1);
       // iterator_condition++;
     }
 
@@ -108,6 +109,7 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
         dataType: 'json',
         url:window.base_url+"cadastros/"+path[3]+"/getConditions",
         complete: function (data) {
+          // console.log(data['responseJSON']);
             handle(data['responseJSON']);
          }
       });
@@ -135,7 +137,7 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
         dataType: 'json',
         url:window.base_url+"cadastros/"+path[3]+"/sendInformation",
         complete: function (information) {
-          // console.log(JSON.stringify(information['responseJSON']));
+          // console.log(JSON.stringify(information));
           handle_edit(information['responseJSON']);
         }
     });
@@ -145,7 +147,6 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
     var iterator       = 0;
     var iterator_action = 0;
     var e;
-    console.log(data['rule']);
     var option_select_condition = data['condictions']; // informações para construição do  seletor de condições
     var option_select_action    = data['action'];
     var rules                   = JSON.parse(data['rule']);
@@ -167,7 +168,8 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
           // console.log(typeof option_select_condition[0]);
           //processo de setagem dos parametros
           new LogicOperators(e,enable_logic,'any');
-          new SelectCondition(e,option_select_condition,objetc_condition['name'],objetc_condition['operator']);
+          console.log(objetc_condition);
+          new SelectCondition(e,option_select_condition,objetc_condition['parameters']['sensor'],objetc_condition['operator']);
           new Inputs(e,objetc_condition['value']);
           // console.log(typeof option_select_condition[0]);
           iterator++;
@@ -181,8 +183,9 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
               $("#div_conditions").append(condition_div);
 
               new LogicOperators(e,true,'all');
-              new SelectCondition(e,option_select_condition,objetc_condition['name'],objetc_condition['operator']);
+              new SelectCondition(e,option_select_condition,objetc_condition['parameters']['sensor'],objetc_condition['operator']);
               new Inputs(e,objetc_condition['value']);
+              new ButtonRemove(e);
               iterator++;
               e  = "ed-"+iterator;
           }
@@ -201,7 +204,7 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
         $("#div_conditions").append(condition_div);
 
         new LogicOperators(e,enable_logic,'any');
-        new SelectCondition(e,option_select_condition,objetc_condition['name'],objetc_condition['operator']);
+        new SelectCondition(e,option_select_condition,objetc_condition['parameters']['sensor'],objetc_condition['operator']);
         new Inputs(e,objetc_condition['value']);
 
         iterator++;
