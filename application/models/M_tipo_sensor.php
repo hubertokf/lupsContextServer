@@ -23,6 +23,7 @@ class M_tipo_sensor extends CI_Model{
             	"nome" 			=> $this->tiposensor_nome,
                 "descricao" 	=> $this->tiposensor_desc,
                 "unidade" 		=> $this->tiposensor_unidade,
+                "tipo" 			=> $this->tiposensor_tipo,
             );
 			if ($this->tiposensor_id == ""){
 	            $this->db->insert('tiposensor', $arrayCampos);
@@ -79,7 +80,14 @@ class M_tipo_sensor extends CI_Model{
         		$this->tiposensor_unidade = new TipoSensorUnidade;
     		}			
 			return $this->tiposensor_unidade;
-		}		
+		}
+
+		public function getTipoSensorTipo() {
+		    if($this->tiposensor_tipo === NULL) {
+        		$this->tiposensor_tipo = new TipoSensorTipo;
+    		}			
+			return $this->tiposensor_tipo;
+		}			
 		
 		public function setTipoSensorId($valor){
 			if(!is_string($valor)) {
@@ -100,6 +108,10 @@ class M_tipo_sensor extends CI_Model{
 				throw new InvalidArgumentException('Expected String');
 			}
 			$this->tiposensor_desc = $valor;
+		}
+
+		public function setTipoSensorTipo($valor){
+			$this->tiposensor_tipo = $valor;
 		}
 		
 		public function setTipoSensorUnidade($valor){

@@ -740,11 +740,14 @@ CREATE TABLE tiposensor (
     tiposensor_id integer NOT NULL,
     nome character varying NOT NULL,
     descricao character varying NOT NULL,
+    tipo integer NOT NULL,
     unidade character varying NOT NULL
 );
 
 
 ALTER TABLE public.tiposensor OWNER TO postgres;
+
+COMMENT ON COLUMN tiposensor.tipo IS '1=numerico,2=string,3=booleano';
 
 --
 -- Name: tiposensor_id_seq_1; Type: SEQUENCE; Schema: public; Owner: huberto

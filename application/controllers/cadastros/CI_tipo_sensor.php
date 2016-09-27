@@ -55,6 +55,7 @@ class CI_tipo_sensor extends CI_controller {
 	function gravar(){
 		$this->form_validation->set_rules('tiposensor_nome', 'Nome', 'trim|required');
 		$this->form_validation->set_rules('tiposensor_unidade', 'Unidade', 'trim|required');
+		$this->form_validation->set_rules('tiposensor_tipo', 'Tipo', 'trim|required');
 		$this->form_validation->set_error_delimiters('<div class="field-errors">', '</div>');
 		$this->form_validation->set_message('required', 'Você deve preencher o campo "%s".');
 		if ($this->form_validation->run() == FALSE) {
@@ -67,6 +68,7 @@ class CI_tipo_sensor extends CI_controller {
 			$this->M_tipo_sensor->setTipoSensorId($_POST["tiposensor_id"]);
 			$this->M_tipo_sensor->setTipoSensorNome($_POST["tiposensor_nome"]);
 			$this->M_tipo_sensor->setTipoSensorDesc($_POST["tiposensor_desc"]);
+			$this->M_tipo_sensor->setTipoSensorTipo($_POST["tiposensor_tipo"]);
 			$this->M_tipo_sensor->setTipoSensorUnidade($_POST["tiposensor_unidade"]);
 			if ($this->M_tipo_sensor->salvar() == "inc"){
 				$this->dados["msg"] = "Dados registrados com sucesso!";
