@@ -39,7 +39,7 @@ $(document).ready(function(){
 	    });
 	    $('.removerule').click(function(e){
 	      	e.preventDefault();
-	      	$(this).parent().parent().remove();        
+	      	$(this).parent().parent().remove();
     	});
   	});
 
@@ -60,7 +60,7 @@ $(document).ready(function(){
 			$('#resultado-table').empty();
 		    console.log("oiin");
 		}
-		
+
 		    console.log("oiout");
 		    console.log("oiafter");
 
@@ -98,13 +98,13 @@ $(document).ready(function(){
 					type: 'POST',
 					data: {filtro: dadosPost},
 					dataType: "html",
-		      		
+
 		      		success: function(result){
 		        		if(result==''){
 							$('#resultado').empty();
 
 							$('#resultDataTable').empty();
-		          
+
 							alert('Sem resultados');
 						}else{
 							dataTable=eval("(" + result + ")");
@@ -184,7 +184,7 @@ $(document).ready(function(){
 
 		if(ocorrenciasTable.getNumberOfRows()>1){
 			$('#resultado').append("<br/><b>Ocorrências Múltiplas: </b><br/><div id='divOcorrenciasMultiplas'></div>");
-			var dtgp = google.visualization.data.group(  $dt,  [2,3],  [{'column': 4, 'aggregation': google.visualization.data.count, 
+			var dtgp = google.visualization.data.group(  $dt,  [2,3],  [{'column': 4, 'aggregation': google.visualization.data.count,
 			'type': 'number','label':   'Ocorrências'},
 			{'column': 5, 'aggregation': ReturnContexts, 'type': 'string','label':'Contextos'}]);
 			var view = new google.visualization.DataView(dtgp);
@@ -223,7 +223,7 @@ $(document).ready(function(){
 
 		$('.ranges .date').each(function(){
 			if ($(this).val() ==''){
-				ok=false;    
+				ok=false;
 				$(this).addClass('error');
 				$(this).parent().parent().parent().find('label').addClass('error');
 			}else{
@@ -235,17 +235,17 @@ $(document).ready(function(){
 
 		$('.rules .operacaoLogicaValue').each(function(){
 			if ($(this).val() =='' && $(this).is(':enabled')){
-				ok=false;    
+				ok=false;
 				$(this).addClass('error');
 			}else{
 				$(this).removeClass('error');
-				ok=true; 
+				ok=true;
 			}
 		});
 
 		$('.rules .sensoresFiltros').each(function(){
 			if ($(this).val() =='' || $(this).val() == null){
-				ok=false;    
+				ok=false;
 				$(this).addClass('error');
 				$(this).parent().parent().parent().find('label').addClass('error');
 			}else{
@@ -284,7 +284,7 @@ $(document).ready(function(){
 		for(i=0;i<values.length;i++){
 			ret += values[i];
 			if((i+1)!=values.length)
-				ret += ", "; 
+				ret += ", ";
 			}
 		return ret;
 	}
@@ -311,11 +311,11 @@ $(document).ready(function(){
 		estado = "";
 
 		if ((hrs < 00 ) || (hrs > 23) || ( min < 00) ||( min > 59)){
-			estado = "errada"; 
+			estado = "errada";
 		}
 
 		if (estado == "errada") {
-			return false; 
+			return false;
 		}else
 			return true;
 	}
@@ -339,7 +339,7 @@ $(document).ready(function(){
 				success: function(data) {
 					$('#sensor-value').html('');
 					$("#sensor-value").append('<option value="" selected="" disabled="">Selecione um Sensor</option>');
-	
+
 					$.each(data, function(key,val) {
 						$("#sensor-value").append('<option value="'+val.sensor_id+'">'+val.nome+'</option>');
 					});
@@ -358,7 +358,7 @@ $(document).ready(function(){
 				success: function(data) {
 					$('#sensor_gateway').html('');
 					$("#sensor_gateway").append('<option value="" selected="" disabled="">Selecione um Gateway</option>');
-	
+
 					$.each(data, function(key,val) {
 						$("#sensor_gateway").append('<option value="'+val.gateway_id+'">'+val.nome+'</option>');
 					});
@@ -477,7 +477,7 @@ $(document).ready(function(){
 								    }
 								});
 								if (!tempb)
-									$("#perm_registro").append('<option value="'+val.sensor_id+'">'+val.nome+'</option>');						
+									$("#perm_registro").append('<option value="'+val.sensor_id+'">'+val.nome+'</option>');
 							}
 						}else{
 							if (type_id == 1){
@@ -516,7 +516,7 @@ $(document).ready(function(){
 		$(".sensorsOutCI").append('<option value="'+value+'">'+text+'</option>');
 	});
 
-	$('[data-toggle="tooltip"]').tooltip(); 
+	$('[data-toggle="tooltip"]').tooltip();
 
 		var data_inicio;
 		var data_fim;
@@ -565,7 +565,7 @@ $(document).ready(function(){
 			            type: 'datetime',
 	                    ordinal: false,
 			        },
-			        tooltip: 
+			        tooltip:
 			        	{pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
                         valueDecimals: 2
                     },
@@ -574,13 +574,13 @@ $(document).ready(function(){
 		    	});
 		  	});
         });
-		 
+
 		$('.input-select select').chosen();
-				
+
 		$(".linkSubmenu").click(function(){
 			var menu = $(this).attr('rel');
 			$(".menuPrincipal").find(".subMenu").each(function(){
-				if($(this).attr('id')!="sub-"+menu){											   
+				if($(this).attr('id')!="sub-"+menu){
 					$(this).slideUp();
 				}
 			});
@@ -591,30 +591,31 @@ $(document).ready(function(){
 			var form = $(this).closest("form");
 			var secao = $("#caminho").val();
 			var dataItem = $(this).attr("id");
-			var selectedItem = dataItem.split("-",2);	
-			$(form).find(".item-selected").val(selectedItem[1]);	
+			var selectedItem = dataItem.split("-",2);
+			$(form).find(".item-selected").val(selectedItem[1]);
 			document.lista.action = window.base_url+"cadastros/CI_permissoes/pesquisa";
 			document.lista.submit();
 		});
-		
+
 		$(".botaoExcluir").click(function(){
 			if (confirm("Você realmente deseja excluir esse registro?")){
 				var form = $(this).closest("form");
 				var secao = $("#caminho").val();
 				var dataItem = $(this).attr("id");
-				var selectedItem = dataItem.split("-",2);	
-				$(form).find(".item-selected").val(selectedItem[1]);						  
+				var selectedItem = dataItem.split("-",2);
+				$(form).find(".item-selected").val(selectedItem[1]);
 				document.lista.action = window.base_url+ secao +"/excluir";
 				document.lista.submit();
-			}	
+			}
 		});
-	
+
 		$(".botaoEditar").click(function(){
 			var form = $(this).closest("form");
 			var secao = $("#caminho").val();
 			var dataItem = $(this).attr("id");
-			var selectedItem = dataItem.split("-",2);	
-			$(form).find(".item-selected").val(selectedItem[1]);						  
+			var selectedItem = dataItem.split("-",2);
+			alert(selectedItem);
+			$(form).find(".item-selected").val(selectedItem[1]);
 			document.lista.action = window.base_url+ secao +"/editar";
 			document.lista.submit();
 		});
@@ -627,37 +628,37 @@ $(document).ready(function(){
 			else if (status=='f')
 				strconf= 'Você realmente deseja ATIVAR?';
 
-			if (confirm(strconf)){				
+			if (confirm(strconf)){
 				var form = $(this).closest("form");
 				var secao = $("#caminho").val();
 				var dataItem = $(this).attr("id");
-				var selectedItem = dataItem.split("-",2);	
+				var selectedItem = dataItem.split("-",2);
 				$(form).find(".item-selected").val(selectedItem[1]);
 
-				if (status == 'f')				  
+				if (status == 'f')
 					document.lista.action = window.base_url+ secao +"/ativar";
 				else if (status == 't')
 					document.lista.action = window.base_url+ secao +"/desativar";
 				document.lista.submit();
 			}
 		});
-	
+
 		$(".perpage-button").click(function(e){
 			atualizaListagem();
 		})
-		
+
 		function atualizaListagem() {
-	
+
 			var caminho = $("#caminho").val();
 			var metodo = $("#metodo").val();
 			var nr_pagina = $("#perpage").val();
 			var href		= window.base_url+caminho+'/'+metodo+'/'+nr_pagina;
 			location.href 	= href;
 		}
-	
-		$('table.tabela-dados tbody .dados:even').css('background','#E6E6E6'); 
-		$('table.tabela-dados tbody .dados:odd').css('background','#FFFFFF'); 
-		
+
+		$('table.tabela-dados tbody .dados:even').css('background','#E6E6E6');
+		$('table.tabela-dados tbody .dados:odd').css('background','#FFFFFF');
+
 		$(".link-abas li").find("a").each(function(ev){
 			$(this).bind("click",function(){
 				var hasClass = $(this).hasClass('active-tab');
@@ -669,8 +670,8 @@ $(document).ready(function(){
 						_this.addClass('active-tab');
 						$('#container-' + nomeAba).fadeIn('100').addClass("aba-ativa");
 					});
-				}	
-			});	
+				}
+			});
 		});
 
 		var relDay = 0;
@@ -680,7 +681,7 @@ $(document).ready(function(){
 			if (newRel === relDay){
 				$(this).find("span").removeAttr('class');
 				$(this).find("span").attr('class',actualClassDay);
-			
+
 			} else {
 				relDay = newRel;
 				if (relDay.length < 3) {
@@ -691,9 +692,9 @@ $(document).ready(function(){
 					}
 				} else if (relDay.length === 6) {
 					actualClassDay = 'block-green';
-				} else if (relDay.length >= 10) {				
+				} else if (relDay.length >= 10) {
 					actualClassDay = 'block-red';
-				}	
+				}
 				$(this).find("span").removeAttr('class');
 				$(this).find("span").attr('class',actualClassDay);
 			}
@@ -721,17 +722,17 @@ $(document).ready(function(){
 			var idVerificacao = $('#agendamento_id').val();
 			var agendamentoambiente = $('#agendamento_ambiente').val();
 			var caminhoVerificacao = window.base_url+"agenda/CI_agenda/verificarData";
-			
+
 			if (idVerificacao == "") {
 				idVerificacao = 0;
-			} 
+			}
 
 			if ($("#dt-inicio").val().length > 1) {
 				DateTimeInicial = $("#dt-inicio").val();
 			}
-			if ($("#dt-final").val().length > 1){		
+			if ($("#dt-final").val().length > 1){
 				DateTimeFinal = $("#dt-final").val();
-			}	
+			}
 			if (DateTimeFinal == "" || DateTimeInicial == "") {
 				alert("Preencha todos os campos corretamente.");
 				return false;
@@ -753,14 +754,14 @@ $(document).ready(function(){
 						alert('Preencha todos os campos corretamente.');
 					}
 				});
-			}					
+			}
 		});
 
 		$('.btn-cancelar-operacao').bind("click",function(){
 			var href		= window.base_url+'CI_inicio';
 			location.href 	= href;
 		});
-		
+
 		$('.checkbox-pai').on('click', function(){
 			var $this = $(this);
 			var parentMenu = $this.closest('.item-menu-perfil');
@@ -774,8 +775,8 @@ $(document).ready(function(){
 				listaMenus.find('input').each(function(){
 					$(this).attr('checked', false);
 				});
-			}	
-		});		
+			}
+		});
 
 		$(".botao-submit-usuario").on('click', function(ev){
 			var camposValidos = 0;
@@ -784,13 +785,13 @@ $(document).ready(function(){
 					camposValidos++;
 				}
 			});
-			
+
 			if (camposValidos > 0) {
 				$('#form-usuario').submit();
 			} else {
 				alert('Digite ao menos um número de telefone!');
 				ev.preventDefault();
-			}	
+			}
 		});
 	});
 (function() {
@@ -832,5 +833,3 @@ $(document).ready(function(){
 
     jQuery.browser = browser;
 })();
-
-

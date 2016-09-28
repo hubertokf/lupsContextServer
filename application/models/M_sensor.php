@@ -16,9 +16,9 @@ class M_sensor extends CI_Model{
 	private $sensor_ambiente;
 	private $sensor_gateway;
 	private $sensor_servidorborda;
-    private $sensor_status;
-	
-        function pesquisar($select='', $where=array(), $limit=10, $offset=0, $ordem='asc', $perm=FALSE) {
+  private $sensor_status;
+
+  function pesquisar($select='', $where=array(), $limit=10, $offset=0, $ordem='asc', $perm=FALSE) {
         	if ($perm == FALSE){
 	            $this->db->select($select);
 	            $this->db->select('s.*');
@@ -34,8 +34,8 @@ class M_sensor extends CI_Model{
 
 	            $this->db->from('sensor as s');
 
-	            //$this->db->join('relcontextointeresse as rci', 'rci.sensor_id = s.sensor_id');
-	            //$this->db->join('contextointeresse as ci', 'ci.contextointeresse_id = rci.contextointeresse_id');
+	            // $this->db->join('relcontextointeresse as rci', 'rci.sensor_id = s.sensor_id');
+	            // $this->db->join('contextointeresse as ci', 'ci.contextointeresse_id = rci.contextointeresse_id');
 
 	            $this->db->join('fabricante as f', 's.fabricante_id = f.fabricante_id', 'left');
 	            $this->db->join('tiposensor as t', 's.tiposensor_id = t.tiposensor_id', 'left');
@@ -56,7 +56,7 @@ class M_sensor extends CI_Model{
 	            $this->db->select('g.nome as gateway_nome');
 	            $this->db->select('b.nome as servidorborda_nome');
 	            $this->db->select('p.podeeditar as podeeditar');
-	            
+
 	            $this->db->from('sensor as s');
 
 	            $this->db->join('relcontextointeresse as rci', 'rci.sensor_id = s.sensor_id');
@@ -69,7 +69,7 @@ class M_sensor extends CI_Model{
 	            $this->db->join('gateway as g', 's.gateway_id = g.gateway_id', 'left');
 	            $this->db->join('servidorborda as b', 's.servidorborda_id = b.servidorborda_id', 'left');
 	        }
-            
+
 
             $this->db->where($where);
             $this->db->order_by('s.nome',$ordem);
@@ -78,22 +78,32 @@ class M_sensor extends CI_Model{
             return $this->db->get();
 
         }
-		
-        function selecionar($codigo) {
+				// function pesquisar_livre($value='')
+				// {
+				// }
+		function get_url_borda($where = array())
+				{
+						$this->db->select("borda.url as url");
+						$this->db->from("servidorborda as borda");
+						$this->db->join('sensor as s','borda.servidorborda_id = s.servidorborda_id');
+						$this->db->where($where);
+						return $this->db->get();
+				}
+    function selecionar($codigo) {
 
         	$this->db->select('s.*');
 
-            $this->db->select('t.unidade as unidade');
+          $this->db->select('t.unidade as unidade');
 
-            $this->db->from('sensor as s');
+          $this->db->from('sensor as s');
 
-            $this->db->join('tiposensor as t', 's.tiposensor_id = t.tiposensor_id', 'left');
+          $this->db->join('tiposensor as t', 's.tiposensor_id = t.tiposensor_id', 'left');
 
-            $this->db->where("sensor_id", $codigo);
-            return $this->db->get();
+          $this->db->where("sensor_id", $codigo);
+          return $this->db->get();
         }
 		function salvar() {
-            $arrayCampos  = array(
+          $arrayCampos  = array(
                 "nome" 				=> $this->sensor_nome,
                 "descricao" 		=> $this->sensor_desc,
                 "modelo" 			=> $this->sensor_modelo,
@@ -171,17 +181,17 @@ class M_sensor extends CI_Model{
             $this->db->from('sensor');
             return $this->db->count_all_results();
         }
-		
+
 		function excluir() {
             $arrayCampos  = array(
-                "sensor_id" => $this->sensor_id                
+                "sensor_id" => $this->sensor_id
             );
             if ($this->db->delete('sensor', $arrayCampos))
 	            return true;
 	        else
 	        	return false;
 		}
-	
+
         function numeroLinhasTotais($select='', $where=array()) {
         	$this->db->where($where);
             $this->db->from('sensor');
@@ -195,10 +205,10 @@ class M_sensor extends CI_Model{
 			$this->db->update('sensor', $arrayCampos, array("sensor_id"=>$this->sensor_id));
 	        return "alt";
         }
-	
-// Getters and Setters 
 
-	
+// Getters and Setters
+
+
 		public function getSensorId(){
 			if($this->sensor_id === NULL) {
 				$this->sensor_id = new SensorId;
@@ -209,126 +219,126 @@ class M_sensor extends CI_Model{
 		public function getSensorNome() {
 		    if($this->sensor_nome === NULL) {
         		$this->sensor_nome = new SensorNome;
-    		}			
+    		}
 			return $this->sensor_nome;
 		}
-		
+
 		public function getSensorDesc() {
 		    if($this->sensor_desc === NULL) {
         		$this->sensor_desc = new SensorDesc;
-    		}			
+    		}
 			return $this->sensor_desc;
 		}
 
 		public function getSensorModelo() {
 		    if($this->sensor_modelo === NULL) {
         		$this->sensor_modelo = new SensorModelo;
-    		}			
+    		}
 			return $this->sensor_modelo;
 		}
 
 		public function getSensorPrecisao() {
 		    if($this->sensor_precisao === NULL) {
         		$this->sensor_precisao = new SensorPrecisao;
-    		}			
+    		}
 			return $this->sensor_precisao;
 		}
 
 		public function getSensorValorMin() {
 		    if($this->sensor_valormin === NULL) {
         		$this->sensor_valormin = new SensorValorMin;
-    		}			
+    		}
 			return $this->sensor_valormin;
 		}
 
 		public function getSensorValorMax() {
 		    if($this->sensor_valormax === NULL) {
         		$this->sensor_valormax = new SensorValorMax;
-    		}			
+    		}
 			return $this->sensor_valormax;
 		}
 
 		public function getSensorValorMin_n() {
 		    if($this->sensor_valormin_n === NULL) {
         		$this->sensor_valormin_n = new SensorValorMin_n;
-    		}			
+    		}
 			return $this->sensor_valormin_n;
 		}
 
 		public function getSensorValorMax_n() {
 		    if($this->sensor_valormax_n === NULL) {
         		$this->sensor_valormax_n = new SensorValorMax_n;
-    		}			
+    		}
 			return $this->sensor_valormax_n;
 		}
 
 		public function getSensorInicioLuz() {
 		    if($this->sensor_inicio_luz === NULL) {
         		$this->sensor_inicio_luz = new SensorInicioLuz;
-    		}			
+    		}
 			return $this->sensor_inicio_luz;
 		}
 
 		public function getSensorFimLuz() {
 		    if($this->sensor_fim_luz === NULL) {
         		$this->sensor_fim_luz = new SensorFimLuz;
-    		}			
+    		}
 			return $this->sensor_fim_luz;
 		}
 
 		public function getSensorFabricante() {
 		    if($this->sensor_fabricante === NULL) {
         		$this->sensor_fabricante = new SensorFabricante;
-    		}			
+    		}
 			return $this->sensor_fabricante;
 		}
 
 		public function getSensorTipo() {
 		    if($this->sensor_tipo === NULL) {
         		$this->sensor_tipo = new SensorTipo;
-    		}			
+    		}
 			return $this->sensor_tipo;
 		}
 
 		public function getSensorAmbiente() {
 		    if($this->sensor_ambiente === NULL) {
         		$this->sensor_ambiente = new SensorAmbiente;
-    		}			
+    		}
 			return $this->sensor_ambiente;
 		}
 
 		public function getSensorGateway() {
 		    if($this->sensor_gateway === NULL) {
         		$this->sensor_gateway = new SensorGateway;
-    		}			
+    		}
 			return $this->sensor_gateway;
 		}
 
 		public function getSensorServidorBorda() {
 		    if($this->sensor_servidorborda === NULL) {
         		$this->sensor_servidorborda = new SensorServidorBorda;
-    		}			
+    		}
 			return $this->sensor_servidorborda;
 		}
 
 		public function getSensorStatus() {
 		    if($this->sensor_status === NULL) {
         		$this->sensor_status = new SensorStatus;
-    		}			
+    		}
 			return $this->sensor_status;
 		}
-		
+
 		public function setSensorStatus($valor){
 			if(!is_string($valor)) {
 				throw new InvalidArgumentException('Expected String');
 			}
 			$this->sensor_status = $valor;
 		}
-		
+
 		public function setSensorId($valor){
 			$this->sensor_id = $valor;
 		}
-		
+
 		public function setSensorNome($valor){
 			if(!is_string($valor)) {
 				throw new InvalidArgumentException('Expected String');
@@ -342,7 +352,7 @@ class M_sensor extends CI_Model{
 			}
 			$this->sensor_desc = $valor;
 		}
-		
+
 		public function setSensorModelo($valor){
 			if(!is_string($valor)) {
 				throw new InvalidArgumentException('Expected String');
@@ -353,7 +363,7 @@ class M_sensor extends CI_Model{
 		public function setSensorPrecisao($valor){
 			$this->sensor_precisao = $valor;
 		}
-		
+
 		public function setSensorValorMin($valor){
 			$this->sensor_valormin = $valor;
 		}
@@ -361,7 +371,7 @@ class M_sensor extends CI_Model{
 		public function setSensorValorMax($valor){
 			$this->sensor_valormax = $valor;
 		}
-		
+
 		public function setSensorValorMin_n($valor){
 			$this->sensor_valormin_n = $valor;
 		}
@@ -388,7 +398,7 @@ class M_sensor extends CI_Model{
 			}
 			$this->sensor_tipo = $valor;
 		}
-		
+
 		public function setSensorAmbiente($valor){
 			$this->sensor_ambiente = $valor;
 		}
@@ -406,8 +416,6 @@ class M_sensor extends CI_Model{
 			}
 			$this->sensor_servidorborda = $valor;
 		}
-		
+
 	}
 ?>
-
-

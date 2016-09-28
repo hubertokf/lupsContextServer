@@ -110,6 +110,7 @@ class M_contextointeresse extends CI_Model {
             if ($this->contextointeresse_id == ""){
 	            $this->db->insert('contextointeresse', $arrayCampos);
 	            $insert_id = $this->db->insert_id();
+
 	            foreach ($this->contextointeresse_sensores as $sensor) {
 	            	$ativaregra = "FALSE";
 	            	if (is_array($this->contextointeresse_trigger)){
@@ -127,6 +128,7 @@ class M_contextointeresse extends CI_Model {
 		                "sensor_id"					=> $sensor,
 		                "ativaregra"				=> $ativaregra
 	             	);
+
 			        $this->db->insert('relcontextointeresse', $arrayCampos2);
 			    }
 

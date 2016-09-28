@@ -25,9 +25,9 @@ class Ambientes extends REST_Controller {
 
         // Configure limits on our controller methods
         // Ensure you have created the 'limits' table and enabled 'limits' within application/config/rest.php
-        $this->methods['index_get']['limit'] = 500; // 500 requests per hour per user/key
-        $this->methods['index_post']['limit'] = 100; // 100 requests per hour per user/key
-        $this->methods['index_delete']['limit'] = 50; // 50 requests per hour per user/key
+        $this->methods['user_get']['limit'] = 500; // 500 requests per hour per user/key
+        $this->methods['user_post']['limit'] = 100; // 100 requests per hour per user/key
+        $this->methods['user_delete']['limit'] = 50; // 50 requests per hour per user/key
 
         //Load Models
         $this->load->model('M_ambiente');
@@ -58,6 +58,7 @@ class Ambientes extends REST_Controller {
         }else{
         // Requisições com ID - lista informações do elemento
             $ambiente = $this->M_ambiente->selecionar($id)->result_array();
+
             if ($ambiente){
                 // Converte os dados adquiridos do banco (array) para Json
                 $ambiente_json = json_encode($ambiente, JSON_UNESCAPED_UNICODE);
@@ -75,89 +76,42 @@ class Ambientes extends REST_Controller {
 
     public function index_post(){
         $content = $this->post('content');
-        //verifica se o content da requisição veio
         if ($content === NULL){
-            //se não veio, retorna erro 204 (no content)
-            $message = ['status' => FALSE,
-                        'message' => 'No content was found'];
-            $this->set_response($message, REST_Controller::HTTP_NO_CONTENT);
-        }else{
-            //se veio, o framework já transforma o json para array associativo com os dados
 
-            //salva no objeto do model
-            $this->M_ambiente->setAmbienteNome($content['ambiente_nome']);
-            $this->M_ambiente->setAmbienteDesc($content['ambiente_desc']);
-            $this->M_ambiente->setAmbienteStatus($content['ambiente_status']);
-            //salva o model no banco
-            if ($this->M_ambiente->salvar() == "inc"){
-                //se retornou inc, está salvo no banco
-                $message = "Dados registrados com sucesso!";
-                // retorna 201 (criado)
-                $this->set_response($message, REST_Controller::HTTP_CREATED);
-            }else{
-                //se não retornou inc
-                $message = "Dados não registrados com sucesso!";
-                // retorna 409 (conflito)
-                $this->set_response($message, REST_Controller::HTTP_CONFLICT);
-            }
         }
     }
 
     public function index_put(){
         // Requisições sem ID - lista todos os elementos
-        $id = $this->_args['id']; // precisei utilizar esse metodo para obter os paramentros pois a biblioteca não funciona se enviados por PUT
-        //$id = $this->put('id');
+        $id = $this->get('id');
         if ($id === NULL){
-            //se não veio, retorna erro 204 (no content)
-            $message = ['status' => FALSE,
-                        'message' => 'No ambiente was found'];
-            $this->set_response($message, REST_Controller::HTTP_NOT_FOUND);
+
         }else{
-            // Requisições com ID - lista informações do elemento
-            $content = $this->_args['content']; // precisei utilizar esse metodo para obter os paramentros pois a biblioteca não funciona se enviados por PUT
+        // Requisições com ID - lista informações do elemento
+            $content = $this->post('content');
             if ($content === NULL){
-                //se não veio, retorna erro 204 (no content)
-                $message = ['status' => FALSE,
-                            'message' => 'No content was found'];
-                $this->set_response($message, REST_Controller::HTTP_NO_CONTENT);
-            }else{
-                //se veio, o framework já transforma o json para array associativo com os dados
-                //salva no objeto do model
-                $this->M_ambiente->setAmbienteId($id);
-                $this->M_ambiente->setAmbienteNome($content['ambiente_nome']);
-                $this->M_ambiente->setAmbienteDesc($content['ambiente_desc']);
-                $this->M_ambiente->setAmbienteStatus($content['ambiente_status']);
-                if ($this->M_ambiente->salvar() == "alt"){
-                    //se retornou alt, está salvo no banco
-                    $message = "Dados registrados com sucesso!";
-                    // retorna 200 (OK)
-                    $this->set_response($message, REST_Controller::HTTP_OK);
-                }
-                else {
-                    //se não retornou alt
-                    $message = "Dados não registrados com sucesso!";
-                    // retorna 409 (conflito)
-                    $this->set_response($message, REST_Controller::HTTP_CONFLICT);
-                }
+
             }
-        }        
+        }
+        
     }
 
     public function index_delete(){
-        // Obtem o paramentro id passado na url através de GET, pois a função DELETE e PUT da biblioteca não funcionam.
         $id = $this->get('id');
-        if ($id !== NULL || $id != ""){
-            //se o id estiver setado, salva o id em um objeto do model ambinete e aciona metodo de excluir
-            $this->M_ambiente->setAmbienteId($id);  
-            $this->M_ambiente->excluir();
+        if ($id != NULL){
+            if ($id==""){
 
-            $message = "Registro(s) excluído(s) com sucesso!";
-            $this->set_response($message, REST_Controller::HTTP_OK);
-        }else{
-            $this->response([
-                    'status' => FALSE,
-                    'message' => 'No ambient was found'
-                ], REST_Controller::HTTP_NOT_FOUND);
+                if(isset($_POST["item"])) {
+                    $this->M_ambiente->setAmbienteId($_POST["item"]);   
+                    $this->M_ambiente->excluir();
+                }
+            }
+            else{
+                $this->M_ambiente->setAmbienteId($id);  
+                $this->M_ambiente->excluir();
+            }
+            $this->dados["msg"] = "Registro(s) excluído(s) com sucesso!";
+            $this->pesquisa();
         }
     }
 }

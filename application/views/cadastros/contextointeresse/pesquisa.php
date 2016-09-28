@@ -16,7 +16,8 @@
 			        </tr>
 					<tbody>
 				</thead>
-		        <?php
+		    <?php
+					// print_r($linhas);
 					foreach($linhas as $linha){
 						$sensores_id = array();
 						$sensores_nome = array();
@@ -40,9 +41,9 @@
 							<a class='botaoExcluir' id='del-".$linha['contextointeresse_id']."' href='javascript:;' alt='Excluir Registro' title='Excluir Registro'><i class='fa fa-times fa-2x'></i></a>";
 						echo "</td>
 							</tr>
-						";	
+						";
 					}
-		        ?>	
+		        ?>
 				</tbody>
 			</table>
 		</form>

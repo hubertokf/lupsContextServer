@@ -43,17 +43,15 @@ class CI_sensor extends CI_controller {
 		$this->dados["sb"] = $this->M_servidorborda->pesquisar('', array(), 1000);
 		if (isset($_POST["pesquisa_filter"]) && $_POST["pesquisa_filter"]!= ""){
 			if ($this->session->userdata('perfilusuario_id') == 2)
-				$this->dados["linhas"] = $this->M_sensor->pesquisar('', array("s.servidorborda_id" => $_POST["pesquisa_filter"]), $nr_pagina, $this->uri->segment(5), 'asc', FALSE);
+				$this->dados["linhas"] = $this->M_sensor->pesquisar('', array("s.servidorborda_id" => $_POST["pesquisa_filter"]), $nr_pagina, $this->uri->segment(5));
 			else
 				$this->dados["linhas"] = $this->M_sensor->pesquisar('', array("s.servidorborda_id" => $_POST["pesquisa_filter"], 'p.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5), 'asc', TRUE);
 		}else{
-			if ($this->session->userdata('perfilusuario_id') == 2){
-				$this->dados["linhas"] = $this->M_sensor->pesquisar('', array(), $nr_pagina, $this->uri->segment(5), 'asc', FALSE);
-			}else{
+			if ($this->session->userdata('perfilusuario_id') == 2)
+				$this->dados["linhas"] = $this->M_sensor->pesquisar('', array(), $nr_pagina, $this->uri->segment(5));
+			else
 				$this->dados["linhas"] = $this->M_sensor->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5), 'asc', TRUE);
-			}
 		}
-
 		$this->dados["nr_pagina"] = $nr_pagina;
 		$this->dados["total"] = $this->M_sensor->numeroLinhasTotais();
 		$this->dados["tituloPesquisa"] = "Sensores Cadastrados";
