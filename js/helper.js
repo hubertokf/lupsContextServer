@@ -1,6 +1,17 @@
 	// JavaScript Document
 $(document).ready(function(){
 
+	$('#type-rule-select').on('change', function() {
+		if (this.value == 1 ) {
+			$("#motor-rule").hide();
+			$("#python-rule").show();
+		}
+		if (this.value == 2 ) {
+			$("#motor-rule").show();
+			$("#python-rule").hide();
+		}
+	});
+
 	parts = window.base_url.split('/');
 	var url = parts[0]+'//'+parts[2]+'/';
 

@@ -573,32 +573,13 @@ CREATE TABLE regras (
     status boolean NOT NULL,
     nome character varying NOT NULL,
     tipo integer DEFAULT 1 NOT NULL,
+    sensor_id integer,
     arquivo_py character varying
 );
 
 ALTER TABLE public.regras OWNER TO postgres;
 
-CREATE SEQUENCE seq_id_conditions
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-ALTER TABLE public.seq_id_conditions OWNER TO postgres;
---
--- Name: condicoes; Type: TABLE; Schema: public; Owner: Tainã; Tablespace:
---
-CREATE TABLE "condicoes" (
-    id_condicoes integer DEFAULT nextval('regra_id_seq'::regclass) NOT NULL,
-    nome character varying NOT NULL,
-    nome_legivel character varying NOT NULL,
-    tipo character varying NOT NULL,
-    tipo_server integer DEFAULT 1,
-    sensor_id integer
-);
-
-ALTER TABLE public.condicoes OWNER TO postgres;
+COMMENT ON COLUMN regras.tipo IS '1->Script Python, 2->Regra de borda, 3->Regra de contexto, 4->regra de agendamento';
 
 CREATE SEQUENCE seq_id_actions
     START WITH 1
@@ -606,7 +587,8 @@ CREATE SEQUENCE seq_id_actions
     NO MINVALUE
     NO MAXVALUE
     CACHE 1;
-ALTER TABLE public.seq_id_actions OWNER TO postgres;
+ALTER TABLE public.seq_id_actions;
+-- ALTER TABLE public.seq_id_actions OWNER TO postgres;
 --
 -- Name: acoes; Type: TABLE; Schema: public; Owner: Tainã; Tablespace:
 --
@@ -621,7 +603,6 @@ CREATE TABLE acoes (
 -- Name: COLUMN regras.tipo; Type: COMMENT; Schema: public; Owner: huberto
 --
 
--- COMMENT ON COLUMN regras.tipo IS '1->Script Python';
 
 --
 -- Name: relcontextointeresse; Type: TABLE; Schema: public; Owner: huberto; Tablespace:
@@ -663,6 +644,7 @@ CREATE TABLE sensor (
     nome character varying NOT NULL,
     descricao character varying(300),
     modelo character varying NOT NULL,
+    uuID character varying(300),
     precisao double precision DEFAULT 1,
     valormin double precision,
     valormax double precision,
@@ -1394,6 +1376,7 @@ ALTER TABLE ONLY publicacao
 
 ALTER TABLE ONLY regras
     ADD CONSTRAINT regras_id PRIMARY KEY (regra_id);
+    ADD CONSTRAINT sensor_id_fk FOREIGN KEY (sensor_id) REFERENCES sensor(sensor_id);
 
 
 --
