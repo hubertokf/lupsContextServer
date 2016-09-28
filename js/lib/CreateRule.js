@@ -47,7 +47,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
         });
         this.send_informations['name_rule'] = $("#name_rule").val();
         this.send_informations['status']    = true;
-        this.send_informations['tipo']      = 1;
+        this.send_informations['tipo']      = 2;
         this.send_informations['id_rule']   = $("#editable_id_rule").val();
         if(this.send_informations['id_rule']){
             console.log("ok");
