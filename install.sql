@@ -1115,8 +1115,11 @@ INSERT INTO menu VALUES (24, 'Relatórios', '5', 'agenda/CI_agenda/relatorio', 2
 INSERT INTO menu VALUES (25, 'Gateway', '13', 'cadastros/CI_gateway', 5);
 INSERT INTO menu VALUES (37, 'Contexto de Interesse', '2', 'cadastros/CI_contextointeresse', 0);
 INSERT INTO menu VALUES (38, 'Regras', '2', 'cadastros/CI_regras', 0);
-INSERT INTO menu VALUES (40, 'Configurações Gerais', '6', 'configuracoes/CI_configuracoes/geral', 0);
 INSERT INTO menu VALUES (39, 'Personalizar perfil', '6', 'configuracoes/CI_configuracoes/personaliza', 5);
+INSERT INTO menu VALUES (40, 'Configurações Gerais', '6', 'configuracoes/CI_configuracoes/geral', 0);
+INSERT INTO menu VALUES (41, 'Regra de Contexto', '2', 'cadastros/CI_regras_context', 2);
+INSERT INTO menu VALUES (42, 'Regra de Agendamento', '13', 'cadastros/CI_Regras_Aquisicao', 3);
+INSERT INTO menu VALUES (44, 'Regra de Borda', '13', 'adastros/CI_Regras_SB', 4);
 
 
 --
@@ -1168,36 +1171,17 @@ SELECT pg_catalog.setval('regra_id_seq', 1, false);
 -- Data for Name: relmenuperfil; Type: TABLE DATA; Schema: public; Owner: huberto
 --
 
-INSERT INTO relmenuperfil VALUES (1, 1);
-INSERT INTO relmenuperfil VALUES (2, 1);
-INSERT INTO relmenuperfil VALUES (3, 1);
-INSERT INTO relmenuperfil VALUES (11, 1);
-INSERT INTO relmenuperfil VALUES (16, 1);
-INSERT INTO relmenuperfil VALUES (5, 1);
-INSERT INTO relmenuperfil VALUES (21, 1);
-INSERT INTO relmenuperfil VALUES (24, 1);
-INSERT INTO relmenuperfil VALUES (6, 1);
-INSERT INTO relmenuperfil VALUES (14, 1);
-INSERT INTO relmenuperfil VALUES (17, 1);
-INSERT INTO relmenuperfil VALUES (18, 1);
-INSERT INTO relmenuperfil VALUES (19, 1);
-INSERT INTO relmenuperfil VALUES (13, 1);
-INSERT INTO relmenuperfil VALUES (22, 1);
-INSERT INTO relmenuperfil VALUES (25, 1);
-INSERT INTO relmenuperfil VALUES (37, 1);
-INSERT INTO relmenuperfil VALUES (38, 1);
-INSERT INTO relmenuperfil VALUES (39, 1);
 INSERT INTO relmenuperfil VALUES (1, 10);
 INSERT INTO relmenuperfil VALUES (5, 10);
 INSERT INTO relmenuperfil VALUES (21, 10);
 INSERT INTO relmenuperfil VALUES (24, 10);
 INSERT INTO relmenuperfil VALUES (6, 10);
 INSERT INTO relmenuperfil VALUES (17, 10);
-INSERT INTO relmenuperfil VALUES (40, 1);
 INSERT INTO relmenuperfil VALUES (1, 2);
 INSERT INTO relmenuperfil VALUES (2, 2);
 INSERT INTO relmenuperfil VALUES (37, 2);
 INSERT INTO relmenuperfil VALUES (38, 2);
+INSERT INTO relmenuperfil VALUES (41, 2);
 INSERT INTO relmenuperfil VALUES (3, 2);
 INSERT INTO relmenuperfil VALUES (11, 2);
 INSERT INTO relmenuperfil VALUES (16, 2);
@@ -1213,7 +1197,32 @@ INSERT INTO relmenuperfil VALUES (39, 2);
 INSERT INTO relmenuperfil VALUES (40, 2);
 INSERT INTO relmenuperfil VALUES (13, 2);
 INSERT INTO relmenuperfil VALUES (25, 2);
+INSERT INTO relmenuperfil VALUES (43, 2);
+INSERT INTO relmenuperfil VALUES (44, 2);
 INSERT INTO relmenuperfil VALUES (22, 2);
+INSERT INTO relmenuperfil VALUES (1, 1);
+INSERT INTO relmenuperfil VALUES (2, 1);
+INSERT INTO relmenuperfil VALUES (37, 1);
+INSERT INTO relmenuperfil VALUES (38, 1);
+INSERT INTO relmenuperfil VALUES (41, 1);
+INSERT INTO relmenuperfil VALUES (3, 1);
+INSERT INTO relmenuperfil VALUES (11, 1);
+INSERT INTO relmenuperfil VALUES (16, 1);
+INSERT INTO relmenuperfil VALUES (5, 1);
+INSERT INTO relmenuperfil VALUES (21, 1);
+INSERT INTO relmenuperfil VALUES (24, 1);
+INSERT INTO relmenuperfil VALUES (6, 1);
+INSERT INTO relmenuperfil VALUES (14, 1);
+INSERT INTO relmenuperfil VALUES (17, 1);
+INSERT INTO relmenuperfil VALUES (18, 1);
+INSERT INTO relmenuperfil VALUES (19, 1);
+INSERT INTO relmenuperfil VALUES (39, 1);
+INSERT INTO relmenuperfil VALUES (40, 1);
+INSERT INTO relmenuperfil VALUES (13, 1);
+INSERT INTO relmenuperfil VALUES (25, 1);
+INSERT INTO relmenuperfil VALUES (43, 1);
+INSERT INTO relmenuperfil VALUES (44, 1);
+INSERT INTO relmenuperfil VALUES (22, 1);
 
 --
 -- Name: sensor_id_seq; Type: SEQUENCE SET; Schema: public; Owner: huberto

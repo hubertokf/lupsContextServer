@@ -58,11 +58,7 @@ $(document).ready(function(){
 		if ( $.fn.dataTable.isDataTable('#resultado-table') ) {
 		    table.destroy();
 			$('#resultado-table').empty();
-		    console.log("oiin");
 		}
-
-		    console.log("oiout");
-		    console.log("oiafter");
 
 		if(ValidateFields()){
 			var filtros='';
@@ -503,7 +499,6 @@ $(document).ready(function(){
 	$('#insertSensorCI').click(function(){
 		itemText = $(".sensorsOutCI").find(":selected")[0].text;
 		itemVal = $(".sensorsOutCI").find(":selected")[0].value;
-		console.log("oi");
 		$(".ciSensorList").append("<li class='ciSensorItem' data-id='"+itemVal+"' data-text='"+itemText+"'><input type='hidden' name='contextointeresse_sensores[]' value='"+itemVal+"'><div class='col-xs-7'>"+itemText+"</div><div class='col-xs-4'><input type='checkbox' name='contextointeresse_trigger[]' value='"+itemVal+"'>Dispara regra</div><div class='col-xs-1'><div class='removeSensorCI'><i class='fa fa-times fa-2x'></div></i></div></li>");
 		$(".sensorsOutCI").find(":selected")[0].remove();
 	});
@@ -540,7 +535,6 @@ $(document).ready(function(){
                 async: false,
 			  	data: {sensor: sensorid, datainicio: data_inicio, datafim: data_fim}
 			}).done(function( data ) {
-	    		console.log(JSON.stringify(data));
 	    		var minvalue = Number.POSITIVE_INFINITY;
 				var maxvalue = Number.NEGATIVE_INFINITY;
 				var tmp;
@@ -614,7 +608,6 @@ $(document).ready(function(){
 			var secao = $("#caminho").val();
 			var dataItem = $(this).attr("id");
 			var selectedItem = dataItem.split("-",2);
-			alert(selectedItem);
 			$(form).find(".item-selected").val(selectedItem[1]);
 			document.lista.action = window.base_url+ secao +"/editar";
 			document.lista.submit();
@@ -622,7 +615,6 @@ $(document).ready(function(){
 
 		$(".botaoStatus").click(function(){
 			var status= $(this).data('status');
-			console.log(status);
 			if (status=='t')
 				strconf= 'Você realmente deseja DESATIVAR?';
 			else if (status=='f')
@@ -743,7 +735,6 @@ $(document).ready(function(){
 					data:{idAg:idVerificacao, DateTimeInicial:DateTimeInicial, DateTimeFinal:DateTimeFinal, agendamentoambiente:agendamentoambiente},
 					url:caminhoVerificacao,
 					success:function(result){
-						console.log(result);
 						if (result[0] == '0') {
 							$('.formulario-agendamento').submit();
 						} else {
