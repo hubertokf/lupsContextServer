@@ -39,13 +39,12 @@ class CI_regras_context extends CI_controller {
 	function pesquisa($nr_pagina=20 ){
 		$this->dados["metodo"] = "pesquisa";
 		if ($this->session->userdata('perfilusuario_id') == 2)
-			$this->dados["linhas"] = $this->M_regras->pesquisar('', array(), $nr_pagina, $this->uri->segment(5), 'asc', FALSE,3);
+			$this->dados["linhas"] = $this->M_regras->pesquisar('', array("r.tipo"=>3,"r.tipo"=>1), $nr_pagina, $this->uri->segment(5), 'asc', FALSE,3);
 		else
-			$this->dados["linhas"] = $this->M_regras->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5), 'asc', TRUE,3);
+			$this->dados["linhas"] = $this->M_regras->pesquisar('', array("r.tipo"=>3,"r.tipo"=>1,'p.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5), 'asc', TRUE,3);
 
 		$this->dados["nr_pagina"]      = $nr_pagina;
-		$this->dados["total"]          = $this->M_regras->numeroLinhasTotais('',array('tipo'=>3));
-		print_r($this->dados["total"]);
+		$this->dados["total"]          = $this->M_regras->numeroLinhasTotais('',array('tipo'=>3,'tipo'=>1));
 		$this->dados["tituloPesquisa"] = "Regras Cadastradas";
 		$pag['base_url']               = base_url.$this->dados["caminho"]."/".$this->dados["metodo"]."/".$nr_pagina."/";
 		$pag['total_rows']             = $this->dados["total"];
@@ -55,7 +54,7 @@ class CI_regras_context extends CI_controller {
 		$this->load->view('inc/topo',$this->dados);
 		$this->load->view('inc/menu');
 		$this->load->view('inc/topoPesquisa');
-		$this->load->view('cadastros/regras_sb/pesquisaEca');
+		$this->load->view('cadastros/regras_cs/pesquisa');
 		$this->load->view('inc/rodape');
 	}
 
