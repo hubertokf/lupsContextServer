@@ -43,7 +43,6 @@ class M_regras extends CI_Model {
 	        }
 
             $this->db->where($where);
-						$this->db->where("r.tipo=".$sens);
 
             $this->db->order_by('r.nome',$ordem);
        	    $this->db->limit($limit, $offset);
