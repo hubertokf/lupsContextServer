@@ -39,12 +39,12 @@ class CI_regras_context extends CI_controller {
 	function pesquisa($nr_pagina=20 ){
 		$this->dados["metodo"] = "pesquisa";
 		if ($this->session->userdata('perfilusuario_id') == 2)
-			$this->dados["linhas"] = $this->M_regras->pesquisar('', array("r.tipo"=>3,"r.tipo"=>1), $nr_pagina, $this->uri->segment(5), 'asc', FALSE,3);
+			$this->dados["linhas"] = $this->M_regras->pesquisar('', array('r.tipo !='=>2,'r.tipo !='=>4), $nr_pagina, $this->uri->segment(5), 'asc', FALSE,3);
 		else
-			$this->dados["linhas"] = $this->M_regras->pesquisar('', array("r.tipo"=>3,"r.tipo"=>1,'p.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5), 'asc', TRUE,3);
+			$this->dados["linhas"] = $this->M_regras->pesquisar('', array('r.tipo !='=>2,'r.tipo !='=>4,'p.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5), 'asc', TRUE,3);
 
 		$this->dados["nr_pagina"]      = $nr_pagina;
-		$this->dados["total"]          = $this->M_regras->numeroLinhasTotais('',array('tipo'=>3,'tipo'=>1));
+		$this->dados["total"]          = $this->M_regras->numeroLinhasTotais('',array('tipo !='=>2,'tipo !='=>4));
 		$this->dados["tituloPesquisa"] = "Regras Cadastradas";
 		$pag['base_url']               = base_url.$this->dados["caminho"]."/".$this->dados["metodo"]."/".$nr_pagina."/";
 		$pag['total_rows']             = $this->dados["total"];
@@ -91,9 +91,9 @@ class CI_regras_context extends CI_controller {
 			$this->dados["msg"] = "Dados registrados com sucesso!";
 		}
 		else{
-		$this->dados["msg"] = "Dados alterados com sucesso!";
-	}
-	$this->pesquisa();
+			$this->dados["msg"] = "Dados alterados com sucesso!";
+		}
+		$this->pesquisa();
 		// echo json_encode($get_test,JSON_FORCE_OBJECT);
 
 
@@ -237,7 +237,7 @@ function sendInformation($value='')
 		if($v['tipo']=="Estado de Evento"){
 				$tipo = 'string';
 		}
-				$obj                  = array('nome'=> $v['nome'],'nome_legivel'=>$v['nome_legivel'],'tipo'=>$v['tipo'],"sensor"=>$v['sensor_id']);
+				$obj                  = array('nome'=> $v['nome'],'nome_legivel'=>$v['tipo']." do ".$v['nome'],'tipo'=>$tipo,"sensor"=>$v['sensor_id']);
 				$obj                  = json_encode($obj,JSON_FORCE_OBJECT);
 				$output_condiction[]  = $obj;
 	}

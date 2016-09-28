@@ -40,7 +40,7 @@
 							echo "
 								<tr class='dados row'>
 									<td>".$linha['nome']."</td>
-									<td>".$linha['tipo']."</td>
+									<td>".($linha['tipo'] == 1 ? 'Script Python': 'Motor de Regra')."</td>
 									<td>".$linha['arquivo_py']."</td>
 									<td>Inativo</td>
 									<td class='buttons-row'>";

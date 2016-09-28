@@ -4,6 +4,7 @@
 			$tiposensor_id 		= $linha->tiposensor_id;
 			$tiposensor_nome	= $linha->nome;
 			$tiposensor_desc	= $linha->descricao;
+            $tiposensor_tipo    = $linha->tipo;
 			$tiposensor_unidade	= $linha->unidade;
 		}
 	}
@@ -49,6 +50,22 @@
 
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1 input">
+                                <label for="tiposensor_tipo">TIpo:</label>      
+                            </div>        
+                        </div>        
+                        <div class="row">     
+                             <div class="col-xs-10 col-xs-offset-1 input">     
+                                <select name="tiposensor_tipo">       
+                                    <option value="">Selecione</option>       
+                                    <option value="1"<?php echo (@$tiposensor_tipo == 1) ? ' selected="selected"' : ''; ?>>Numério</option>       
+                                    <option value="2"<?php echo (@$tiposensor_tipo == 2) ? ' selected="selected"' : ''; ?>>String</option>        
+                                    <option value="3"<?php echo (@$tiposensor_tipo == 3) ? ' selected="selected"' : ''; ?>>Booleano</option>      
+                                </select>     
+                             </div>        
+                         </div>        
+       
+                         <div class="row">     
+                             <div class="col-xs-10 col-xs-offset-1 input">
                                 <label for="tiposensor_unidade">Unidade:</label>
                             </div>
                         </div>

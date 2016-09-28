@@ -695,6 +695,7 @@ CREATE TABLE servidorborda (
     latitude character varying NOT NULL,
     longitude character varying NOT NULL,
     servidorcontexto_id integer NOT NULL,
+    access_token character varying,
     url character varying
 );
 

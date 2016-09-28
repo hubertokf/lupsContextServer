@@ -210,17 +210,21 @@ class CI_regras_sb extends CI_controller {
 		echo json_encode($output);
 
 	}
-	public function distributed_rule($id_regra='',$id_sensor='',$array=array())
-	{
+	public function distributed_rule($id_regra_context='',$id_sensor='',$array=array()){
 		$request   = "POST";
-		$get_url   =	$this->M_sensor->get_url_borda(array('sensor_id' =>$id_sensor))->result_array();
+		$get_url   = $this->M_sensor->get_acesso_borda(array('sensor_id' =>$id_sensor))->result_array();
 		$url       = $get_url[0]["url"];
-		if($id_regra != ''){
+		$token       = $get_url[0]["token"];
+		$id_sensor_borda = $this->M_sensor->get_borda_id($id_sensor);
+		$array = array_merge($array,array('sensor'=>$id_sensor_borda));
+
+		if($id_regra_context != ''){
 			$request = "PUT";
-			$array["id_regra"] = //consulta pra pegar id_regra borda;
-			$url_rule = $url."/rule//"; // concatenar com id_regra_borda
-			$ch  = curl_init($url);
-			// consulta pra pegar uuID
+			$array["id_regra"] = $this->M_relidregras->get_id_regraEgde($id_regra_context);
+			$url_rule = $url."/rule/".$array["id_regra"]; // concatenar com id_regra_borda
+
+			$ch  = curl_init($url_rule);
+
 			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $request);
 			$data_string = json_encode($array,JSON_FORCE_OBJECT);
 			curl_setopt($ch, CURLOPT_PUTFIELDS, $data_string);
@@ -230,15 +234,19 @@ class CI_regras_sb extends CI_controller {
 			$data_string = json_encode($array,JSON_FORCE_OBJECT);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
 		}
-		// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		// curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		// 	 	'Authorization: token 9517048ac92b9f9b5c7857e988580a66ba5d5061',
-		// 		'Content-Type: application/json',
-		// 	'Content-Length: ' . strlen($data_string))
-		// );
-		// $result = curl_exec($ch);
-		// curl_close($ch);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+			 	'Authorization: token '.$token,
+				'Content-Type: application/json',
+			'Content-Length: ' . strlen($data_string))
+		);
+		$result = curl_exec($ch);
+		curl_close($ch);
+
+
+		return json_decode($result)[0]->id;
 	}
+
 	function getActions($value="") // busca no banco as açoes pre definidas e retorna para a app
 	{
 		$actions = $this->M_actions->get_acoes_SB();

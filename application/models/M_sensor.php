@@ -18,91 +18,115 @@ class M_sensor extends CI_Model{
 	private $sensor_servidorborda;
   private $sensor_status;
 
-  function pesquisar($select='', $where=array(), $limit=10, $offset=0, $ordem='asc', $perm=FALSE) {
-        	if ($perm == FALSE){
-	            $this->db->select($select);
-	            $this->db->select('s.*');
+  	function pesquisar($select='', $where=array(), $limit=10, $offset=0, $ordem='asc', $perm=FALSE) {
+    	if ($perm == FALSE){
+            $this->db->select($select);
+            $this->db->select('s.*');
 
-	            $this->db->select('s.nome as sensor_nome');
-	            $this->db->select('s.descricao as sensor_descricao');
-	            $this->db->select('s.modelo as sensor_modelo');
-	            $this->db->select('f.nome as fabricante_nome');
-	            $this->db->select('t.nome as tiposensor_nome');
-	            $this->db->select('e.nome as ambiente_nome');
-	            $this->db->select('g.nome as gateway_nome');
-	            $this->db->select('b.nome as servidorborda_nome');
+            $this->db->select('s.nome as sensor_nome');
+            $this->db->select('s.descricao as sensor_descricao');
+            $this->db->select('s.modelo as sensor_modelo');
+            $this->db->select('f.nome as fabricante_nome');
+            $this->db->select('t.nome as tiposensor_nome');
+            $this->db->select('e.nome as ambiente_nome');
+            $this->db->select('g.nome as gateway_nome');
+            $this->db->select('b.nome as servidorborda_nome');
 
-	            $this->db->from('sensor as s');
+            $this->db->from('sensor as s');
 
-	            // $this->db->join('relcontextointeresse as rci', 'rci.sensor_id = s.sensor_id');
-	            // $this->db->join('contextointeresse as ci', 'ci.contextointeresse_id = rci.contextointeresse_id');
+            // $this->db->join('relcontextointeresse as rci', 'rci.sensor_id = s.sensor_id');
+            // $this->db->join('contextointeresse as ci', 'ci.contextointeresse_id = rci.contextointeresse_id');
 
-	            $this->db->join('fabricante as f', 's.fabricante_id = f.fabricante_id', 'left');
-	            $this->db->join('tiposensor as t', 's.tiposensor_id = t.tiposensor_id', 'left');
-	            $this->db->join('ambiente as e', 's.ambiente_id = e.ambiente_id', 'left');
-	            $this->db->join('gateway as g', 's.gateway_id = g.gateway_id', 'left');
-	            $this->db->join('servidorborda as b', 's.servidorborda_id = b.servidorborda_id', 'left');
+            $this->db->join('fabricante as f', 's.fabricante_id = f.fabricante_id', 'left');
+            $this->db->join('tiposensor as t', 's.tiposensor_id = t.tiposensor_id', 'left');
+            $this->db->join('ambiente as e', 's.ambiente_id = e.ambiente_id', 'left');
+            $this->db->join('gateway as g', 's.gateway_id = g.gateway_id', 'left');
+            $this->db->join('servidorborda as b', 's.servidorborda_id = b.servidorborda_id', 'left');
 
-	        }else{
-	        	$this->db->select($select);
-	            $this->db->select('s.*');
+        }else{
+        	$this->db->select($select);
+            $this->db->select('s.*');
 
-	            $this->db->select('s.nome as sensor_nome');
-	            $this->db->select('s.descricao as sensor_descricao');
-	            $this->db->select('s.modelo as sensor_modelo');
-	            $this->db->select('f.nome as fabricante_nome');
-	            $this->db->select('t.nome as tiposensor_nome');
-	            $this->db->select('e.nome as ambiente_nome');
-	            $this->db->select('g.nome as gateway_nome');
-	            $this->db->select('b.nome as servidorborda_nome');
-	            $this->db->select('p.podeeditar as podeeditar');
+            $this->db->select('s.nome as sensor_nome');
+            $this->db->select('s.descricao as sensor_descricao');
+            $this->db->select('s.modelo as sensor_modelo');
+            $this->db->select('f.nome as fabricante_nome');
+            $this->db->select('t.nome as tiposensor_nome');
+            $this->db->select('e.nome as ambiente_nome');
+            $this->db->select('g.nome as gateway_nome');
+            $this->db->select('b.nome as servidorborda_nome');
+            $this->db->select('p.podeeditar as podeeditar');
 
-	            $this->db->from('sensor as s');
+            $this->db->from('sensor as s');
 
-	            $this->db->join('relcontextointeresse as rci', 'rci.sensor_id = s.sensor_id');
-	            $this->db->join('permissoes as p', 'rci.contextointeresse_id = p.contextointeresse_id', 'inner');
-	            $this->db->join('contextointeresse as ci', 'ci.contextointeresse_id = rci.contextointeresse_id');
+            $this->db->join('relcontextointeresse as rci', 'rci.sensor_id = s.sensor_id');
+            $this->db->join('permissoes as p', 'rci.contextointeresse_id = p.contextointeresse_id', 'inner');
+            $this->db->join('contextointeresse as ci', 'ci.contextointeresse_id = rci.contextointeresse_id');
 
-	            $this->db->join('fabricante as f', 's.fabricante_id = f.fabricante_id', 'left');
-	            $this->db->join('tiposensor as t', 's.tiposensor_id = t.tiposensor_id', 'left');
-	            $this->db->join('ambiente as e', 's.ambiente_id = e.ambiente_id', 'left');
-	            $this->db->join('gateway as g', 's.gateway_id = g.gateway_id', 'left');
-	            $this->db->join('servidorborda as b', 's.servidorborda_id = b.servidorborda_id', 'left');
-	        }
-
-
-            $this->db->where($where);
-            $this->db->order_by('s.nome',$ordem);
-       	    $this->db->limit($limit, $offset);
-
-            return $this->db->get();
-
+            $this->db->join('fabricante as f', 's.fabricante_id = f.fabricante_id', 'left');
+            $this->db->join('tiposensor as t', 's.tiposensor_id = t.tiposensor_id', 'left');
+            $this->db->join('ambiente as e', 's.ambiente_id = e.ambiente_id', 'left');
+            $this->db->join('gateway as g', 's.gateway_id = g.gateway_id', 'left');
+            $this->db->join('servidorborda as b', 's.servidorborda_id = b.servidorborda_id', 'left');
         }
-				// function pesquisar_livre($value='')
-				// {
-				// }
-		function get_url_borda($where = array())
-				{
-						$this->db->select("borda.url as url");
-						$this->db->from("servidorborda as borda");
-						$this->db->join('sensor as s','borda.servidorborda_id = s.servidorborda_id');
-						$this->db->where($where);
-						return $this->db->get();
-				}
+
+
+        $this->db->where($where);
+        $this->db->order_by('s.nome',$ordem);
+   	    $this->db->limit($limit, $offset);
+
+        return $this->db->get();
+
+    }
+
+    function get_borda_id($sensor){
+    	$this->db->select('s.*');
+		$this->db->select('t.unidade as unidade');		
+		$this->db->select("sb.url as bordaurl");
+		$this->db->select("sb.access_token as bordatoken");
+
+		$this->db->from('sensor as s');
+		$this->db->join('tiposensor as t', 's.tiposensor_id = t.tiposensor_id', 'left');
+		$this->db->join('servidorborda as sb','sb.servidorborda_id = s.servidorborda_id');
+
+		$this->db->where("sensor_id", $sensor);
+		$return = $this->db->get()->result_array()[0];
+		$ch  = curl_init($return['bordaurl'].'sensors/?uuID='.$return['uuID']);
+
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+			 	'Authorization: token '.$return['bordatoken'],
+				'Content-Type: application/json')
+		);
+		$result = curl_exec($ch);
+		curl_close($ch);
+
+		return json_decode($result)[0]->id;
+    }
+
+	function get_acesso_borda($where = array()){
+		$this->db->select("borda.url as url");
+		$this->db->select("borda.access_token as token");
+		$this->db->from("servidorborda as borda");
+		$this->db->join('sensor as s','borda.servidorborda_id = s.servidorborda_id');
+		$this->db->where($where);
+		return $this->db->get();
+	}
     function selecionar($codigo) {
 
-        	$this->db->select('s.*');
+		$this->db->select('s.*');
 
-          $this->db->select('t.unidade as unidade');
+		$this->db->select('t.unidade as unidade');
 
-          $this->db->from('sensor as s');
+		$this->db->from('sensor as s');
 
-          $this->db->join('tiposensor as t', 's.tiposensor_id = t.tiposensor_id', 'left');
+		$this->db->join('tiposensor as t', 's.tiposensor_id = t.tiposensor_id', 'left');
 
-          $this->db->where("sensor_id", $codigo);
-          return $this->db->get();
-        }
-		function salvar() {
+		$this->db->where("sensor_id", $codigo);
+		return $this->db->get();
+    }
+
+	function salvar() {
           $arrayCampos  = array(
                 "nome" 				=> $this->sensor_nome,
                 "descricao" 		=> $this->sensor_desc,

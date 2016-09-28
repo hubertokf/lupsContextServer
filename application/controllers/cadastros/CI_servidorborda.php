@@ -70,6 +70,7 @@ class CI_servidorborda extends CI_controller {
 			$this->M_servidorborda->setservidorbordaNome($_POST["servidorborda_nome"]);
 			$this->M_servidorborda->setservidorbordaDesc($_POST["servidorborda_desc"]);
 			$this->M_servidorborda->setservidorbordaUrl($_POST["servidorborda_url"]);
+			$this->M_servidorborda->setservidorbordaAccessToken($_POST["servidorborda_access_token"]);
 			$this->M_servidorborda->setservidorbordaLatitude($_POST["servidorborda_latitude"]);
 			$this->M_servidorborda->setservidorbordaLongitude($_POST["servidorborda_longitude"]);
 			$this->M_servidorborda->setservidorbordaContexto('9');

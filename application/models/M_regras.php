@@ -43,7 +43,6 @@ class M_regras extends CI_Model {
 	        }
 
             $this->db->where($where);
-
             $this->db->order_by('r.nome',$ordem);
        	    $this->db->limit($limit, $offset);
             return $this->db->get();
@@ -108,6 +107,7 @@ class M_regras extends CI_Model {
 
 		function numeroLinhasTotais($select='', $where=array()) {
 	    	$this->db->where($where);
+
 	        $this->db->from('regras');
 	        return $this->db->count_all_results();
 	    }

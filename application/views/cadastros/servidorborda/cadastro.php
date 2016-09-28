@@ -5,6 +5,7 @@
 			$servidorborda_nome			= $linha->nome;
 			$servidorborda_desc			= $linha->descricao;
             $servidorborda_url          = $linha->url;
+            $servidorborda_access_token = $linha->access_token;
             $servidorborda_latitude     = $linha->latitude;
             $servidorborda_longitude    = $linha->longitude;
 		}
@@ -64,6 +65,17 @@
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1 input">
                                 <input type="text" name="servidorborda_url" value="<?php echo @$servidorborda_url;?>" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-10 col-xs-offset-1 input">
+                                <label for="servidorborda_access_token">Token de Acesso:</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-10 col-xs-offset-1 input">
+                                <input type="text" name="servidorborda_access_token" value="<?php echo @$servidorborda_access_token;?>" />
                             </div>
                         </div>
 

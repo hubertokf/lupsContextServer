@@ -37,9 +37,21 @@
           <div id="type-rule">
             <div class="col-md-6 col-md-offset-3" style="margin-top: 20px;">
               <label for="type-rule-select">Tipo de regra:</label>
-              <select id="type-rule-select">
-                <option value="1">Regra Python</option>
-                <option value="2" selected="selected">Motor de regras</option>
+              <select id="type-rule-select" <?php echo (isset($regra_tipo)) ? ' disabled' : ''; ?>>
+                <option value="1" <?php echo (isset($regra_tipo) && $regra_tipo == '1') ? ' selected="selected"' : ''; ?>>Regra Python</option>
+                <?php 
+
+                  if (isset($regra_tipo) && $regra_tipo == '3'){
+                    ?>
+                      <option value="3" selected="selected">Motor de regras</option>
+                    <?php
+                  }elseif (!isset($regra_tipo)) {
+                    ?>
+                    <option value="3" selected="selected">Motor de regras</option>
+                    <?php 
+                  }
+
+                 ?>
               </select>
             </div>
           </div>          
@@ -70,18 +82,7 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-xs-10 col-xs-offset-1 input">
-                                <label for="regra_tipo">Tipo:</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-10 col-xs-offset-1">
-                                <select name="regra_tipo" class="sel_regra_tipo">
-                                    <option value="1" selected="" >Script Python</option>
-                                </select>
-                            </div>
-                        </div>
+                        <input type="hidden" name="regra_tipo" value="1" />
 
                         <div class="especific_field" id="script_python">
                             <div class="row">

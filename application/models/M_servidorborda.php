@@ -34,6 +34,7 @@ class M_servidorborda extends CI_Model{
                 "latitude" 		=> $this->servidorborda_latitude,
                 "longitude" 	=> $this->servidorborda_longitude,
                 "servidorcontexto_id" 	=> $this->servidorborda_contexto,
+                "access_token" 			=> $this->servidorborda_access_token,
                 "url"					=> $this->servidorborda_url
             );
 			if ($this->servidorborda_id == ""){
@@ -111,7 +112,14 @@ class M_servidorborda extends CI_Model{
 				$this->servidorborda_url = new servidorbordaUrl;
 			}
 			return $this->servidorborda_url;
-		}	
+		}
+
+		public function getservidorbordaAccessToken(){
+			if($this->servidorborda_access_token === NULL) {
+				$this->servidorborda_access_token = new servidorbordaAccessToken;
+			}
+			return $this->servidorborda_access_token;
+		}
 		
 		public function setservidorbordaId($valor){
 			if(!is_string($valor)) {
@@ -153,6 +161,10 @@ class M_servidorborda extends CI_Model{
 				throw new InvalidArgumentException('Expected String');
 			}
 			$this->servidorborda_contexto = $valor;
+		}
+
+		public function setservidorbordaAccessToken($valor){
+			$this->servidorborda_access_token = $valor;
 		}
 
 		public function setservidorbordaUrl($valor){
