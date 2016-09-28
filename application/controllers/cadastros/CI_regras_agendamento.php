@@ -1,6 +1,6 @@
 <?php
 
-class CI_regra_Aquisicao extends CI_controller {
+class CI_regras_agendamento extends CI_controller {
 
 	public function __construct()
 	{

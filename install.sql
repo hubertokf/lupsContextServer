@@ -1118,8 +1118,8 @@ INSERT INTO menu VALUES (38, 'Regras', '2', 'cadastros/CI_regras', 0);
 INSERT INTO menu VALUES (39, 'Personalizar perfil', '6', 'configuracoes/CI_configuracoes/personaliza', 5);
 INSERT INTO menu VALUES (40, 'Configurações Gerais', '6', 'configuracoes/CI_configuracoes/geral', 0);
 INSERT INTO menu VALUES (41, 'Regra de Contexto', '2', 'cadastros/CI_regras_context', 2);
-INSERT INTO menu VALUES (42, 'Regra de Agendamento', '13', 'cadastros/CI_Regras_Aquisicao', 3);
-INSERT INTO menu VALUES (44, 'Regra de Borda', '13', 'adastros/CI_Regras_SB', 4);
+INSERT INTO menu VALUES (42, 'Regra de Agendamento', '13', 'cadastros/CI_regras_agendamento', 3);
+INSERT INTO menu VALUES (44, 'Regra de Borda', '13', 'adastros/CI_regras_sb', 4);
 
 
 --

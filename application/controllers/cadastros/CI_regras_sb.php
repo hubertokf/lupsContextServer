@@ -1,6 +1,6 @@
 <?php
 
-class CI_regra_sb extends CI_controller {
+class CI_regras_sb extends CI_controller {
 	 // faz a interoperação de regra entre o metodo editar com o sendInformation
 	public function __construct()
 	{
