@@ -83,7 +83,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
         //  console.log("bugg",response['responseText']);
           }
     });
-    window.location.replace(window.base_url+"/cadastros/"+path[3]);
+    // window.location.replace(window.base_url+"/cadastros/"+path[3]);
   };
 
   CreateRule.prototype. composition_conditions = function (finish) {
