@@ -15,6 +15,7 @@ class CI_regras_sb extends CI_controller {
 		$this->load->model('M_Regras_SB');
 		$this->load->model('M_conditions');
 		$this->load->model('M_actions');
+		$this->load->model('M_relidregras');
 		$this->M_geral->verificaSessao();
 		if ($this->session->userdata('usuario_id') != 0 && $this->session->userdata('usuario_id') != ""){
 			$this->dados['isLoged'] = true;
@@ -79,23 +80,28 @@ class CI_regras_sb extends CI_controller {
 	}
 
 	function gravar(){
-		print_r($_POST["id_sensor"]);
+
 		$get_test  = array(
 	  'jsonRule' => $_POST["rule"],
-	 	'status'   => $_POST["status"],
-		'nome'     => $_POST["nome"]);
-
-		$this->distributed_rule('',$_POST["id_sensor"],$get_test);
+	 	'status'   => $_POST["status"]);
 
 		if(isset($_POST["id_rule"])and $_POST["id_rule"] != ""){
+			$id_rule_edge = $this->distributed_rule($_POST["id_rule"],$_POST["id_sensor"],$get_test);
 			$this->M_Regras_SB->setRegraId($_POST["id_rule"]);
 		}
-		print_r($_POST["id_sensor"]);
+		else{
+			$id_rule_edge = $this->distributed_rule('',$_POST["id_sensor"],$get_test);
+		}
+		// if($id_rule_edge == null){
+		//
+		// } fazer sabado
+		
 		$this->M_Regras_SB->setRegraNome($_POST["name_rule"]);
 		$this->M_Regras_SB->setRegraStatus($_POST["status"]);
 		$this->M_Regras_SB->setRegraArquivoPy($_POST["rule"]);
 		$this->M_Regras_SB->setRegraTipo($_POST["tipo"]);
 		$this->M_Regras_SB->setSensor($_POST["id_sensor"]);
+		$this->M_Regras_SB->setRegraIdBorda($id_rule_edge);
 		if ($this->M_Regras_SB->salvar() == "inc"){
 			$this->dados["msg"] = "Dados registrados com sucesso!";
 		}
@@ -135,11 +141,12 @@ class CI_regras_sb extends CI_controller {
 			// print_r($registro[0]);
 			// print "</pre>";
 			$this->dados["sensor"]   = $this->M_Regras_SB->get_sensor($registro[0]['regra_id']);
+			// $this->dados[]
 		} else if ($valor != "") {
 			$this->dados["registro"] = $this->M_regras->selecionar($valor);
 			$this->dados["editable"] = "true";
-			$registro = $this->dados["registro"]->result_array();
 			$this->dados["sensor"]   = $this->M_Regras_SB->get_sensor($registro[0]['regra_id']);
+			$registro = $this->dados["registro"]->result_array();
 		}
 		$this->cadastro();
 	}
@@ -211,40 +218,43 @@ class CI_regras_sb extends CI_controller {
 
 	}
 	public function distributed_rule($id_regra_context='',$id_sensor='',$array=array()){
-		$request   = "POST";
-		$get_url   = $this->M_sensor->get_acesso_borda(array('sensor_id' =>$id_sensor))->result_array();
-		$url       = $get_url[0]["url"];
-		$token       = $get_url[0]["token"];
+		$request         = "POST";
+		$get_url         = $this->M_sensor->get_acesso_borda(array('sensor_id' =>$id_sensor))->result_array();
+		$url             = $get_url[0]["url"];
+		$token           = $get_url[0]["token"];
 		$id_sensor_borda = $this->M_sensor->get_borda_id($id_sensor);
 		$array = array_merge($array,array('sensor'=>$id_sensor_borda));
-
+		$url_rule = $url."rules/";
 		if($id_regra_context != ''){
-			$request = "PUT";
-			$array["id_regra"] = $this->M_relidregras->get_id_regraEgde($id_regra_context);
-			$url_rule = $url."/rule/".$array["id_regra"]; // concatenar com id_regra_borda
-
-			$ch  = curl_init($url_rule);
-
+			// echo "este";
+			$request           = "PUT";
+			print_r($id_regra_context);
+			$array["id_regra"] = $this->M_Regras_SB->getRegraIdBorda($id_regra_context);
+			print_r("sssss".$array["id_regra"]);
+			$url_rule          = $url_rule.$array["id_regra"]."/"; // concatenar com id_regra_borda
+			$ch                = curl_init($url_rule);
+			$data_string       = json_encode($array,JSON_FORCE_OBJECT);
 			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $request);
-			$data_string = json_encode($array,JSON_FORCE_OBJECT);
-			curl_setopt($ch, CURLOPT_PUTFIELDS, $data_string);
-		}
-		else{
-			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $request);
-			$data_string = json_encode($array,JSON_FORCE_OBJECT);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
 		}
+		else{
+
+			$ch          = curl_init($url_rule);
+			$data_string = json_encode($array,JSON_FORCE_OBJECT);
+			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $request);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+		}
+		// print_r($url_rule);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 			 	'Authorization: token '.$token,
 				'Content-Type: application/json',
-			'Content-Length: ' . strlen($data_string))
+			  'Content-Length: ' . strlen($data_string))
 		);
 		$result = curl_exec($ch);
+		// print_r(json_decode($result));
 		curl_close($ch);
-
-
-		return json_decode($result)[0]->id;
+		return json_decode($result)->id;
 	}
 
 	function getActions($value="") // busca no banco as açoes pre definidas e retorna para a app
