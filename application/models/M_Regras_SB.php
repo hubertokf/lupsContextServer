@@ -62,15 +62,9 @@ class M_Regras_SB extends CI_Model{
 
     function selecionar($codigo) {
       $this->db->select('regras.*');
-
-      // $this->db->select('rci.contextointeresse_id');
-      // $this->db->select('rci.sensor_id');
-
-        $this->db->from('regras');
-
-        // $this->db->join('relcontextointeresse as rci', 'regras.regra_id = rci.regra_id', 'left');
-        $this->db->where("regras.regra_id", $codigo);
-        return $this->db->get();
+      $this->db->from('regras');
+      $this->db->where("regras.regra_id", $codigo);
+      return $this->db->get();
     }
 
   function salvar() {
