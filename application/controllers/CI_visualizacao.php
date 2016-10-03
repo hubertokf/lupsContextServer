@@ -286,6 +286,24 @@
 				return '';
 		}
 
+		function checkServerStatus(){
+    		$url = $this->input->get('addr');
+			$curl  = curl_init($url);
+
+			curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
+			
+			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+			$result = curl_exec($curl);
+			$info = curl_getinfo($curl);
+
+			curl_close($curl);
+
+			if ($info['http_code'] == 200)
+				echo TRUE;
+			else
+				echo FALSE;
+    	}
+
 		function buscaTeste(){
 			//['data','valor','sensorId','sensorNome','hora']
 			if($_POST['filtro']!=''){

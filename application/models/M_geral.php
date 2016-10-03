@@ -11,6 +11,25 @@
 			}
     	}
 
+    	function checkServerStatus(){
+    		echo "Oi";
+    		$url = $this->input->get('addr');
+			$curl  = curl_init($url);
+
+			curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
+			
+			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+			$result = curl_exec($curl);
+			$info = curl_getinfo($curl);
+
+			curl_close($curl);
+
+			if ($info['http_code'] == 200)
+				return TRUE;
+			else
+				return FALSE;
+    	}
+
     	function loadTitle($id=""){
 			$this->load->model('M_configuracoes');
 			if ($id=="")
