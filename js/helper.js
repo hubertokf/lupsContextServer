@@ -5,7 +5,7 @@ $(document).ready(function(){
 			$("#motor-rule").hide();
 			$("#python-rule").show();
 		}
-		if (this.value == 2 ) {
+		if (this.value == 3 ) {
 			$("#motor-rule").show();
 			$("#python-rule").hide();
 		}

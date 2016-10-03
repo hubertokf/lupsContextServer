@@ -22,7 +22,12 @@ class KeysSeeder extends AbstractSeed{
                 'level' => '10', 
                 'ignore_limits' => '0', 
                 'date_created' => '10', 
-                'key' => 'cfb281929c3574091ad2a7cf80274421e6a87c59')
+                'key' => 'cfb281929c3574091ad2a7cf80274421e6a87c59'),
+            array(
+                'level' => '10', 
+                'ignore_limits' => '0', 
+                'date_created' => '10', 
+                'key' => 'cfb281929c3574091ad2a7cf80274421e6a87c57')
         );
 
         $posts = $this->table('keys');

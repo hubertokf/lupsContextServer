@@ -30,7 +30,16 @@ class UsuariosSeeder extends AbstractSeed{
                 'telefone' => '5330277169', 
                 'celular' => '5381177468', 
                 'perfilusuario_id' => 2,
-                'token' => 'cfb281929c3574091ad2a7cf80274421e6a87c59')
+                'token' => 'cfb281929c3574091ad2a7cf80274421e6a87c59'),
+            array(
+                'username' =>'trcarvalho', 
+                'password' => 'batata', 
+                'email' => 'trcarvalho@inf.ufpel.edu.br', 
+                'nome' => 'Tainã Carvalho', 
+                'telefone' => '55555555555', 
+                'celular' => '55555555555', 
+                'perfilusuario_id' => 2,
+                'token' => 'cfb281929c3574091ad2a7cf80274421e6a87c57')
         );
 
         $posts = $this->table('usuarios');
