@@ -798,10 +798,11 @@ $(document).ready(function(){
 		$('.borda_url').each(function(){
 			var row = $(this).parent();
 			$.ajax({
-				url: $(this).text(), 
-				success: function(result){
-	        		row.find('.borda_status').html('<i class="fa fa-circle" aria-hidden="true" style="color:green;"></i>').attr("title","Online");
-	    		}
+				url: window.base_url+"CI_visualizacao/checkServerStatus?addr="+$(this).text(), 
+				complete: function(response) {
+					if (response.responseText=="1")
+	        			row.find('.borda_status').html('<i class="fa fa-circle" aria-hidden="true" style="color:green;"></i>').attr("title","Online");
+				}
 	    	});			
 	  	});
 	});
