@@ -30,9 +30,9 @@ class Publicacoes extends REST_Controller {
         $this->methods['index_delete']['limit'] = 50; // 50 requests per hour per user/key
 
         //Load Models
-        $this->load->model('M_servidorborda');
-        $this->load->model('M_sensor');
-        $this->load->model('M_publicacao');
+        $this->load->model('M_servidoresborda');
+        $this->load->model('M_sensores');
+        $this->load->model('M_publicacoes');
     }
     // Requisições GET enviadas para o index.
     public function index_get(){
@@ -40,7 +40,7 @@ class Publicacoes extends REST_Controller {
         $id = $this->get('id');
         if ($id === NULL){
             // Pega publicações do banco através do model publicacao
-            $publicacoes = $this->M_publicacao->pesquisar('', array(), '', 0, 'publicacao_id', 'asc', FALSE, array())->result_array();
+            $publicacoes = $this->M_publicacoes->pesquisar('', array(), '', 0, 'publicacao_id', 'asc', FALSE, array())->result_array();
 
             if ($publicacoes){
                 // Converte os dados adquiridos do banco (array) para Json
@@ -56,7 +56,7 @@ class Publicacoes extends REST_Controller {
             }
         }else{
         // Requisições com ID - lista informações do elemento
-            $publicacao = $this->M_publicacao->selecionar($id)->result_array();
+            $publicacao = $this->M_publicacoes->selecionar($id)->result_array();
             if ($publicacao){
                 // Converte os dados adquiridos do banco (array) para Json
                 $publicacao_json = json_encode($publicacao, JSON_UNESCAPED_UNICODE);
@@ -84,13 +84,13 @@ class Publicacoes extends REST_Controller {
             //se veio, o framework já transforma o json para array associativo com os dados
 
             //salva no objeto do model
-            $this->M_publicacao->setPublicacaoservidorborda($content['servidorborda_id']);
-            $this->M_publicacao->setPublicacaoSensor($content['sensor_id']);
-            $this->M_publicacao->setPublicacaoDataColeta($content['datacoleta']);
-            $this->M_publicacao->setPublicacaoDataPublicacao($content['datapublicacao']);
-            $this->M_publicacao->setPublicacaoValorColetado($content['valorcoletado']);
+            $this->M_publicacoes->setPublicacaoservidorborda($content['servidorborda_id']);
+            $this->M_publicacoes->setPublicacaoSensor($content['sensor_id']);
+            $this->M_publicacoes->setPublicacaoDataColeta($content['datacoleta']);
+            $this->M_publicacoes->setPublicacaoDataPublicacao($content['datapublicacao']);
+            $this->M_publicacoes->setPublicacaoValorColetado($content['valorcoletado']);
             //salva o model no banco
-            if ($this->M_publicacao->salvar() == "inc"){
+            if ($this->M_publicacoes->salvar() == "inc"){
                 //se retornou inc, está salvo no banco
                 $message = "Dados registrados com sucesso!";
                 // retorna 201 (criado)
@@ -124,13 +124,13 @@ class Publicacoes extends REST_Controller {
             }else{
                 //se veio, o framework já transforma o json para array associativo com os dados
                 //salva no objeto do model
-                $this->M_publicacao->setPublicacaoId($id);
-                $this->M_publicacao->setPublicacaoservidorborda($content['servidorborda_id']);
-                $this->M_publicacao->setPublicacaoSensor($content['sensor_id']);
-                $this->M_publicacao->setPublicacaoDataColeta($content['datacoleta']);
-                $this->M_publicacao->setPublicacaoDataPublicacao($content['datapublicacao']);
-                $this->M_publicacao->setPublicacaoValorColetado($content['valorcoletado']);
-                if ($this->M_publicacao->salvar() == "alt"){
+                $this->M_publicacoes->setPublicacaoId($id);
+                $this->M_publicacoes->setPublicacaoservidorborda($content['servidorborda_id']);
+                $this->M_publicacoes->setPublicacaoSensor($content['sensor_id']);
+                $this->M_publicacoes->setPublicacaoDataColeta($content['datacoleta']);
+                $this->M_publicacoes->setPublicacaoDataPublicacao($content['datapublicacao']);
+                $this->M_publicacoes->setPublicacaoValorColetado($content['valorcoletado']);
+                if ($this->M_publicacoes->salvar() == "alt"){
                     //se retornou alt, está salvo no banco
                     $message = "Dados registrados com sucesso!";
                     // retorna 200 (OK)
@@ -151,8 +151,8 @@ class Publicacoes extends REST_Controller {
         $id = $this->get('id');
         if ($id !== NULL || $id != ""){
             //se o id estiver setado, salva o id em um objeto do model ambinete e aciona metodo de excluir
-            $this->M_publicacao->setPublicacaoId($id);  
-            $this->M_publicacao->excluir();
+            $this->M_publicacoes->setPublicacaoId($id);  
+            $this->M_publicacoes->excluir();
 
             $message = "Registro(s) excluído(s) com sucesso!";
             $this->set_response($message, REST_Controller::HTTP_OK);

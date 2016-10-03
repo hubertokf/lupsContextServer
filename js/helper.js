@@ -359,7 +359,7 @@ $(document).ready(function(){
 			$.ajax({
 				type:"POST",
 				dataType: 'json',
-				url:window.base_url+"cadastros/CI_gateway/getGatewaysBySBID",
+				url:window.base_url+"cadastros/CI_gateways/getGatewaysBySBID",
 				data: {servidorborda:$("#sensor_servidorborda").val()},
 				success: function(data) {
 					$('#sensor_gateway').html('');
@@ -380,7 +380,7 @@ $(document).ready(function(){
 			$.ajax({
 				type:"POST",
 				dataType: 'json',
-				url:window.base_url+"cadastros/CI_sensor/getSensoresBySBID",
+				url:window.base_url+"cadastros/CI_sensores/getSensoresBySBID",
 				data: {servidorborda:$("#publicacao_servidorborda").val()},
 				success: function(data) {
 					$('#publicacao_sensor').html('');
@@ -423,13 +423,13 @@ $(document).ready(function(){
 		if (this.value != 0 && this.value != "") {
 			var type_id = this.value;
 			if (this.value == 1)
-				type = "CI_ambiente";
+				type = "CI_ambientes";
 			if (this.value == 2)
-				type = "CI_contextointeresse";
+				type = "CI_contextosinteresse";
 			if (this.value == 3)
 				type = "CI_regras";
 			if (this.value == 4)
-				type = "CI_sensor";
+				type = "CI_sensores";
 			$.ajax({
 				type:"POST",
 				dataType: 'json',
@@ -794,6 +794,16 @@ $(document).ready(function(){
 				ev.preventDefault();
 			}
 		});
+
+		$('.borda_url').each(function(){
+			var row = $(this).parent();
+			$.ajax({
+				url: $(this).text(), 
+				success: function(result){
+	        		row.find('.borda_status').html('<i class="fa fa-circle" aria-hidden="true" style="color:green;"></i>').attr("title","Online");
+	    		}
+	    	});			
+	  	});
 	});
 (function() {
     var matched, browser;

@@ -6,8 +6,6 @@
 			$servidorborda_desc			= $linha->descricao;
             $servidorborda_url          = $linha->url;
             $servidorborda_access_token = $linha->access_token;
-            $servidorborda_latitude     = $linha->latitude;
-            $servidorborda_longitude    = $linha->longitude;
 		}
 	}
 ?>
@@ -76,23 +74,6 @@
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1 input">
                                 <input type="text" name="servidorborda_access_token" value="<?php echo @$servidorborda_access_token;?>" />
-                            </div>
-                        </div>
-
-                         <div class="row">
-                            <div class="col-xs-5 col-xs-offset-1 input">
-                                <label for="servidorborda_latitude">Latitude:</label>
-                            </div>
-                            <div class="col-xs-5 input">
-                                <label for="servidorborda_longitude">Longitude:</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-5 col-xs-offset-1 input">
-                                <input type="text" name="servidorborda_latitude" value="<?php echo @$servidorborda_latitude;?>" />
-                            </div>
-                            <div class="col-xs-5 input">
-                                <input type="text" name="servidorborda_longitude" value="<?php echo @$servidorborda_longitude;?>" />
                             </div>
                         </div>
 

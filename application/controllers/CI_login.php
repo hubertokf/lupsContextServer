@@ -5,7 +5,7 @@ class CI_login extends CI_Controller {
 	public function __construct()
        {
             parent::__construct();
-            $this->load->model('M_usuario');
+            $this->load->model('M_usuarios');
 	    $this->load->model('M_configuracoes');
 			if ($this->session->userdata('usuario_id') != 0 && $this->session->userdata('usuario_id') != ""){
 				$this->dados['isLoged'] = true;
@@ -51,7 +51,7 @@ class CI_login extends CI_Controller {
 					'nome' 		=> ''
 			    );
 				$this->session->set_userdata($sessao);
-        		$ret = $this->M_usuario->logar($login, $senha);
+        		$ret = $this->M_usuarios->logar($login, $senha);
 	        		foreach($ret->result() as $linha) {
 
 						$sessao = array(
@@ -71,7 +71,7 @@ class CI_login extends CI_Controller {
 
 	        		if($usuario_id != 0) {
 	        			$this->dados["msg"] = "Logado.";
-	        			$countMenu = $this->M_usuario->countUsuarioMenu($usuario_id);
+	        			$countMenu = $this->M_usuarios->countUsuarioMenu($usuario_id);
 	        			if ($countMenu > 0) {
 							header("location:".base_url()."CI_inicio");
 	        			}else{

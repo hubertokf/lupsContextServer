@@ -57,7 +57,7 @@
 								$checked = "";
 								$contador = 0;
 								foreach ($menus->result() as $linha){
-									$numRowsTotais = $this->M_menu->contarMenus(@$perfilusuario_id,$linha->menu_id);
+									$numRowsTotais = $this->M_menus->contarMenus(@$perfilusuario_id,$linha->menu_id);
 									if ($numRowsTotais > 0) {
 										$checked = "checked";
 									}
@@ -74,11 +74,11 @@
 												<input class="checkbox-pai" type="checkbox" name="perfilusuario_menu[]" '.$checked.' value="'.$linha->menu_id.'"><div class="nome">'.$linha->nome.'</div>
 											</div>';
 									
-									$submenus = $this->M_menu->buscarSubmenus($linha->menu_id);
+									$submenus = $this->M_menus->buscarSubmenus($linha->menu_id);
 									echo '<ul class="lista-menus">';
 										$submenuChecked = "";
 										foreach ($submenus->result() as $linhaSubmenu) {
-											$numRowsTotaisSubmenu = $this->M_menu->contarMenus(@$perfilusuario_id,$linhaSubmenu->menu_id);
+											$numRowsTotaisSubmenu = $this->M_menus->contarMenus(@$perfilusuario_id,$linhaSubmenu->menu_id);
 											if ($numRowsTotaisSubmenu > 0) {
 												$submenuChecked = "checked";
 											}

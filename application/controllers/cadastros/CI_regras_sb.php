@@ -9,9 +9,9 @@ class CI_regras_sb extends CI_controller {
 		$this->load->model('M_configuracoes');
 		$this->load->model('M_regras');
 		$this->load->model('M_relcontextointeresse');
-		$this->load->model('M_usuario');
-		$this->load->model('M_contextointeresse');
-		$this->load->model('M_sensor');
+		$this->load->model('M_usuarios');
+		$this->load->model('M_contextosinteresse');
+		$this->load->model('M_sensores');
 		$this->load->model('M_Regras_SB');
 		$this->load->model('M_conditions');
 		$this->load->model('M_actions');
@@ -60,12 +60,12 @@ class CI_regras_sb extends CI_controller {
 
 	function cadastro($value = ""){
 		if ($this->session->userdata('perfilusuario_id') == 2){
-			// $this->dados["sensores"] = $this->M_sensor->pesquisar($select='', $where=array(), $limit=100, $offset=0, $ordem='asc');
-			 $this->dados["sensores"] = $this->M_sensor->pesquisar();
+			// $this->dados["sensores"] = $this->M_sensores->pesquisar($select='', $where=array(), $limit=100, $offset=0, $ordem='asc');
+			 $this->dados["sensores"] = $this->M_sensores->pesquisar();
 		}else{
-			// $this->dados["sensores"] = $this->M_sensor->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 100, 0, 'asc', TRUE);
-			$this->dados["sensores"] = $this->M_sensor->pesquisar();
-			$this->dados["contextointeresse"] = $this->M_contextointeresse->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 100, 0, 'asc', TRUE);
+			// $this->dados["sensores"] = $this->M_sensores->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 100, 0, 'asc', TRUE);
+			$this->dados["sensores"] = $this->M_sensores->pesquisar();
+			$this->dados["contextointeresse"] = $this->M_contextosinteresse->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 100, 0, 'asc', TRUE);
 		}
 		if(!isset($this->dados["editable"])){
 			$this->dados["editable"] = "false";
@@ -212,10 +212,10 @@ class CI_regras_sb extends CI_controller {
 	}
 	public function distributed_rule($id_regra_context='',$id_sensor='',$array=array()){
 		$request   = "POST";
-		$get_url   = $this->M_sensor->get_acesso_borda(array('sensor_id' =>$id_sensor))->result_array();
+		$get_url   = $this->M_sensores->get_acesso_borda(array('sensor_id' =>$id_sensor))->result_array();
 		$url       = $get_url[0]["url"];
 		$token       = $get_url[0]["token"];
-		$id_sensor_borda = $this->M_sensor->get_borda_id($id_sensor);
+		$id_sensor_borda = $this->M_sensores->get_borda_id($id_sensor);
 		$array = array_merge($array,array('sensor'=>$id_sensor_borda));
 
 		if($id_regra_context != ''){

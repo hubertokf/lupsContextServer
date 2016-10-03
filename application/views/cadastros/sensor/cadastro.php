@@ -149,7 +149,7 @@
                         <div class="row">
 							<div class="col-xs-10 col-xs-offset-1">
 								<select name="sensor_fabricante">
-									<option value="" selected="" disabled="">Selecione...</option>
+									<option value="" selected="" disabled="">Selecione um Fabricante</option>
 									<?php
 										$selected = "";
 										foreach ($fabricantes->result() as $fabricante){
@@ -172,7 +172,7 @@
                         <div class="row">
 							<div class="col-xs-10 col-xs-offset-1">
 								<select name="sensor_tipo">
-									<option value="" selected="" disabled="">Selecione...</option>
+									<option value="" selected="" disabled="">Selecione o Tipo</option>
 									<?php
 										$selected = "";
 										foreach ($tiposensores->result() as $tipo){
@@ -195,7 +195,7 @@
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1">
                                 <select name="sensor_servidorborda" id="sensor_servidorborda">
-                                    <option value="" selected="" disabled="">Selecione...</option>
+                                    <option value="" selected="" disabled="">Selecione um Servidor de Borda</option>
                                     <?php
                                         $selected = "";
                                         foreach ($bordas->result() as $borda){
@@ -219,7 +219,7 @@
                             <div class="col-xs-10 col-xs-offset-1">
                                 <input type="hidden" id="sel_sensor_gateway" value="<?php echo @$sensor_gateway;?>">
                                 <select name="sensor_gateway" id="sensor_gateway">
-                                    <option value="" selected="" disabled="">Selecione um Servidor de Borda</option>
+                                    <option value="" selected="" disabled="">Selecione um Gateway</option>
                                 </select>
                             </div>
                         </div>
@@ -232,7 +232,7 @@
                         <div class="row">
 							<div class="col-xs-10 col-xs-offset-1">
 								<select name="sensor_ambiente">
-									<option value="" selected="" disabled="">Selecione...</option>
+									<option value="" selected="" disabled="">Selecione um Ambiente</option>
 									<?php
 										$selected = "";
 										foreach ($ambientes->result() as $ambiente){

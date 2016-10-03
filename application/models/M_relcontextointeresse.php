@@ -42,7 +42,7 @@ class M_relcontextointeresse extends CI_Model {
         
         $this->db->from('relcontextointeresse');
 
-        $this->db->join('sensor as s', 's.sensor_id = relcontextointeresse.sensor_id', 'left');
+        $this->db->join('sensores as s', 's.sensor_id = relcontextointeresse.sensor_id', 'left');
 
         $this->db->where("contextointeresse_id", $codigo);
         return $this->db->get()->result_array();
@@ -55,7 +55,7 @@ class M_relcontextointeresse extends CI_Model {
         
         $this->db->from('relcontextointeresse');
 
-        $this->db->join('sensor as s', 's.sensor_id = relcontextointeresse.sensor_id', 'left');
+        $this->db->join('sensores as s', 's.sensor_id = relcontextointeresse.sensor_id', 'left');
 
         $this->db->where(array("contextointeresse_id"=>$codigo,"ativaregra"=>"TRUE"));
         return $this->db->get()->result_array();

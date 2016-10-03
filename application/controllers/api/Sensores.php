@@ -30,12 +30,12 @@ class Sensores extends REST_Controller {
         $this->methods['index_delete']['limit'] = 50; // 50 requests per hour per user/key
 
         //Load Models
-        $this->load->model('M_ambiente');
-        $this->load->model('M_fabricante');
-        $this->load->model('M_gateway');
-        $this->load->model('M_sensor');
-        $this->load->model('M_servidorborda');
-        $this->load->model('M_tipo_sensor');
+        $this->load->model('M_ambientes');
+        $this->load->model('M_fabricantes');
+        $this->load->model('M_gateways');
+        $this->load->model('M_sensores');
+        $this->load->model('M_servidoresborda');
+        $this->load->model('M_tipossensores');
     }
     // Requisições GET enviadas para o index.
     public function index_get(){
@@ -43,7 +43,7 @@ class Sensores extends REST_Controller {
         $id = $this->get('id');
         if ($id === NULL){
             // Pega sensores do banco através do model sensores
-            $sensores = $this->M_sensor->pesquisar('', array(), '', 0, 'asc', FALSE)->result_array();
+            $sensores = $this->M_sensores->pesquisar('', array(), '', 0, 'asc', FALSE)->result_array();
 
             if ($sensores){
                 // Converte os dados adquiridos do banco (array) para Json
@@ -59,7 +59,7 @@ class Sensores extends REST_Controller {
             }
         }else{
         // Requisições com ID - lista informações do elemento
-            $sensor = $this->M_sensor->selecionar($id)->result_array();
+            $sensor = $this->M_sensores->selecionar($id)->result_array();
             if ($sensor){
                 // Converte os dados adquiridos do banco (array) para Json
                 $sensor_json = json_encode($sensor, JSON_UNESCAPED_UNICODE);
@@ -87,28 +87,28 @@ class Sensores extends REST_Controller {
             //se veio, o framework já transforma o json para array associativo com os dados
 
             //salva no objeto do model
-            $this->M_sensor->setSensorNome($content["nome"]);
-            $this->M_sensor->setSensorDesc($content["descricao"]);
-            $this->M_sensor->setSensorModelo($content["modelo"]);
-            $this->M_sensor->setSensorPrecisao(isset($content["precisao"]) ? $content["precisao"] : null);
+            $this->M_sensores->setSensorNome($content["nome"]);
+            $this->M_sensores->setSensorDesc($content["descricao"]);
+            $this->M_sensores->setSensorModelo($content["modelo"]);
+            $this->M_sensores->setSensorPrecisao(isset($content["precisao"]) ? $content["precisao"] : null);
 
-            $this->M_sensor->setSensorValorMin(isset($content["valormin"]) ? $content["valormin"] : null);
-            $this->M_sensor->setSensorValorMax(isset($content["valormax"]) ? $content["valormax"] : null);
+            $this->M_sensores->setSensorValorMin(isset($content["valormin"]) ? $content["valormin"] : null);
+            $this->M_sensores->setSensorValorMax(isset($content["valormax"]) ? $content["valormax"] : null);
 
-            $this->M_sensor->setSensorValorMin_n(isset($content["valormin_n"]) ? $content["valormin_n"] : null);
-            $this->M_sensor->setSensorValorMax_n(isset($content["valormax_n"]) ? $content["valormax_n"] : null);
+            $this->M_sensores->setSensorValorMin_n(isset($content["valormin_n"]) ? $content["valormin_n"] : null);
+            $this->M_sensores->setSensorValorMax_n(isset($content["valormax_n"]) ? $content["valormax_n"] : null);
 
-            $this->M_sensor->setSensorInicioLuz(isset($content["inicio_luz"]) ? $content["inicio_luz"] : null);
-            $this->M_sensor->setSensorFimLuz(isset($content["fim_luz"]) ? $content["fim_luz"] : null);
+            $this->M_sensores->setSensorInicioLuz(isset($content["inicio_luz"]) ? $content["inicio_luz"] : null);
+            $this->M_sensores->setSensorFimLuz(isset($content["fim_luz"]) ? $content["fim_luz"] : null);
 
-            $this->M_sensor->setSensorFabricante(isset($content["fabricante_id"]) ? $content["fabricante_id"] : null);
-            $this->M_sensor->setSensorTipo($content["tiposensor_id"]);
-            $this->M_sensor->setSensorAmbiente(isset($content["ambiente_id"]) ? $content["ambiente_id"] : null);
-            $this->M_sensor->setSensorGateway($content["gateway_id"]);
-            $this->M_sensor->setSensorServidorBorda($content["servidorborda_id"]);
-            $this->M_sensor->setSensorStatus($content["status"]);
+            $this->M_sensores->setSensorFabricante(isset($content["fabricante_id"]) ? $content["fabricante_id"] : null);
+            $this->M_sensores->setSensorTipo($content["tiposensor_id"]);
+            $this->M_sensores->setSensorAmbiente(isset($content["ambiente_id"]) ? $content["ambiente_id"] : null);
+            $this->M_sensores->setSensorGateway($content["gateway_id"]);
+            $this->M_sensores->setSensorServidorBorda($content["servidorborda_id"]);
+            $this->M_sensores->setSensorStatus($content["status"]);
             //salva o model no banco
-            if ($this->M_sensor->salvar() == "inc"){
+            if ($this->M_sensores->salvar() == "inc"){
                 //se retornou inc, está salvo no banco
                 $message = "Dados registrados com sucesso!";
                 // retorna 201 (criado)
@@ -142,28 +142,28 @@ class Sensores extends REST_Controller {
             }else{
                 //se veio, o framework já transforma o json para array associativo com os dados
                 //salva no objeto do model
-                $this->M_sensor->setSensorId($id);
-                $this->M_sensor->setSensorNome($content["nome"]);
-                $this->M_sensor->setSensorDesc($content["descricao"]);
-                $this->M_sensor->setSensorModelo($content["modelo"]);
-                $this->M_sensor->setSensorPrecisao(isset($content["precisao"]) ? $content["precisao"] : null);
+                $this->M_sensores->setSensorId($id);
+                $this->M_sensores->setSensorNome($content["nome"]);
+                $this->M_sensores->setSensorDesc($content["descricao"]);
+                $this->M_sensores->setSensorModelo($content["modelo"]);
+                $this->M_sensores->setSensorPrecisao(isset($content["precisao"]) ? $content["precisao"] : null);
 
-                $this->M_sensor->setSensorValorMin(isset($content["valormin"]) ? $content["valormin"] : null);
-                $this->M_sensor->setSensorValorMax(isset($content["valormax"]) ? $content["valormax"] : null);
+                $this->M_sensores->setSensorValorMin(isset($content["valormin"]) ? $content["valormin"] : null);
+                $this->M_sensores->setSensorValorMax(isset($content["valormax"]) ? $content["valormax"] : null);
 
-                $this->M_sensor->setSensorValorMin_n(isset($content["valormin_n"]) ? $content["valormin_n"] : null);
-                $this->M_sensor->setSensorValorMax_n(isset($content["valormax_n"]) ? $content["valormax_n"] : null);
+                $this->M_sensores->setSensorValorMin_n(isset($content["valormin_n"]) ? $content["valormin_n"] : null);
+                $this->M_sensores->setSensorValorMax_n(isset($content["valormax_n"]) ? $content["valormax_n"] : null);
 
-                $this->M_sensor->setSensorInicioLuz(isset($content["inicio_luz"]) ? $content["inicio_luz"] : null);
-                $this->M_sensor->setSensorFimLuz(isset($content["fim_luz"]) ? $content["fim_luz"] : null);
+                $this->M_sensores->setSensorInicioLuz(isset($content["inicio_luz"]) ? $content["inicio_luz"] : null);
+                $this->M_sensores->setSensorFimLuz(isset($content["fim_luz"]) ? $content["fim_luz"] : null);
 
-                $this->M_sensor->setSensorFabricante(isset($content["fabricante_id"]) ? $content["fabricante_id"] : null);
-                $this->M_sensor->setSensorTipo($content["tiposensor_id"]);
-                $this->M_sensor->setSensorAmbiente(isset($content["ambiente_id"]) ? $content["ambiente_id"] : null);
-                $this->M_sensor->setSensorGateway($content["gateway_id"]);
-                $this->M_sensor->setSensorServidorBorda($content["servidorborda_id"]);
-                $this->M_sensor->setSensorStatus($content["status"]);
-                if ($this->M_sensor->salvar() == "alt"){
+                $this->M_sensores->setSensorFabricante(isset($content["fabricante_id"]) ? $content["fabricante_id"] : null);
+                $this->M_sensores->setSensorTipo($content["tiposensor_id"]);
+                $this->M_sensores->setSensorAmbiente(isset($content["ambiente_id"]) ? $content["ambiente_id"] : null);
+                $this->M_sensores->setSensorGateway($content["gateway_id"]);
+                $this->M_sensores->setSensorServidorBorda($content["servidorborda_id"]);
+                $this->M_sensores->setSensorStatus($content["status"]);
+                if ($this->M_sensores->salvar() == "alt"){
                     //se retornou alt, está salvo no banco
                     $message = "Dados registrados com sucesso!";
                     // retorna 200 (OK)
@@ -184,8 +184,8 @@ class Sensores extends REST_Controller {
         $id = $this->get('id');
         if ($id !== NULL || $id != ""){
             //se o id estiver setado, salva o id em um objeto do model ambinete e aciona metodo de excluir
-            $this->M_sensor->setSensorId($id);  
-            $this->M_sensor->excluir();
+            $this->M_sensores->setSensorId($id);  
+            $this->M_sensores->excluir();
 
             $message = "Registro(s) excluído(s) com sucesso!";
             $this->set_response($message, REST_Controller::HTTP_OK);

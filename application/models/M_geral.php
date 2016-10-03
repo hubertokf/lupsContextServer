@@ -48,9 +48,9 @@
 		
 		function build_menu()
 	    {
-	    	$this->db->select('menu.*');
-			$this->db->from('menu');
-			$this->db->join('relmenuperfil','menu.menu_id = relmenuperfil.menu_id');
+	    	$this->db->select('menus.*');
+			$this->db->from('menus');
+			$this->db->join('relmenuperfil','menus.menu_id = relmenuperfil.menu_id');
 			$this->db->where('relmenuperfil.perfilusuario_id',$this->session->userdata('perfilusuario_id'));
 	    	$this->db->order_by('ordem','asc');    
 	        $query = $this->db->get();
@@ -101,7 +101,7 @@
 	    
 		function buscarNomeMenu($idMenu) {
 			$this->db->select('nome');
-			$this->db->from('menu');
+			$this->db->from('menus');
 			$this->db->where('menu_id', $idMenu);	
 			$query = $this->db->get();
 			foreach ($query->result() as $row) {

@@ -8,7 +8,7 @@ class CI_regra extends CI_controller {
 		$this->load->model('M_geral');
 		$this->load->model('M_configuracoes');
 		$this->load->model('M_regra');
-		$this->load->model('M_usuario');
+		$this->load->model('M_usuarios');
 		$this->M_geral->verificaSessao();
 		if (isset($this->M_configuracoes->selByUser($this->session->userdata('usuario_id'))->result_array()[0]["titulo"]))
 			$this->dados['title'] = $this->M_configuracoes->selByUser($this->session->userdata('usuario_id'))->result_array()[0]["titulo"];

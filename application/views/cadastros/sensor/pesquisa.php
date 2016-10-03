@@ -4,7 +4,7 @@
 
 <section class="tabelas">
 	<div class="container">
-		<form class="formLista" method="post" name="lista" action="<?php echo base_url()."cadastros/CI_sensor/"; ?>">
+		<form class="formLista" method="post" name="lista" action="<?php echo base_url()."cadastros/CI_sensores/"; ?>">
 		
 			<input class="item-selected" type="hidden" name="item" id="item" value="">
 			<div class="row">

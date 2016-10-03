@@ -8,9 +8,9 @@ class M_conditions extends CI_Model{
           $this->db->select('s.uuID as uuID');
           $this->db->select('b.url as url');
           $this->db->select('t.nome as tipo');
-          $this->db->join('servidorborda as b','s.servidorborda_id = b.servidorborda_id');
-          $this->db->join('tiposensor as t','s.tiposensor_id = t.tiposensor_id','inner');
-          $this->db->from('sensor as s');
+          $this->db->join('servidoresborda as b','s.servidorborda_id = b.servidorborda_id');
+          $this->db->join('tipossensores as t','s.tiposensor_id = t.tiposensor_id','inner');
+          $this->db->from('sensores as s');
           $respost = $this->db->get()->result_array();
           return $respost;
         }
@@ -21,9 +21,9 @@ class M_conditions extends CI_Model{
           $this->db->select('s.uuID as uuID');
           $this->db->select('b.url as url');
           $this->db->select('t.nome as tipo');
-          $this->db->join('servidorborda as b','s.servidorborda_id = b.servidorborda_id');
-          $this->db->join('tiposensor as t','s.tiposensor_id = t.tiposensor_id','inner');
-          $this->db->from('sensor as s');
+          $this->db->join('servidoresborda as b','s.servidorborda_id = b.servidorborda_id');
+          $this->db->join('tipossensores as t','s.tiposensor_id = t.tiposensor_id','inner');
+          $this->db->from('sensores as s');
           $respost = $this->db->get()->result_array();
           return $respost;
 

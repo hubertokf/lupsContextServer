@@ -30,9 +30,9 @@ class Gateways extends REST_Controller {
         $this->methods['index_delete']['limit'] = 50; // 50 requests per hour per user/key
 
         //Load Models
-        $this->load->model('M_gateway');
-        $this->load->model('M_servidorborda');
-        $this->load->model('M_fabricante');
+        $this->load->model('M_gateways');
+        $this->load->model('M_servidoresborda');
+        $this->load->model('M_fabricantes');
     }
     // Requisições GET enviadas para o index.
     public function index_get(){
@@ -40,7 +40,7 @@ class Gateways extends REST_Controller {
         $id = $this->get('id');
         if ($id === NULL){
             // Pega gateways do banco através do model gateways
-            $gateways = $this->M_gateway->pesquisar('', array(), '', 0, 'asc', FALSE)->result_array();
+            $gateways = $this->M_gateways->pesquisar('', array(), '', 0, 'asc', FALSE)->result_array();
 
             if ($gateways){
                 // Converte os dados adquiridos do banco (array) para Json
@@ -56,7 +56,7 @@ class Gateways extends REST_Controller {
             }
         }else{
         // Requisições com ID - lista informações do elemento
-            $gateway = $this->M_gateway->selecionar($id)->result_array();
+            $gateway = $this->M_gateways->selecionar($id)->result_array();
             if ($gateway){
                 // Converte os dados adquiridos do banco (array) para Json
                 $gateway_json = json_encode($gateway, JSON_UNESCAPED_UNICODE);
@@ -84,13 +84,13 @@ class Gateways extends REST_Controller {
             //se veio, o framework já transforma o json para array associativo com os dados
 
             //salva no objeto do model
-            $this->M_gateway->setGatewayNome($content["nome"]);
-            $this->M_gateway->setGatewayModelo($content["modelo"]);
-            $this->M_gateway->setGatewayFabricante($content["fabricante_id"]);
-            $this->M_gateway->setGatewayservidorborda($content["servidorborda_id"]);
-            $this->M_gateway->setGatewayStatus($content["status"]);
+            $this->M_gateways->setGatewayNome($content["nome"]);
+            $this->M_gateways->setGatewayModelo($content["modelo"]);
+            $this->M_gateways->setGatewayFabricante($content["fabricante_id"]);
+            $this->M_gateways->setGatewayservidorborda($content["servidorborda_id"]);
+            $this->M_gateways->setGatewayStatus($content["status"]);
             //salva o model no banco
-            if ($this->M_gateway->salvar() == "inc"){
+            if ($this->M_gateways->salvar() == "inc"){
                 //se retornou inc, está salvo no banco
                 $message = "Dados registrados com sucesso!";
                 // retorna 201 (criado)
@@ -124,13 +124,13 @@ class Gateways extends REST_Controller {
             }else{
                 //se veio, o framework já transforma o json para array associativo com os dados
                 //salva no objeto do model
-                $this->M_gateway->setGatewayId($id);
-                $this->M_gateway->setGatewayNome($content["nome"]);
-                $this->M_gateway->setGatewayModelo($content["modelo"]);
-                $this->M_gateway->setGatewayFabricante($content["fabricante_id"]);
-                $this->M_gateway->setGatewayservidorborda($content["servidorborda_id"]);
-                $this->M_gateway->setGatewayStatus($content["status"]);
-                if ($this->M_gateway->salvar() == "alt"){
+                $this->M_gateways->setGatewayId($id);
+                $this->M_gateways->setGatewayNome($content["nome"]);
+                $this->M_gateways->setGatewayModelo($content["modelo"]);
+                $this->M_gateways->setGatewayFabricante($content["fabricante_id"]);
+                $this->M_gateways->setGatewayservidorborda($content["servidorborda_id"]);
+                $this->M_gateways->setGatewayStatus($content["status"]);
+                if ($this->M_gateways->salvar() == "alt"){
                     //se retornou alt, está salvo no banco
                     $message = "Dados registrados com sucesso!";
                     // retorna 200 (OK)
@@ -151,8 +151,8 @@ class Gateways extends REST_Controller {
         $id = $this->get('id');
         if ($id !== NULL || $id != ""){
             //se o id estiver setado, salva o id em um objeto do model ambinete e aciona metodo de excluir
-            $this->M_gateway->setGatewayId($id);  
-            $this->M_gateway->excluir();
+            $this->M_gateways->setGatewayId($id);  
+            $this->M_gateways->excluir();
 
             $message = "Registro(s) excluído(s) com sucesso!";
             $this->set_response($message, REST_Controller::HTTP_OK);

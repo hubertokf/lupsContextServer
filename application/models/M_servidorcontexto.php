@@ -3,8 +3,8 @@
 	    private $servidorcontexto_id;
 	    private $servidorcontexto_desc;
 	    private $servidorcontexto_nome;
-	    private $servidorcontexto_latitude;
-	    private $servidorcontexto_longitude;
+	    private $servidorcontexto_url;
+	    private $servidorcontexto_acess_token;
 	
         function pesquisar($select='', $where=array(), $limit=10, $offset=0, $ordem='asc') {
             $this->db->select($select);
@@ -23,8 +23,8 @@
             $arrayCampos  = array(
                 "descricao" 		=> $this->servidorcontexto_desc,
                 "nome"		 		=> $this->servidorcontexto_nome,
-                "latitude"			=> $this->servidorcontexto_latitude,
-                "longitude"			=> $this->servidorcontexto_longitude
+                "url"				=> $this->servidorcontexto_url,
+                "access_token"		=> $this->servidorcontexto_acess_token
             );
 			if ($this->servidorcontexto_id == ""){
 	            $this->db->insert('servidorcontexto', $arrayCampos);
@@ -76,17 +76,17 @@
 		}
 
 		public function getservidorcontextoLatitude() {
-		    if($this->servidorcontexto_latitude === NULL) {
-        		$this->servidorcontexto_latitude = new servidorcontextoLatitude;
+		    if($this->servidorcontexto_url === NULL) {
+        		$this->servidorcontexto_url = new servidorcontextoLatitude;
     		}			
-			return $this->servidorcontexto_latitude;
+			return $this->servidorcontexto_url;
 		}
 
 		public function getservidorcontextoLongitude() {
-		    if($this->servidorcontexto_longitude === NULL) {
-        		$this->servidorcontexto_longitude = new servidorcontextoLongitude;
+		    if($this->servidorcontexto_acess_token === NULL) {
+        		$this->servidorcontexto_acess_token = new servidorcontextoLongitude;
     		}			
-			return $this->servidorcontexto_longitude;
+			return $this->servidorcontexto_acess_token;
 		}
 
 		
@@ -108,14 +108,14 @@
 			if(!is_string($valor)) {
 				throw new InvalidArgumentException('Expected String');
 			}
-			$this->servidorcontexto_latitude = $valor;
+			$this->servidorcontexto_url = $valor;
 		}
 		
 		public function setservidorcontextoLongitude($valor){
 			if(!is_string($valor)) {
 				throw new InvalidArgumentException('Expected String');
 			}
-			$this->servidorcontexto_longitude = $valor;
+			$this->servidorcontexto_acess_token = $valor;
 		}
 
 		public function setservidorcontextoDesc($valor){

@@ -11,8 +11,8 @@
 					<tr class="titulos row">
 			            <td class="col-xs-4">Nome</td>
 			            <td class="col-xs-4">Descrição</td>
-			            <td class="col-xs-1">Latitude</td>
-			            <td class="col-xs-1">Longitude</td>
+			            <td class="col-xs-1">URL</td>
+			            <td class="col-xs-1">Access Token</td>
 			            <td class="check col-xs-2"></td>
 			        </tr>
 			    </thead>
@@ -23,8 +23,8 @@
 							<tr class='dados row'>
 								<td>".$linha['nome']."</td>
 								<td>".$linha['descricao']."</td>
-								<td>".$linha['latitude']."</td>
-								<td>".$linha['longitude']."</td>
+								<td>".$linha['url']."</td>
+								<td>".$linha['access_token']."</td>
 								<td class='buttons-row'>
 									<a class='botaoEditar' id='edit-$linha[servidorcontexto_id]' href='javascript:;' alt='Editar Registro' title='Editar Registro'><i class='fa fa-pencil-square-o fa-2x'></i></a>
 								</td>

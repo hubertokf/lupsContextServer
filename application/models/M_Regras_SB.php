@@ -44,7 +44,7 @@ class M_Regras_SB extends CI_Model{
 
           // $this->db->join('permissoes as p', 'r.regra_id = p.regra_id', 'inner');
 
-          $this->db->join('contextointeresse as ci', 'ci.regra_id = r.regra_id');
+          $this->db->join('contextosinteresse as ci', 'ci.regra_id = r.regra_id');
           $this->db->join('permissoes as p', 'ci.contextointeresse_id = p.contextointeresse_id', 'inner');
 
           // $this->db->join('relcontextointeresse as rci', 'r.regra_id = rci.regra_id', 'left');
@@ -136,7 +136,7 @@ class M_Regras_SB extends CI_Model{
     // print_r($value);
     $this->db->select('selecoes.nome');
     $this->db->from('regras as r');
-    $this->db->join('sensor as selecoes','r.sensor_id = selecoes.sensor_id');
+    $this->db->join('sensores as selecoes','r.sensor_id = selecoes.sensor_id');
     $this->db->where('r.regra_id ='.$value);
     $respost = $this->db->get();
     return $respost;
@@ -145,7 +145,7 @@ class M_Regras_SB extends CI_Model{
     // print_r($value);
     $this->db->select('selecoes.sensor_id');
     $this->db->from('regras as r');
-    $this->db->join('sensor as selecoes','r.sensor_id = selecoes.sensor_id');
+    $this->db->join('sensores as selecoes','r.sensor_id = selecoes.sensor_id');
     $this->db->where('r.regra_id ='.$value);
     $respost = $this->db->get();
     return $respost;

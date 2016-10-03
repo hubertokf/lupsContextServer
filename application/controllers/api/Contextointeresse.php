@@ -30,10 +30,10 @@ class Contextointeresse extends REST_Controller {
         $this->methods['index_delete']['limit'] = 50; // 50 requests per hour per user/key
 
         //Load Models
-        $this->load->model('M_contextointeresse');
+        $this->load->model('M_contextosinteresse');
         $this->load->model('M_relcontextointeresse');
         $this->load->model('M_servidorcontexto');
-        $this->load->model('M_sensor');
+        $this->load->model('M_sensores');
     }
     // Requisições GET enviadas para o index.
     public function index_get(){
@@ -41,7 +41,7 @@ class Contextointeresse extends REST_Controller {
         $id = $this->get('id');
         if ($id === NULL){
             // Pega contextosinteresse do banco através do model contextosinteresse
-            $contextosinteresse = $this->M_contextointeresse->pesquisar('', array(), '', 0, 'asc', FALSE);
+            $contextosinteresse = $this->M_contextosinteresse->pesquisar('', array(), '', 0, 'asc', FALSE);
 
             if ($contextosinteresse){
                 // Converte os dados adquiridos do banco (array) para Json
@@ -57,7 +57,7 @@ class Contextointeresse extends REST_Controller {
             }
         }else{
         // Requisições com ID - lista informações do elemento
-            $contextointeresse = $this->M_contextointeresse->selecionar($id);
+            $contextointeresse = $this->M_contextosinteresse->selecionar($id);
             if ($contextointeresse){
                 // Converte os dados adquiridos do banco (array) para Json
                 $contextointeresse_json = json_encode($contextointeresse, JSON_UNESCAPED_UNICODE);
@@ -85,15 +85,15 @@ class Contextointeresse extends REST_Controller {
             //se veio, o framework já transforma o json para array associativo com os dados
 
             //salva no objeto do model
-            $this->M_contextointeresse->setContextoInteresseNome($content["nome"]);
-            $this->M_contextointeresse->setContextoInteresseServidorContexto('9');
-            $this->M_contextointeresse->setContextoInteresseSensores($content["sensores"]);
-            $this->M_contextointeresse->setContextoInteressePublico($content["publico"]);
-            $this->M_contextointeresse->setContextoInteresseRegra(isset($content["regra_id"]) ? $content["regra_id"] : null);
-            $this->M_contextointeresse->setContextoInteresseTrigger(isset($content["trigger"]) ? $content["trigger"] : null);
+            $this->M_contextosinteresse->setContextoInteresseNome($content["nome"]);
+            $this->M_contextosinteresse->setContextoInteresseServidorContexto('9');
+            $this->M_contextosinteresse->setContextoInteresseSensores($content["sensores"]);
+            $this->M_contextosinteresse->setContextoInteressePublico($content["publico"]);
+            $this->M_contextosinteresse->setContextoInteresseRegra(isset($content["regra_id"]) ? $content["regra_id"] : null);
+            $this->M_contextosinteresse->setContextoInteresseTrigger(isset($content["trigger"]) ? $content["trigger"] : null);
 
             //salva o model no banco
-            if ($this->M_contextointeresse->salvar() == "inc"){
+            if ($this->M_contextosinteresse->salvar() == "inc"){
                 //se retornou inc, está salvo no banco
                 $message = "Dados registrados com sucesso!";
                 // retorna 201 (criado)
@@ -127,14 +127,14 @@ class Contextointeresse extends REST_Controller {
             }else{
                 //se veio, o framework já transforma o json para array associativo com os dados
                 //salva no objeto do model
-                $this->M_contextointeresse->setContextoInteresseId($id);
-                $this->M_contextointeresse->setContextoInteresseNome($content["nome"]);
-                $this->M_contextointeresse->setContextoInteresseServidorContexto('9');
-                $this->M_contextointeresse->setContextoInteresseSensores($content["sensores"]);
-                $this->M_contextointeresse->setContextoInteressePublico($content["publico"]);
-                $this->M_contextointeresse->setContextoInteresseRegra(isset($content["regra"]) ? $content["regra"] : null);
-                $this->M_contextointeresse->setContextoInteresseTrigger(isset($content["trigger"]) ? $content["trigger"] : null);
-                if ($this->M_contextointeresse->salvar() == "alt"){
+                $this->M_contextosinteresse->setContextoInteresseId($id);
+                $this->M_contextosinteresse->setContextoInteresseNome($content["nome"]);
+                $this->M_contextosinteresse->setContextoInteresseServidorContexto('9');
+                $this->M_contextosinteresse->setContextoInteresseSensores($content["sensores"]);
+                $this->M_contextosinteresse->setContextoInteressePublico($content["publico"]);
+                $this->M_contextosinteresse->setContextoInteresseRegra(isset($content["regra"]) ? $content["regra"] : null);
+                $this->M_contextosinteresse->setContextoInteresseTrigger(isset($content["trigger"]) ? $content["trigger"] : null);
+                if ($this->M_contextosinteresse->salvar() == "alt"){
                     //se retornou alt, está salvo no banco
                     $message = "Dados registrados com sucesso!";
                     // retorna 200 (OK)
@@ -155,8 +155,8 @@ class Contextointeresse extends REST_Controller {
         $id = $this->get('id');
         if ($id !== NULL || $id != ""){
             //se o id estiver setado, salva o id em um objeto do model ambinete e aciona metodo de excluir
-            $this->M_contextointeresse->setContextoInteresseId($id);  
-            $this->M_contextointeresse->excluir();
+            $this->M_contextosinteresse->setContextoInteresseId($id);  
+            $this->M_contextosinteresse->excluir();
 
             $message = "Registro(s) excluído(s) com sucesso!";
             $this->set_response($message, REST_Controller::HTTP_OK);

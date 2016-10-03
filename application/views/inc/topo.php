@@ -45,7 +45,7 @@
     else
         $file = $this->M_configuracoes->selecionar(1)->result_array()[0]["img_cabecalho"];
     ?>
-	<section class="header container-fluid" style="background-color: #142b55; background: url(<?php echo base_url()?>uploads/<?php echo $file?>) center; background-size: cover; background-position: 0px -25px;">
+	<section class="header container-fluid" style="background-color: #142b55; background: url(<?php echo base_url()?>uploads/<?php echo $file?>) center; background-size: cover; background-position: 0px -180px;">
     	<div class="headermask"></div><!-- /.headermask -->
         <div class="container">
             <div class="invisiblemenu row">
@@ -58,7 +58,7 @@
                     </div>
 
                     <?php
-                    $countMenu = $this->M_usuario->countUsuarioMenu($usuario_id);
+                    $countMenu = $this->M_usuarios->countUsuarioMenu($usuario_id);
                     if ($isLoged != "" && $countMenu > 0){
                     ?>
 

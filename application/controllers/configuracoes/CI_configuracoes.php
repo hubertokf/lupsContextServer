@@ -7,7 +7,7 @@ class CI_configuracoes extends CI_controller {
 		
 		$this->load->model('M_geral');
 		$this->load->model('M_configuracoes');
-		$this->load->model('M_usuario');
+		$this->load->model('M_usuarios');
 		$this->load->library('upload');
 		$this->load->library('image_lib');
 		$this->M_geral->verificaSessao();

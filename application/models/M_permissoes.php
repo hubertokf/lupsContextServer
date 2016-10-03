@@ -22,8 +22,8 @@ class M_permissoes extends CI_Model {
 
         $this->db->join('usuario as u', 'permissoes.usuario_id = u.usuario_id', 'left');
         $this->db->join('contextointeresse as ci', 'permissoes.contextointeresse_id = ci.contextointeresse_id', 'left');
-        $this->db->join('sensor as s', 'permissoes.sensor_id = s.sensor_id', 'left');
-        $this->db->join('ambiente as a','permissoes.ambiente_id = a.ambiente_id', 'left');
+        $this->db->join('sensores as s', 'permissoes.sensor_id = s.sensor_id', 'left');
+        $this->db->join('ambientes as a','permissoes.ambiente_id = a.ambiente_id', 'left');
         $this->db->join('regras as r','permissoes.regra_id = r.regra_id', 'left');
 
         $this->db->where($where);

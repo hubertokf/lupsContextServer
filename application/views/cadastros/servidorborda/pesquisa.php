@@ -10,11 +10,11 @@
 				<thead>
 					<tr class="titulos row">
 			            <td class="col-xs-1">ID</td>
-			            <td class="col-xs-3">NOME</td>
-			            <td class="col-xs-2">DESCRIÇÃO</td>
-			            <td class="col-xs-1">LATITUDE</td>
-			            <td class="col-xs-1">LONGITUDE</td>
+			            <td class="col-xs-2">NOME</td>
+			            <td class="col-xs-1">DESCRIÇÃO</td>
 			            <td class="col-xs-2">URL</td>
+			            <td class="col-xs-3">ACCESS TOKEN</td>
+			            <td class="col-xs-1">STATUS</td>
 			            <td class="check col-xs-2"></td>
 			        </tr>
 			    </thead>
@@ -26,9 +26,9 @@
 								<td style='text-align: center'>".$linha['servidorborda_id']."</td>
 								<td>".$linha['nome']."</td>
 								<td>".$linha['descricao']."</td>
-								<td>".$linha['latitude']."</td>
-								<td>".$linha['longitude']."</td>
-								<td>".$linha['url']."</td>
+								<td class='borda_url'>".$linha['url']."</td>
+								<td>".$linha['access_token']."</td>
+								<td class='borda_status' style='text-align:center;' title='Offline'><i class='fa fa-circle' aria-hidden='true' style='color:red;'></i></td>
 								<td class='buttons-row'>
 									<a class='botaoEditar' id='edit-$linha[servidorborda_id]' href='javascript:;' alt='Editar Registro' title='Editar Registro'><i class='fa fa-pencil-square-o fa-2x'></i></a>
 									<a class='botaoExcluir' id='del-$linha[servidorborda_id]' href='javascript:;' alt='Excluir Registro' title='Excluir Registro'><i class='fa fa-times fa-2x'></i></a>
