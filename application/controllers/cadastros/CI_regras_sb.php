@@ -38,6 +38,10 @@ class CI_regras_sb extends CI_controller {
 	}
 
 	function pesquisa($nr_pagina=20 ){
+		if(isset($_GET["msg"])){
+			$this->dados["msg"] = $_GET["msg"];
+		}
+		// $this->dados["msg"] =
 		$this->dados["metodo"] = "pesquisa";
 		if ($this->session->userdata('perfilusuario_id') == 2)
 			$this->dados["linhas"] = $this->M_regras->pesquisar('', array('r.tipo'=>2), $nr_pagina, $this->uri->segment(5), 'asc', FALSE,1);
@@ -83,7 +87,7 @@ class CI_regras_sb extends CI_controller {
 	}
 
 	function gravar(){
-		print_r($_POST);
+		// print_r($_POST);
 		$get_test  = array(
 	  'jsonRule' => $_POST["rule"],
 	 	'status'   => $_POST["status"]);
@@ -118,10 +122,10 @@ class CI_regras_sb extends CI_controller {
 			$this->dados["msg"] = "Dados alterados com sucesso!";
 		}
 
-		if(isset($_POST["has_ajax"])){ //verifica se o envio dos dados pelo front foi realizada por meio do metodo ajax
+		if(isset($_GET["has_ajax"])){ //verifica se o envio dos dados pelo front foi realizada por meio do metodo ajax
 			echo  $this->dados["msg"];
 		}
-		else{ // acho que não precisa disto
+		else{
 			$this->pesquisa();
 		}
 
@@ -132,17 +136,16 @@ class CI_regras_sb extends CI_controller {
 			$id_regra_contexto = $_POST["item"];
 			if(isset($_POST["item"])) {
 				$this->M_regras->setRegraId($_POST["item"]);
-				$this->M_regras->excluir();
 			}
 		}
 		else{
 			$id_regra_contexto = $id;
 			$this->M_regras->setRegraId($id);
-			$this->M_regras->excluir();
 		}
 		$id_regra_borda    = $this->M_Regras_SB->getRegraIdBorda($id_regra_contexto);
-		$id_sensor         = $this->M_regras_SB->selecionar($id_regra_context)->result_array();
-		$get_url           = $this->M_sensor->get_acesso_borda(array('sensor_id' =>$id_sensor[0]["sensor_id"]))->result_array();
+		$id_sensor         = $this->M_Regras_SB->selecionar($id_regra_contexto)->result_array();
+		$this->M_regras->excluir();
+		$get_url           = $this->M_sensores->get_acesso_borda(array('sensor_id' =>$id_sensor[0]["sensor_id"]))->result_array();
 		$url               = $get_url[0]["url"];
 		$token             = $get_url[0]["token"];
 		$url_rule          = $url."rules/".$id_regra_borda."/";
@@ -161,7 +164,7 @@ class CI_regras_sb extends CI_controller {
 		else{
 			$this->dados["msg"] = "Não foi possível excluir registro na borda, tentativa será realizada automaticamente!";
 		}
-		echo $this->dados["msg"];
+		$this->pesquisa();
 	}
 
    function editar($valor = "") {

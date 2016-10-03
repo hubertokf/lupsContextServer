@@ -9,9 +9,10 @@ define (["jquery"],function($){
               if(typeof data[i] === "string"){
                 // console.log("biruta");
                 data[i] = JSON.parse(data[i]);
-                console.log(typeof bin);
+                // console.log(typeof bin);
+                console.log(data[i]);
               }
-                // console.log(bin);
+                console.log(data[i]['sensor']);
                 var opt = $('<option>', {
                 "data-type" : data[i]['tipo'],
                 "data-url": data[i]['url'],

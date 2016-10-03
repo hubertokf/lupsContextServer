@@ -33,6 +33,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
             compose_rule['condtions_type'].push($(this).find(":selected").data('type'));
             compose_rule['url'].push($(this).find(":selected").data('url'))
             var index = $(this).val();
+            console.log(index);
               compose_rule['id_sensor'].push(index);
 
         });
@@ -48,10 +49,10 @@ define(["jquery","bootbox"],function ($,bootbox) {
         this.send_informations['name_rule'] = $("#name_rule").val();
         this.send_informations['status']    = true;
         this.send_informations['tipo']      = 2;
-        this.send_informations['has_ajax']  = '';
+        // this.send_informations['has_ajax']  = '';
         this.send_informations['id_rule']   = $("#editable_id_rule").val();
         if(this.send_informations['id_rule']){
-            console.log("ok");
+            // console.log("ok");
         }
 
         var str = $("#sensors").find(":selected").attr('id');
@@ -79,10 +80,11 @@ define(["jquery","bootbox"],function ($,bootbox) {
       type:"POST",
       data: this.send_informations,
       dataType: 'json',
-      url:window.base_url+"cadastros/"+path[3]+"/gravar",
+      url:window.base_url+"cadastros/"+path[3]+"/gravar?has_ajax=s",
       complete: function (response) {
           //  console.log("bugg",response['responseText']);
-          // window.location.replace(window.base_url+"/cadastros/"+path[3]);
+          //  console.log();
+          window.location.replace(window.base_url+"cadastros/"+path[3]+"?msg="+response['responseText']);
           }
     });
   };

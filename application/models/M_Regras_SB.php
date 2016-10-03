@@ -214,7 +214,7 @@ class M_Regras_SB extends CI_Model{
   }
   public function setRegraIdBorda($valor)
   {
-    print_r($valor);
+    // print_r($valor);
     $this->regra_id_borda = $valor;
   }
   public function setRegraNome($valor){
