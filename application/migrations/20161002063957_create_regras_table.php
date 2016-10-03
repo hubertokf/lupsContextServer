@@ -28,7 +28,7 @@ class CreateRegrasTable extends AbstractMigration{
         $table = $this->table('regras', array('id' => 'regra_id'));
         $table->addColumn('nome', 'string')
               ->addColumn('tipo', 'integer', array('default' => '1', 'comment' => '1->Script Python, 2->Regra de borda, 3->Regra de contexto, 4->regra de agendamento'))
-              ->addColumn('arquivo_py', 'string', array('null' => true))
+              ->addColumn('arquivo_py', 'text', array('null' => true))
               ->addColumn('sensor_id', 'integer', array('null' => true))
               ->addColumn('status', 'boolean', array('default' => 'true'))
               ->addForeignKey('sensor_id', 'sensores', 'sensor_id', array('delete'=> 'SET_NULL', 'update'=> 'CASCADE'))
