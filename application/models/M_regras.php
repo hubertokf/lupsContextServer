@@ -8,6 +8,7 @@ class M_regras extends CI_Model {
 	private $regra_contextointeresse;
 	private $regra_sensor;
 	private $regra_arquivo_py;
+	private $id_regra_borda;
 
         function pesquisar($select='', $where=array(), $limit=10, $offset=0, $ordem='asc', $perm=FALSE,$sens='') {
         	if ($perm == FALSE){
@@ -61,7 +62,7 @@ class M_regras extends CI_Model {
             return $this->db->get();
         }
 
-		function salvar() {
+				function salvar() {
             $arrayCampos  = array(
                 "status" 		  => $this->regra_status,
                 "nome" 			  => $this->regra_nome,
@@ -69,12 +70,11 @@ class M_regras extends CI_Model {
                 "arquivo_py" 	=> $this->regra_arquivo_py
             );
 
-			if ($this->regra_id == ""){
+						if ($this->regra_id == ""){
 	            $this->db->insert('regras', $arrayCampos);
-			    $insert_id = $this->db->insert_id();
-
-			    // old "insert regra_id into relcontextointeresse"
-				//$this->db->update('relcontextointeresse', array('regra_id' => $insert_id), array("contextointeresse_id"=>$this->regra_contextointeresse,"sensor_id"=>$this->regra_sensor));
+			    		$insert_id = $this->db->insert_id();
+			    		// old "insert regra_id into relcontextointeresse"
+							//$this->db->update('relcontextointeresse', array('regra_id' => $insert_id), array("contextointeresse_id"=>$this->regra_contextointeresse,"sensor_id"=>$this->regra_sensor));
 
 		        return "inc";
 			}
@@ -181,7 +181,6 @@ class M_regras extends CI_Model {
 			}
 			$this->regra_nome = $valor;
 		}
-
 		public function setRegraStatus($valor){
 			$this->regra_status = $valor;
 		}

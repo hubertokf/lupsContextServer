@@ -574,6 +574,7 @@ CREATE TABLE regras (
     nome character varying NOT NULL,
     tipo integer DEFAULT 1 NOT NULL,
     sensor_id integer,
+    id_regra_borda character varying,
     arquivo_py character varying
 );
 
@@ -617,12 +618,7 @@ CREATE TABLE relcontextointeresse (
 
 ALTER TABLE public.relcontextointeresse OWNER TO postgres;
 
-CREATE TABLE relIdRegras(
-  id_regra_context integer NOT NULL,
-  id_regra_edge integer NOT NULL
-);
 
-ALTER TABLE public.relIdRegras OWNER TO postgres;
 --
 -- Name: relmenuperfil; Type: TABLE; Schema: public; Owner: huberto; Tablespace:
 --

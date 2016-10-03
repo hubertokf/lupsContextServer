@@ -48,6 +48,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
         this.send_informations['name_rule'] = $("#name_rule").val();
         this.send_informations['status']    = true;
         this.send_informations['tipo']      = 2;
+        this.send_informations['has_ajax']  = '';
         this.send_informations['id_rule']   = $("#editable_id_rule").val();
         if(this.send_informations['id_rule']){
             console.log("ok");
@@ -80,10 +81,10 @@ define(["jquery","bootbox"],function ($,bootbox) {
       dataType: 'json',
       url:window.base_url+"cadastros/"+path[3]+"/gravar",
       complete: function (response) {
-        //  console.log("bugg",response['responseText']);
+          //  console.log("bugg",response['responseText']);
+          window.location.replace(window.base_url+"/cadastros/"+path[3]);
           }
     });
-    window.location.replace(window.base_url+"/cadastros/"+path[3]);
   };
 
   CreateRule.prototype. composition_conditions = function (finish) {

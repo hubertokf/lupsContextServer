@@ -81,30 +81,34 @@ class M_sensores extends CI_Model{
 
     function get_borda_id($sensor){
     	$this->db->select('s.*');
-		$this->db->select('t.unidade as unidade');		
-		$this->db->select("sb.url as bordaurl");
-		$this->db->select("sb.access_token as bordatoken");
+			$this->db->select('t.unidade as unidade');
+			$this->db->select("sb.url as bordaurl");
+			$this->db->select("sb.access_token as bordatoken");
 
-		$this->db->from('sensores as s');
-		$this->db->join('tipossensores as t', 's.tiposensor_id = t.tiposensor_id', 'left');
-		$this->db->join('servidoresborda as sb','sb.servidorborda_id = s.servidorborda_id');
+			$this->db->from('sensores as s');
+			$this->db->join('tipossensores as t', 's.tiposensor_id = t.tiposensor_id', 'left');
+			$this->db->join('servidoresborda as sb','sb.servidorborda_id = s.servidorborda_id');
 
-		$this->db->where("sensor_id", $sensor);
-		$return = $this->db->get()->result_array()[0];
-		$ch  = curl_init($return['bordaurl'].'sensors/?uuID='.$return['uuID']);
+			$this->db->where("sensor_id", $sensor);
+			$return = $this->db->get()->result_array()[0];
+			$ch  = curl_init($return['bordaurl'].'sensors/?uuID='.$return['uuID']);
 
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 			 	'Authorization: token '.$return['bordatoken'],
 				'Content-Type: application/json')
-		);
-		$result = curl_exec($ch);
-		curl_close($ch);
-
-		return json_decode($result)[0]->id;
+			);
+			$result = curl_exec($ch);
+			curl_close($ch);
+			return json_decode($result)[0]->id;
     }
 
 	function get_acesso_borda($where = array()){
+		// return $this->db->select("borda.url a url, borda.access_token as token")
+		// 		->from("servidorborda as borda")
+		// 		->join('sensor as s','borda.servidorborda_id = s.servidorborda_id')
+		// 		->where($where)
+		// 	->get();
 		$this->db->select("borda.url as url");
 		$this->db->select("borda.access_token as token");
 		$this->db->from("servidoresborda as borda");

@@ -8,6 +8,7 @@ class M_Regras_SB extends CI_Model{
         private $regra_contextointeresse;
         private $regra_sensor;
         private $regra_arquivo_py;
+        private $regra_id_borda;
 
 
     function get_rules($value='')
@@ -61,15 +62,9 @@ class M_Regras_SB extends CI_Model{
 
     function selecionar($codigo) {
       $this->db->select('regras.*');
-
-      // $this->db->select('rci.contextointeresse_id');
-      // $this->db->select('rci.sensor_id');
-
-        $this->db->from('regras');
-
-        // $this->db->join('relcontextointeresse as rci', 'regras.regra_id = rci.regra_id', 'left');
-        $this->db->where("regras.regra_id", $codigo);
-        return $this->db->get();
+      $this->db->from('regras');
+      $this->db->where("regras.regra_id", $codigo);
+      return $this->db->get();
     }
 
   function salvar() {
@@ -78,7 +73,8 @@ class M_Regras_SB extends CI_Model{
             "nome" 			  => $this->regra_nome,
             "tipo" 			  => $this->regra_tipo,
             "arquivo_py" 	=> $this->regra_arquivo_py,
-            "sensor_id"   => $this->regra_sensor
+            "sensor_id"   => $this->regra_sensor,
+            "id_regra_borda" => $this->regra_id_borda
         );
 
   if ($this->regra_id == ""){
@@ -141,6 +137,19 @@ class M_Regras_SB extends CI_Model{
     $respost = $this->db->get();
     return $respost;
   }
+
+  public function getRegraIdBorda($value)
+  {
+    $this->db->select('r.id_regra_borda');
+    $this->db->from('regras as r');
+    // print_r($value);
+    $this->db->where('r.regra_id ='.$value);
+    $respost = $this->db->get()->result_array();
+    // print_r($respost);
+    // print_r($this->db->last_query());
+    return $respost[0]["id_regra_borda"];
+  }
+
   public function get_sensor_id($value){
     // print_r($value);
     $this->db->select('selecoes.sensor_id');
@@ -203,7 +212,11 @@ class M_Regras_SB extends CI_Model{
   public function setRegraId($valor){
     $this->regra_id = $valor;
   }
-
+  public function setRegraIdBorda($valor)
+  {
+    print_r($valor);
+    $this->regra_id_borda = $valor;
+  }
   public function setRegraNome($valor){
   if(!is_string($valor)) {
     throw new InvalidArgumentException('Expected String');
