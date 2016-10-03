@@ -23,7 +23,7 @@ class CI_persistencias extends CI_controller {
 
 			if ($return == TRUE){//mudar comparação
 				$this->M_persistencias->setPersistenciaId($persistencia['persistencia_id']);	
-				$this->M_menus->excluir();
+				$this->M_persistencias->excluir();
 			}else{
 				$this->M_persistencias->setPersistenciaId($persistencia['persistencia_id']);
 				$this->M_persistencias->setPersistenciaMetodo($persistencia['metodo']);
