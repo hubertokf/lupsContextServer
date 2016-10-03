@@ -81,7 +81,7 @@ class CI_regras_agendamento extends CI_controller {
 	function gravar(){
 		$json = json_encode($_POST["rule"]);
 		$get_test  = array('sensor' => $_POST["id_sensor"],
-		''=> $json
+		''=> $json,
 		'status' => $_POST["status"]);
 
 		if(isset($_POST["id_rule"])and $_POST["id_rule"] != ""){ // se id estiver setado, é uma edição
