@@ -83,6 +83,7 @@ class CI_regras_sb extends CI_controller {
 	}
 
 	function gravar(){
+		print_r($_POST);
 		$get_test  = array(
 	  'jsonRule' => $_POST["rule"],
 	 	'status'   => $_POST["status"]);
@@ -245,7 +246,7 @@ class CI_regras_sb extends CI_controller {
 			if($v['tipo']=="Estado de Evento"){
 					$tipo = 'string';
 			}
-			$obj      = array('url'=> $v['url'],'nome_legivel'=>$v['tipo']." do ".$v['nome'],'tipo'=>$tipo,"sensor"=>$v['uuID'],'nome' => 'get_verify_sensor');
+			$obj      = array('url'=> $v['url'],'nome_legivel'=>$v['tipo']." do ".$v['nome'],'tipo'=>$tipo,"sensor"=>$v['uuid'],'nome' => 'get_verify_sensor');
 			$obj      = json_encode($obj,JSON_FORCE_OBJECT);
 			$output[] = $obj;
 					}
@@ -330,7 +331,7 @@ function sendInformation($value='')
 		if($v['tipo']=="Estado de Evento"){
 				$tipo = 'string';
 		}
-			$obj      = array('url'=> $v['url'],'nome_legivel'=>$v['tipo']." ".$v['nome'],'tipo'=>'number',"sensor"=>$v['uuID'],'nome' => 'get_verify_sensor');
+			$obj      = array('url'=> $v['url'],'nome_legivel'=>$v['tipo']." ".$v['nome'],'tipo'=>'number',"sensor"=>$v['uuid'],'nome' => 'get_verify_sensor');
 			$obj      = json_encode($obj,JSON_FORCE_OBJECT);
 			$obj              = json_encode($obj,JSON_FORCE_OBJECT);
 			$output_condiction[] = $obj;

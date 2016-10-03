@@ -5,7 +5,7 @@ class M_conditions extends CI_Model{
         {
           $this->db->select('s.nome as nome');
           $this->db->select('s.sensor_id as id_sensor');
-          $this->db->select('s.uuID as uuID');
+          $this->db->select('s.uuid as uuid');
           $this->db->select('b.url as url');
           $this->db->select('t.nome as tipo');
           $this->db->join('servidoresborda as b','s.servidorborda_id = b.servidorborda_id');
@@ -18,7 +18,7 @@ class M_conditions extends CI_Model{
         {
           $this->db->select('s.nome as nome');
           $this->db->select('s.sensor_id as sensor_id');
-          $this->db->select('s.uuID as uuID');
+          $this->db->select('s.uuid as uuid');
           $this->db->select('b.url as url');
           $this->db->select('t.nome as tipo');
           $this->db->join('servidoresborda as b','s.servidorborda_id = b.servidorborda_id');

@@ -82,7 +82,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
       url:window.base_url+"cadastros/"+path[3]+"/gravar",
       complete: function (response) {
           //  console.log("bugg",response['responseText']);
-          window.location.replace(window.base_url+"/cadastros/"+path[3]);
+          // window.location.replace(window.base_url+"/cadastros/"+path[3]);
           }
     });
   };

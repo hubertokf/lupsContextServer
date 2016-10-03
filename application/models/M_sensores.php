@@ -91,7 +91,7 @@ class M_sensores extends CI_Model{
 
 			$this->db->where("sensor_id", $sensor);
 			$return = $this->db->get()->result_array()[0];
-			$ch  = curl_init($return['bordaurl'].'sensors/?uuID='.$return['uuID']);
+			$ch  = curl_init($return['bordaurl'].'sensors/?uuID='.$return['uuid']);
 
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_HTTPHEADER, array(
