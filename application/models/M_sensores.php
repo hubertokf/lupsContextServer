@@ -84,14 +84,12 @@ class M_sensores extends CI_Model{
 			$this->db->select('t.unidade as unidade');
 			$this->db->select("sb.url as bordaurl");
 			$this->db->select("sb.access_token as bordatoken");
-
 			$this->db->from('sensores as s');
 			$this->db->join('tipossensores as t', 's.tiposensor_id = t.tiposensor_id', 'left');
 			$this->db->join('servidoresborda as sb','sb.servidorborda_id = s.servidorborda_id');
-
 			$this->db->where("sensor_id", $sensor);
 			$return = $this->db->get()->result_array()[0];
-			$ch  = curl_init($return['bordaurl'].'sensors/?uuID='.$return['uuid']);
+			$ch     = curl_init($return['bordaurl'].'sensors/?uuID='.$return['uuid']);
 
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_HTTPHEADER, array(

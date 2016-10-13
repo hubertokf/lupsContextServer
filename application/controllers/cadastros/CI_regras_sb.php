@@ -158,13 +158,13 @@ class CI_regras_sb extends CI_controller {
 		);
 		$result = curl_exec($ch);
 		curl_close($ch);
-		if($result == null){
+		if($result !== null){
 			$this->dados["msg"] = "Registro(s) excluído(s) com sucesso!";
 		}
 		else{
 			$this->dados["msg"] = "Não foi possível excluir registro na borda, tentativa será realizada automaticamente!";
 		}
-		$this->pesquisa();
+	 $this->pesquisa();
 	}
 
    function editar($valor = "") {
@@ -296,10 +296,16 @@ class CI_regras_sb extends CI_controller {
 				'Content-Type: application/json',
 			  'Content-Length: ' . strlen($data_string))
 		);
+
 		$result = curl_exec($ch);
-		// print_r(json_decode($result));
+		$info = curl_getinfo($curl);
 		curl_close($ch);
-		return json_decode($result)->id;
+
+		if ($info['http_code'] == 200)
+		  return json_decode($result)->id;
+	  else
+			return null;
+
 	}
 
 	function getActions($value="") // busca no banco as açoes pre definidas e retorna para a app

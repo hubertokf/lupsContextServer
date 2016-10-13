@@ -60,20 +60,6 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
       // }
     };
 
-    // var view_error = function(string) {
-    //
-    //   bootbox.dialog({
-    //        message: string,
-    //        title: "Cuidado",
-    //          buttons: {
-    //              success: {
-    //                  label: "ok!!",
-    //                  className: "btn-danger",
-    //
-    //              },
-    //            }}).find('.modal-content').css({'background-color': '#fcf8e3','border-color':'#faebcc', 'font-weight' : 'bold', 'color': '#8a6d3b', 'font-size': '2em', 'font-weight' : 'bold'} );
-    //
-    // }
     AddRule.prototype.setDOM = function () {
       set_button_logic = true;
       $("#name_rule").val($("#editable_ruler_name").val());
@@ -82,11 +68,11 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
       $("#sensors").val(sensor);
       $("#sensors").prop("disabled","true");
       get_information_editable(handle_edit);
-
-
     };
+
     var iterator_condition   = 0;
     var iterator_action      = 0;
+
     function handle_data_condition(data) {
       // console.log(iterator_condition);
       new SelectCondition(iterator_condition-1,data);
@@ -96,12 +82,10 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
     }
 
     function handle_data_action(data) {
-
-    var action = new AddActions(iterator_action,data);
+      var action = new AddActions(iterator_action,data);
       $("#div_action").append(action);
       // iterator_action++;
     }
-
 
     var get_bd_conditions= function(handle){
       $.ajax({
@@ -180,12 +164,9 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
           e  = "ed-"+iterator;
 
           for(var j = 1 ; j< all.length; j++){
-
               objetc_condition = all[j];
               var condition_div = $('<div>',{class: "row", id: "Condition"+e})
-
               $("#div_conditions").append(condition_div);
-
               new LogicOperators(e,true,'all');
               new SelectCondition(e,option_select_condition,objetc_condition['parameters']['sensor'],objetc_condition['operator']);
               new Inputs(e,objetc_condition['value']);

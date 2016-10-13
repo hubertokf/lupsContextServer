@@ -24,26 +24,30 @@ class CI_regras_agendamento extends CI_controller {
 		$this->dados["caminho"] = $this->uri->segment(1)."/".$this->uri->segment(2);
 	}
 
-	function index()
-	{
+	function index() {
 		$this->pesquisa();
 	}
 
-	function select(){
+	function select() {
 		$registros = $this->M_regras->pesquisar()->result_array();
 	    echo json_encode($registros);
 	}
 
 	function pesquisa($nr_pagina=20 ){
+
+		if(isset($_GET["msg"])) {
+			$this->dados["msg"] = $_GET["msg"];
+		}
+
 		$this->dados["metodo"] = "pesquisa";
 
 		if ($this->session->userdata('perfilusuario_id') == 2) // É um superuser?
-			$this->dados["linhas"]       = $this->M_regras->pesquisar('', array(), $nr_pagina, $this->uri->segment(5), 'asc', FALSE,2);
+			$this->dados["linhas"]       = $this->M_regras->pesquisar('', array('r.tipo' => 4), $nr_pagina, $this->uri->segment(5), 'asc', FALSE,2);
 		else
-			$this->dados["linhas"]       = $this->M_regras->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5), 'asc', TRUE,2);
+			$this->dados["linhas"]       = $this->M_regras->pesquisar('', array('r.tipo' => 4,'p.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5), 'asc', TRUE,2);
 
 		$this->dados["nr_pagina"]      = $nr_pagina;
-		$this->dados["total"]          = $this->M_regras->numeroLinhasTotais('',array('tipo'=>2));
+		$this->dados["total"]          = $this->M_regras->numeroLinhasTotais('',array('tipo'=>4));
 		$this->dados["tituloPesquisa"] = "Regras Cadastradas";
 		$pag['base_url']               = base_url.$this->dados["caminho"]."/".$this->dados["metodo"]."/".$nr_pagina."/";
 		$pag['total_rows']             = $this->dados["total"];
@@ -78,23 +82,22 @@ class CI_regras_agendamento extends CI_controller {
 		$this->load->view('cadastros/regras_sb/cadastro');
 		$this->load->view('inc/rodape');
 	}
-	function gravar(){
-		$json = json_encode($_POST["rule"]);
-		$get_test  = array('sensor' => $_POST["id_sensor"],
-		''=> $json,
+	function gravar() {
+
+		$json      = json_decode($_POST["rule"]);
+		$get_information  = array('sensor' => $_POST["id_sensor"],
 		'status' => $_POST["status"]);
 
 		if(isset($_POST["id_rule"])and $_POST["id_rule"] != ""){ // se id estiver setado, é uma edição
-				$id_rule_edge = $this->distributed_rule($_POST["id_rule"],$_POST["id_sensor"],$get_test); //metodo para enviar regra ao servidor de borda
-				$this->M_Regras_SB->setRegraId($_POST["id_rule"]);
 
-				if($id_rule_edge == null){ //se for null, possível perda de comunicação ou problema no servidor de borda
+			$this->M_Regras_SB->setRegraId($_POST["id_rule"]);
+			$id_rule_edge = $this->distributed_rule($_POST["id_rule"],$_POST["id_sensor"],$get_information,$json); //metodo para enviar regra ao servidor de borda
+			if($id_rule_edge == null) { //se for null, possível perda de comunicação ou problema no servidor de borda
 					$id_rule_edge_off = $this->M_Regras_SB->getRegraIdBorda($_POST["id_rule"]); //seta a variavel com um valor já existente
 					$this->M_Regras_SB->setRegraIdBorda($id_rule_edge_off);
 				}
-		}
-		else{
-			$id_rule_edge = $this->distributed_rule('',$_POST["id_sensor"],$get_test);
+		} else {
+			$id_rule_edge = $this->distributed_rule('',$_POST["id_sensor"],$get_information,$json);
 			$this->M_Regras_SB->setRegraIdBorda($id_rule_edge);
 		}
 
@@ -103,40 +106,39 @@ class CI_regras_agendamento extends CI_controller {
 		$this->M_Regras_SB->setRegraArquivoPy($_POST["rule"]);
 		$this->M_Regras_SB->setRegraTipo(4);
 		$this->M_Regras_SB->setSensor(intval($_POST["id_sensor"]));
-		if ($this->M_Regras_SB->salvar() == "inc"){
+
+		if ($this->M_Regras_SB->salvar() == "inc") {
 			$this->dados["msg"] = "Dados registrados com sucesso!";
-			$this->pesquisa();
+		}	elseif ($id_rule_edge == null) {
+			$this->dados["msg"] = "Não foi possível registrar dados no servidor de borda. Tente mais tarde";
+		}	else {
+			$this->dados["msg"] = "Dados alterados com sucesso!";
 		}
-		else{
-		$this->dados["msg"] = "Dados alterados com sucesso!";
-		$this->pesquisa();
+		echo  $this->dados["msg"];
 	}
-		// echo json_encode($get_test,JSON_FORCE_OBJECT);
-	}
-	function get_rules(){
-		if(isset($_POST["sensor_id"])){
+
+	function get_rules() {
+
+		if(isset($_POST["sensor_id"])) {
 			$response = $this->M_regras->selecionar($_POST["sensor_id"])->result_array();
 			$response = $response[0]['arquivo_py'];
-		}
-		else{
+		} else {
 			$response = "algo de errado";
 		}
-
 		echo json_encode($response);
 	}
 
-	public function distributed_rule($id_regra_context='',$id_sensor='',$array=array()){
+	public function distributed_rule($id_regra_context='',$id_sensor='',$array=array(),$rules) {
 
 		$request         = "POST";
-		$get_url         = $this->M_sensor->get_acesso_borda(array('sensor_id' =>$id_sensor))->result_array();
+		$get_url         = $this->M_sensores->get_acesso_borda(array('sensor_id' =>$id_sensor))->result_array();
 		$url             = $get_url[0]["url"];
 		$token           = $get_url[0]["token"];
-		$id_sensor_borda = $this->M_sensor->get_borda_id($id_sensor);
-		$array           = array_merge($array,array('sensor'=>$id_sensor_borda));
-		$url_rule        = $url."rules/";
+		$id_sensor_borda = $this->M_sensores->get_borda_id($id_sensor);
+		$array           = array_merge($array,array('sensor'=>$id_sensor_borda, 'minute'=> $rules->minutes,'hour'=> $rules->hours,'day'=> $rules->days,'month'=> $rules->months,'year'=> "*"));
+		$url_rule        = $url."schedules/";
 
-		if($id_regra_context != ''){
-
+		if($id_regra_context != '') {
 			$request           = "PUT";
 			$array["id_regra"] = $this->M_Regras_SB->getRegraIdBorda($id_regra_context);
 			$url_rule          = $url_rule.$array["id_regra"]."/"; // concatenar com id_regra_borda
@@ -144,58 +146,58 @@ class CI_regras_agendamento extends CI_controller {
 			$data_string       = json_encode($array,JSON_FORCE_OBJECT);
 			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $request);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-		}
-		else{
-
+		}	else {
 			$ch          = curl_init($url_rule);
 			$data_string = json_encode($array,JSON_FORCE_OBJECT);
 			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $request);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
 		}
-		// print_r($url_rule);
+
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 				'Authorization: token '.$token,
 				'Content-Type: application/json',
 				'Content-Length: ' . strlen($data_string))
 		);
+
 		$result = curl_exec($ch);
-		// print_r(json_decode($result));
+		$info = curl_getinfo($curl);
 		curl_close($ch);
-		return json_decode($result)->id;
+
+		if ($info['http_code'] == 200)
+		  return json_decode($result)->id;
+	  else
+			return null;
 	}
 
-	function get_rules_names(){
-
-		if(isset($_POST["id_sensor"])){
+	function get_rules_names() {
+		if (isset($_POST["id_sensor"])) {
 			$response = $this->M_Regras_SB->get_rules($_POST["id_sensor"])->result_array();
-		}
-		else{
+		} else {
 			$response = "algo de errado";
 		}
-
 		echo json_encode($response);
 	}
 
-	function excluir($id=""){
-		if ($id==""){
+	function excluir($id="") {
+
+		if ($id=="") {
 			$id_regra_contexto = $_POST["item"];
-			if(isset($_POST["item"])) {
+			if (isset($_POST["item"])) {
 				$this->M_regras->setRegraId($_POST["item"]);
-				$this->M_regras->excluir();
 			}
-		}
-		else{
+		} else {
 			$id_regra_contexto = $id;
 			$this->M_regras->setRegraId($id);
-			$this->M_regras->excluir();
 		}
 		$id_regra_borda    = $this->M_Regras_SB->getRegraIdBorda($id_regra_contexto);
-		$id_sensor         = $this->M_regras_SB->selecionar($id_regra_context)->result_array();
-		$get_url           = $this->M_sensor->get_acesso_borda(array('sensor_id' =>$id_sensor[0]["sensor_id"]))->result_array();
+
+		$id_sensor         = $this->M_Regras_SB->selecionar($id_regra_contexto)->result_array();
+		$get_url           = $this->M_sensores->get_acesso_borda(array('sensor_id' =>$id_sensor[0]["sensor_id"]))->result_array();
 		$url               = $get_url[0]["url"];
 		$token             = $get_url[0]["token"];
-		$url_rule          = $url."rules/".$id_regra_borda."/";
+		$url_rule          = $url."schedules/".$id_regra_borda."/";
+		print_r($url_rule);
 		$ch                = curl_init($url_rule);
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -203,90 +205,82 @@ class CI_regras_agendamento extends CI_controller {
 				'Authorization: token '.$token,
 				'Content-Type: application/json')
 		);
+		$this->M_regras->excluir();
 		$result = curl_exec($ch);
 		curl_close($ch);
-		if($result == null){
+		if ($result == null) {
 			$this->dados["msg"] = "Registro(s) excluído(s) com sucesso!";
-		}
-		else{
+		} else {
 			$this->dados["msg"] = "Não foi possível excluir registro na borda, tentativa será realizada automaticamente!";
 		}
-		echo $this->dados["msg"];
+		// $this->pesquisa();
 
 	}
 
-   function editar($valor = "") {
+  function editar($valor = "") {
 
 		if(isset($_POST["item"])) {
-
 			$this->dados["registro"] = $this->M_regras->selecionar($_POST["item"]);
-			$this->dados["editable"] = "true";
-			$registro = $this->dados["registro"]->result_array();
-		// print "<pre>";
-		// print_r($this->M_Regras_SB);
-		// print "</pre>";
-		// print "<pre>";
-		// print_r($registro[0]);
-		// print "</pre>";
+			$registro                = $this->dados["registro"]->result_array();
 			$this->dados["sensor"]   = $this->M_Regras_SB->get_sensor_id($registro[0]['regra_id']);
+			$this->dados["editable"] = "true";
 	} else if ($valor != "") {
 			$this->dados["registro"] = $this->M_regras->selecionar($valor);
-			$this->dados["editable"] = "true";
-			$registro = $this->dados["registro"]->result_array();
+			$registro                = $this->dados["registro"]->result_array();
 			$this->dados["sensor"]   = $this->M_Regras_SB->get_sensor_id($registro[0]['regra_id']);
+			$this->dados["editable"] = "true";
 	}
 		$this->cadastro();
 	}
 
 	function ativar($id="") {
-		if ($id==""){
 
-			if(isset($_POST["item"])) {
+		if ($id=="") {
+			if (isset($_POST["item"])) {
 				$this->M_regras->setRegraId($_POST["item"]);
 				$this->M_regras->setRegraStatus('true');
 				$this->M_regras->altStatus();
 			}
-		}
-		else{
+		} else {
 			$this->M_regras->setRegraId($id);
 			$this->M_regras->setRegraStatus('true');
 			$this->M_regras->altStatus();
 		}
+
 		$this->dados["msg"] = "Regra ativada com sucesso!";
 		$this->pesquisa();
 	}
 
 	function desativar($id="") {
 
-		if ($id==""){
-
-			if(isset($_POST["item"])) {
+		if ($id=="") {
+			if (isset($_POST["item"])) {
 				$this->M_regras->setRegraId($_POST["item"]);
 				$this->M_regras->setRegraStatus('false');
 				$this->M_regras->altStatus();
 			}
-		}
-		else{
+		} else {
 			$this->M_regras->setRegraId($id);
 			$this->M_regras->setRegraStatus('false');
 			$this->M_regras->altStatus();
 		}
+
 		$this->dados["msg"] = "Regra desativada com sucesso!";
 		$this->pesquisa();
 	}
 
 	function getSensorByRci($id=""){
-		if ($id==""){
-			if(isset($_POST["contextointeresse"])) {
+
+		if ($id=="") {
+			if (isset($_POST["contextointeresse"])) {
 				$sensores = $this->M_relcontextointeresse->getByCi($_POST["contextointeresse"]);
 			}
-		}else{
+		} else {
 			$sensores = $this->M_relcontextointeresse->getByCi($id);
 		}
 
 	    echo json_encode($sensores);
 	}
-
 }
 
 ?>

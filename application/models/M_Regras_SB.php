@@ -16,7 +16,7 @@ class M_Regras_SB extends CI_Model{
       $this->db->select('nome, regra_id');
       $this->db->from('regras');
       $this->db->where('sensor_id='.$value);
-      $this->db->where('tipo = 2');
+      $this->db->where('tipo = 4');
       return $this->db->get();
 
     }

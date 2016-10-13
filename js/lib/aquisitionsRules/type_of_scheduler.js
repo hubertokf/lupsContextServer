@@ -9,7 +9,7 @@ define(["jquery","aquisitionsRules/checkbox"], function($,CheckBoxs){
      }
 
      TypeOfScheduler.prototype.setOptions = function () {
-       var option_sensors = [["A cada"],["Exatamente"],["Todos os dias as"],["Todos os meses"]];
+       var option_sensors = [["A cada"],["Exatamente"],["Todos os dias as"],["Todos os meses"],["No intervalo"]];
        for(i = 0; i < option_sensors.length ; i++){
          //Segunda ideia: enviar o id do sensor para o back, lá verifica a borda e a regra
          var option = $('<option>',{ text: option_sensors[i][0],
@@ -33,9 +33,12 @@ define(["jquery","aquisitionsRules/checkbox"], function($,CheckBoxs){
 
        this.select_type.change(function () {
 
-           var  infomarion = $(this).find(":selected").val();
+           var infomarion         = $(this).find(":selected").val();
+           var interval_div       = $("#interval");
+           var option_aquisitions = $("#option_with_check_inputs");
 
-           var input_hide = function(){
+           var input_hide = function(){option_with_check_inputs
+
              days.hide();
              months.hide();
              input_minutes.hide();
@@ -47,9 +50,7 @@ define(["jquery","aquisitionsRules/checkbox"], function($,CheckBoxs){
              input_days.val('');
              input_months.val('');
              $( "input[type='checkbox']" ).prop('checked',false);
-
            }
-
 
            switch (infomarion) {
 
@@ -57,31 +58,38 @@ define(["jquery","aquisitionsRules/checkbox"], function($,CheckBoxs){
                 input_hide();
                 minutes.show();
                 hours.show();
-
-
-
+                interval_div.hide();
+                option_aquisitions.show();
                 break;
+
              case "Exatamente":
-                input_hide();
                 minutes.show();
                 hours.show();
                 days.show();
                 months.show();
+                interval_div.hide();
+                option_aquisitions.show();
                 break;
+
              case "Todos os dias as":
                 input_hide();
                 minutes.show();
                 hours.show();
-
-
+                interval_div.hide();
+                option_aquisitions.show();
                 break;
+
              case "Todos os meses":
                 input_hide();
                 minutes.show();
                 hours.show();
                 days.show();
-
+                interval_div.hide();
                 break;
+
+             case "No intervalo":
+                interval_div.show();
+                option_aquisitions.hide();
 
              default:
               break;
@@ -89,7 +97,6 @@ define(["jquery","aquisitionsRules/checkbox"], function($,CheckBoxs){
            }
        });
      };
-
 
      return TypeOfScheduler;
 });
