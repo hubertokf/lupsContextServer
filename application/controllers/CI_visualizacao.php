@@ -187,7 +187,7 @@
 			for ($i = 0; $i < $dias; $i++) {
 
 				$where = array(
-					'publicacao.sensor_id' => $_SESSION["sensor"],
+					'publicacoes.sensor_id' => $_SESSION["sensor"],
 					'DATE(datacoleta)' => $date
 					);
 
