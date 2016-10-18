@@ -167,6 +167,12 @@ class M_sensores extends CI_Model{
             return $this->db->get('sensores')->result_array();
         }
 
+        function getByUuid($codigo) {
+            $this->db->where("uuid", $codigo);
+            return $this->db->get('sensores');
+
+        }
+
 		function salvaSensor() {
             $arrayCampos  = array(
                 "nome" 				=> $this->sensor_nome,

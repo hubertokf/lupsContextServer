@@ -57,7 +57,6 @@ class CI_publicacoes extends CI_controller {
 
 	function cadastro(){
 		$this->dados["sensores"] = $this->M_sensores->pesquisar('', array(), $nr_pagina="", $this->uri->segment(5));
-		$this->dados["servidorbordas"] = $this->M_servidoresborda->pesquisar('', array(), $nr_pagina="", $this->uri->segment(5));
 		$this->load->view('inc/topo',$this->dados);
 		$this->load->view('inc/menu');
 		$this->load->view('cadastros/publicacao/cadastro');
@@ -65,7 +64,6 @@ class CI_publicacoes extends CI_controller {
 	}
 	
 	function gravar(){
-		$this->form_validation->set_rules('publicacao_servidorborda', 'Descrição', 'trim|required');
 		$this->form_validation->set_rules('publicacao_sensor', 'Sensor', 'trim|required');
 		$this->form_validation->set_rules('publicacao_datapublicacao', 'Data Publicação', 'trim|required');
 		$this->form_validation->set_rules('publicacao_datacoleta', 'Data Coleta', 'trim|required');
@@ -81,7 +79,6 @@ class CI_publicacoes extends CI_controller {
 			}
 		} else	{
 			$this->M_publicacoes->setPublicacaoId($_POST["publicacao_id"]);
-			$this->M_publicacoes->setPublicacaoservidorborda($_POST["publicacao_servidorborda"]);
 			$this->M_publicacoes->setPublicacaoSensor($_POST["publicacao_sensor"]);
 			$this->M_publicacoes->setPublicacaoDataColeta($_POST["publicacao_datacoleta"]);
 			$this->M_publicacoes->setPublicacaoDataPublicacao($_POST["publicacao_datapublicacao"]);
@@ -99,7 +96,6 @@ class CI_publicacoes extends CI_controller {
 
 	function gravaPublicacao(){
 		$this->M_publicacoes->setPublicacaoId("");
-		$this->M_publicacoes->setPublicacaoservidorborda($_POST["publicacao_servidorborda"]);
 		$this->M_publicacoes->setPublicacaoSensor($_POST["publicacao_sensor"]);
 		$this->M_publicacoes->setPublicacaoDataColeta($_POST["publicacao_datacoleta"]);
 		$this->M_publicacoes->setPublicacaoDataPublicacao($_POST["publicacao_datapublicacao"]);

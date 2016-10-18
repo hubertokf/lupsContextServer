@@ -11,8 +11,8 @@
 			}
 			parent::__construct();
 			
-		$this->load->model('M_geral');
-		$this->load->model('M_configuracoes');
+			$this->load->model('M_geral');
+			$this->load->model('M_configuracoes');
 			$this->load->model('M_contextosinteresse');
 			$this->load->model('M_servidorcontexto');
 			$this->load->model('M_gateways');

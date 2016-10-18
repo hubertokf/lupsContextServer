@@ -30,7 +30,6 @@ class Publicacoes extends REST_Controller {
         $this->methods['index_delete']['limit'] = 50; // 50 requests per hour per user/key
 
         //Load Models
-        $this->load->model('M_servidoresborda');
         $this->load->model('M_sensores');
         $this->load->model('M_publicacoes');
     }
@@ -84,8 +83,13 @@ class Publicacoes extends REST_Controller {
             //se veio, o framework já transforma o json para array associativo com os dados
 
             //salva no objeto do model
-            $this->M_publicacoes->setPublicacaoservidorborda($content['servidorborda_id']);
-            $this->M_publicacoes->setPublicacaoSensor($content['sensor_id']);
+            //verifica se a publicação veio com id incremental ou com uuid
+            if (isset($content['sensor_uuid'])) {
+                $sensor = $this->M_sensores->getByUuid($content['sensor_uuid'])->row();
+                $this->M_publicacoes->setPublicacaoSensor($sensor->sensor_id);
+            } else {                
+                $this->M_publicacoes->setPublicacaoSensor($content['sensor_id']);
+            }
             $this->M_publicacoes->setPublicacaoDataColeta($content['datacoleta']);
             $this->M_publicacoes->setPublicacaoDataPublicacao($content['datapublicacao']);
             $this->M_publicacoes->setPublicacaoValorColetado($content['valorcoletado']);
@@ -125,7 +129,6 @@ class Publicacoes extends REST_Controller {
                 //se veio, o framework já transforma o json para array associativo com os dados
                 //salva no objeto do model
                 $this->M_publicacoes->setPublicacaoId($id);
-                $this->M_publicacoes->setPublicacaoservidorborda($content['servidorborda_id']);
                 $this->M_publicacoes->setPublicacaoSensor($content['sensor_id']);
                 $this->M_publicacoes->setPublicacaoDataColeta($content['datacoleta']);
                 $this->M_publicacoes->setPublicacaoDataPublicacao($content['datapublicacao']);

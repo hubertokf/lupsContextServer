@@ -11,26 +11,22 @@
 	    	if ($perm == FALSE){
 		        $this->db->select('pu.*');
 
-				$this->db->select('b.nome as servidorborda_nome');
 				$this->db->select('s.nome as sensor_nome');
 				$this->db->select('ts.unidade as tiposensor_unidade');			
 
 		        $this->db->from('publicacoes as pu');
 
-				$this->db->join('servidoresborda as b', 'pu.servidorborda_id = b.servidorborda_id', 'left');
 				$this->db->join('sensores as s','pu.sensor_id = s.sensor_id', 'left');
 				$this->db->join('tipossensores as ts','s.tiposensor_id = ts.tiposensor_id', 'left');
 		    }else{
 		    	$this->db->select('pu.*');
 
-				$this->db->select('b.nome as servidorborda_nome');
 				$this->db->select('s.nome as sensor_nome');
 				$this->db->select('ts.unidade as tiposensor_unidade');
 	            $this->db->select('p.podeeditar as podeeditar');
 
 		        $this->db->from('publicacoes as pu');
 
-				$this->db->join('servidoresborda as b', 'pu.servidorborda_id = b.servidorborda_id', 'left');
 				$this->db->join('sensores as s','pu.sensor_id = s.sensor_id', 'left');
 
 	            $this->db->join('relcontextointeresse as rci', 'rci.sensor_id = s.sensor_id');
@@ -90,7 +86,6 @@
 
 		function salvar() {
 	        $arrayCampos  = array(
-	            "servidorborda_id"	=> $this->publicacao_servidorborda,
 	            "sensor_id" 		=> $this->publicacao_sensor,
 	            "datacoleta" 		=> $this->publicacao_datacoleta,
 	            "datapublicacao"	=> $this->publicacao_datapublicacao,
@@ -108,7 +103,6 @@
 
 		function salvaPublicacao() {
 	        $arrayCampos  = array(
-	            "servidorborda_id"	=> $this->publicacao_servidorborda,
 	            "sensor_id" 		=> $this->publicacao_sensor,
 	            "datacoleta" 		=> $this->publicacao_datacoleta,
 	            "datapublicacao"	=> $this->publicacao_datapublicacao,
@@ -134,13 +128,11 @@
 	    	if ($perm == FALSE){
 		        $this->db->from('publicacoes as pu');
 
-				$this->db->join('servidoresborda as b', 'pu.servidorborda_id = b.servidorborda_id', 'left');
 				$this->db->join('sensores as s','pu.sensor_id = s.sensor_id', 'left');
 				$this->db->join('tipossensores as ts','s.tiposensor_id = ts.tiposensor_id', 'left');
 		    }else{
 		        $this->db->from('publicacoes as pu');
 
-				$this->db->join('servidoresborda as b', 'pu.servidorborda_id = b.servidorborda_id', 'left');
 				$this->db->join('sensores as s','pu.sensor_id = s.sensor_id', 'left');
 
 	            $this->db->join('relcontextointeresse as rci', 'rci.sensor_id = s.sensor_id');
@@ -175,13 +167,6 @@
 			return $this->publicacao_id;
 		}
 	
-		public function getPublicacaoservidorborda(){
-			if($this->publicacao_servidorborda === NULL) {
-				$this->publicacao_servidorborda = new Publicacaoservidorborda;
-			}
-			return $this->publicacao_servidorborda;
-		}
-	
 		public function getPublicacaoSensor(){
 			if($this->publicacao_sensor === NULL) {
 				$this->publicacao_sensor = new PublicacaoSensor;
@@ -211,23 +196,10 @@
 		}
 			
 		public function setPublicacaoId($valor){
-			if(!is_string($valor)) {
-				throw new InvalidArgumentException('Expected String');
-			}
 			$this->publicacao_id = $valor;
 		}
 	
-		public function setPublicacaoservidorborda($valor){
-			if(!is_string($valor)) {
-				throw new InvalidArgumentException('Expected String');
-			}
-			$this->publicacao_servidorborda = $valor;
-		}
-	
 		public function setPublicacaoSensor($valor){
-			if(!is_string($valor)) {
-				throw new InvalidArgumentException('Expected String');
-			}
 			$this->publicacao_sensor = $valor;
 		}
 	
@@ -246,9 +218,6 @@
 		}
 	
 		public function setPublicacaoValorColetado($valor){
-			if(!is_string($valor)) {
-				throw new InvalidArgumentException('Expected String');
-			}
 			$this->publicacao_valorcoletado = $valor;
 		}			
 	}

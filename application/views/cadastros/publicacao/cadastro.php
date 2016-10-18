@@ -2,7 +2,6 @@
 	if(isset($registro)){
 		foreach ($registro->result() as $linha){
 			$publicacao_id 				=	$linha->publicacao_id;
-			$publicacao_servidorborda			=	$linha->servidorborda_id;
 			$publicacao_sensor			=	$linha->sensor_id;
 			$publicacao_datacoleta		=	$linha->datacoleta;
 			$publicacao_datapublicacao	=	$linha->datapublicacao;
@@ -26,28 +25,6 @@
                 <div class="col-sm-4 col-sm-offset-4">
                     <div class="cadastro-box">
 		            	<input type="hidden" name="publicacao_id" value="<?php echo @$publicacao_id;?>">
-
-						<div class="row">
-                            <div class="col-xs-10 col-xs-offset-1 input">
-                                <label for="publicacao_servidorborda">Servidor de borda:</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-10 col-xs-offset-1 input">
-                                <select name="publicacao_servidorborda" id="publicacao_servidorborda">
-									<option value="">Selecione...</option>
-									<?php										
-										foreach ($servidorbordas->result() as $servidorborda){
-                                            $selected = "";
-											if ($servidorborda->servidorborda_id==@$publicacao_servidorborda){
-												$selected = "selected";
-											}
-											echo '<option value="'.$servidorborda->servidorborda_id.'" '.$selected.'>'.$servidorborda->nome.'</option>';
-										}
-									?>
-								</select>
-                            </div>
-                        </div>
 
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1 input">
