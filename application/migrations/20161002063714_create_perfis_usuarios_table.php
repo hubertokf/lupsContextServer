@@ -27,7 +27,7 @@ class CreatePerfisUsuariosTable extends AbstractMigration{
     public function change(){
         $table = $this->table('perfisusuarios', array('id' => 'perfilusuario_id'));
         $table->addColumn('nome', 'string', array('null' => true))
-              ->addColumn('descricao', 'string')
+              ->addColumn('descricao', 'string', array('null' => true))
               ->create();
     }
 }

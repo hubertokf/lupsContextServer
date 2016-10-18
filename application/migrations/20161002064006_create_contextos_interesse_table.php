@@ -28,8 +28,8 @@ class CreateContextosInteresseTable extends AbstractMigration{
         $table = $this->table('contextosinteresse', array('id' => 'contextointeresse_id'));
         $table->addColumn('servidorcontexto_id', 'integer')
               ->addColumn('nome', 'string')
-              ->addColumn('publico', 'boolean')
-              ->addColumn('regra_id', 'integer')
+              ->addColumn('publico', 'boolean',array('default' => '1'))
+              ->addColumn('regra_id', 'integer', array('null' => true))
               ->addForeignKey('servidorcontexto_id', 'servidorcontexto', 'servidorcontexto_id', array('delete'=> 'NO_ACTION', 'update'=> 'CASCADE'))
               ->addForeignKey('regra_id', 'regras', 'regra_id', array('delete'=> 'SET_NULL', 'update'=> 'CASCADE'))
               ->create();
