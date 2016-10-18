@@ -72,7 +72,7 @@ class M_contextosinteresse extends CI_Model {
 
         function selecionar($codigo) {
             $this->db->where("contextointeresse_id", (string)$codigo);
-            $query =  $this->db->get('contextointeresse')->result_array();
+            $query =  $this->db->get('contextosinteresse')->result_array();
 
             foreach($query as $i=>$contextointeresse) {
 	   	    	$this->db->select('*');

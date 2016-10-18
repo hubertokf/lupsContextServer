@@ -56,7 +56,7 @@
 			}else{
 				$sensores = $this->M_contextosinteresse->selecionar($id);
 			}
-
+			print_r($sensores[0]);
 		    echo json_encode($sensores[0]['sensores']);
 		}
 
