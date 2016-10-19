@@ -8,53 +8,54 @@ class M_contextosinteresse extends CI_Model {
 	private $contextointeresse_regra;
 	private $contextointeresse_trigger;
 
-  function pesquisar($select='', $where=array(), $limit=10, $offset=0, $ordem='asc', $perm=FALSE) {
-          if ($perm == FALSE){
+  	function pesquisar($select='', $where=array(), $limit=10, $offset=0, $ordem='asc', $perm=FALSE) {
+      	if ($perm == FALSE){
 
-							$this->db->select('ci.*');
-	            $this->db->select('r.nome as regra_nome');
+			$this->db->select('ci.*');
+            $this->db->select('r.nome as regra_nome');
 
-	            $this->db->from('contextosinteresse as ci');
-	            $this->db->join('regras as r', 'ci.regra_id = r.regra_id','left');
+            $this->db->from('contextosinteresse as ci');
+            $this->db->join('regras as r', 'ci.regra_id = r.regra_id','left');
 
-	        }else{
-	        		$this->db->select('ci.*');
-	        		$this->db->select('r.nome as regra_nome');
-	            $this->db->select('p.podeeditar as podeeditar');
+        }else{
+    		$this->db->select('ci.*');
+    		$this->db->select('r.nome as regra_nome');
+            $this->db->select('p.podeeditar as podeeditar');
 
-	            $this->db->from('contextosinteresse as ci');
+            $this->db->from('contextosinteresse as ci');
 
-	            $this->db->join('permissoes as p', 'ci.contextointeresse_id = p.contextointeresse_id', 'inner');
-	            $this->db->join('regras as r', 'ci.regra_id = r.regra_id','left');
-	        }
+            $this->db->join('permissoes as p', 'ci.contextointeresse_id = p.contextointeresse_id', 'inner');
+            $this->db->join('regras as r', 'ci.regra_id = r.regra_id','left');
+        }
 
-            $this->db->where($where);
-						$this->db->where('r.tipo = 1');
-						$this->db->or_where('r.tipo = 3');
-            $this->db->order_by('nome',$ordem);
-       	    $this->db->limit($limit, $offset);
+        $this->db->where($where);
+		$this->db->where('r.tipo = 1');
+		$this->db->or_where('r.tipo = 3');
+		$this->db->or_where('r.tipo = ');
+        $this->db->order_by('nome',$ordem);
+   	    $this->db->limit($limit, $offset);
 
-            $query = $this->db->get()->result_array();
+        $query = $this->db->get()->result_array();
 
-			// Query #2
+		// Query #2
 
-			/*$this->db->select('ci.*');
-            $this->db->from('contextointeresse as ci');
-            $this->db->where(array('publico' => 'TRUE'));
-			$query2 = $this->db->get()->result_array();
+		/*$this->db->select('ci.*');
+        $this->db->from('contextointeresse as ci');
+        $this->db->where(array('publico' => 'TRUE'));
+		$query2 = $this->db->get()->result_array();
 
-			// Merge both query results
+		// Merge both query results
 
-			$query = array_unique(array_merge($query, $query2), SORT_REGULAR);*/
+		$query = array_unique(array_merge($query, $query2), SORT_REGULAR);*/
 
-				$result = array();
-				foreach($query as $arr){
-			   	if(!isset($result[$arr["contextointeresse_id"]])){
-			      	$result[$arr["contextointeresse_id"]] = $arr;
-			   	}
-				}
+		$result = array();
+		foreach($query as $arr){
+		   	if(!isset($result[$arr["contextointeresse_id"]])){
+		      	$result[$arr["contextointeresse_id"]] = $arr;
+		   	}
+		}
 
-	   	  foreach($result as $i=>$contextointeresse) {
+   	  	foreach($result as $i=>$contextointeresse) {
 	   	    $this->db->select('*');
             $this->db->select('s.nome as sensor_nome');
 

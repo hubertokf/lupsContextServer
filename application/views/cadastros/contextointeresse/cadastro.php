@@ -45,7 +45,7 @@
                         <div class="row">
                             <div class="col-xs-9 col-xs-offset-1">
                                 <select name="contextointeresse_regra">
-                                    <option value="" selected="" disabled="">Selecione...</option>
+                                    <option value="" selected="">Selecione...</option>
                                     <?php
                                         $selected = "";
                                         foreach ($regras->result() as $regra){
