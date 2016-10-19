@@ -32,6 +32,7 @@ class Publicacoes extends REST_Controller {
         //Load Models
         $this->load->model('M_sensores');
         $this->load->model('M_publicacoes');
+        $this->load->model('M_relcontextointeresse');
     }
     // Requisições GET enviadas para o index.
     public function index_get(){
@@ -73,6 +74,8 @@ class Publicacoes extends REST_Controller {
 
     public function index_post(){
         $content = $this->post('content');
+        $local = "/home/taina/Documentos/contextServer/regrasPy/";
+
         //verifica se o content da requisição veio
         if ($content === NULL || empty($content)){
             //se não veio, retorna erro 204 (no content)
@@ -93,18 +96,70 @@ class Publicacoes extends REST_Controller {
             $this->M_publicacoes->setPublicacaoDataColeta($content['datacoleta']);
             $this->M_publicacoes->setPublicacaoDataPublicacao($content['datapublicacao']);
             $this->M_publicacoes->setPublicacaoValorColetado($content['valorcoletado']);
-            //salva o model no banco
-            if ($this->M_publicacoes->salvar() == "inc"){
-                //se retornou inc, está salvo no banco
-                $message = "Dados registrados com sucesso!";
-                // retorna 201 (criado)
-                $this->set_response($message, REST_Controller::HTTP_CREATED);
-            }else{
-                //se não retornou inc
-                $message = "Dados não registrados com sucesso!";
-                // retorna 409 (conflito)
-                $this->set_response($message, REST_Controller::HTTP_CONFLICT);
+
+            //pega do BANCO o ambiente_id o qual aquele sensor estah instalado, valormax e min do sensor, e status do ambiente
+            $sensor = $this->M_sensores->selecionar($content['sensor_id'])->result_array();
+            print_r($sensor);
+            //Se o sensor estiver desativado ou estiver num ambiente desativado, nao sera feita a publicacao na base de dados
+            if($sensor[0]["ambiente_status"]=='t'){
+                if($sensor[0]["status"]=='t'){
+                    //verifica se valor coletado é um codigo de erro
+                    if($content['valorcoletado'] < 990){
+                        //salva o model no banco
+                        //if ($this->M_publicacoes->salvar() == "inc"){
+                        if (true){
+                            //se retornou inc, está salvo no banco
+                            $message = "Dados registrados com sucesso!";
+
+                            $regras = $this->M_relcontextointeresse->getBySensor($content['sensor_id'])->result_array();
+                            print_r($regras);
+
+                            foreach ($regras as $regra) {
+                                if ($regra['ativaregra'] == 't'){
+                                    if($regra['regra_id']!='null' and $regra['regra_tipo']=='1' and $regra['regra_status']=='t' and $regra['regra_arquivo']!='null'){
+                                        // EXECUTA REGRA PYTHON
+                                        $cmd = "python " + $local +""+$regra['regra_arquivo']+" "+$regra['regra_arquivo']+" "+$regra['sensor_id'];
+                                        echo $cmd;
+
+                                    }elseif($regra['regra_id']!='null' and $regra['regra_tipo'] and $regra['regra_status']=='t' and $regra['regra_arquivo']!='null') {
+                                        /*sql = 'SELECT nome FROM sensores WHERE sensor_id={0}'.format(sensor_id)
+                                        cur.execute(sql)
+                                        nome_sensor = cur.fetchall()
+                                        date = datetime.now()
+                                        print('''--------------------------------------------------------------------\nRegra {0} disparada\nContexto deadapt interesee:{1} \nsensor {2}\nHorário de execução: {3}\n--------------------------------------------------------------------'''.format(item[7],item[8],nome_sensor[0][0],date.strftime("%A, %d. %B %Y %I:%M%p")))
+                                        rules = EngineRule()
+                                        rules.run_rules(r_arquivo)*/
+                                    }
+                                }
+                            }
+
+                            // retorna 201 (criado)
+                            $this->set_response($message, REST_Controller::HTTP_CREATED);
+                        }else{
+                            //se não retornou inc
+                            $message = "Dados não registrados com sucesso!";
+                            // retorna 409 (conflito)
+                            $this->set_response($message, REST_Controller::HTTP_CONFLICT);
+                        }
+                    }else{
+                        // ENVIA EMAIL DE VALOR DE ERRO
+                        /*emailde = "no-reply@cpact.embrapa.br"
+                        valor_coleta = str(valor_flt)
+                        assunto = "Erro PlenUS: %s - %s"%(servidorborda_nome, sensor_nome)
+
+                        mensagem = "Erro PlenUS: Sensor desconectado \n\nServidor de Borda: "+str(servidorborda_nome)+" \nSensor: "+str(sensor_nome)+" \nData coleta: "+str(data_publicacao)+" \nValor coletado: "+str(valor_coleta)+"\n\n\n"
+                        sql = "SELECT email FROM usuario WHERE perfilusuario_id = 2"
+                        cur.execute(sql)
+                        emails = cur.fetchall()
+                        for email in emails:
+                            #email destino
+                            emailpara = email[0]
+                            #envia mensagem
+                            mail(emailde,emailpara,assuntoadapt,mensagem)*/
+                    }
+                }
             }
+
         }
     }
 

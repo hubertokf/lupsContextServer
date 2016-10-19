@@ -60,6 +60,25 @@ class M_relcontextointeresse extends CI_Model {
         $this->db->where(array("contextointeresse_id"=>$codigo,"ativaregra"=>"TRUE"));
         return $this->db->get()->result_array();
     }
+
+    function getBySensor($codigo){
+
+        $this->db->select('rci.*');
+        $this->db->select('r.tipo as regra_tipo');
+        $this->db->select('r.arquivo_py as regra_arquivo');
+        $this->db->select('r.status as regra_status');
+        $this->db->select('r.regra_id as regra_id');
+        $this->db->select('r.nome as regra_nome');
+        $this->db->select('ci.nome as ci_nome');
+
+        $this->db->from('relcontextointeresse as rci');
+
+        $this->db->join('contextosinteresse as ci', 'ci.contextointeresse_id = rci.contextointeresse_id');
+        $this->db->join('regras as r', 'r.regra_id = ci.regra_id', 'left');
+
+        $this->db->where(array("rci.sensor_id"=>$codigo));
+        return $this->db->get();
+    }
 }
 			
 // Getters and Setters 

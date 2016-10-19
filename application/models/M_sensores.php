@@ -29,6 +29,7 @@ class M_sensores extends CI_Model{
             $this->db->select('f.nome as fabricante_nome');
             $this->db->select('t.nome as tiposensor_nome');
             $this->db->select('e.nome as ambiente_nome');
+            $this->db->select('e.status as ambiente_status');
             $this->db->select('g.nome as gateway_nome');
             $this->db->select('b.nome as servidorborda_nome');
 
@@ -53,6 +54,7 @@ class M_sensores extends CI_Model{
             $this->db->select('f.nome as fabricante_nome');
             $this->db->select('t.nome as tiposensor_nome');
             $this->db->select('e.nome as ambiente_nome');
+            $this->db->select('e.status as ambiente_status');
             $this->db->select('g.nome as gateway_nome');
             $this->db->select('b.nome as servidorborda_nome');
             $this->db->select('p.podeeditar as podeeditar');
@@ -119,10 +121,13 @@ class M_sensores extends CI_Model{
 		$this->db->select('s.*');
 
 		$this->db->select('t.unidade as unidade');
+        $this->db->select('e.nome as ambiente_nome');
+        $this->db->select('e.status as ambiente_status');
 
 		$this->db->from('sensores as s');
 
 		$this->db->join('tipossensores as t', 's.tiposensor_id = t.tiposensor_id', 'left');
+        $this->db->join('ambientes as e', 's.ambiente_id = e.ambiente_id', 'left');
 
 		$this->db->where("sensor_id", $codigo);
 		return $this->db->get();
