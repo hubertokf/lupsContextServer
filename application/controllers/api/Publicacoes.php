@@ -75,8 +75,8 @@ class Publicacoes extends REST_Controller {
 
     public function index_post(){
         $content = $this->post('content');
-        $local = "/var/www/gic2/regras/novas/";
-        $localMotor = "/var/www/gic2/regras/motor/";
+        $local = FCPATH."regras/";
+        $localMotor = FCPATH."motorRegras/";
 
         //verifica se o content da requisição veio
         if ($content === NULL || empty($content)){
