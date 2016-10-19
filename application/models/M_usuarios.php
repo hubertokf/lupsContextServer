@@ -45,6 +45,11 @@
             return $this->db->get('usuarios');
         }
 
+        function selByPerfilUsuario($codigo) {
+            $this->db->where("perfilusuario_id", $codigo);
+            return $this->db->get('usuarios');
+        }
+
         function countUsuarioMenu($usuario_id){
         	$this->db->select('rmp.*');
             $this->db->from('usuarios as u');

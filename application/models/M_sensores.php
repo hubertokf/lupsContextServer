@@ -123,11 +123,13 @@ class M_sensores extends CI_Model{
 		$this->db->select('t.unidade as unidade');
         $this->db->select('e.nome as ambiente_nome');
         $this->db->select('e.status as ambiente_status');
+        $this->db->select('sb.nome as servidorborda_nome');
 
 		$this->db->from('sensores as s');
 
 		$this->db->join('tipossensores as t', 's.tiposensor_id = t.tiposensor_id', 'left');
         $this->db->join('ambientes as e', 's.ambiente_id = e.ambiente_id', 'left');
+		$this->db->join('servidoresborda as sb','sb.servidorborda_id = s.servidorborda_id');
 
 		$this->db->where("sensor_id", $codigo);
 		return $this->db->get();
