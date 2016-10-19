@@ -39,7 +39,6 @@ class CI_contextosinteresse extends CI_controller {
 		else
 			$this->dados["linhas"] = $this->M_contextosinteresse->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5), 'asc', TRUE);
 
-		// print_r($this->M_contextosinteresse->pesquisar('', array(), $nr_pagina, $this->uri->segment(5), 'asc', FALSE));
 		$this->dados["nr_pagina"] = $nr_pagina;
 		$this->dados["total"] = $this->M_contextosinteresse->numeroLinhasTotais();
 		$this->dados["tituloPesquisa"] = "Contextos de Interesses Cadastrados";
@@ -61,7 +60,7 @@ class CI_contextosinteresse extends CI_controller {
 		else
 			$this->dados["sensores"] = $this->M_sensores->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 100, 0, 'asc', TRUE);
 
-		$this->dados["regras"] = $this->M_regras->pesquisar();
+		$this->dados["regras"] = $this->M_regras->pesquisar('',array('r.tipo '=>3),'','', '', '','',array('r.tipo '=>1));
 		// print_r($this->dados["regras"]->result_array());
 		$this->load->view('inc/topo',$this->dados);
 		$this->load->view('inc/menu');

@@ -10,7 +10,7 @@ class M_regras extends CI_Model {
 	private $regra_arquivo_py;
 	private $id_regra_borda;
 
-        function pesquisar($select='', $where=array(), $limit=10, $offset=0, $ordem='asc', $perm=FALSE,$sens='') {
+        function pesquisar($select='',$where=array(), $limit=10, $offset=0, $ordem='asc', $perm=FALSE,$sens='',$or_where=array() ) {
         	if ($perm == FALSE){
 	            $this->db->select('r.*');
 
@@ -42,10 +42,11 @@ class M_regras extends CI_Model {
 	            // $this->db->join('contextointeresse as ci', 'ci.contextointeresse_id = rci.contextointeresse_id', 'left');
 	            // $this->db->join('sensor as s', 's.sensor_id = rci.sensor_id', 'left');
 	        }
-
-            $this->db->where($where);
+						$this->db->where($where);
+            $this->db->or_where($or_where);
             $this->db->order_by('r.nome',$ordem);
        	    $this->db->limit($limit, $offset);
+
             return $this->db->get();
         }
 
@@ -104,9 +105,9 @@ class M_regras extends CI_Model {
 		    }
 		}
 
-		function numeroLinhasTotais($select='', $where=array()) {
-	    	$this->db->where($where);
-
+		function numeroLinhasTotais($select='', $where=array(), $or_where=array()) {
+	    		$this->db->where($where);
+					$this->db->or_where($or_where);
 	        $this->db->from('regras');
 	        return $this->db->count_all_results();
 	    }

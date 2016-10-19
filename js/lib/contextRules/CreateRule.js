@@ -169,7 +169,6 @@ define(["jquery","bootbox"],function ($,bootbox) {
             before['parameters']   = parameters;
             all['all'].push(before);
             before                 = {};
-            // console.log(JSON.stringify(all));
             parameters             = {};
             before['name']         = this.compose_rule['conditions'][i+1];
             before['operator']     = this.compose_rule['compare'][i+1];
@@ -178,9 +177,6 @@ define(["jquery","bootbox"],function ($,bootbox) {
             parameters['url']      = this.compose_rule['url'][i+1];
             before['parameters']   = parameters;
             all['all'].push(before);
-
-            // rule['any'].push(all);
-
             i = i + 2;
           }
           else if(this.compose_rule['logic_op'][i-1] == "all"){

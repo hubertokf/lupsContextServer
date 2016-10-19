@@ -29,6 +29,8 @@ class M_contextosinteresse extends CI_Model {
 	        }
 
             $this->db->where($where);
+						$this->db->where('r.tipo = 1');
+						$this->db->or_where('r.tipo = 3');
             $this->db->order_by('nome',$ordem);
        	    $this->db->limit($limit, $offset);
 
@@ -66,7 +68,7 @@ class M_contextosinteresse extends CI_Model {
 
 			   		$result[$i]['sensores'] = $sensor_query;
 					}
-					
+
 	        return $result;
         }
 
