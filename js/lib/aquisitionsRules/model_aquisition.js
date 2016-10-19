@@ -1,3 +1,4 @@
+
 define(["jquery","bootbox"],function($,bootbox) {
   var path       = window.location.pathname.split('/');
 
@@ -129,7 +130,7 @@ define(["jquery","bootbox"],function($,bootbox) {
       this.send_scheduler();
     }
   }
-MpdelAquisition.prototype.generate_rule_interval = function () {
+ModelAquisition.prototype.generate_rule_interval = function () {
 
   var init          = $('#init').val();
   var finish        = $('#finish').val();
@@ -292,8 +293,6 @@ MpdelAquisition.prototype.generate_rule_interval = function () {
     // console.log(this.rules_scheduler);
   };
   //--------- fim ------------------
-
-  /
 
   ModelAquisition.prototype.edit_view_rule = function (id_rule) {
       // console.log("passou");

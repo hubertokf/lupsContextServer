@@ -39,12 +39,11 @@ class CI_regras_context extends CI_controller {
 	function pesquisa($nr_pagina=20 ){
 		$this->dados["metodo"] = "pesquisa";
 		if ($this->session->userdata('perfilusuario_id') == 2)
-			$this->dados["linhas"] = $this->M_regras->pesquisar('', array('r.tipo !='=>2,'r.tipo !='=>4), $nr_pagina, $this->uri->segment(5), 'asc', FALSE,3);
+			$this->dados["linhas"] = $this->M_regras->pesquisar('',array('r.tipo '=>3), $nr_pagina, $this->uri->segment(5), 'asc', FALSE,3,array('r.tipo '=>1));
 		else
-			$this->dados["linhas"] = $this->M_regras->pesquisar('', array('r.tipo !='=>2,'r.tipo !='=>4,'p.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5), 'asc', TRUE,3);
-
+			$this->dados["linhas"] = $this->M_regras->pesquisar('',array('r.tipo '=>3,'p.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5), 'asc', TRUE,3,array('r.tipo '=>1));
 		$this->dados["nr_pagina"]      = $nr_pagina;
-		$this->dados["total"]          = $this->M_regras->numeroLinhasTotais('',array('tipo !='=>2,'tipo !='=>4));
+		$this->dados["total"]          = $this->M_regras->numeroLinhasTotais('',array('tipo '=>1),array('tipo '=>3));
 		$this->dados["tituloPesquisa"] = "Regras Cadastradas";
 		$pag['base_url']               = base_url.$this->dados["caminho"]."/".$this->dados["metodo"]."/".$nr_pagina."/";
 		$pag['total_rows']             = $this->dados["total"];
@@ -56,6 +55,7 @@ class CI_regras_context extends CI_controller {
 		$this->load->view('inc/topoPesquisa');
 		$this->load->view('cadastros/regras_cs/pesquisa');
 		$this->load->view('inc/rodape');
+
 	}
 
 	function cadastro($value = ""){
@@ -95,8 +95,36 @@ class CI_regras_context extends CI_controller {
 		}
 		$this->pesquisa();
 		// echo json_encode($get_test,JSON_FORCE_OBJECT);
+	}
+	function gravar_python(){
+		$this->form_validation->set_rules('regra_nome', 'Nome', 'trim|required');
+		$this->form_validation->set_rules('regra_status', 'Status', 'trim|required');
+		$this->form_validation->set_rules('regra_tipo', 'Tipo', 'trim|required');
+		$this->form_validation->set_rules('regra_tipo', 'Tipo', 'trim|required');
+		$this->form_validation->set_error_delimiters('<div class="field-errors">', '</div>');
+		$this->form_validation->set_message('required', 'Você deve preencher o campo "%s".');
+		if ($this->form_validation->run() == FALSE) {
+			if ($_POST['regra_id'] != "") {
+				$this->editar($_POST['regra_id']);
+			} else {
+				$this->cadastro();
+			}
 
-
+		} else {
+			$this->M_regras->setRegraId($_POST["regra_id"]);
+			$this->M_regras->setRegraNome($_POST["regra_nome"]);
+			$this->M_regras->setRegraStatus($_POST["regra_status"]);
+			$this->M_regras->setRegraTipo($_POST["regra_tipo"]);
+			$this->M_regras->setRegraArquivoPy($_POST["regra_arquivo_py"]);
+			if ($this->M_regras->salvar() == "inc"){
+				$this->dados["msg"] = "Dados registrados com sucesso!";
+				$this->pesquisa();
+			}
+			else {
+				$this->dados["msg"] = "Dados alterados com sucesso!";
+				$this->pesquisa();
+			}
+		}
 	}
 
 	function excluir($id=""){
@@ -195,7 +223,7 @@ class CI_regras_context extends CI_controller {
 			if($v['tipo']=="Estado de Evento"){
 					$tipo = 'string';
 			}
-				$obj      = array('url'=> $v['url'],'nome_legivel'=>$v['tipo']." do".$v['nome'],'tipo'=>$tipo,"sensor"=>$v['id_sensor'],'nome' => 'get_verify_sensor');
+				$obj      = array('url'=> $v['url'],'nome_legivel'=>$v['tipo']." do".$v['nome'],'tipo'=>$tipo,"sensor"=>$v['sensor_id'],'nome' => 'get_verify_sensor');
 				$obj      = json_encode($obj,JSON_FORCE_OBJECT);
 				$output[] = $obj;
 					}

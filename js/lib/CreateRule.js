@@ -24,7 +24,6 @@ define(["jquery","bootbox"],function ($,bootbox) {
         compose_rule['actions']        = [];
         compose_rule['url']            = [];
         //-----------inicia coleta:
-        // atributo this não podem ser inseridos em funções do tipo each, change,
         $('.form-control.select_rules_context.compare').each(function(){
             compose_rule['compare'].push($(this).val());
         });
@@ -93,10 +92,10 @@ define(["jquery","bootbox"],function ($,bootbox) {
     var i               = 0;
     var before          = {}; // objeto de condição
     var parameters      = {};
-    var rule        = {}; //  este vetor é o vetor pase para criar as regras
-    var all         = {}; // vetor para combinação secundárias, do tipo all
-    rule['any']     = [];  //  este vetor é o vetor pase para criar as regras
-    all['all']      = []; // vetor para combinação secundárias, do tipo all
+    var rule            = {}; //  este vetor é o vetor pase para criar as regras
+    var all             = {}; // vetor para combinação secundárias, do tipo all
+    rule['any']         = [];  //  este vetor é o vetor pase para criar as regras
+    all['all']          = []; // vetor para combinação secundárias, do tipo all
 
 
     do {

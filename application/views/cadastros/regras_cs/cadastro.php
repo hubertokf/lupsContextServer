@@ -39,7 +39,7 @@
               <label for="type-rule-select">Tipo de regra:</label>
               <select id="type-rule-select" <?php echo (isset($regra_tipo)) ? ' disabled' : ''; ?>>
                 <option value="1" <?php echo (isset($regra_tipo) && $regra_tipo == '1') ? ' selected="selected"' : ''; ?>>Regra Python</option>
-                <?php 
+                <?php
 
                   if (isset($regra_tipo) && $regra_tipo == '3'){
                     ?>
@@ -48,16 +48,16 @@
                   }elseif (!isset($regra_tipo)) {
                     ?>
                     <option value="3" selected="selected">Motor de regras</option>
-                    <?php 
+                    <?php
                   }
 
                  ?>
               </select>
             </div>
-          </div>          
+          </div>
         </div>
         <div id="python-rule" style="display: none;">
-          <form name="formCadastro" id="formCadastro" method="post" action="./gravar">
+          <form name="formCadastro" id="formCadastro" method="post" action="./gravar_python">
             <div class="row">
                 <div class="col-xs-12">
                     <div class="tituloCadastros">
@@ -70,7 +70,7 @@
                 <div class="col-sm-6 col-sm-offset-3">
                     <div class="cadastro-box">
                   <input type="hidden" name="regra_id" value="<?php echo @$regra_id;?>">
-                        
+
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1 input">
                                 <label for="regra_nome">Nome:</label>
@@ -117,12 +117,12 @@
                   <?php echo validation_errors(); ?>
                 </div>
               </div>
-            </div>                        
+            </div>
                         <div class="row">
                             <div class="submit">
                                 <div class="col-md-6 col-md-offset-3">
                                     <input type="submit" name="botao" value="Cadastrar" />
-                                </div>          
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -175,6 +175,6 @@
           </div>
         </div>
         </div>
-         
+
       </div>
 </section>
