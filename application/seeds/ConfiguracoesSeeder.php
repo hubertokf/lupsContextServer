@@ -13,10 +13,15 @@ class ConfiguracoesSeeder extends AbstractSeed{
      */
     public function run(){
         $data = array(
-            array(
-                'titulo' => 'Servidor de Contexto', 
-                'img_cabecalho' => 'network-782707_640.png', 
-                'img_projeto' => 'logotipo_lups_descricao.png')
+            array('titulo' => 'Servidor de Contexto'),
+            array('titulo_projeto' => 'EXEHDA'),
+            array('img_cabecalho' => 'network-782707_640.png'),
+            array('img_projeto' => 'logotipo_lups_descricao.png'),
+            array('cor_predominante' => '#142b55'),
+            array('email_host' => 'ssl://smtp.googlemail.com'),
+            array('email_port' => '465'),
+            array('email_user' => 'mmadrugadeazevedo'),
+            array('email_pass' => 'hacker22')
         );
 
         $posts = $this->table('configuracoes');

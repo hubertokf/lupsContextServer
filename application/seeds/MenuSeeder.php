@@ -116,16 +116,10 @@ class MenuSeeder extends AbstractSeed{
                 'caminho' => 'cadastros/CI_contextosinteresse', 
                 'ordem' => 0),
             array(
-                'menu_id' => 39,
-                'nome' => 'Personalizar perfil',
-                'parente' =>  '6', 
-                'caminho' => 'configuracoes/CI_configuracoes/personaliza', 
-                'ordem' => 5),
-            array(
                 'menu_id' => 40,
-                'nome' => 'Configurações Gerais',
+                'nome' => 'Configurações',
                 'parente' =>  '6', 
-                'caminho' => 'configuracoes/CI_configuracoes/geral', 
+                'caminho' => 'configuracoes/CI_configuracoes/', 
                 'ordem' => 0),
             array(
                 'menu_id' => 41,

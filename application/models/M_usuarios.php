@@ -9,6 +9,10 @@
 		private $usuario_telefone;
 		private $usuario_celular;
 		private $usuario_token;
+		private $usuario_website_titulo;
+		private $usuario_img_cabecalho;
+		private $usuario_img_projeto;
+		private $usuario_cor_predominante;
 		  
         function __construct() {
         	parent::__construct();
@@ -67,7 +71,11 @@
                 "email" 				=> $this->usuario_email,						
                 "telefone" 				=> $this->usuario_telefone,						
                 "celular"				=> $this->usuario_celular,
-                "token"					=> $this->usuario_token
+                "token"					=> $this->usuario_token,
+                "website_titulo"		=> $this->usuario_website_titulo,	
+				"img_cabecalho"			=> $this->usuario_img_cabecalho,
+				"img_projeto"			=> $this->usuario_img_projeto,	
+				"cor_predominante"		=> $this->usuario_cor_predominante
             );
 			if ($this->usuario_id == ""){
 	            $this->db->insert('usuarios', $arrayCampos);
@@ -160,6 +168,34 @@
 			return $this->usuario_token;
 		}
 
+		public function getUsuarioWebsiteTitulo(){
+			if($this->website_titulo === NULL) {
+				$this->website_titulo = new UsuarioWebsiteTitulo;
+			}
+			return $this->website_titulo;
+		}
+
+		public function getUsuarioImgCabecalho(){
+			if($this->img_cabecalho === NULL) {
+				$this->img_cabecalho = new UsuarioImgCabecalho;
+			}
+			return $this->img_cabecalho;
+		}
+
+		public function getUsuarioImgProjeto(){
+			if($this->img_projeto === NULL) {
+				$this->img_projeto = new UsuarioImgProjeto;
+			}
+			return $this->img_projeto;
+		}
+
+		public function getUsuarioCorPredominante(){
+			if($this->cor_predominante === NULL) {
+				$this->cor_predominante = new UsuarioCorPredominante;
+			}
+			return $this->cor_predominante;
+		}
+
 		public function setUsuarioId($valor){
 			if(!is_string($valor)) {
 				throw new InvalidArgumentException('Expected String');
@@ -221,6 +257,34 @@
 				throw new InvalidArgumentException('Expected String');
 			}
 			$this->usuario_token = $valor;
+		}
+
+		public function setUsuarioWebsiteTitulo($valor){
+			if(!is_string($valor)) {
+				throw new InvalidArgumentException('Expected String');
+			}
+			$this->website_titulo = $valor;
+		}
+
+		public function setUsuarioImgCabecalho($valor){
+			if(!is_string($valor)) {
+				throw new InvalidArgumentException('Expected String');
+			}
+			$this->img_cabecalho = $valor;
+		}
+
+		public function setUsuarioImgProjeto($valor){
+			if(!is_string($valor)) {
+				throw new InvalidArgumentException('Expected String');
+			}
+			$this->img_projeto = $valor;
+		}
+
+		public function setUsuarioCorPredominante($valor){
+			if(!is_string($valor)) {
+				throw new InvalidArgumentException('Expected String');
+			}
+			$this->cor_predominante = $valor;
 		}
 
 	}

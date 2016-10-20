@@ -10,6 +10,10 @@
 			$usuario_telefone			= $linha->telefone;
 			$usuario_celular			= $linha->celular;
 			$usuario_cadastro			= $linha->cadastro;
+			$usuario_website_titulo		= $linha->website_titulo;
+			$usuario_img_cabecalho		= $linha->img_cabecalho;
+			$usuario_img_projeto		= $linha->img_projeto;
+			$usuario_cor_predominante	= $linha->cor_predominante;
 		}
 	}
 ?>
@@ -120,6 +124,50 @@
 		            			<input type="text" class="campo-obrigatorio" name="usuario_celular" value="<?php echo @$usuario_celular;?>" />
 		            		</div>
 						</div>
+
+						<div class="row">
+                            <div class="col-xs-10 col-xs-offset-1 input">
+                                <label for="usuario_website_titulo">Titulo da Aplicação: (opcional)</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-10 col-xs-offset-1 input">
+                                <input type="text" name="usuario_website_titulo" value="<?php echo @$usuario_website_titulo;?>" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-10 col-xs-offset-1 input">
+                                <label for="usuario_img_cabecalho">Imagem de cabeçalho: (opcional)</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-10 col-xs-offset-1 input">
+                                <input type="file" id="fileuploader" name="usuario_img_cabecalho" size="30" value="<?php echo @$usuario_img_cabecalho;?>"/>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-10 col-xs-offset-1 input">
+                                <label for="usuario_img_projeto">Imagem de projeto: (opcional)</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-10 col-xs-offset-1 input">
+                                <input type="file" id="fileuploader" name="usuario_img_projeto" size="30" value="<?php echo @$usuario_img_projeto;?>"/>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-10 col-xs-offset-1 input">
+                                <label for="usuario_cor_predominante">Cor Predominante: (opcional)</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-10 col-xs-offset-1 input">
+                                <input type="text" name="usuario_cor_predominante" value="<?php echo @$usuario_cor_predominante;?>" />
+                            </div>
+                        </div>
 						
 						<div class="row">
 							<div class="col-xs-10 col-xs-offset-1">

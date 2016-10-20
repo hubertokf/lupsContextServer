@@ -21,10 +21,11 @@ class CI_login extends CI_Controller {
 		$random_word= str_shuffle($str);
 		$random_word= substr($random_word,0,5);		
 		$this->dados['captcha']=$random_word;
-		if (isset($this->M_configuracoes->selByUser($this->session->userdata('usuario_id'))->result_array()[0]["titulo"]))
-			$this->dados['title'] = $this->M_configuracoes->selByUser($this->session->userdata('usuario_id'))->result_array()[0]["titulo"];
-		else
-			$this->dados['title'] = $title = $this->M_configuracoes->selecionar(1)->result_array()[0]["titulo"];
+		if (isset($this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["titulo"])){
+			$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["titulo"];				
+		}else{
+			$this->dados['title'] = $this->M_configuracoes->selecionar('titulo')->result_array()[0]["value"];
+		}
 		$this->load->view('inc/topo',$this->dados);
 		$this->load->view('login');
 		$this->load->view('inc/copyright');
@@ -33,10 +34,11 @@ class CI_login extends CI_Controller {
 	
 	function logar()
 	{
-		if (isset($this->M_configuracoes->selByUser($this->session->userdata('usuario_id'))->result_array()[0]["titulo"]))
-			$this->dados['title'] = $this->M_configuracoes->selByUser($this->session->userdata('usuario_id'))->result_array()[0]["titulo"];
-		else
-			$this->dados['title'] = $title = $this->M_configuracoes->selecionar(1)->result_array()[0]["titulo"];
+		if (isset($this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["titulo"])){
+				$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["titulo"];				
+			}else{
+				$this->dados['title'] = $this->M_configuracoes->selecionar('titulo')->result_array()[0]["value"];
+			}
 		if(!empty($_POST["login"]) && !empty($_POST["password"]) /*&& !empty($_POST["codigo"])*/) {
 			//if ($_POST["codCompara"] == $_POST["codigo"]){
 				$login = $_POST['login'];
@@ -138,10 +140,11 @@ class CI_login extends CI_Controller {
 	}
 	
 	function recoverPassword(){
-		if (isset($this->M_configuracoes->selByUser($this->session->userdata('usuario_id'))->result_array()[0]["titulo"]))
-			$this->dados['title'] = $this->M_configuracoes->selByUser($this->session->userdata('usuario_id'))->result_array()[0]["titulo"];
-		else
-			$this->dados['title'] = $title = $this->M_configuracoes->selecionar(1)->result_array()[0]["titulo"];
+		if (isset($this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["titulo"])){
+				$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["titulo"];				
+			}else{
+				$this->dados['title'] = $this->M_configuracoes->selecionar('titulo')->result_array()[0]["value"];
+			}
 		$this->load->view('inc/topo',$this->dados);
 		$this->load->view('senha');
 		$this->load->view('inc/rodape');

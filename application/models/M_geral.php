@@ -20,12 +20,15 @@
     		return $title;
     	}
 
-    	function uploadFile($name){
+    	function uploadFile($name,$samefilename){
     		$config['upload_path'] = './uploads';
 			$config['allowed_types'] = 'gif|jpg|png';
 			//$config['max_size']	= '100';
 			//$config['max_width']  = '1024';
 			//$config['max_height']  = '768';
+			if($samefilename)
+				$config['file_name']=$name;          
+        	$config['overwrite'] = true;
 			$this->upload->initialize($config);
 			if ( ! $this->upload->do_upload($name))
 			{

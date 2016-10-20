@@ -40,10 +40,10 @@
 
     <?php
     $usuario_id = $this->session->userdata('usuario_id');
-    if (isset($this->M_configuracoes->selByUser($usuario_id)->result_array()[0]["img_cabecalho"]))
-        $file = $this->M_configuracoes->selByUser($usuario_id)->result_array()[0]["img_cabecalho"];
+    if (isset($this->M_usuarios->selecionar($usuario_id)->result_array()[0]["img_cabecalho"]))
+        $file = $this->M_usuarios->selecionar($usuario_id)->result_array()[0]["img_cabecalho"];
     else
-        $file = $this->M_configuracoes->selecionar(1)->result_array()[0]["img_cabecalho"];
+        $file = $this->M_configuracoes->selecionar('img_cabecalho')->result_array()[0]["value"];
     ?>
 	<section class="header container-fluid" style="background-color: #142b55; background: url(<?php echo base_url()?>uploads/<?php echo $file?>) center; background-size: cover; background-position: 0px -180px;">
     	<div class="headermask"></div><!-- /.headermask -->
@@ -96,10 +96,10 @@
                 <div class="col-sm-3" >
                     <div class="logo" style="text-align: center;">
                         <?php
-                        if (isset($this->M_configuracoes->selByUser($usuario_id)->result_array()[0]["img_projeto"]))
-                            $file = $this->M_configuracoes->selByUser($usuario_id)->result_array()[0]["img_projeto"];
+                        if (isset($this->M_usuarios->selecionar($usuario_id)->result_array()[0]["img_projeto"]))
+                            $file = $this->M_usuarios->selecionar($usuario_id)->result_array()[0]["img_projeto"];
                         else
-                            $file = $this->M_configuracoes->selecionar(1)->result_array()[0]["img_projeto"];
+                            $file = $this->M_configuracoes->selecionar('img_projeto')->result_array()[0]["value"];
                         ?>
                         <img src="<?php echo base_url()?>uploads/<?php echo $file?>" />
 

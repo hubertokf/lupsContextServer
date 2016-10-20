@@ -8,8 +8,8 @@
 			<table class="tabela-dados" cellpadding="3" cellspacing="0">
 				<thead>
 					<tr class="titulos row">
-			            <td class="col-xs-5">TITULO</td>
-			            <td class="col-xs-5">IMAGEM CABEÇALHO</td>
+			            <td class="col-xs-5">NOME</td>
+			            <td class="col-xs-5">VALOR</td>
 			            <td class="check col-xs-2"></td>
 			        </tr>
 					<tbody>
@@ -18,8 +18,8 @@
 					foreach($linhas->result_array() as $linha){
 						echo "
 							<tr class='dados row'>
-								<td>".$linha['titulo']."</td>
-								<td>".$linha['img_cabecalho']."</td>
+								<td>".$linha['name']."</td>
+								<td>".$linha['value']."</td>
 								<td class='buttons-row'>
 									<a class='botaoEditar' id='edit-$linha[configuracao_id]' href='javascript:;' alt='Editar Registro' title='Editar Registro'><i class='fa fa-pencil-square-o fa-2x'></i></a>
 									<a class='botaoExcluir' id='del-$linha[configuracao_id]' href='javascript:;' alt='Excluir Registro' title='Excluir Registro'><i class='fa fa-times fa-2x'></i></a>
