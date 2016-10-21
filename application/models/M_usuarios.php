@@ -18,11 +18,10 @@
         	parent::__construct();
         }
 
-        function logar($username="", $password="") {
+        function logar($username="") {
         	$this->db->select('*');
 			$this->db->from('usuarios');
         	$this->db->where('usuarios.username', $username);
-        	$this->db->where('usuarios.password', $password);
         	return $this->db->get();
         }
 
@@ -63,20 +62,36 @@
         }
 
 		function salvar() {
-            $arrayCampos  = array(
-                "nome"	 				=> $this->usuario_nome,
-                "username" 				=> $this->usuario_username,
-				"perfilusuario_id"		=> $this->usuario_perfil,				
-                "password" 				=> $this->usuario_password,
-                "email" 				=> $this->usuario_email,						
-                "telefone" 				=> $this->usuario_telefone,						
-                "celular"				=> $this->usuario_celular,
-                "token"					=> $this->usuario_token,
-                "website_titulo"		=> $this->usuario_website_titulo,	
-				"img_cabecalho"			=> $this->usuario_img_cabecalho,
-				"img_projeto"			=> $this->usuario_img_projeto,	
-				"cor_predominante"		=> $this->usuario_cor_predominante
-            );
+			if (isset($this->usuario_password)){
+	            $arrayCampos  = array(
+	                "nome"	 				=> $this->usuario_nome,
+	                "username" 				=> $this->usuario_username,
+					"perfilusuario_id"		=> $this->usuario_perfil,				
+	                "password" 				=> $this->usuario_password,
+	                "email" 				=> $this->usuario_email,						
+	                "telefone" 				=> $this->usuario_telefone,						
+	                "celular"				=> $this->usuario_celular,
+	                "token"					=> $this->usuario_token,
+	                "website_titulo"		=> $this->usuario_website_titulo,	
+					"img_cabecalho"			=> $this->usuario_img_cabecalho,
+					"img_projeto"			=> $this->usuario_img_projeto,	
+					"cor_predominante"		=> $this->usuario_cor_predominante
+	            );				
+			}else{
+				$arrayCampos  = array(
+	                "nome"	 				=> $this->usuario_nome,
+	                "username" 				=> $this->usuario_username,
+					"perfilusuario_id"		=> $this->usuario_perfil,				
+	                "email" 				=> $this->usuario_email,						
+	                "telefone" 				=> $this->usuario_telefone,						
+	                "celular"				=> $this->usuario_celular,
+	                "token"					=> $this->usuario_token,
+	                "website_titulo"		=> $this->usuario_website_titulo,	
+					"img_cabecalho"			=> $this->usuario_img_cabecalho,
+					"img_projeto"			=> $this->usuario_img_projeto,	
+					"cor_predominante"		=> $this->usuario_cor_predominante
+	            );		
+			}
 			if ($this->usuario_id == ""){
 	            $this->db->insert('usuarios', $arrayCampos);
 		        return "inc";
@@ -260,30 +275,18 @@
 		}
 
 		public function setUsuarioWebsiteTitulo($valor){
-			if(!is_string($valor)) {
-				throw new InvalidArgumentException('Expected String');
-			}
 			$this->website_titulo = $valor;
 		}
 
 		public function setUsuarioImgCabecalho($valor){
-			if(!is_string($valor)) {
-				throw new InvalidArgumentException('Expected String');
-			}
 			$this->img_cabecalho = $valor;
 		}
 
 		public function setUsuarioImgProjeto($valor){
-			if(!is_string($valor)) {
-				throw new InvalidArgumentException('Expected String');
-			}
 			$this->img_projeto = $valor;
 		}
 
 		public function setUsuarioCorPredominante($valor){
-			if(!is_string($valor)) {
-				throw new InvalidArgumentException('Expected String');
-			}
 			$this->cor_predominante = $valor;
 		}
 

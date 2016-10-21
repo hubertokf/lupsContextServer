@@ -61,7 +61,6 @@ class CI_usuarios extends CI_controller {
 		$this->form_validation->set_rules('usuario_perfil', 'Perfil', 'trim|required');
 		$this->form_validation->set_rules('usuario_nome', 'Nome', 'trim|required|callback_username_check');
 		$this->form_validation->set_rules('usuario_username', 'Username', 'trim|required');
-		$this->form_validation->set_rules('usuario_password', 'Password', 'trim|required');
 		$this->form_validation->set_rules('usuario_email', 'Email', 'trim|required');
 		$this->form_validation->set_rules('usuario_telefone', 'Telefone');
 		$this->form_validation->set_rules('usuario_celular', 'Celular');
@@ -79,8 +78,10 @@ class CI_usuarios extends CI_controller {
 			$this->M_usuarios->setUsuarioPerfil($_POST["usuario_perfil"]);
 			$this->M_usuarios->setUsuarioNome($_POST["usuario_nome"]);
 			$this->M_usuarios->setUsuarioUsername($_POST["usuario_username"]);
-			$passwordHash = password_hash($_POST["usuario_password"], PASSWORD_DEFAULT);
-			$this->M_usuarios->setUsuarioPassword($passwordHash);
+			if (isset($_POST["usuario_password"])){
+				$passwordHash = password_hash($_POST["usuario_password"], PASSWORD_DEFAULT);
+				$this->M_usuarios->setUsuarioPassword($passwordHash);
+			}
 			$this->M_usuarios->setUsuarioEmail($_POST["usuario_email"]);
 			$this->M_usuarios->setUsuarioTelefone($_POST["usuario_telefone"]);
 			$this->M_usuarios->setUsuarioCelular($_POST["usuario_celular"]);

@@ -97,7 +97,7 @@
 						</div>
 		            	<div class="row">
 		            		<div class="col-xs-10 col-xs-offset-1">
-		            			<input type="password" name="usuario_password" value="<?php echo @$usuario_password;?>" />
+		            			<input type="password" name="usuario_password" value="" />
 		            		</div>
 						</div>
 
