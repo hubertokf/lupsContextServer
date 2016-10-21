@@ -152,6 +152,13 @@
                    }?>
             </select>
            </div>
+					 <div class="col-md-4">
+				 			<div class="checkbox">
+				 				<input type="checkbox" id = "box_status_rules" ><label id = "label_box" style="margin-top:3px">Ativar Regra</label>
+				 			</div>
+				 	</div>
+				</div>
+			</div>
 
            <!-- <div class="col-md-4" id = "padding_size">
              oiiiiiiiiiiiiiiiiiiiiiiii
