@@ -36,6 +36,8 @@
             	<div class="col-sm-6 col-sm-offset-3">
             		<div class="cadastro-box">
             			<input type="hidden" name="usuario_id" value="<?php echo @$usuario_id;?>">
+            			<?php 
+            			if (@$usuario_id == $usuario_id = $this->session->userdata('usuario_id')){ ?>
             			<div class="row">
                             <div class="col-xs-1 col-xs-offset-1">
                                 <label for="token">Token:</label>
@@ -44,6 +46,7 @@
                                 <input type="text" name="token" readonly value="<?php echo @$usuario_token;?>" />
                             </div>
                         </div>
+                        <?php } ?>
 						<div class="row">
 							<div class="col-xs-10 col-xs-offset-1">
 								<label for="usuario_perfil">Perfil</label>
