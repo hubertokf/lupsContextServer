@@ -30,6 +30,7 @@ class Publicacoes extends REST_Controller {
         $this->methods['index_delete']['limit'] = 50; // 50 requests per hour per user/key
 
         //Load Models
+        $this->load->model('M_geral');
         $this->load->model('M_sensores');
         $this->load->model('M_publicacoes');
         $this->load->model('M_usuarios');
@@ -147,28 +148,11 @@ class Publicacoes extends REST_Controller {
                         // ENVIA EMAIL DE VALOR DE ERRO
 
                         $usuarios = $this->M_usuarios->selByPerfilUsuario(2)->result_array();
-
-                        $config = Array(
-                            'protocol' => 'smtp',
-                            'smtp_host' => 'ssl://smtp.googlemail.com',
-                            'smtp_port' => 465,
-                            'smtp_user' => 'mmadrugadeazevedo',
-                            'smtp_pass' => 'hacker22',
-                            'mailtype'  => 'html', 
-                            'charset'   => 'utf-8'
-                        );
-                        $this->load->library('email', $config);
-
-                        $this->email->set_newline("\r\n");
-                        // Set to, from, message, etc.
-                        $this->email->from('no-reply@cpact.embrapa.br', 'Me');
-                        $this->email->reply_to('no-reply@cpact.embrapa.br', 'Me');
-                        $this->email->subject("Erro PlenUS: ".$sensor[0]['servidorborda_nome']." - ".$sensor[0]['nome']);
-                        $this->email->message("Erro PlenUS: Sensor desconectado \n\nServidor de Borda: ".$sensor[0]['servidorborda_nome']." \nSensor: ".$sensor[0]['nome']." \nData coleta: ".$content['datacoleta']." \nValor coletado: ".$content['valorcoletado']."\n\n\n");
+                        $subject = "Erro PlenUS: ".$sensor[0]['servidorborda_nome']." - ".$sensor[0]['nome'];
+                        $message = "Erro PlenUS: Sensor desconectado \n\nServidor de Borda: ".$sensor[0]['servidorborda_nome']." \nSensor: ".$sensor[0]['nome']." \nData coleta: ".$content['datacoleta']." \nValor coletado: ".$content['valorcoletado']."\n\n\n";
 
                         foreach ($usuarios as $usuario) {
-                            $this->email->to($usuario['email']);
-                            $result = $this->email->send();
+                            $result = $this->M_geral->sendEmail($usuario['email'],$message,$subject);
                         }
 
                         //se não retornou inc

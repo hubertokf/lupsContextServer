@@ -89,7 +89,7 @@ class CI_usuarios extends CI_controller {
 			$this->M_usuarios->setUsuarioImgCabecalho(isset($_POST["usuario_img_cabecalho"]) ? $_POST["usuario_img_cabecalho"] : null);
 			$this->M_usuarios->setUsuarioImgProjeto(isset($_POST["usuario_img_projeto"]) ? $_POST["usuario_img_projeto"] : null);
 			$this->M_usuarios->setUsuarioCorPredominante(isset($_POST["usuario_cor_predominante"]) ? $_POST["usuario_cor_predominante"] : null);
-			if (!isset($_POST["token"])){
+			if ($_POST["token"]==""){
 				$token = json_decode($this->M_keys->insert_key(10))->key;
 				$this->M_usuarios->setUsuarioToken($token);
 			}else{

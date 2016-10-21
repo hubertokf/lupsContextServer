@@ -48,6 +48,40 @@
 			$resultado  = $codigo->result();
 			return $resultado[0]->$campo;
 		}
+
+		function sendEmail($dest,$message,$subject){
+			$config = Array(
+                'protocol' => 'smtp',
+                'smtp_host' => $this->M_configuracoes->selecionar('email_host')->result_array()[0]['value'],
+                'smtp_port' => $this->M_configuracoes->selecionar('email_port')->result_array()[0]['value'],
+                'smtp_user' => $this->M_configuracoes->selecionar('email_user')->result_array()[0]['value'],
+                'smtp_pass' => $this->M_configuracoes->selecionar('email_pass')->result_array()[0]['value'],
+                'mailtype'  => 'html', 
+                'charset'   => 'utf-8'
+            );
+			$this->load->library('email', $config);
+            $this->email->set_newline("\r\n");
+            $this->email->from($this->M_configuracoes->selecionar('email_from')->result_array()[0]['value'], 'Me');
+            $this->email->reply_to($this->M_configuracoes->selecionar('email_from')->result_array()[0]['value'], 'Me');
+       		$this->email->to($dest);
+            $this->email->subject($subject);
+            $this->email->message($message);
+			$result = $this->email->send();
+			
+			return $result;
+		}
+
+		function generatePassword($length = 8) {
+		    $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+		    $count = mb_strlen($chars);
+
+		    for ($i = 0, $result = ''; $i < $length; $i++) {
+		        $index = rand(0, $count - 1);
+		        $result .= mb_substr($chars, $index, 1);
+		    }
+
+		    return $result;
+		}
 		
 		function build_menu()
 	    {

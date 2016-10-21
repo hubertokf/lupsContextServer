@@ -5,6 +5,7 @@ class CI_login extends CI_Controller {
 	public function __construct()
        {
             parent::__construct();
+            $this->load->model('M_geral');
             $this->load->model('M_usuarios');
 	    $this->load->model('M_configuracoes');
 			if ($this->session->userdata('usuario_id') != 0 && $this->session->userdata('usuario_id') != ""){
@@ -39,87 +40,92 @@ class CI_login extends CI_Controller {
 			}else{
 				$this->dados['title'] = $this->M_configuracoes->selecionar('titulo')->result_array()[0]["value"];
 			}
-		if(!empty($_POST["login"]) && !empty($_POST["password"]) /*&& !empty($_POST["codigo"])*/) {
-			//if ($_POST["codCompara"] == $_POST["codigo"]){
-				$login = $_POST['login'];
-				$senha = $_POST['password'];
-				//$codigo = $_POST['codigo'];
+		if(!empty($_POST["login"]) && !empty($_POST["password"])) {
+			$login = $_POST['login'];
+			$senha = $_POST['password'];
+			$sessao = array(
+				'usuario_id'		=> 0,
+				'perfilusuario_id' 	=> '',
+				'username'  => '',
+				'usuario_login' 	=> '',
+				'usuario_senha' 	=> '',
+				'nome' 		=> ''
+		    );
+			$this->session->set_userdata($sessao);
+    		$user = $this->M_usuarios->logar($login)->row();
+    		if (password_verify($senha, $user->password)) {
 				$sessao = array(
-					'usuario_id'		=> 0,
-					'perfilusuario_id' 	=> '',
-					'username'  => '',
-					'usuario_login' 	=> '',
-					'usuario_senha' 	=> '',
-					'nome' 		=> ''
-			    );
+					'usuario_id'		=> $user->usuario_id,
+				    'username'			=> $user->username,
+				    'perfilusuario_id'	=> $user->perfilusuario_id,
+				    'usuario_login' 	=> $user->username,
+				    'nome' 				=> $user->nome
+				);
+
 				$this->session->set_userdata($sessao);
-        		$ret = $this->M_usuarios->logar($login, $senha);
-	        		foreach($ret->result() as $linha) {
 
-						$sessao = array(
-							'usuario_id'		=> $linha->usuario_id,
-						    'username'	=> $linha->username,
-						    'perfilusuario_id'	=> $linha->perfilusuario_id,
-						    'usuario_login' 	=> $login,
-						    'usuario_senha' 	=> $senha,
-						    'nome' 	=> $linha->nome
-						);
+    			$this->dados["msg"] = "Logado.";
+    			$countMenu = $this->M_usuarios->countUsuarioMenu($user->usuario_id);
+    			if ($countMenu > 0) {
+					header("location:".base_url()."CI_inicio");
+    			}else{
+					header("location:".base_url()."CI_visualizacao");
+    			}
+			}
+			else {
+			    $this->dados["msg"] = '<span class="camposObrigatorios ">Usuário ou senha inválida.</span>';
+    			$this->index();
+			}
 
-						$this->session->set_userdata($sessao);
-	        			break;
-	        		}
-
-	        		$usuario_id = $this->session->userdata('usuario_id');
-
-	        		if($usuario_id != 0) {
-	        			$this->dados["msg"] = "Logado.";
-	        			$countMenu = $this->M_usuarios->countUsuarioMenu($usuario_id);
-	        			if ($countMenu > 0) {
-							header("location:".base_url()."CI_inicio");
-	        			}else{
-							header("location:".base_url()."CI_visualizacao");
-	        			}
-	        		} else {
-	        			$this->dados["msg"] = '<span class="camposObrigatorios ">Usuário ou senha inválida.</span>';
-	        			$this->index();
-	        		}
-
-			// }else{
-			// 	$this->dados['msg'] = '<span class="camposObrigatorios ">Código inválido.</span>';
-			// 	$this->index();
-			// } 
 		}else {
-				$this->dados['msg'] = '<span class="camposObrigatorios ">Login, senha ou código inválido.</span>';
-        		$this->index();
+			$this->dados['msg'] = '<span class="camposObrigatorios ">Login, senha ou código inválido.</span>';
+    		$this->index();
        	}
 	}
 
 	function recuperar(){
-		$config = Array(
-		    'protocol' => 'smtp',
-		    'smtp_host' => 'ssl://smtp.googlemail.com',
-		    'smtp_port' => 465,
-		    'smtp_user' => 'mmadrugadeazevedo',
-		    'smtp_pass' => 'hacker22',
-		    'mailtype'  => 'html', 
-		    'charset'   => 'utf-8'
-		);
-		$this->load->library('email', $config);
-		$this->email->set_newline("\r\n");
-		$list = array('mmadrugadeazevedo@gmail.com');
-		
-		// Set to, from, message, etc.
-		$this->email->from('mmadrugadeazevedo@gmail.com', 'Me');
-        $this->email->reply_to('mmadrugadeazevedo@gmail.com', 'Me');
-        $this->email->to($_POST['email']);
-        $this->email->subject('Recuperação de Senha');
-        $this->email->message('<html><body>Este é o e-mail que será enviado para recuperar sua senha.</body></html>');
-		
-		$result = $this->email->send();
-		if ($result){
-			$this->dados['msg'] = '<span class="camposObrigatorios ">Verifique sua senha em seu e-mail.</span>';
-			$this->index();
-		}	
+		$newPass = $this->M_geral->generatePassword();
+		$email = $_POST['email'];
+        $usuarios = $this->M_usuarios->pesquisar('', array('email'=>$email))->row();
+		$passwordHash = password_hash($newPass, PASSWORD_DEFAULT);
+
+        if ($usuarios->email == $_POST['email']){
+	        $this->M_usuarios->setUsuarioId($usuarios->usuario_id);
+			$this->M_usuarios->setUsuarioPerfil($usuarios->perfilusuario_id);
+			$this->M_usuarios->setUsuarioNome($usuarios->nome);
+			$this->M_usuarios->setUsuarioUsername($usuarios->username);
+			$this->M_usuarios->setUsuarioPassword($passwordHash);
+			$this->M_usuarios->setUsuarioEmail($usuarios->email);
+			$this->M_usuarios->setUsuarioTelefone($usuarios->telefone);
+			$this->M_usuarios->setUsuarioCelular($usuarios->celular);
+			$this->M_usuarios->setUsuarioWebsiteTitulo($usuarios->website_titulo);
+			$this->M_usuarios->setUsuarioImgCabecalho($usuarios->img_cabecalho);
+			$this->M_usuarios->setUsuarioImgProjeto($usuarios->img_projeto);
+			$this->M_usuarios->setUsuarioCorPredominante($usuarios->cor_predominante);
+			$this->M_usuarios->setUsuarioToken($usuarios->token);
+
+			$subject = 'Recuperação de Senha';
+	        $message = 'Sua nova senha é: '.$newPass;
+
+	        $result = $this->M_geral->sendEmail($usuarios->email,$message,$subject);
+
+			if ($result){
+
+				if ($this->M_usuarios->salvar() == "alt"){
+					$this->dados['msg'] = '<span class="camposObrigatorios ">Verifique sua senha em seu e-mail.</span>';
+					$this->index();
+				}else{
+					$this->dados['msg'] = '<span class="camposObrigatorios ">Não foi possível atualizar sua senha.</span>';
+					$this->index();
+				}
+			}else{
+				$this->dados['msg'] = '<span class="camposObrigatorios ">Não foi possível enviar o e-mail.</span>';
+				$this->index();
+			}
+		}else{
+			$this->dados['msg'] = '<span class="camposObrigatorios ">E-mail não cadastrado.</span>';
+			$this->recoverPassword();
+		}
 	}
 
 	function validarEmail(){

@@ -62,6 +62,16 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1 input">
+                                <label for="email_from">Email remetente:</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-10 col-xs-offset-1 input">
+                                <input type="text" name="email_from" value="<?php echo $newData['email_from'];?>" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-10 col-xs-offset-1 input">
                                 <label for="email_host">Host servidor e-mail:</label>
                             </div>
                         </div>
