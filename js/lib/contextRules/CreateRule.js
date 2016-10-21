@@ -46,7 +46,13 @@ define(["jquery","bootbox"],function ($,bootbox) {
             compose_rule['inputs'].push($(this).val());
         });
         this.send_informations['name_rule'] = $("#name_rule").val();
-        this.send_informations['status']    = true;
+
+        if($("#box_status_rules").val()) {
+          this.send_informations['status']    = true;
+        } else {
+          this.send_informations['status']    = false;
+        }
+
         this.send_informations['tipo']      = 3;
         this.send_informations['id_rule']   = $("#editable_id_rule").val();
         if(this.send_informations['id_rule']){

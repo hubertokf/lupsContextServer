@@ -43,6 +43,13 @@
                    }?>
             </select>
            </div>
+					 	<div class="col-md-4">
+								<div class="checkbox">
+									<label id = "label_box"><input type="checkbox" value="minutes" id = "box_status_rules" >Aivar Regra</label>
+								</div>
+					 	</div>
+
+					 </div>
 
            <!-- <div class="col-md-4" id = "padding_size">
              oiiiiiiiiiiiiiiiiiiiiiiii

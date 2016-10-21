@@ -24,7 +24,6 @@ define(["jquery","bootbox"],function($,bootbox) {
     });
     this.checked_information = bar;
   };
-
  // ------- inicio: métodos voltados para criação e edição de regras de aquisição --------
   ModelAquisition.prototype.get_selected_type_scheduler = function(){//método para verificar qual  função de agendamento foi escolhido
 

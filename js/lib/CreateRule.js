@@ -46,7 +46,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
             compose_rule['inputs'].push($(this).val());
         });
         this.send_informations['name_rule'] = $("#name_rule").val();
-        this.send_informations['status']    = true;
+        this.send_informations['status']    = $("#box_status_rules").is(":checked");
         this.send_informations['tipo']      = 2;
         // this.send_informations['has_ajax']  = '';
         this.send_informations['id_rule']   = $("#editable_id_rule").val();
@@ -83,7 +83,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
       complete: function (response) {
           //  console.log("bugg",response['responseText']);
           //  console.log();
-          window.location.replace(window.base_url+"cadastros/"+path[3]+"?msg="+response['responseText']);
+          // window.location.replace(window.base_url+"cadastros/"+path[3]+"?msg="+response['responseText']);
           }
     });
   };

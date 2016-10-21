@@ -87,7 +87,7 @@ class CI_regras_sb extends CI_controller {
 	}
 
 	function gravar(){
-		// print_r($_POST);
+		// print_r($_POST["status"]);
 		$get_test  = array(
 	  'jsonRule' => $_POST["rule"],
 	 	'status'   => $_POST["status"]);
@@ -105,7 +105,6 @@ class CI_regras_sb extends CI_controller {
 			$id_rule_edge = $this->distributed_rule('',$_POST["id_sensor"],$get_test);
 			$this->M_Regras_SB->setRegraIdBorda($id_rule_edge);
 		}
-
 		$this->M_Regras_SB->setRegraNome($_POST["name_rule"]);
 		$this->M_Regras_SB->setRegraStatus($_POST["status"]);
 		$this->M_Regras_SB->setRegraArquivoPy($_POST["rule"]);
@@ -257,12 +256,6 @@ class CI_regras_sb extends CI_controller {
 
 	}
 	public function distributed_rule($id_regra_context='',$id_sensor='',$array=array()){
-		/*$request   = "POST";
-		$get_url   = $this->M_sensores->get_acesso_borda(array('sensor_id' =>$id_sensor))->result_array();
-		$url       = $get_url[0]["url"];
-		$token       = $get_url[0]["token"];
-		$id_sensor_borda = $this->M_sensores->get_borda_id($id_sensor);
-		$array = array_merge($array,array('sensor'=>$id_sensor_borda));*/
 
 		$request         = "POST";
 		$get_url         = $this->M_sensores->get_acesso_borda(array('sensor_id' =>$id_sensor))->result_array();
@@ -298,10 +291,10 @@ class CI_regras_sb extends CI_controller {
 		);
 
 		$result = curl_exec($ch);
-		$info = curl_getinfo($curl);
+		$info   = curl_getinfo($ch);
 		curl_close($ch);
 
-		if ($info['http_code'] == 200)
+		if ($info['http_code'] >= 200 && $info['http_code'] <= 299)
 		  return json_decode($result)->id;
 	  else
 			return null;
