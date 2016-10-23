@@ -23,7 +23,7 @@ class CI_login extends CI_Controller {
 		$random_word= str_shuffle($str);
 		$random_word= substr($random_word,0,5);		
 		$this->dados['captcha']=$random_word;
-		if ($this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"] != ""){
+		if ($this->session->userdata('usuario_id') != null && $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"] != ""){
 			$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"];				
 		}else{
 			$this->dados['title'] = $this->M_configuracoes->selecionar('titulo')->result_array()[0]["value"];
@@ -36,7 +36,7 @@ class CI_login extends CI_Controller {
 	
 	function logar()
 	{
-		if ($this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"] != ""){
+		if ($this->session->userdata('usuario_id') != null && $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"] != ""){
 				$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"];				
 			}else{
 				$this->dados['title'] = $this->M_configuracoes->selecionar('titulo')->result_array()[0]["value"];
@@ -142,7 +142,7 @@ class CI_login extends CI_Controller {
 	}
 	
 	function recoverPassword(){
-		if ($this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"] != ""){
+		if ($this->session->userdata('usuario_id') != null && $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"] != ""){
 				$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"];				
 			}else{
 				$this->dados['title'] = $this->M_configuracoes->selecionar('titulo')->result_array()[0]["value"];

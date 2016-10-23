@@ -20,7 +20,7 @@ class CI_inicio extends CI_Controller {
  
 	function index()
 	{	
-		if ($this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"] != ""){
+		if ($this->session->userdata('usuario_id') != null && $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"] != ""){
 			$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"];				
 		}else{
 			$this->dados['title'] = $this->M_configuracoes->selecionar('titulo')->result_array()[0]["value"];

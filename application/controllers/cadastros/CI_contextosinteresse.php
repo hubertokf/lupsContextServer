@@ -20,7 +20,7 @@ class CI_contextosinteresse extends CI_controller {
 			$this->dados['usuario_logado'] = $this->session->userdata('nome');
 		}else
 			$this->dados['isLoged'] = false;
-		if ($this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"] != ""){
+		if ($this->session->userdata('usuario_id') != null && $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"] != ""){
 			$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"];				
 		}else{
 			$this->dados['title'] = $this->M_configuracoes->selecionar('titulo')->result_array()[0]["value"];
