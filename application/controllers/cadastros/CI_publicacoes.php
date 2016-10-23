@@ -11,14 +11,15 @@ class CI_publicacoes extends CI_controller {
 		$this->load->model('M_sensores');
 		$this->load->model('M_publicacoes');
 		$this->load->model('M_usuarios');
+		$this->load->model('M_perfisusuarios');
 		$this->M_geral->verificaSessao();
 		if ($this->session->userdata('usuario_id') != 0 && $this->session->userdata('usuario_id') != ""){
 				$this->dados['isLoged'] = true;
 				$this->dados['usuario_logado'] = $this->session->userdata('nome');
 			}else
 				$this->dados['isLoged'] = false;
-		if (isset($this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["titulo"])){
-			$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["titulo"];				
+		if ($this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"] != ""){
+			$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"];				
 		}else{
 			$this->dados['title'] = $this->M_configuracoes->selecionar('titulo')->result_array()[0]["value"];
 		}
@@ -32,16 +33,16 @@ class CI_publicacoes extends CI_controller {
 	
 	function pesquisa($nr_pagina=20 ){
 		$this->dados["metodo"] = "pesquisa";
-		if ($this->session->userdata('perfilusuario_id') == 2)
+		$perfilusuario_id = $this->session->userdata('perfilusuario_id');
+		$this->dados["isAdm"] = $this->M_perfisusuarios->isAdm($perfilusuario_id);
+		if ($this->dados["isAdm"] == 't'){
 			$this->dados["linhas"] = $this->M_publicacoes->pesquisar('', array(), $nr_pagina, $this->uri->segment(5));
-		else
-			$this->dados["linhas"] = $this->M_publicacoes->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5), 'publicacao_id', 'asc', TRUE);
-		$this->dados["nr_pagina"] = $nr_pagina;
-
-		if ($this->session->userdata('perfilusuario_id') == 2)
 			$this->dados["total"] = $this->M_publicacoes->numeroLinhasTotais();
-		else
+		}else{
+			$this->dados["linhas"] = $this->M_publicacoes->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5), 'publicacao_id', 'asc', TRUE);
 			$this->dados["total"] = $this->M_publicacoes->numeroLinhasTotais('',array("p.usuario_id"=>$this->session->userdata('usuario_id')), TRUE);
+		}
+		$this->dados["nr_pagina"] = $nr_pagina;
 
 		$this->dados["tituloPesquisa"] = "Publicações Cadastradas";
 		$pag['base_url'] = base_url.$this->dados["caminho"]."/".$this->dados["metodo"]."/".$nr_pagina."/";

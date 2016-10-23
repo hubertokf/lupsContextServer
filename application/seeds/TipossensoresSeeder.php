@@ -14,25 +14,21 @@ class TipossensoresSeeder extends AbstractSeed{
     public function run(){
         $data = array(
             array(
-                'tiposensor_id' => 9,
                 'nome' => 'Temperatura', 
                 'descricao' => 'Sensor de Temperatura', 
                 'unidade' => 'ºC',
                 'tipo' => 1),
             array(
-                'tiposensor_id' => 10,
                 'nome' => 'Umidade', 
                 'descricao' => 'Sensor de Umidade', 
                 'unidade' => '%UR',
                 'tipo' => 1),
             array(
-                'tiposensor_id' => 11,
                 'nome' => 'Estado de Evento', 
                 'descricao' => 'Estado de Evento - Ligado ou Desligado', 
                 'unidade' => 'L/D',
                 'tipo' => 3),
             array(
-                'tiposensor_id' => 12,
                 'nome' => 'Presença/Ausência Luz', 
                 'descricao' => 'Presença ou Ausência de luz', 
                 'unidade' => '%Luz',

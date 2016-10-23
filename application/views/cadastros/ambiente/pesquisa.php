@@ -16,6 +16,7 @@
 			        </tr>
 			    </thead>
 				<tbody>
+				
 		        <?php
 					foreach($linhas->result_array() as $linha){
 						if($linha['status'] == 't'){
@@ -25,7 +26,7 @@
 									<td>".$linha['descricao']."</td>
 									<td>Ativo</td>
 									<td class='buttons-row'>";
-							if ($this->session->userdata('perfilusuario_id') == 2 || $linha['podeeditar'] == "t")
+							if ($isAdm == 't' || $linha['podeeditar'] == "t")
 								echo "
 										<a class='botaoStatus' id='view-$linha[ambiente_id]' data-status='$linha[status]' href='javascript:;' alt='Desativar Ambiente' title='Desativar Ambiente'><i class='fa fa-pause fa-2x'></i></a>
 										<a class='botaoEditar' id='edit-$linha[ambiente_id]' href='javascript:;' alt='Editar Registro' title='Editar Registro'><i class='fa fa-pencil-square-o fa-2x'></i></a>
@@ -41,7 +42,7 @@
 									<td>".$linha['descricao']."</td>
 									<td>Inativo</td>
 									<td class='buttons-row'>";
-							if ($this->session->userdata('perfilusuario_id') == 2 || $linha['podeeditar'] == "t")
+							if ($isAdm == 't' || $linha['podeeditar'] == "t")
 								echo "
 										<a class='botaoStatus' id='view-$linha[ambiente_id]' data-status='$linha[status]' href='javascript:;' alt='Ativar Ambiente' title='Ativar Ambiente'><i class='fa fa-play fa-2x'></i></a>
 										<a class='botaoEditar' id='edit-$linha[ambiente_id]' href='javascript:;' alt='Editar Registro' title='Editar Registro'><i class='fa fa-pencil-square-o fa-2x'></i></a>

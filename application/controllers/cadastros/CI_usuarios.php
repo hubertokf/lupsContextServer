@@ -19,8 +19,8 @@ class CI_usuarios extends CI_controller {
 				$this->dados['usuario_logado'] = $this->session->userdata('nome');
 			}else
 				$this->dados['isLoged'] = false;
-		if (isset($this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["titulo"])){
-			$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["titulo"];				
+		if ($this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"] != ""){
+			$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"];				
 		}else{
 			$this->dados['title'] = $this->M_configuracoes->selecionar('titulo')->result_array()[0]["value"];
 		}
@@ -35,6 +35,8 @@ class CI_usuarios extends CI_controller {
 		$this->dados["metodo"] = "pesquisa";
 		$this->dados["linhas"] = $this->M_usuarios->pesquisar('', array(), $nr_pagina, $this->uri->segment(5));
 		$this->dados["nr_pagina"] = $nr_pagina;
+		$perfilusuario_id = $this->session->userdata('perfilusuario_id');
+		$this->dados["isAdm"] = $this->M_perfisusuarios->isAdm($perfilusuario_id);
 		$this->dados["total"] = $this->M_usuarios->numeroLinhasTotais();
 		$this->dados["tituloPesquisa"] = "Usuários Cadastrados";
 		$pag['base_url'] = base_url.$this->dados["caminho"]."/".$this->dados["metodo"]."/".$nr_pagina."/";
@@ -89,6 +91,7 @@ class CI_usuarios extends CI_controller {
 			$this->M_usuarios->setUsuarioImgCabecalho(isset($_POST["usuario_img_cabecalho"]) ? $_POST["usuario_img_cabecalho"] : null);
 			$this->M_usuarios->setUsuarioImgProjeto(isset($_POST["usuario_img_projeto"]) ? $_POST["usuario_img_projeto"] : null);
 			$this->M_usuarios->setUsuarioCorPredominante(isset($_POST["usuario_cor_predominante"]) ? $_POST["usuario_cor_predominante"] : null);
+			$this->M_usuarios->setUsuarioTituloProjeto(isset($_POST["usuario_titulo_projeto"]) ? $_POST["usuario_titulo_projeto"] : null);
 			if ($_POST["token"]==""){
 				$token = json_decode($this->M_keys->insert_key(10))->key;
 				$this->M_usuarios->setUsuarioToken($token);

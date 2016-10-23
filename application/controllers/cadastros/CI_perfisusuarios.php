@@ -16,8 +16,8 @@ class CI_perfisusuarios extends CI_controller {
 				$this->dados['usuario_logado'] = $this->session->userdata('nome');
 			}else
 				$this->dados['isLoged'] = false;
-		if (isset($this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["titulo"])){
-			$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["titulo"];				
+		if ($this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"] != ""){
+			$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"];				
 		}else{
 			$this->dados['title'] = $this->M_configuracoes->selecionar('titulo')->result_array()[0]["value"];
 		}
@@ -49,6 +49,8 @@ class CI_perfisusuarios extends CI_controller {
 
 	function cadastro(){
 		$this->dados["menus"] = $this->M_menus->pesquisarParentes();
+		$perfilusuario_id = $this->session->userdata('perfilusuario_id');
+		$this->dados["isAdm"] = $this->M_perfisusuarios->isAdm($perfilusuario_id);
 		$this->load->view('inc/topo',$this->dados);
 		$this->load->view('inc/menu');
 		$this->load->view('cadastros/perfil/cadastro');
@@ -70,24 +72,33 @@ class CI_perfisusuarios extends CI_controller {
 			$this->M_perfisusuarios->setPerfilId($_POST["perfilusuario_id"]);
 			$this->M_perfisusuarios->setPerfilDesc($_POST["perfilusuario_desc"]);
 			$this->M_perfisusuarios->setPerfilNome($_POST["perfilusuario_nome"]);
+			$this->M_perfisusuarios->setPerfilSuperAdm(isset($_POST["perfilusuario_superAdm"]) ? $_POST["perfilusuario_superAdm"] : false);
 			if ($this->M_perfisusuarios->salvar() == "inc"){
 				$this->M_perfisusuarios->setPerfilId($this->db->insert_id());
-				if (isset($_POST['perfilusuario_menu'])){
+				if(!isset($_POST["perfilusuario_superAdm"])){
+					if (isset($_POST['perfilusuario_menu'])){
+						$this->M_perfisusuarios->excluirMenus();
+						foreach ($_POST['perfilusuario_menu'] as $key => $value) {
+							$this->M_perfisusuarios->salvarMenu($value);
+						}
+					}	
+				}else{
 					$this->M_perfisusuarios->excluirMenus();
-					foreach ($_POST['perfilusuario_menu'] as $key => $value) {
-						$this->M_perfisusuarios->salvarMenu($value);
-					}
-				}	
+				}
 				$this->dados["msg"] = "Dados registrados com sucesso!";
 				$this->pesquisa();	
 			}
 			else {
-				if (isset($_POST['perfilusuario_menu'])){
-					$this->M_perfisusuarios->excluirMenus();
-					foreach ($_POST['perfilusuario_menu'] as $key => $value) {
-						$this->M_perfisusuarios->salvarMenu($value);
+				if(!isset($_POST["perfilusuario_superAdm"])){				
+					if (isset($_POST['perfilusuario_menu'])){
+						$this->M_perfisusuarios->excluirMenus();
+						foreach ($_POST['perfilusuario_menu'] as $key => $value) {
+							$this->M_perfisusuarios->salvarMenu($value);
+						}
 					}
-				}	
+				}else{
+					$this->M_perfisusuarios->excluirMenus();
+				}
 				$this->dados["msg"] = "Dados alterados com sucesso!";
 				$this->pesquisa();	
 			}

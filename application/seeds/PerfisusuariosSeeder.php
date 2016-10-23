@@ -14,21 +14,9 @@ class PerfisusuariosSeeder extends AbstractSeed{
     public function run(){
         $data = array(
             array(
-                'perfilusuario_id' => 1,
-                'nome' => 'Administrador',
-                'descricao' => 'Administrador'),
-            array(
-                'perfilusuario_id' => 10,
-                'nome' => 'Agendador',
-                'descricao' => 'Agendador'),
-            array(
-                'perfilusuario_id' => 2,
                 'nome' => 'Super Administrador',
-                'descricao' => 'Super Administrador'),
-            array(
-                'perfilusuario_id' => 11,
-                'nome' => 'Visualizador',
-                'descricao' => 'asdf')
+                'descricao' => 'Super Administrador',
+                'superAdm' => true)
         );
 
         $posts = $this->table('perfisusuarios');

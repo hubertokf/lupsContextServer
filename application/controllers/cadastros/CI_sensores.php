@@ -9,6 +9,7 @@ class CI_sensores extends CI_controller {
 		$this->load->model('M_configuracoes');
 		$this->load->model('M_sensores');
 		$this->load->model('M_usuarios');
+		$this->load->model('M_perfisusuarios');
 		$this->load->model('M_fabricantes');
 		$this->load->model('M_tipossensores');
 		$this->load->model('M_ambientes');
@@ -20,8 +21,8 @@ class CI_sensores extends CI_controller {
 				$this->dados['usuario_logado'] = $this->session->userdata('nome');
 			}else
 				$this->dados['isLoged'] = false;
-		if (isset($this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["titulo"])){
-			$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["titulo"];				
+		if ($this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"] != ""){
+			$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"];				
 		}else{
 			$this->dados['title'] = $this->M_configuracoes->selecionar('titulo')->result_array()[0]["value"];
 		}
@@ -42,13 +43,15 @@ class CI_sensores extends CI_controller {
 	function pesquisa($nr_pagina=20 ){
 		$this->dados["metodo"] = "pesquisa";
 		$this->dados["sb"] = $this->M_servidoresborda->pesquisar('', array(), 1000);
+		$perfilusuario_id = $this->session->userdata('perfilusuario_id');
+		$this->dados["isAdm"] = $this->M_perfisusuarios->isAdm($perfilusuario_id);
 		if (isset($_POST["pesquisa_filter"]) && $_POST["pesquisa_filter"]!= ""){
-			if ($this->session->userdata('perfilusuario_id') == 2)
+			if ($this->dados["isAdm"] == 't')
 				$this->dados["linhas"] = $this->M_sensores->pesquisar('', array("s.servidorborda_id" => $_POST["pesquisa_filter"]), $nr_pagina, $this->uri->segment(5));
 			else
 				$this->dados["linhas"] = $this->M_sensores->pesquisar('', array("s.servidorborda_id" => $_POST["pesquisa_filter"], 'p.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5), 'asc', TRUE);
 		}else{
-			if ($this->session->userdata('perfilusuario_id') == 2)
+			if ($this->dados["isAdm"] == 't')
 				$this->dados["linhas"] = $this->M_sensores->pesquisar('', array(), $nr_pagina, $this->uri->segment(5));
 			else
 				$this->dados["linhas"] = $this->M_sensores->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5), 'asc', TRUE);

@@ -8,6 +8,7 @@ class CI_configuracoes extends CI_controller {
 		$this->load->model('M_geral');
 		$this->load->model('M_configuracoes');
 		$this->load->model('M_usuarios');
+		$this->load->model('M_perfisusuarios');
 		$this->load->library('upload');
 		$this->load->library('image_lib');
 		$this->M_geral->verificaSessao();
@@ -17,8 +18,8 @@ class CI_configuracoes extends CI_controller {
 			}else
 				$this->dados['isLoged'] = false;
 		
-		if (isset($this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["titulo"])){
-			$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["titulo"];				
+		if ($this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"] != ""){
+			$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"];				
 		}else{
 			$this->dados['title'] = $this->M_configuracoes->selecionar('titulo')->result_array()[0]["value"];
 		}

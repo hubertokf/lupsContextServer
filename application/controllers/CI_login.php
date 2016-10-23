@@ -7,7 +7,8 @@ class CI_login extends CI_Controller {
             parent::__construct();
             $this->load->model('M_geral');
             $this->load->model('M_usuarios');
-	    $this->load->model('M_configuracoes');
+			$this->load->model('M_perfisusuarios');
+		    $this->load->model('M_configuracoes');
 			if ($this->session->userdata('usuario_id') != 0 && $this->session->userdata('usuario_id') != ""){
 				$this->dados['isLoged'] = true;
 				$this->dados['usuario_logado'] = $this->session->userdata('nome');
@@ -22,8 +23,8 @@ class CI_login extends CI_Controller {
 		$random_word= str_shuffle($str);
 		$random_word= substr($random_word,0,5);		
 		$this->dados['captcha']=$random_word;
-		if (isset($this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["titulo"])){
-			$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["titulo"];				
+		if ($this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"] != ""){
+			$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"];				
 		}else{
 			$this->dados['title'] = $this->M_configuracoes->selecionar('titulo')->result_array()[0]["value"];
 		}
@@ -35,8 +36,8 @@ class CI_login extends CI_Controller {
 	
 	function logar()
 	{
-		if (isset($this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["titulo"])){
-				$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["titulo"];				
+		if ($this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"] != ""){
+				$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"];				
 			}else{
 				$this->dados['title'] = $this->M_configuracoes->selecionar('titulo')->result_array()[0]["value"];
 			}
@@ -53,7 +54,7 @@ class CI_login extends CI_Controller {
 		    );
 			$this->session->set_userdata($sessao);
     		$user = $this->M_usuarios->logar($login)->row();
-    		if (password_verify($senha, $user->password)) {
+    		if (isset($user) && password_verify($senha, $user->password)) {
 				$sessao = array(
 					'usuario_id'		=> $user->usuario_id,
 				    'username'			=> $user->username,
@@ -65,12 +66,7 @@ class CI_login extends CI_Controller {
 				$this->session->set_userdata($sessao);
 
     			$this->dados["msg"] = "Logado.";
-    			$countMenu = $this->M_usuarios->countUsuarioMenu($user->usuario_id);
-    			if ($countMenu > 0) {
-					header("location:".base_url()."CI_inicio");
-    			}else{
-					header("location:".base_url()."CI_visualizacao");
-    			}
+				header("location:".base_url()."CI_inicio");
 			}
 			else {
 			    $this->dados["msg"] = '<span class="camposObrigatorios ">Usuário ou senha inválida.</span>';
@@ -146,8 +142,8 @@ class CI_login extends CI_Controller {
 	}
 	
 	function recoverPassword(){
-		if (isset($this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["titulo"])){
-				$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["titulo"];				
+		if ($this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"] != ""){
+				$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"];				
 			}else{
 				$this->dados['title'] = $this->M_configuracoes->selecionar('titulo')->result_array()[0]["value"];
 			}

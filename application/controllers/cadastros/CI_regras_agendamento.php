@@ -12,6 +12,7 @@ class CI_regras_agendamento extends CI_controller {
 		$this->load->model('M_Regras_SB');
 		$this->load->model('M_relcontextointeresse');
 		$this->load->model('M_usuarios');
+		$this->load->model('M_perfisusuarios');
 		$this->load->model('M_contextosinteresse');
 		$this->load->model('M_sensores');
 		$this->M_geral->verificaSessao();
@@ -41,7 +42,8 @@ class CI_regras_agendamento extends CI_controller {
 
 		$this->dados["metodo"] = "pesquisa";
 
-		if ($this->session->userdata('perfilusuario_id') == 2) // É um superuser?
+		$perfilusuario_id = $this->session->userdata('perfilusuario_id');
+		if ($this->M_perfisusuarios->isAdm($perfilusuario_id) == 't') // É um superuser?
 			$this->dados["linhas"]       = $this->M_regras->pesquisar('', array('r.tipo' => 4), $nr_pagina, $this->uri->segment(5), 'asc', FALSE,2);
 		else
 			$this->dados["linhas"]       = $this->M_regras->pesquisar('', array('r.tipo' => 4,'p.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5), 'asc', TRUE,2);
@@ -63,7 +65,8 @@ class CI_regras_agendamento extends CI_controller {
 
 	function cadastro(){
 		$this->dados["regras"] = $this->M_regras->pesquisar();
-		if ($this->session->userdata('perfilusuario_id') == 2){
+		$perfilusuario_id = $this->session->userdata('perfilusuario_id');
+		if ($this->M_perfisusuarios->isAdm($perfilusuario_id) == 't'){
 			$this->dados["contextointeresse"] = $this->M_contextosinteresse->pesquisar($select='', $where=array(), $limit=100, $offset=0, $ordem='asc');
 			$this->dados["sensores"] = $this->M_sensores->pesquisar();
 		}

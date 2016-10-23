@@ -11,6 +11,7 @@ class CI_gateways extends CI_controller {
 		$this->load->model('M_servidoresborda');
 		$this->load->model('M_fabricantes');
 		$this->load->model('M_usuarios');
+		$this->load->model('M_perfisusuarios');
 		$this->M_geral->verificaSessao();
 		if ($this->session->userdata('usuario_id') != 0 && $this->session->userdata('usuario_id') != ""){
 			$this->dados['isLoged'] = true;

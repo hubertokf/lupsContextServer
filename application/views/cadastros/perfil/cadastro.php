@@ -4,6 +4,7 @@
 			$perfilusuario_id 	= $linha->perfilusuario_id;
 			$perfilusuario_desc	= $linha->descricao;
 			$perfilusuario_nome	= $linha->nome;
+			$perfilusuario_superAdm	= $linha->superAdm;
 		}
 	}
 ?>
@@ -46,56 +47,68 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <?php if($isAdm == 't'){ ?>
+
+                        <div class="row" style="margin-bottom: 10px;">
                             <div class="col-xs-10 col-xs-offset-1 input">
-                                <label>Permissões</label>
+                            	<input type="checkbox" id="perfilusuario_superAdm" name="perfilusuario_superAdm" <?php echo $perfilusuario_superAdm == 't' ? 'checked="checked"' : '' ?> value="true">
+                                <label for="perfilusuario_superAdm">Super Administrador</label>
                             </div>
                         </div>
-                        <div class="row container-menus-perfis">
+                        <?php } ?>
 
-	                        <?php
-								$checked = "";
-								$contador = 0;
-								foreach ($menus->result() as $linha){
-									$numRowsTotais = $this->M_menus->contarMenus(@$perfilusuario_id,$linha->menu_id);
-									if ($numRowsTotais > 0) {
-										$checked = "checked";
-									}
+						<div id="menus-perfis">
+	                        <div class="row">
+	                            <div class="col-xs-10 col-xs-offset-1 input">
+	                                <label>Permissões</label>
+	                            </div>
+	                        </div>
+	                        <div class="row container-menus-perfis">
 
-									if ($contador == 0) {
-										echo '<div class="col-xs-5 col-xs-offset-1">';
-									}else{
-										echo '<div class="col-xs-5">';
-									}
-									
-									echo '
-										<div class="item-menu-perfil">
-											<div class="titulo-menu">
-												<input class="checkbox-pai" type="checkbox" name="perfilusuario_menu[]" '.$checked.' value="'.$linha->menu_id.'"><div class="nome">'.$linha->nome.'</div>
-											</div>';
-									
-									$submenus = $this->M_menus->buscarSubmenus($linha->menu_id);
-									echo '<ul class="lista-menus">';
-										$submenuChecked = "";
-										foreach ($submenus->result() as $linhaSubmenu) {
-											$numRowsTotaisSubmenu = $this->M_menus->contarMenus(@$perfilusuario_id,$linhaSubmenu->menu_id);
-											if ($numRowsTotaisSubmenu > 0) {
-												$submenuChecked = "checked";
-											}
-											echo '<li class="row"><input type="checkbox" name="perfilusuario_menu[]" '.$submenuChecked.' value="'.$linhaSubmenu->menu_id.'">'.$linhaSubmenu->nome.'</li>';
-										}
-									echo '</ul>';										
-									echo '</div></div>';		
+		                        <?php
 									$checked = "";
-									$contador ++;
+									$contador = 0;
+									foreach ($menus->result() as $linha){
+										$numRowsTotais = $this->M_menus->contarMenus(@$perfilusuario_id,$linha->menu_id);
+										if ($numRowsTotais > 0) {
+											$checked = "checked";
+										}
+
+										if ($contador == 0) {
+											echo '<div class="col-xs-5 col-xs-offset-1">';
+										}else{
+											echo '<div class="col-xs-5">';
+										}
+										
+										echo '
+											<div class="item-menu-perfil">
+												<div class="titulo-menu">
+													<input class="checkbox-pai" type="checkbox" name="perfilusuario_menu[]" '.$checked.' value="'.$linha->menu_id.'"><div class="nome">'.$linha->nome.'</div>
+												</div>';
+										
+										$submenus = $this->M_menus->buscarSubmenus($linha->menu_id);
+										echo '<ul class="lista-menus">';
+											$submenuChecked = "";
+											foreach ($submenus->result() as $linhaSubmenu) {
+												$numRowsTotaisSubmenu = $this->M_menus->contarMenus(@$perfilusuario_id,$linhaSubmenu->menu_id);
+												if ($numRowsTotaisSubmenu > 0) {
+													$submenuChecked = "checked";
+												}
+												echo '<li class="row"><input type="checkbox" name="perfilusuario_menu[]" '.$submenuChecked.' value="'.$linhaSubmenu->menu_id.'">'.$linhaSubmenu->nome.'</li>';
+											}
+										echo '</ul>';										
+										echo '</div></div>';		
+										$checked = "";
+										$contador ++;
 
 
-									if ($contador == 2) {
-										echo "</div><div class='row container-menus-perfis'>";
-										$contador = 0;
+										if ($contador == 2) {
+											echo "</div><div class='row container-menus-perfis'>";
+											$contador = 0;
+										}
 									}
-								}
-							?>
+								?>
+							</div>
 						</div>
 
                         <div class="row">

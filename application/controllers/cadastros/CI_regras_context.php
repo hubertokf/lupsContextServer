@@ -10,6 +10,7 @@ class CI_regras_context extends CI_controller {
 		$this->load->model('M_regras');
 		$this->load->model('M_relcontextointeresse');
 		$this->load->model('M_usuarios');
+		$this->load->model('M_perfisusuarios');
 		$this->load->model('M_contextosinteresse');
 		$this->load->model('M_sensores');
 		$this->load->model('M_Regras_SB');
@@ -38,7 +39,9 @@ class CI_regras_context extends CI_controller {
 
 	function pesquisa($nr_pagina=20 ){
 		$this->dados["metodo"] = "pesquisa";
-		if ($this->session->userdata('perfilusuario_id') == 2)
+		$perfilusuario_id = $this->session->userdata('perfilusuario_id');
+		$this->dados["isAdm"] = $this->M_perfisusuarios->isAdm($perfilusuario_id);
+		if ($this->dados["isAdm"] == 't')
 			$this->dados["linhas"] = $this->M_regras->pesquisar('',array('r.tipo '=>3), $nr_pagina, $this->uri->segment(5), 'asc', FALSE,3,array('r.tipo '=>1));
 		else
 			$this->dados["linhas"] = $this->M_regras->pesquisar('',array('r.tipo '=>3,'p.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5), 'asc', TRUE,3,array('r.tipo '=>1));
@@ -59,7 +62,8 @@ class CI_regras_context extends CI_controller {
 	}
 
 	function cadastro($value = ""){
-		if ($this->session->userdata('perfilusuario_id') == 2){
+		$perfilusuario_id = $this->session->userdata('perfilusuario_id');
+		if ($this->M_perfisusuarios->isAdm($perfilusuario_id) == 't'){
 			// $this->dados["sensores"] = $this->M_sensores->pesquisar($select='', $where=array(), $limit=100, $offset=0, $ordem='asc');
 			 $this->dados["sensores"] = $this->M_sensores->pesquisar();
 		}else{

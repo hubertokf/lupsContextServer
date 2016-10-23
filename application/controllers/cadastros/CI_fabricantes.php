@@ -7,6 +7,7 @@
 		$this->load->model('M_geral');
 		$this->load->model('M_configuracoes');
 		$this->load->model('M_usuarios');
+		$this->load->model('M_perfisusuarios');
 			$this->load->model('M_fabricantes');
 			$this->M_geral->verificaSessao();
 			if ($this->session->userdata('usuario_id') != 0 && $this->session->userdata('usuario_id') != ""){
@@ -14,8 +15,8 @@
 				$this->dados['usuario_logado'] = $this->session->userdata('nome');
 			}else
 				$this->dados['isLoged'] = false;
-			if (isset($this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["titulo"])){
-				$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["titulo"];				
+			if ($this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"] != ""){
+				$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"];				
 			}else{
 				$this->dados['title'] = $this->M_configuracoes->selecionar('titulo')->result_array()[0]["value"];
 			}

@@ -40,7 +40,8 @@
 
     <?php
     $usuario_id = $this->session->userdata('usuario_id');
-    if (isset($this->M_usuarios->selecionar($usuario_id)->result_array()[0]["img_cabecalho"]))
+    echo $this->M_usuarios->selecionar($usuario_id)->result_array()[0]["img_cabecalho"];
+    if ($this->M_usuarios->selecionar($usuario_id)->result_array()[0]["img_cabecalho"] != "")
         $file = $this->M_usuarios->selecionar($usuario_id)->result_array()[0]["img_cabecalho"];
     else
         $file = $this->M_configuracoes->selecionar('img_cabecalho')->result_array()[0]["value"];
@@ -51,15 +52,19 @@
             <div class="invisiblemenu row">
                 <div class="col-xs-8">
                     <div class="projectName">
-                        PLENUS
+                        <?php 
+                            if ($this->M_usuarios->selecionar($usuario_id)->result_array()[0]["titulo_projeto"] != "")
+                                echo $this->M_usuarios->selecionar($usuario_id)->result_array()[0]["titulo_projeto"];
+                            else
+                                echo $this->M_configuracoes->selecionar('titulo_projeto')->result_array()[0]["value"];
+                        ?>
                     </div>
                     <div class="app <?php if ($this->uri->segment(1) == 'CI_visualizacao' || $this->uri->segment(1) == '') echo 'ativo'; ?>">
                         <a href="<?php echo base_url(); ?>CI_visualizacao">Visualizacão</a>
                     </div>
 
                     <?php
-                    $countMenu = $this->M_usuarios->countUsuarioMenu($usuario_id);
-                    if ($isLoged != "" && $countMenu > 0){
+                    if ($isLoged != ""){
                     ?>
 
                     <div class="app <?php if ($this->uri->segment(1) != 'CI_visualizacao') echo 'ativo'; ?>">
@@ -96,7 +101,7 @@
                 <div class="col-sm-3" >
                     <div class="logo" style="text-align: center;">
                         <?php
-                        if (isset($this->M_usuarios->selecionar($usuario_id)->result_array()[0]["img_projeto"]))
+                        if ($this->M_usuarios->selecionar($usuario_id)->result_array()[0]["img_projeto"] != "")
                             $file = $this->M_usuarios->selecionar($usuario_id)->result_array()[0]["img_projeto"];
                         else
                             $file = $this->M_configuracoes->selecionar('img_projeto')->result_array()[0]["value"];

@@ -18,14 +18,15 @@
 			$this->load->model('M_ambientes');
 			$this->load->model('M_usuarios');
 			$this->load->model('M_sensores');
+			$this->load->model('M_perfisusuarios');
 			$this->M_geral->verificaSessao();
 			if ($this->session->userdata('usuario_id') != 0 && $this->session->userdata('usuario_id') != ""){
 				$this->dados['isLoged'] = true;
 				$this->dados['usuario_logado'] = $this->session->userdata('nome');
 			}else
 				$this->dados['isLoged'] = false;
-			if (isset($this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["titulo"])){
-				$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["titulo"];				
+			if ($this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"] != ""){
+				$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"];				
 			}else{
 				$this->dados['title'] = $this->M_configuracoes->selecionar('titulo')->result_array()[0]["value"];
 			}
@@ -39,9 +40,9 @@
 		
 		function pesquisa($nr_pagina=20 ){
 			$usuarioId = $this->session->userdata('usuario_id');
-			$usuarioPerfil = $this->session->userdata('perfilusuario_id');
 			$this->dados["metodo"] = "pesquisa";
-			if ((int)$usuarioPerfil <= 2) {	
+			$perfilusuario_id = $this->session->userdata('perfilusuario_id');
+			if ($this->M_perfisusuarios->isAdm($perfilusuario_id) == 't'){	
 				$this->dados["linhas"] = $this->M_agendamentos->pesquisar('', array(), $nr_pagina, $this->uri->segment(5));
 			} else {
 				$this->dados["linhas"] = $this->M_agendamentos->pesquisar('', array('agendamento.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5));				
@@ -70,6 +71,8 @@
 		function cadastro(){
 			$this->dados["usuario"] = $this->M_usuarios->pesquisar(); 
 			$this->dados["ambiente"] = $this->M_ambientes->pesquisar();
+			$perfilusuario_id = $this->session->userdata('perfilusuario_id');
+			$this->dados["isAdm"] = $this->M_perfisusuarios->isAdm($perfilusuario_id);
 			$this->load->view('inc/topo',$this->dados);
 			$this->load->view('inc/menu');
 			$this->load->view('agenda/agendamentos/cadastro');

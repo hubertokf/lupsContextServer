@@ -27,7 +27,7 @@
 									<td>".$linha['arquivo_py']."</td>
 									<td>Ativo</td>
 									<td class='buttons-row'>";
-							if ($this->session->userdata('perfilusuario_id') == 2 || $linha['podeeditar'] == "t")
+							if ($isAdm == 't' || $linha['podeeditar'] == "t")
 								echo "
 										<a class='botaoStatus' id='view-$linha[regra_id]' data-status='$linha[status]' href='javascript:;' alt='Desativar Regra' title='Desativar Regra'><i class='fa fa-pause fa-2x'></i></a>
 										<a class='botaoEditar' id='edit-$linha[regra_id]' href='javascript:;' alt='Editar Registro' title='Editar Registro'><i class='fa fa-pencil-square-o fa-2x'></i></a>
@@ -44,7 +44,7 @@
 									<td>".$linha['arquivo_py']."</td>
 									<td>Inativo</td>
 									<td class='buttons-row'>";
-							if ($this->session->userdata('perfilusuario_id') == 2 || $linha['podeeditar'] == "t")
+							if ($isAdm == 't' || $linha['podeeditar'] == "t")
 								echo "
 										<a class='botaoStatus' id='view-$linha[regra_id]' data-status='$linha[status]' href='javascript:;' alt='Ativar Regra' title='Ativar Regra'><i class='fa fa-play fa-2x'></i></a>
 										<a class='botaoEditar' id='edit-$linha[regra_id]' href='javascript:;' alt='Editar Registro' title='Editar Registro'><i class='fa fa-pencil-square-o fa-2x'></i></a>

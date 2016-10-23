@@ -9,6 +9,7 @@ class CI_permissoes extends CI_controller {
 		$this->load->model('M_configuracoes');
 		$this->load->model('M_permissoes');
 		$this->load->model('M_usuarios');
+		$this->load->model('M_perfisusuarios');
 		$this->load->model('M_contextosinteresse');
 		$this->load->model('M_sensores');
 		$this->load->model('M_ambientes');

@@ -9,14 +9,15 @@ class CI_servidorcontexto extends CI_controller {
 		$this->load->model('M_configuracoes');
 		$this->load->model('M_servidorcontexto');
 		$this->load->model('M_usuarios');
+		$this->load->model('M_perfisusuarios');
 		$this->M_geral->verificaSessao();
 		if ($this->session->userdata('usuario_id') != 0 && $this->session->userdata('usuario_id') != ""){
 				$this->dados['isLoged'] = true;
 				$this->dados['usuario_logado'] = $this->session->userdata('nome');
 			}else
 				$this->dados['isLoged'] = false;
-		if (isset($this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["titulo"])){
-			$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["titulo"];				
+		if ($this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"] != ""){
+			$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"];				
 		}else{
 			$this->dados['title'] = $this->M_configuracoes->selecionar('titulo')->result_array()[0]["value"];
 		}
@@ -33,7 +34,7 @@ class CI_servidorcontexto extends CI_controller {
 		$this->dados["linhas"] = $this->M_servidorcontexto->pesquisar('', array(), $nr_pagina, $this->uri->segment(5));
 		$this->dados["nr_pagina"] = $nr_pagina;
 		$this->dados["total"] = $this->M_servidorcontexto->numeroLinhasTotais();
-		$this->dados["tituloPesquisa"] = "servidorcontextos Cadastrados";
+		$this->dados["tituloPesquisa"] = "Servidor de Contexto Cadastrado";
 		$pag['base_url'] = base_url.$this->dados["caminho"]."/".$this->dados["metodo"]."/".$nr_pagina."/";
 		$pag['total_rows'] = $this->dados["total"];
 		$pag['uri_segment']	= 5;

@@ -10,6 +10,7 @@ class CI_ambientes extends CI_controller {
 		$this->load->model('M_ambientes');
 		$this->load->model('M_gateways');
 		$this->load->model('M_usuarios');
+		$this->load->model('M_perfisusuarios');
 		$this->load->model('M_sensores');
 		$this->M_geral->verificaSessao();
 		if ($this->session->userdata('usuario_id') != 0 && $this->session->userdata('usuario_id') != ""){
@@ -29,7 +30,9 @@ class CI_ambientes extends CI_controller {
 	function pesquisa($nr_pagina=20 ){
 		$this->dados["metodo"] = "pesquisa";
 
-		if ($this->session->userdata('perfilusuario_id') == 2)
+		$perfilusuario_id = $this->session->userdata('perfilusuario_id');
+		$this->dados["isAdm"] = $this->M_perfisusuarios->isAdm($perfilusuario_id);
+		if ($this->dados["isAdm"] == 't')
 			$this->dados["linhas"] = $this->M_ambientes->pesquisar('', array(), $nr_pagina, $this->uri->segment(5), 'asc', FALSE);
 		else
 			$this->dados["linhas"] = $this->M_ambientes->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5), 'asc', TRUE);

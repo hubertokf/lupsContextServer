@@ -13,6 +13,7 @@
 		private $usuario_img_cabecalho;
 		private $usuario_img_projeto;
 		private $usuario_cor_predominante;
+		private $usuario_titulo_projeto;
 		  
         function __construct() {
         	parent::__construct();
@@ -75,7 +76,8 @@
 	                "website_titulo"		=> $this->usuario_website_titulo,	
 					"img_cabecalho"			=> $this->usuario_img_cabecalho,
 					"img_projeto"			=> $this->usuario_img_projeto,	
-					"cor_predominante"		=> $this->usuario_cor_predominante
+					"cor_predominante"		=> $this->usuario_cor_predominante,
+					"titulo_projeto"		=> $this->usuario_titulo_projeto
 	            );				
 			}else{
 				$arrayCampos  = array(
@@ -89,7 +91,8 @@
 	                "website_titulo"		=> $this->usuario_website_titulo,	
 					"img_cabecalho"			=> $this->usuario_img_cabecalho,
 					"img_projeto"			=> $this->usuario_img_projeto,	
-					"cor_predominante"		=> $this->usuario_cor_predominante
+					"cor_predominante"		=> $this->usuario_cor_predominante,
+					"titulo_projeto"		=> $this->usuario_titulo_projeto
 	            );		
 			}
 			if ($this->usuario_id == ""){
@@ -184,31 +187,38 @@
 		}
 
 		public function getUsuarioWebsiteTitulo(){
-			if($this->website_titulo === NULL) {
-				$this->website_titulo = new UsuarioWebsiteTitulo;
+			if($this->usuario_website_titulo === NULL) {
+				$this->usuario_website_titulo = new UsuarioWebsiteTitulo;
 			}
-			return $this->website_titulo;
+			return $this->usuario_website_titulo;
 		}
 
 		public function getUsuarioImgCabecalho(){
-			if($this->img_cabecalho === NULL) {
-				$this->img_cabecalho = new UsuarioImgCabecalho;
+			if($this->usuario_img_cabecalho === NULL) {
+				$this->usuario_img_cabecalho = new UsuarioImgCabecalho;
 			}
-			return $this->img_cabecalho;
+			return $this->usuario_img_cabecalho;
 		}
 
 		public function getUsuarioImgProjeto(){
-			if($this->img_projeto === NULL) {
-				$this->img_projeto = new UsuarioImgProjeto;
+			if($this->usuario_img_projeto === NULL) {
+				$this->usuario_img_projeto = new UsuarioImgProjeto;
 			}
-			return $this->img_projeto;
+			return $this->usuario_img_projeto;
 		}
 
 		public function getUsuarioCorPredominante(){
-			if($this->cor_predominante === NULL) {
-				$this->cor_predominante = new UsuarioCorPredominante;
+			if($this->usuario_cor_predominante === NULL) {
+				$this->usuario_cor_predominante = new UsuarioCorPredominante;
 			}
-			return $this->cor_predominante;
+			return $this->usuario_cor_predominante;
+		}
+
+		public function getUsuarioTituloProjeto(){
+			if($this->usuario_titulo_projeto === NULL) {
+				$this->usuario_titulo_projeto = new UsuarioTituloProjeto;
+			}
+			return $this->usuario_titulo_projeto;
 		}
 
 		public function setUsuarioId($valor){
@@ -275,19 +285,23 @@
 		}
 
 		public function setUsuarioWebsiteTitulo($valor){
-			$this->website_titulo = $valor;
+			$this->usuario_website_titulo = $valor;
 		}
 
 		public function setUsuarioImgCabecalho($valor){
-			$this->img_cabecalho = $valor;
+			$this->usuario_img_cabecalho = $valor;
 		}
 
 		public function setUsuarioImgProjeto($valor){
-			$this->img_projeto = $valor;
+			$this->usuario_img_projeto = $valor;
 		}
 
 		public function setUsuarioCorPredominante($valor){
-			$this->cor_predominante = $valor;
+			$this->usuario_cor_predominante = $valor;
+		}
+
+		public function setUsuarioTituloProjeto($valor){
+			$this->usuario_titulo_projeto = $valor;
 		}
 
 	}

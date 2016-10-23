@@ -3,6 +3,7 @@
 	    private $perfilusuario_id;
 	    private $perfilusuario_desc;
 		private $perfilusuario_nome;
+		private $perfilusuario_superAdm;
 	
         function pesquisar($select='', $where=array(), $limit=10, $offset=0, $ordem='asc') {
             $this->db->select($select);
@@ -17,24 +18,34 @@
             $this->db->where("perfilusuario_id", $codigo);
             return $this->db->get('perfisusuarios');
         }
+
+        function isAdm($codigo){
+        	$this->db->select('superAdm');
+            $this->db->from('perfisusuarios');
+            $this->db->where('perfilusuario_id',$codigo);
+
+            return $this->db->get()->row()->superAdm;
+        }
+
 		function salvar() {
             $arrayCampos  = array(
-                "descricao" 	=> $this->perfil_desc,
-                "nome" 			=> $this->perfil_nome
+                "descricao" 	=> $this->perfilusuario_desc,
+                "nome" 			=> $this->perfilusuario_nome,
+                "superAdm" 		=> $this->perfilusuario_superAdm
             );
-			if ($this->perfil_id == ""){
+			if ($this->perfilusuario_id == ""){
 	            $this->db->insert('perfisusuarios', $arrayCampos);
 		        return "inc";
 			}
         	else{
-	            $this->db->update('perfisusuarios', $arrayCampos, array("perfilusuario_id"=>$this->perfil_id));
+	            $this->db->update('perfisusuarios', $arrayCampos, array("perfilusuario_id"=>$this->perfilusuario_id));
 		        return "alt";
         	}
 		}
 		
 		function salvarMenu($valor) {
 			$arrayCampos = array(
-				"perfilusuario_id"		=> $this->perfil_id,
+				"perfilusuario_id"		=> $this->perfilusuario_id,
 				"menu_id"		=> $valor 
 			);
 			$this->db->insert('perfisusuarios', $arrayCampos);
@@ -42,7 +53,7 @@
 		
 		function excluir() {
             $arrayCampos  = array(
-                "perfilusuario_id" => $this->perfil_id                
+                "perfilusuario_id" => $this->perfilusuario_id                
             );
             if ($this->db->delete('perfisusuarios', $arrayCampos)){
             	if ($this->db->delete('perfisusuarios', $arrayCampos))
@@ -54,7 +65,7 @@
 		
 		function excluirMenus() {
 			$arrayCampos  = array(
-                "perfilusuario_id" => $this->perfil_id                
+                "perfilusuario_id" => $this->perfilusuario_id                
             );
             if ($this->db->delete('relmenuperfil', $arrayCampos))
 	            return true;
@@ -71,42 +82,53 @@
 		// Getters and Setters 
 	
 		public function getPerfilId(){
-			if($this->perfil_id === NULL) {
-				$this->perfil_id = new PerfilId;
+			if($this->perfilusuario_id === NULL) {
+				$this->perfilusuario_id = new PerfilId;
 			}
-			return $this->perfil_id;
+			return $this->perfilusuario_id;
 		}
 		
 		public function getPerfilDesc() {
-		    if($this->perfil_desc === NULL) {
-        		$this->perfil_desc = new PerfilDesc;
+		    if($this->perfilusuario_desc === NULL) {
+        		$this->perfilusuario_desc = new PerfilDesc;
     		}			
-			return $this->perfil_desc;
+			return $this->perfilusuario_desc;
 		}
 		
 		public function getPerfilNome() {
-		    if($this->perfil_nome === NULL) {
-        		$this->perfil_nome = new PerfilNome;
+		    if($this->perfilusuario_nome === NULL) {
+        		$this->perfilusuario_nome = new PerfilNome;
     		}			
-			return $this->perfil_nome;
+			return $this->perfilusuario_nome;
+		}	
+
+		public function getPerfilSuperAdm() {
+		    if($this->perfilusuario_superAdm === NULL) {
+        		$this->perfilusuario_superAdm = new PerfilSuperAdm;
+    		}			
+			return $this->perfilusuario_superAdm;
 		}	
 		
 		public function setPerfilId($valor){
-			$this->perfil_id = $valor;
+			$this->perfilusuario_id = $valor;
 		}
 		
 		public function setPerfilDesc($valor){
 			if(!is_string($valor)) {
 				throw new InvalidArgumentException('Expected String');
 			}
-			$this->perfil_desc = $valor;
+			$this->perfilusuario_desc = $valor;
 		}
 		
 		public function setPerfilNome($valor){
 			if(!is_string($valor)) {
 				throw new InvalidArgumentException('Expected String');
 			}
-			$this->perfil_nome = $valor;
+			$this->perfilusuario_nome = $valor;
+		}
+
+		public function setPerfilSuperAdm($valor){
+			$this->perfilusuario_superAdm = $valor;
 		}
 		
 	}

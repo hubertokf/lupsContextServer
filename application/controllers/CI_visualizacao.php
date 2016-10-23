@@ -20,13 +20,14 @@
 			$this->load->model('M_publicacoes');
 			$this->load->model('M_usuarios');
 			$this->load->model('M_servidoresborda');
+			$this->load->model('M_perfisusuarios');
 			if ($this->session->userdata('usuario_id') != 0 && $this->session->userdata('usuario_id') != ""){
 				$this->dados['isLoged'] = true;
 				$this->dados['usuario_logado'] = $this->session->userdata('nome');
 			}else
 				$this->dados['isLoged'] = false;
-			if (isset($this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["titulo"])){
-				$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["titulo"];				
+			if ($this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"] != ""){
+				$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"];				
 			}else{
 				$this->dados['title'] = $this->M_configuracoes->selecionar('titulo')->result_array()[0]["value"];
 			}
@@ -36,7 +37,8 @@
 	
 		function index(){
 			if ($this->session->userdata('usuario_id') != null){
-				if ($this->session->userdata('perfilusuario_id') == 2)
+				$perfilusuario_id = $this->session->userdata('perfilusuario_id');
+				if ($this->M_perfisusuarios->isAdm($perfilusuario_id) == 't')
 					$this->dados["contextos_interesse"] = $this->M_contextosinteresse->pesquisar('', array(), 10000, 0, 'asc', FALSE);			
 				else
 					$this->dados["contextos_interesse"] = $this->M_contextosinteresse->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 10000, 0, 'asc', TRUE);
@@ -221,7 +223,8 @@
 			$this->dados["sensor"] = $this->M_sensores->selecionar($_SESSION['sensor'])->result_array();
 
 			if ($this->session->userdata('usuario_id') != null){
-				if ($this->session->userdata('perfilusuario_id') == 2){
+				$perfilusuario_id = $this->session->userdata('perfilusuario_id');
+				if ($this->M_perfisusuarios->isAdm($perfilusuario_id) == 't'){
 					$this->dados["sensores"] = $this->M_sensores->pesquisar('', array(), 10000, 0, 'asc', FALSE);
 				}
 				else
@@ -244,7 +247,8 @@
 			FROM publicacoes
 			inner join sensor_public on publicacoes.sensor_public_id = sensor_public.sensor_public_id " . $where . "
 			 ORDER BY contexto_dthr ASC) AS A" ;*/
-			if ($this->session->userdata('perfilusuario_id') == 2)
+			$perfilusuario_id = $this->session->userdata('perfilusuario_id');
+			if ($this->M_perfisusuarios->isAdm($perfilusuario_id) == 't')
 				$dados = $this->M_publicacoes->pesquisar('', $where, 100000, 0, "datacoleta", 'asc', FALSE, $whereOR);
 			else{
 				if ($this->session->userdata('usuario_id') != null)

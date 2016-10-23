@@ -805,6 +805,19 @@ $(document).ready(function(){
 				}
 	    	});			
 	  	});
+	  	
+		if(document.getElementById('perfilusuario_superAdm').checked) {
+		    $("#menus-perfis").hide();
+		} else {
+		    $("#menus-perfis").show();
+		}
+	  	$('#perfilusuario_superAdm').click(function() {
+		    if(document.getElementById('perfilusuario_superAdm').checked) {
+			    $("#menus-perfis").hide();
+			} else {
+			    $("#menus-perfis").show();
+			}
+		});
 	});
 (function() {
     var matched, browser;

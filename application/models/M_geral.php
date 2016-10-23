@@ -85,15 +85,23 @@
 		
 		function build_menu()
 	    {
+			$perfilusuario_id = $this->session->userdata('perfilusuario_id');
+
+			$this->db->select('superAdm');
+            $this->db->from('perfisusuarios');
+            $this->db->where('perfilusuario_id',$perfilusuario_id);
+            
+            $isAdm = $this->db->get()->row()->superAdm;
+
 	    	$this->db->select('menus.*');
 			$this->db->from('menus');
-			$this->db->join('relmenuperfil','menus.menu_id = relmenuperfil.menu_id');
-			$this->db->where('relmenuperfil.perfilusuario_id',$this->session->userdata('perfilusuario_id'));
+			$this->db->join('relmenuperfil','menus.menu_id = relmenuperfil.menu_id', 'left');
+			if ($isAdm == 'f'){
+				$this->db->where('relmenuperfil.perfilusuario_id',$perfilusuario_id);
+			}
 	    	$this->db->order_by('ordem','asc');    
 	        $query = $this->db->get();
 
-
-	
 			$menu = false;
 	        foreach ($query->result() as $row)
 	        {
