@@ -89,7 +89,7 @@ class CI_contextosinteresse extends CI_controller {
 			$this->M_contextosinteresse->setContextoInteresseNome($_POST["contextointeresse_nome"]);
 			$this->M_contextosinteresse->setContextoInteresseServidorContexto('9');
 			$this->M_contextosinteresse->setContextoInteresseSensores($_POST["contextointeresse_sensores"]);
-			$this->M_contextosinteresse->setContextoInteresseRegra(isset($_POST["contextointeresse_regra"]) ? $_POST["contextointeresse_regra"] : null);
+			$this->M_contextosinteresse->setContextoInteresseRegra(isset($_POST["contextointeresse_regra"]) && $_POST["contextointeresse_regra"] != '' ? $_POST["contextointeresse_regra"] : null);
 			$this->M_contextosinteresse->setContextoInteresseTrigger(isset($_POST["contextointeresse_trigger"]) ? $_POST["contextointeresse_trigger"] : null);
 			if (isset($_POST["contextointeresse_publico"])){
 				$this->M_contextosinteresse->setContextoInteressePublico("TRUE");
