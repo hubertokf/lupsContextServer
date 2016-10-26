@@ -513,6 +513,13 @@ $(document).ready(function(){
 		$(".sensorsOutCI").find(":selected")[0].remove();
 	});
 
+	$('#insertRulesCI').click(function(){
+		itemText = $(".sensorsOutCI").find(":selected")[0].text;
+		itemVal = $(".sensorsOutCI").find(":selected")[0].value;
+		$(".ciSensorList").append("<li class='ciSensorItem' data-id='"+itemVal+"' data-text='"+itemText+"'><input type='hidden' name='contextointeresse_sensores[]' value='"+itemVal+"'><div class='col-xs-11'>"+itemText+"</div><div class='col-xs-1'><div class='removeSensorCI'><i class='fa fa-times fa-2x' style = 'padding-top : 2px'></div></i></div></li>");
+		$(".sensorsOutCI").find(":selected")[0].remove();
+	});
+
 	$('ul.ciSensorList').on('click', 'div.removeSensorCI', function(){
 		var e = $(this).parent().parent();
 		value = e.data('id');
@@ -798,14 +805,14 @@ $(document).ready(function(){
 		$('.borda_url').each(function(){
 			var row = $(this).parent();
 			$.ajax({
-				url: window.base_url+"CI_visualizacao/checkServerStatus?addr="+$(this).text(), 
+				url: window.base_url+"CI_visualizacao/checkServerStatus?addr="+$(this).text(),
 				complete: function(response) {
 					if (response.responseText=="1")
 	        			row.find('.borda_status').html('<i class="fa fa-circle" aria-hidden="true" style="color:green;"></i>').attr("title","Online");
 				}
-	    	});			
+	    	});
 	  	});
-	  	
+
 		if(document.getElementById('perfilusuario_superAdm').checked) {
 		    $("#menus-perfis").hide();
 		} else {

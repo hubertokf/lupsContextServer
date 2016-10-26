@@ -83,7 +83,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
       complete: function (response) {
           //  console.log("bugg",response['responseText']);
           //  console.log();
-          // window.location.replace(window.base_url+"cadastros/"+path[3]+"?msg="+response['responseText']);
+         window.location.replace(window.base_url+"cadastros/"+path[3]+"?msg="+response['responseText']);
           }
     });
   };
