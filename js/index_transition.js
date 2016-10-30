@@ -1,6 +1,6 @@
-define(["aquisitionsRules/controller_aquisition","jquery"], function(ControllerAquisition,$){
+define(["transitions/Control_transition","jquery"], function(ControlTransition,$){
 
 
-		var control_aquisition = new ControllerAquisition();
+		var control_aquisition = new ControlTransition();
 
 });

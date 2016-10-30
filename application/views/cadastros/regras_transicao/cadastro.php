@@ -74,7 +74,7 @@
 
                      foreach ($rules->result_array() as $rule){
                          if (!in_array($rule['sensor_id'], $rules_id)){
-                             echo '<option value="'.$rule['regra_id'].'">'.$rule['nome'].'</option>';
+                             echo '<option data-id="'.$rule['regra_id'].'" value="'.$rule['id_regra_borda'].'">'.$rule['nome'].'</option>';
                          }
                      }
                      ?>
@@ -120,7 +120,7 @@
 							 <option value="" selected="" disabled="">Selecione</option>
 							 <?php $result = $conditions;
 							    foreach ($result as $condicoes) {
-							      echo "<option data-type='".$condicoes['tipo']."' data-name='".$condicoes['nome']."'value=".$condicoes['uuid'].">".$condicoes['nome_legivel']."</option>";
+							      echo "<option data-type='".$condicoes['tipo']."' data-name='".$condicoes['nome']."'value=".$condicoes['sensor'].">".$condicoes['nome_legivel']."</option>";
 							    }
 							  ?>
 						 </select>
@@ -199,6 +199,10 @@
 						 ?>
 					</select>
 				</div>
+				<div class="col-xs-offset-3 col-xs-2"  style="margin-top: -26px">
+					<button type="button" class = "button_rule " id = "submit_rules_transition">submeter agendamento</button>
+				</div>
+			</div>
 
 			 </div>
        </div>
