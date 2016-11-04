@@ -7,7 +7,7 @@
 		private $publicacao_datapublicacao;
 		private $publicacao_valorcoletado;
 
-	    function pesquisar($select='', $where=array(), $limit=10, $offset=0, $orderby='publicacao_id', $ordem='asc', $perm=FALSE, $whereOR=array()) {
+	    function pesquisar($select='', $where=array(), $limit=10, $offset=0, $orderby='publicacao_id', $ordem='asc', $perm=FALSE, $whereOR=array(), $last7=FALSE) {
 	    	if ($perm == FALSE){
 		        $this->db->select('pu.*');
 
@@ -37,6 +37,8 @@
 		    }
 		    
 	        $this->db->where($where);
+	        if($last7)
+				$this->db->where('datacoleta BETWEEN DATE_SUB(NOW(), INTERVAL 7 DAY) AND NOW()');
 	        $this->db->or_where($whereOR);
 	        $this->db->order_by($orderby,$ordem);
 	   	    $this->db->limit($limit, $offset);

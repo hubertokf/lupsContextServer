@@ -185,21 +185,36 @@
 			$dias = 7;
 			$results = array();
 			$meds = array();
+			$meds2 = array();
 			$date = date("Y-m-d");
-			
-			for ($i = 0; $i < $dias; $i++) {
 
+			$i = 0;
+			$limit = 0;
+			while ($i <= 6) {
 				$where = array(
 					'publicacoes.sensor_id' => $_SESSION["sensor"],
 					'DATE(datacoleta)' => $date
 					);
 
 				$rows = $this->M_publicacoes->getDataByDay($where)->result_array();
+				
 
-				array_push($results, $rows);
-				array_push($meds, $this->M_publicacoes->getMMM($where)->result_array());
+				if(!empty($rows)){
+				
+					array_push($results, $rows);
+					array_push($meds, $this->M_publicacoes->getMMM($where)->result_array());
+
+					$i++;
+					$limit = 0;
+				}else{
+					$limit++;
+				}
 
 				$date = date('Y-m-d', strtotime($date . ' -1 day'));
+				
+				if($limit >= 120){
+					break;
+				}
 			}
 
 			$this->dados["dias"] = $results;
