@@ -97,7 +97,8 @@ class Publicacoes extends REST_Controller {
                 $this->M_publicacoes->setPublicacaoSensor($content['sensor_id']);
             }
             $this->M_publicacoes->setPublicacaoDataColeta($content['datacoleta']);
-            $this->M_publicacoes->setPublicacaoDataPublicacao($content['datapublicacao']);
+            if (isset($content['datapublicacao'])
+                $this->M_publicacoes->setPublicacaoDataPublicacao($content['datapublicacao']);
             $this->M_publicacoes->setPublicacaoValorColetado($content['valorcoletado']);
 
             //pega do BANCO o ambiente_id o qual aquele sensor estah instalado, valormax e min do sensor, e status do ambiente
