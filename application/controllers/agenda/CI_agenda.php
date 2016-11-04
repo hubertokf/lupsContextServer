@@ -200,7 +200,7 @@
  		    	$this->session->set_userdata('ambiente_id', $_POST['agendamento_ambiente']);
  		    }
  		    $idambiente = $this->session->userdata('ambiente_id');
- 		    $dadosAgendamento = $this->M_agendamentos->pesquisar($select='', $where='agendamento.ambiente_id = '.$idambiente.'', $limit=9999, $offset=0, $ordem='asc');	
+ 		    $dadosAgendamento = $this->M_agendamentos->pesquisar($select='', $where='ag.ambiente_id = '.$idambiente.'', $limit=9999, $offset=0, $ordem='asc');	
 
  		    foreach ($dadosAgendamento as $linha){	
  		    	$totalDays = howDays($linha['datetimeinicial'],$linha['datetimefinal']); 

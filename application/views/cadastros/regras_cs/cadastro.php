@@ -37,21 +37,20 @@
           <div id="type-rule">
             <div class="col-md-6 col-md-offset-3" style="margin-top: 20px;">
               <label for="type-rule-select">Tipo de regra:</label>
-              <select id="type-rule-select" <?php echo (isset($regra_tipo)) ? ' disabled' : ''; ?>>
-                <option value="1" <?php echo (isset($regra_tipo) && $regra_tipo == '1') ? ' selected="selected"' : ''; ?>>Regra Python</option>
-                <?php
+              <?php 
+                $tipo1 = $tipo3 = "";
+                if (!isset($regra_tipo)){
+                  $tipo1 = 'selected="selected"';
+                }elseif(isset($regra_tipo) && $regra_tipo == '1'){
+                  $tipo1 = 'selected="selected"';
+                }elseif(isset($regra_tipo) && $regra_tipo == '3'){
+                  $tipo3 = 'selected="selected"';
+                }
+              ?>
 
-                  if (isset($regra_tipo) && $regra_tipo == '3'){
-                    ?>
-                      <option value="3" selected="selected">Motor de regras</option>
-                    <?php
-                  }elseif (!isset($regra_tipo)) {
-                    ?>
-                    <option value="3" selected="selected">Motor de regras</option>
-                    <?php
-                  }
-
-                 ?>
+              <select id="type-rule-select" <?php echo (isset($regra_tipo)) ? ' disabled' : ''; ?> >
+                <option value="1" <?php echo $tipo1 ?>>Regra Python</option>
+                <option value="3" <?php echo $tipo3 ?>>Motor de regras</option>
               </select>
             </div>
           </div>
@@ -157,10 +156,8 @@
 				 				<input type="checkbox" id = "box_status_rules" ><label id = "label_box" style="margin-top:3px">Ativar Regra</label>
 				 			</div>
 				 	</div>
-				</div>
-			</div>
 
-           <!-- <div class="col-md-4" id = "padding_size">
+             <!-- <div class="col-md-4" id = "padding_size">
              oiiiiiiiiiiiiiiiiiiiiiiii
            </div> -->
            <div class="col-md-2 col-md-offset-3">
@@ -182,6 +179,10 @@
           </div>
         </div>
         </div>
+				</div>
+			</div>
+
+        
 
       </div>
 </section>

@@ -6,7 +6,7 @@
 					<div class="borda">
 						<div class="row">
 							<div class="col-xs-12">
-								<label for="contextointeresse">Local</label>	
+								<label for="contextointeresse">Contexto</label>	
 							</div>
 						</div>
 						<div class="row">

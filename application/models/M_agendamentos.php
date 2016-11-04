@@ -26,8 +26,8 @@ class M_agendamentos extends CI_Model{
 
    	    foreach($query as $i=>$agendamento) {
    	    	$this->db->select('sensor_id, nome');
-        	$this->db->from('sensores');
-			$this->db->where('ambiente_id', $agendamento['ambiente_id']);
+        	$this->db->from('sensores as s');
+			$this->db->where('s.ambiente_id', $agendamento['ambiente_id']);
 			$sensor_query = $this->db->get()->result_array();
 
 		   	$query[$i]['sensores'] = $sensor_query;
