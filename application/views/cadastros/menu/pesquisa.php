@@ -10,7 +10,7 @@
 				<thead>
 					<tr class="titulos row">
 			            <td class="col-xs-3">NOME</td>
-			            <td class="col-xs-3">MEU PAI</td>
+			            <td class="col-xs-3">MENU PAI</td>
 						<td class="col-xs-3">CAMINHO</td>
 			            <td class="col-xs-1">POSIÇÃO</td>
 			            <td class="check col-xs-2"></td>
