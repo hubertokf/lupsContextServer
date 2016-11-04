@@ -813,7 +813,7 @@ $(document).ready(function(){
 	    	});
 	  	});
 
-		if(document.getElementById('perfilusuario_superAdm').checked) {
+		if(document.getElementById('perfilusuario_superAdm') != null && document.getElementById('perfilusuario_superAdm').checked) {
 		    $("#menus-perfis").hide();
 		} else {
 		    $("#menus-perfis").show();

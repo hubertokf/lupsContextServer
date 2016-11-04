@@ -59,6 +59,7 @@ class CI_publicacoes extends CI_controller {
 
 	function cadastro(){
 		$this->dados["sensores"] = $this->M_sensores->pesquisar('', array(), $nr_pagina="", $this->uri->segment(5));
+		$this->dados["servidorbordas"] = $this->M_servidoresborda->pesquisar('', array(), $nr_pagina="", $this->uri->segment(5));
 		$this->load->view('inc/topo',$this->dados);
 		$this->load->view('inc/menu');
 		$this->load->view('cadastros/publicacao/cadastro');
@@ -125,6 +126,7 @@ class CI_publicacoes extends CI_controller {
 			
 			if(isset($_POST["item"])) {
 				$this->dados["registro"] = $this->M_publicacoes->selecionar($_POST["item"]);
+				$this->dados["borda"] = $this->M_sensores->selecionar($this->dados["registro"]->row()->sensor_id)->row();
 			} else if ($valor != "") {
 				$this->dados["registro"] = $this->M_publicacoes->selecionar($valor);
 			}

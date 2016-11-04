@@ -6,6 +6,7 @@
 			$publicacao_datacoleta		=	$linha->datacoleta;
 			$publicacao_datapublicacao	=	$linha->datapublicacao;
 			$publicacao_valorcoletado	=	$linha->valorcoletado;
+            $publicacao_servidorborda   =   $borda->servidorborda_id;
 		}
 	}
 ?>
@@ -25,7 +26,28 @@
                 <div class="col-sm-4 col-sm-offset-4">
                     <div class="cadastro-box">
 		            	<input type="hidden" name="publicacao_id" value="<?php echo @$publicacao_id;?>">
-
+                        
+                        <div class="row">
+                            <div class="col-xs-10 col-xs-offset-1 input">
+                                <label for="publicacao_servidorborda">Servidor de borda:</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-10 col-xs-offset-1 input">
+                                <select name="publicacao_servidorborda" id="publicacao_servidorborda">
+                                    <option value="">Selecione...</option>
+                                    <?php                                       
+                                        foreach ($servidorbordas->result() as $servidorborda){
+                                            $selected = "";
+                                            if ($servidorborda->servidorborda_id==@$publicacao_servidorborda){
+                                                $selected = "selected";
+                                            }
+                                            echo '<option value="'.$servidorborda->servidorborda_id.'" '.$selected.'>'.$servidorborda->nome.'</option>';
+                                        }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1 input">
                                 <label for="publicacao_sensor">Sensor:</label>
@@ -35,7 +57,7 @@
                             <div class="col-xs-10 col-xs-offset-1 input">
                                 <input type="hidden" id="sel_publicacao_sensor" value="<?php echo @$publicacao_sensor;?>">
                                 <select name="publicacao_sensor" id="publicacao_sensor">
-                                    <option value="" selected="" disabled="">Selecione um Servidor de Borda</option>
+                                    <option value="" selected="" disabled="">Selecione um Sensor</option>
                                 </select>
                             </div>
                         </div>
