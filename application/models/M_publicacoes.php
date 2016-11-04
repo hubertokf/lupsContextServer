@@ -85,12 +85,20 @@
 	    }
 
 		function salvar() {
-	        $arrayCampos  = array(
-	            "sensor_id" 		=> $this->publicacao_sensor,
-	            "datacoleta" 		=> $this->publicacao_datacoleta,
-	            "datapublicacao"	=> $this->publicacao_datapublicacao,
-	            "valorcoletado"		=> $this->publicacao_valorcoletado
-	        );
+			if ($this->publicacao_datapublicacao != null){
+		        $arrayCampos  = array(
+		            "sensor_id" 		=> $this->publicacao_sensor,
+		            "datacoleta" 		=> $this->publicacao_datacoleta,
+		            "datapublicacao"	=> $this->publicacao_datapublicacao,
+		            "valorcoletado"		=> $this->publicacao_valorcoletado
+		        );
+		    }else{
+		    	$arrayCampos  = array(
+		            "sensor_id" 		=> $this->publicacao_sensor,
+		            "datacoleta" 		=> $this->publicacao_datacoleta,
+		            "valorcoletado"		=> $this->publicacao_valorcoletado
+		        );
+		    }
 			if ($this->publicacao_id == ""){
 	            $this->db->insert('publicacoes', $arrayCampos);
 		        return "inc";
