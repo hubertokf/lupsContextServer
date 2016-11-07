@@ -89,6 +89,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
   };
 
   CreateRule.prototype. composition_conditions = function (finish) {
+
     var i               = 0;
     var before          = {}; // objeto de condição
     var parameters      = {};
@@ -96,7 +97,6 @@ define(["jquery","bootbox"],function ($,bootbox) {
     var all             = {}; // vetor para combinação secundárias, do tipo all
     rule['any']         = [];  //  este vetor é o vetor pase para criar as regras
     all['all']          = []; // vetor para combinação secundárias, do tipo all
-
 
     do {
       if(finish == 2){ // se possui apenas duas condições
@@ -172,7 +172,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
             before['parameters']   = parameters;
             all['all'].push(before);
             before                 = {};
-            // console.log(JSON.stringify(all));
+
             parameters             = {};
             before['name']         = this.compose_rule['conditions'][i+1];
             before['operator']     = this.compose_rule['compare'][i+1];
@@ -182,7 +182,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
             before['parameters']   = parameters;
             all['all'].push(before);
 
-            // rule['any'].push(all);
+
 
             i = i + 2;
           }
@@ -200,7 +200,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
 
             }
             else{ //caso o op anterior for ou, insere vetor sec no vetor base
-              // rule['any'].push(all);
+
               all                    = {};
               all['all']             = [];
               before                 = {};
@@ -254,9 +254,10 @@ define(["jquery","bootbox"],function ($,bootbox) {
                 rule['any'].push(before);
                 i = i + 3;
               }
-              else{i++;}
-            }
-            else{
+              else{
+                i++;
+              }
+            } else {
               rule['any'].push(all);
 
               if(i == finish-1){
@@ -360,7 +361,6 @@ define(["jquery","bootbox"],function ($,bootbox) {
              }}).find('.modal-content').css({'background-color': '#fcf8e3','border-color':'#faebcc', 'font-weight' : 'bold', 'color': '#8a6d3b', 'font-size': '2em', 'font-weight' : 'bold'} );
 
   }
-
 
   return CreateRule;
 

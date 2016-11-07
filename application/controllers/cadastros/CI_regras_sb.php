@@ -45,10 +45,13 @@ class CI_regras_sb extends CI_controller {
 		// $this->dados["msg"] =
 		$this->dados["metodo"] = "pesquisa";
 		$perfilusuario_id = $this->session->userdata('perfilusuario_id');
-		if ($this->M_perfisusuarios->isAdm($perfilusuario_id) == 't')
+
+		if ($this->M_perfisusuarios->isAdm($perfilusuario_id) == 't'){
 			$this->dados["linhas"] = $this->M_regras->pesquisar('', array('r.tipo'=>2), $nr_pagina, $this->uri->segment(5), 'asc', FALSE,1);
-		else
+		} else {
 			$this->dados["linhas"] = $this->M_regras->pesquisar('', array('r.tipo'=>2,'p.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5), 'asc', TRUE,1);
+
+		}
 
 		$this->dados["nr_pagina"] = $nr_pagina;
 		$this->dados["total"] = $this->M_regras->numeroLinhasTotais('',array('tipo'=>2));
@@ -75,8 +78,10 @@ class CI_regras_sb extends CI_controller {
 			$this->dados["sensores"] = $this->M_sensores->pesquisar();
 			$this->dados["contextointeresse"] = $this->M_contextosinteresse->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 100, 0, 'asc', TRUE);*/
 			$this->dados["sensores"] = $this->M_sensores->pesquisar();
+			$this->dados["rules"]  = $this->M_regras->pesquisar('',array('r.tipo '=>2),'', $this->uri->segment(5), 'asc', FALSE,3);
 		}else{
 			$this->dados["sensores"] = $this->M_sensores->pesquisar();
+				$this->dados["rules"]  = $this->M_regras->pesquisar('', array('r.tipo'=>2,'p.usuario_id' => $this->session->userdata('usuario_id')),'', $this->uri->segment(5), 'asc', TRUE,1);
 			$this->dados["contextointeresse"] = $this->M_contextosinteresse->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 100, 0, 'asc', TRUE);
 		}
 		if(!isset($this->dados["editable"])){
@@ -243,18 +248,25 @@ class CI_regras_sb extends CI_controller {
 
 	function getConditions($value="")
 	{
-		$condicoes = $this->M_conditions->get_conditions_SB();
+		$array_condictions = array(
+		array( 'nome_legivel' => "", 'nome' => "get_verify_sensor" ),
+		array( 'nome_legivel' => 'Variação' , 'nome' => "diff_values_sensor" )
+		);
+
+		$info_conditions = $this->M_conditions->get_conditions_SB();
 		$output    = array();
 		// print_r($condicoes);
-		foreach($condicoes as $v) {
-			$tipo     = 'number';
-			if($v['tipo']=="Estado de Evento"){
-					$tipo = 'string';
+		foreach ($array_condictions as $array) {
+			foreach($info_conditions as $v) {
+				$tipo     = 'number';
+				if($v['tipo']=="Estado de Evento"){
+						$tipo = 'string';
+				}
+				$obj      = array('url'=> $v['url'],'nome_legivel'=>$array['nome_legivel'].$v['tipo']." do ".$v['nome'],'tipo'=>$tipo,"sensor"=>$v['uuid'],'nome' => $array['nome']);
+				$obj      = json_encode($obj,JSON_FORCE_OBJECT);
+				$output[] = $obj;
 			}
-			$obj      = array('url'=> $v['url'],'nome_legivel'=>$v['tipo']." do ".$v['nome'],'tipo'=>$tipo,"sensor"=>$v['uuid'],'nome' => 'get_verify_sensor');
-			$obj      = json_encode($obj,JSON_FORCE_OBJECT);
-			$output[] = $obj;
-					}
+		}
 		echo json_encode($output);
 
 	}

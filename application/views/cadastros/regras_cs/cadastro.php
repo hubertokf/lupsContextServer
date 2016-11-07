@@ -37,7 +37,7 @@
           <div id="type-rule">
             <div class="col-md-6 col-md-offset-3" style="margin-top: 20px;">
               <label for="type-rule-select">Tipo de regra:</label>
-              <?php 
+              <?php
                 $tipo1 = $tipo3 = "";
                 if (!isset($regra_tipo)){
                   $tipo1 = 'selected="selected"';
@@ -156,6 +156,12 @@
 				 				<input type="checkbox" id = "box_status_rules" ><label id = "label_box" style="margin-top:3px">Ativar Regra</label>
 				 			</div>
 				 	</div>
+					<div class="col-md-8">
+						<div class="checkbox">
+							<input type="checkbox" style = "display: none" ><label style="margin-top:3px; display: none">Ativar Regra</label>
+						</div>
+
+				 </div>
 
              <!-- <div class="col-md-4" id = "padding_size">
              oiiiiiiiiiiiiiiiiiiiiiiii
@@ -180,9 +186,9 @@
         </div>
         </div>
 				</div>
-			</div>
+			<!-- </div>
 
-        
 
-      </div>
+
+      </div> -->
 </section>
