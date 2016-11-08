@@ -94,15 +94,6 @@ class CI_gateways extends CI_controller {
 
 		echo $gatewayID;
 	}
-
-	function teste(){
-		$this->M_gateways->setGatewayNome("Gateway LUPS");
-		$this->M_gateways->setGatewayservidorborda("9");
-		$this->M_gateways->setGatewayUID("uuid:35c0c38e-4516-b17d-ffff-ffffb9805b38");
-		$gatewayID = $this->M_gateways->salvaGateway();
-
-		echo $gatewayID;
-	}
 	
 	function excluir($id=""){
 		if ($id==""){
