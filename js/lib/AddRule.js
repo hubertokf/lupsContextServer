@@ -22,6 +22,7 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
         this.button_add_condition.click(this.press_button.bind(this));
         this.button_add_action.click(this.press_button_action.bind(this));
         this.button_create_rule.click(this.press_button_create_rule.bind(this));
+        this.checkbox_group()
 
     }
 
@@ -58,6 +59,23 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
       // else {
         this.create_rule.create_rule();
       // }
+    };
+
+    AddRule.prototype.checkbox_group = function () {
+      $("#box_group_rules").click(function () {
+          console.log("ok");
+          if($(this).is(":checked")){
+              $("#button_condition_action").hide();
+              $("#group_rule").show();
+              $("#label_name_rule").html("Nome do Grupo");
+          }
+          else{
+              $("#button_condition_action").show();
+              $("#group_rule").hide();
+              $("#label_name_rule").html("Nome da regra");
+
+          }
+      })
     };
 
     AddRule.prototype.setDOM = function () {

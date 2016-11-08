@@ -8,20 +8,17 @@ define (["transitions/CreateRules","transitions/HanleSelections","transitions/Cl
         this.button_create_send_rule = $("#submit_rules_transition"); // botão de criação de envio da regra.
         this.set_events();
     }
-    // evento pressbuton vai coletar info sobre o metodo  da ClassGetValuesHTML e depois passaressas info para construção da regra
     ControlTransition.prototype.set_events = function () {
 
-      // if (true) {
-      //
-      // }
         this.button_create_send_rule.click(this.press_button.bind(this));
-        // this.handle_selections.set_events();
+        this.handle_selections.set_events();
 
     };
 
     ControlTransition.prototype.press_button = function () {
-        obj_html = this.obj_html.get_values_html();
-        // this.create_rules.construct_rule(obj_html);
+        var obj_html = this.obj_html.get_values_html();
+        this.create_rules.construct_rule(obj_html);
+        this.create_rules.invert_operator("greater_than");
         // this.create_rules.send_rule();
       };
 
