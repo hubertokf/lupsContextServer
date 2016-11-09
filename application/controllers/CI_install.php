@@ -36,7 +36,10 @@ class CI_install extends CI_Controller {
 			$pre_error .= 'application/config/database.php precisa ter permissão de escrita 777!<br />';
 		}
 		if (!is_writable('application/config/config.php')) {
-			$pre_error .= 'application/config/config.php precisa ter permissão de escrita 777!';
+			$pre_error .= 'application/config/config.php precisa ter permissão de escrita 777!<br />';
+		}
+		if (!in_array('mod_rewrite', apache_get_modules())) {
+			$pre_error .= 'O modulo "mod_rewrite" do apache precisa estar ativado!<br />';
 		}
 		$this->dados['pre_error'] = $pre_error;
 
@@ -48,7 +51,10 @@ class CI_install extends CI_Controller {
 
 	function step2(){
 		$this->dados['title'] = "Instalação do Servidor de Contexto";
-		$this->dados['baseurl'] = $this->full_url($_SERVER);
+		$full_url = $this->full_url($_SERVER);
+		$url = strpos($full_url, "CI_install");
+		$base_url = str_split($full_url, $url)[0];
+		$this->dados['baseurl'] = $base_url;
 		$this->load->view('installation/topo',$this->dados);
 		$this->load->view('installation/step2');
 		$this->load->view('inc/rodape');
@@ -60,8 +66,6 @@ class CI_install extends CI_Controller {
 		$this->form_validation->set_rules('database_username', 'Database Username', 'required');
 		$this->form_validation->set_rules('database_password', 'Database Password', 'required');
 		$this->form_validation->set_rules('application_baseurl', 'Base URL', 'required');
-		$this->form_validation->set_rules('admin_username', 'Admin Username', 'required');
-		$this->form_validation->set_rules('admin_password', 'Admin Password', 'required');
 		$this->form_validation->set_error_delimiters('<div class="field-errors">', '</div>');
 		$this->form_validation->set_message('required', 'Você deve preencher o campo "%s".');
 		if ($this->form_validation->run() == FALSE) {
@@ -70,7 +74,28 @@ class CI_install extends CI_Controller {
 		} else {
 			$this->dados['title'] = "Instalação do Servidor de Contexto";
 			$this->load->view('installation/topo',$this->dados);
-			if (write_database() == true && write_config() == true)
+			if ($this->write_database() == true && $this->write_config() == true){
+				$this->create_database();
+				$this->load->view('installation/step3');
+			}else
+				$this->load->view('installation/step2');
+			$this->load->view('inc/rodape');
+		}
+	}
+
+	function step4(){
+		$this->form_validation->set_rules('admin_username', 'Admin Username', 'required');
+		$this->form_validation->set_rules('admin_password', 'Admin Password', 'required');
+		$this->form_validation->set_rules('admin_email', 'Admin Email', 'required');
+		$this->form_validation->set_error_delimiters('<div class="field-errors">', '</div>');
+		$this->form_validation->set_message('required', 'Você deve preencher o campo "%s".');
+		if ($this->form_validation->run() == FALSE) {
+			$this->step3();
+			
+		} else {
+			$this->dados['title'] = "Instalação do Servidor de Contexto";
+			$this->load->view('installation/topo',$this->dados);
+			if ($this->create_admin() == true)
 				$this->load->view('installation/installSucess');
 			else
 				$this->load->view('installation/installFail');
@@ -85,29 +110,39 @@ class CI_install extends CI_Controller {
 	    $port = $s['SERVER_PORT'];
 	    $port = ((!$ssl && $port=='80') || ($ssl && $port=='443')) ? '' : ':'.$port;
 	    $host = isset($s['HTTP_HOST']) ? $s['HTTP_HOST'] : $s['SERVER_NAME'];
-	    $uri = str_replace("index.php/CI_install/step2", "", $s['REQUEST_URI']);
-	    $uri = str_replace("index.php/CI_install/step3", "", $s['REQUEST_URI']);
+	    $uri = str_replace("CI_install/step2", "", $s['REQUEST_URI']);
+	    $uri = str_replace("CI_install/step3", "", $s['REQUEST_URI']);
 	    return $protocol . '://' . $host . $port . $uri;
 	}
 
-	function write_database($_POST) {
+	function write_database() {
 		// Config path
-		$template_path 	= '../application/defaults/database.php';
-		$output_path 	= '../application/config/database.php';
+		$template_path 	= 'application/defaults/database.php';
+		$output_path 	= 'application/config/database.php';
+		$phinx_template_path 	= 'application/defaults/phinx.yml';
+		$phinx_output_path 	= 'phinx.yml';
 		// Open the file
 		$database_file = file_get_contents($template_path);
 		$new  = str_replace("%HOSTNAME%",$_POST['database_host'],$database_file);
 		$new  = str_replace("%USERNAME%",$_POST['database_username'],$new);
 		$new  = str_replace("%PASSWORD%",$_POST['database_password'],$new);
 		$new  = str_replace("%DATABASE%",$_POST['database_name'],$new);
+
+		$phinx_database_file = file_get_contents($phinx_template_path);
+		$new_phinx  = str_replace("%HOSTNAME%",$_POST['database_host'],$phinx_database_file);
+		$new_phinx  = str_replace("%USERNAME%",$_POST['database_username'],$new_phinx);
+		$new_phinx  = str_replace("%PASSWORD%",$_POST['database_password'],$new_phinx);
+		$new_phinx  = str_replace("%DATABASE%",$_POST['database_name'],$new_phinx);
 		// Write the new database.php file
 		$handle = fopen($output_path,'w+');
+		$handle_phinx = fopen($phinx_output_path,'w+');
 		// Chmod the file, in case the user forgot
 		@chmod($output_path,0777);
+		@chmod($phinx_output_path,0777);
 		// Verify file permissions
-		if(is_writable($output_path)) {
+		if(is_writable($output_path) && is_writable($phinx_output_path) ) {
 			// Write the file
-			if(fwrite($handle,$new)) {
+			if(fwrite($handle,$new) && fwrite($handle_phinx,$new_phinx)) {
 				return true;
 			} else {
 				return false;
@@ -117,10 +152,10 @@ class CI_install extends CI_Controller {
 		}
 	}
 
-	function write_config($_POST) {
+	function write_config() {
 		// Config path
-		$template_path 	= '../application/defaults/config.php';
-		$output_path 	= '../application/config/config.php';
+		$template_path 	= 'application/defaults/config.php';
+		$output_path 	= 'application/config/config.php';
 		// Open the file
 		$config_file = file_get_contents($template_path);
 		$new  = str_replace("%INSTALLED%","TRUE",$config_file);
@@ -142,20 +177,23 @@ class CI_install extends CI_Controller {
 		}
 	}
 
-	function create_database($_POST){
-		$sql = "CREATE DATABASE IF NOT EXISTS ".$_POST['database_name'];
-		$this->db->query($sql);
+	function create_database(){
+		$outputMigration = `php vendor/bin/phinx migrate -e development`;
+		$outputSeed = `php vendor/bin/phinx seed:run -e development`;
+	}
 
+	function create_admin(){
+		$this->M_usuarios->setUsuarioPerfil(1);
+		$this->M_usuarios->setUsuarioNome('Administrador');
+		$this->M_usuarios->setUsuarioUsername($_POST["admin_username"]);
+		$passwordHash = password_hash($_POST["admin_password"], PASSWORD_DEFAULT);
+		$this->M_usuarios->setUsuarioPassword($passwordHash);
+		$this->M_usuarios->setUsuarioEmail($_POST["admin_email"]);
+		$token = json_decode($this->M_keys->insert_key(10))->key;
+		$this->M_usuarios->setUsuarioToken($token);
 
-
-		$query = file_get_contents('../../application/installDB.sql');
-
-		$sqls = explode(';', $query);
-		array_pop($sqls);
-
-		foreach($sqls as $statement){
-			$statment = $statement . ";";
-			$this->db->query($statement);	
+		if ($this->M_usuarios->salvar() == "inc"){
+			return true;
 		}
 	}
 }

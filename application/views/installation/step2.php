@@ -25,7 +25,7 @@
 					</div>
 					<div class="row">
 						<div class="col-xs-10 col-xs-offset-1">
-	        				<input type="text" name="database_name" value="" />
+	        				<input type="text" name="database_name" value="contextServer" />
 						</div>
 					</div>
 
@@ -61,29 +61,7 @@
 	        				<input type="text" name="application_baseurl" readonly value="<?php echo $baseurl; ?>" />
 						</div>
 					</div>
-
-					<div class="row">
-						<div class="col-xs-10 col-xs-offset-1">
-							<label for="admin_username">Admin username</label>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-xs-10 col-xs-offset-1">
-	        				<input type="text" name="admin_username" value="" />
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col-xs-10 col-xs-offset-1">
-							<label for="admin_password">Admin password</label>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-xs-10 col-xs-offset-1">
-	        				<input type="text" name="admin_password" value="" />
-						</div>
-					</div>
-
+					
 					<div class="row">
 						<div class="col-xs-10 col-xs-offset-1">
 							<div class="errorRequisite">

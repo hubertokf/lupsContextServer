@@ -39,14 +39,22 @@
 						<td>Writable</td>
 						<td><?php echo is_writable('application/config/config.php') ? 'Ok' : 'Not Ok'; ?></td>
 					</tr>
+
+					<tr>
+						<td>Modulo Rewrite (mod_rewrite)</td>
+						<td><?php echo in_array('mod_rewrite', apache_get_modules()) ? 'Enabled' : 'Disabled'; ?></td>
+						<td>Enabled</td>
+						<td><?php echo in_array('mod_rewrite', apache_get_modules()) ? 'Ok' : 'Not Ok'; ?></td>
+					</tr>
 				</tbody>
 				
 			</table>
 
 			<form action="./step1" method="post">
 				<input type="hidden" name="pre_error" id="pre_error" value="<?php if(isset($pre_error)) echo $pre_error;?>" />
-				<?php if(isset($pre_error)) ?>
-				<div class="errorRequisite">Requisitos não satisfeitos</div>
+				<?php if(isset($pre_error) && $pre_error != "") {?>
+					<div class="errorRequisite">Requisitos não satisfeitos</div>
+				<?php } ?>
 				<input type="submit" class="botaoConfig" name="continue" value="Continuar" />
 			</form>
 
