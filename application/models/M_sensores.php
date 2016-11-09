@@ -17,6 +17,7 @@ class M_sensores extends CI_Model{
 	private $sensor_gateway;
 	private $sensor_servidorborda;
 	private $sensor_status;
+	private $sensor_uuid;
 
   	function pesquisar($select='', $where=array(), $limit=10, $offset=0, $ordem='asc', $perm=FALSE) {
     	if ($perm == FALSE){
@@ -187,6 +188,7 @@ class M_sensores extends CI_Model{
                 "modelo" 			=> $this->sensor_modelo,
                 "precisao" 			=> $this->sensor_precisao,
                 "gateway_id" 		=> $this->sensor_gateway,
+                "uuid" 				=> $this->uuid,
                 "servidorborda_id" 	=> $this->sensor_servidorborda,
             );
 
@@ -367,6 +369,13 @@ class M_sensores extends CI_Model{
 			return $this->sensor_status;
 		}
 
+		public function getSensorUuid() {
+		    if($this->sensor_uuid === NULL) {
+        		$this->sensor_uuid = new SensorUuid;
+    		}
+			return $this->sensor_uuid;
+		}
+
 		public function setSensorStatus($valor){
 			if(!is_string($valor)) {
 				throw new InvalidArgumentException('Expected String');
@@ -454,6 +463,10 @@ class M_sensores extends CI_Model{
 				throw new InvalidArgumentException('Expected String');
 			}
 			$this->sensor_servidorborda = $valor;
+		}
+
+		public function setSensorUuid($valor){
+			$this->sensor_uuid = $valor;
 		}
 
 	}

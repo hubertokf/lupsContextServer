@@ -70,10 +70,11 @@ class CI_gateways extends CI_controller {
 		} else {
 			$this->M_gateways->setGatewayId($_POST["gateway_id"]);
 			$this->M_gateways->setGatewayNome($_POST["gateway_nome"]);
-			$this->M_gateways->setGatewayModelo($_POST["gateway_modelo"]);
+			$this->M_gateways->setGatewayModelo(isset($_POST["gateway_modelo"]) ? $_POST["gateway_modelo"] : null);
 			$this->M_gateways->setGatewayFabricante($_POST["gateway_fabricante"]);
 			$this->M_gateways->setGatewayservidorborda($_POST["gateway_servidorborda"]);
 			$this->M_gateways->setGatewayStatus($_POST["gateway_status"]);
+			$this->M_gateways->setGatewayUuid(isset($_POST["gateway_uuid"]) ? $_POST["gateway_uuid"] : null);
 			if ($this->M_gateways->salvar() == "inc"){
 				$this->dados["msg"] = "Dados registrados com sucesso!";
 				$this->pesquisa();	
@@ -89,7 +90,7 @@ class CI_gateways extends CI_controller {
 		$this->M_gateways->setGatewayId("");
 		$this->M_gateways->setGatewayNome($_POST["gateway_nome"]);
 		$this->M_gateways->setGatewayservidorborda($_POST["gateway_servidorborda"]);
-		$this->M_gateways->setGatewayUID($_POST["gateway_uid"]);
+		$this->M_gateways->setGatewayUuid($_POST["gateway_uuid"]);
 		$gatewayID = $this->M_gateways->salvaGateway();
 
 		echo $gatewayID;

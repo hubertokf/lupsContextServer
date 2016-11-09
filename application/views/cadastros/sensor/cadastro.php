@@ -18,8 +18,10 @@
             $sensor_gateway         = $linha->gateway_id;
             $sensor_servidorborda   = $linha->servidorborda_id;
             $sensor_status          = $linha->status;
+            $sensor_uuid          = $linha->uuid;
 		}
 	}
+
 ?>
 
 <section class="cadastros telaCadastro">
@@ -43,6 +45,15 @@
                             </div>
                             <div class="col-xs-10 col-xs-offset-1 input">
                                 <input type="text" name="sensor_id" readonly value="<?php echo @$sensor_id;?>" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-1 col-xs-offset-1">
+                                <label for="sensor_uuid">uuID:</label>
+                            </div>
+                            <div class="col-xs-10 col-xs-offset-1 input">
+                                <input type="text" name="sensor_uuid"  value="<?php echo @$sensor_uuid;?>" />
                             </div>
                         </div>
 
