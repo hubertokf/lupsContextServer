@@ -263,7 +263,7 @@ ModelAquisition.prototype.generate_rule_interval = function () {
 
   ModelAquisition.prototype.send_scheduler = function () { //metodo que pegaas ibfomarções e envia ára o back=end
 
-    console.log(this.option_generate_scheduler['id_sensor'])
+    // console.log(this.option_generate_scheduler['id_sensor'])
     // console.log($("#editable_id_rule").val());
     this.option_generate_scheduler['rules_name'] = $("#rules_name").val();
     if($("#editable_id_rule").val() != ""){

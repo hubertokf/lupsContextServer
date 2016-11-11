@@ -39,8 +39,9 @@
              <select class="form-control ", id = "sensors">
                  <option value="" selected="" disabled="">Selecione...</option>
              <?php $result = $sensores->result_array();
+						 				print_r($result);
                    foreach ($result as $linha) {
-                     echo "<option id= 'sensor-$linha[sensor_id]'value=$linha[nome]>'Leitura '$linha[nome]</option>";
+                     echo "<option id= 'sensor-$linha[sensor_id]'value=$linha[nome]>Leitura $linha[nome] $linha[tiposensor_nome]</option>";
                    }?>
             </select>
            </div>
@@ -81,7 +82,7 @@
                       }
 											foreach ($rules->result_array() as $rule){
 													if (!in_array($rule['sensor_id'], $rules_id)){
-															echo '<option data-id="'.$rule['regra_id'].'" value="'.$rule['id_regra_borda'].'">'.$rule['nome'].'</option>';
+															echo '<option data-id="'.$rule['regra_id'].'"data-type="'.$rule['tipo'].'" value="'.$rule['id_regra_borda'].'">'.$rule['nome'].'</option>';
 													}
 											}
 											?>
@@ -125,7 +126,7 @@
          <div class = "row" id = "div_conditions"><h3 id = "condition_label" style = "display: none">Condições</h3></div>
          <div class= "row" id = "div_action">
            <h3 id = "action_label" style = "display: none">Ações</h3>
-           <div class="row bin"></div>
+           <!-- <div class="row bin"></div> -->
         </div>
         <div class="row" >
           <div class="col-md-2 col-md-offset-5">

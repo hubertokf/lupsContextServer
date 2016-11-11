@@ -227,7 +227,14 @@ class CI_regras_agendamento extends CI_controller {
 			$registro                = $this->dados["registro"]->result_array();
 			$this->dados["sensor"]   = $this->M_Regras_SB->get_sensor_id($registro[0]['regra_id']);
 			$this->dados["editable"] = "true";
-	} else if ($valor != "") {
+	} else if (isset($_GET["item"])) {
+
+			$this->dados["registro"] = $this->M_regras->selecionar($_GET["item"]);
+			$registro                = $this->dados["registro"]->result_array();
+			$this->dados["sensor"]   = $this->M_Regras_SB->get_sensor_id($registro[0]['regra_id']);
+			$this->dados["editable"] = "true";
+	}
+	else if ($valor != "") {
 			$this->dados["registro"] = $this->M_regras->selecionar($valor);
 			$registro                = $this->dados["registro"]->result_array();
 			$this->dados["sensor"]   = $this->M_Regras_SB->get_sensor_id($registro[0]['regra_id']);

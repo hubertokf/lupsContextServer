@@ -78,7 +78,7 @@ class CI_regras_sb extends CI_controller {
 			$this->dados["sensores"] = $this->M_sensores->pesquisar();
 			$this->dados["contextointeresse"] = $this->M_contextosinteresse->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 100, 0, 'asc', TRUE);*/
 			$this->dados["sensores"] = $this->M_sensores->pesquisar();
-			$this->dados["rules"]  = $this->M_regras->pesquisar('',array('r.tipo '=>2),'', $this->uri->segment(5), 'asc', FALSE,3);
+			$this->dados["rules"]  = $this->M_regras->pesquisar('',array('r.tipo '=>2),'', $this->uri->segment(5), 'asc', FALSE,3,array('r.tipo '=>4));
 		}else{
 			$this->dados["sensores"] = $this->M_sensores->pesquisar();
 				$this->dados["rules"]  = $this->M_regras->pesquisar('', array('r.tipo'=>2,'p.usuario_id' => $this->session->userdata('usuario_id')),'', $this->uri->segment(5), 'asc', TRUE,1);
@@ -189,6 +189,18 @@ class CI_regras_sb extends CI_controller {
 			// print "</pre>";
 			$this->dados["sensor"]   = $this->M_Regras_SB->get_sensor($registro[0]['regra_id']);
 			// $this->dados[]
+		} else if(isset($_GET["item"])) {
+			$this->dados["registro"] = $this->M_regras->selecionar($_GET["item"]);
+			$this->dados["editable"] = "true";
+			$registro = $this->dados["registro"]->result_array();
+			// print "<pre>";
+			// print_r($this->M_Regras_SB);
+			// print "</pre>";
+			// print "<pre>";
+			// print_r($registro[0]);
+			// print "</pre>";
+			$this->dados["sensor"]   = $this->M_Regras_SB->get_sensor($registro[0]['regra_id']);
+			// $this->dados[]
 		} else if ($valor != "") {
 			$this->dados["registro"] = $this->M_regras->selecionar($valor);
 			$this->dados["editable"] = "true";
@@ -250,22 +262,33 @@ class CI_regras_sb extends CI_controller {
 	{
 		$array_condictions = array(
 		array( 'nome_legivel' => "", 'nome' => "get_verify_sensor" ),
-		array( 'nome_legivel' => 'Variação' , 'nome' => "diff_values_sensor" )
+		array( 'nome_legivel' => 'Variação' , 'nome' => "diff_values_sensor" ),
+		array( 'nome_legivel' => 'Duração de tempo em minutos' , 'nome' => "verify_time_minute"),
+		array( 'nome_legivel' => 'Duração de tempo em horas' ,   'nome' => "verify_time_hour" )
+
 		);
 
 		$info_conditions = $this->M_conditions->get_conditions_SB();
 		$output    = array();
 		// print_r($condicoes);
 		foreach ($array_condictions as $array) {
+			if($array['nome'] == "diff_values_sensor" || $array['nome'] =="get_verify_sensor"){
 			foreach($info_conditions as $v) {
 				$tipo     = 'number';
 				if($v['tipo']=="Estado de Evento"){
 						$tipo = 'string';
 				}
-				$obj      = array('url'=> $v['url'],'nome_legivel'=>$array['nome_legivel'].$v['tipo']." do ".$v['nome'],'tipo'=>$tipo,"sensor"=>$v['uuid'],'nome' => $array['nome']);
+				$obj  = array('url'=> $v['url'],'nome_legivel'=>$array['nome_legivel'].$v['tipo']." do ".$v['nome'],'tipo'=>'number',"sensor"=>null,'nome' => $array['nome']);
 				$obj      = json_encode($obj,JSON_FORCE_OBJECT);
 				$output[] = $obj;
 			}
+			}
+			else{
+				$obj      = array('url'=> $v['url'],'nome_legivel'=>$array['nome_legivel'],'tipo'=>$tipo,"sensor"=>$v['uuid'],'nome' => $array['nome']);
+				$obj      = json_encode($obj,JSON_FORCE_OBJECT);
+				$output[] = $obj;
+			}
+
 		}
 		echo json_encode($output);
 
@@ -298,7 +321,6 @@ class CI_regras_sb extends CI_controller {
 		$result = curl_exec($ch);
 		$info   = curl_getinfo($ch);
 		curl_close($ch);
-
 		if ($info['http_code'] >= 200 && $info['http_code'] <= 299)
 		  return json_decode($result)->id;
 	  else
@@ -317,6 +339,11 @@ class CI_regras_sb extends CI_controller {
 					}
 			echo json_encode($output);
 
+}
+
+function get_group_rules(){
+
+	// $group_rule = $this->M_regras->
 }
 
 function sendInformation($value='')
