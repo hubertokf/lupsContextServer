@@ -1,16 +1,15 @@
 	// JavaScript Document
 $(document).ready(function(){
-
 	$('#type-rule-select').on('change', function() {
 		if (this.value == 1 ) {
 			$("#motor-rule").hide();
 			$("#python-rule").show();
 		}
-		if (this.value == 2 ) {
+		if (this.value == 3 ) {
 			$("#motor-rule").show();
 			$("#python-rule").hide();
 		}
-	});
+	}).change();
 
 	parts = window.base_url.split('/');
 	var url = parts[0]+'//'+parts[2]+'/';
@@ -360,7 +359,7 @@ $(document).ready(function(){
 			$.ajax({
 				type:"POST",
 				dataType: 'json',
-				url:window.base_url+"cadastros/CI_gateway/getGatewaysBySBID",
+				url:window.base_url+"cadastros/CI_gateways/getGatewaysBySBID",
 				data: {servidorborda:$("#sensor_servidorborda").val()},
 				success: function(data) {
 					$('#sensor_gateway').html('');
@@ -381,7 +380,7 @@ $(document).ready(function(){
 			$.ajax({
 				type:"POST",
 				dataType: 'json',
-				url:window.base_url+"cadastros/CI_sensor/getSensoresBySBID",
+				url:window.base_url+"cadastros/CI_sensores/getSensoresBySBID",
 				data: {servidorborda:$("#publicacao_servidorborda").val()},
 				success: function(data) {
 					$('#publicacao_sensor').html('');
@@ -424,13 +423,13 @@ $(document).ready(function(){
 		if (this.value != 0 && this.value != "") {
 			var type_id = this.value;
 			if (this.value == 1)
-				type = "CI_ambiente";
+				type = "CI_ambientes";
 			if (this.value == 2)
-				type = "CI_contextointeresse";
+				type = "CI_contextosinteresse";
 			if (this.value == 3)
 				type = "CI_regras";
 			if (this.value == 4)
-				type = "CI_sensor";
+				type = "CI_sensores";
 			$.ajax({
 				type:"POST",
 				dataType: 'json',
@@ -514,6 +513,27 @@ $(document).ready(function(){
 		$(".sensorsOutCI").find(":selected")[0].remove();
 	});
 
+	$('#insertRulesCI').click(function(){
+		itemText = $(".sensorsOutCI").find(":selected")[0].text;
+		itemVal  = $(".sensorsOutCI").find(":selected")[0].value;
+		itemId   = $(".sensorsOutCI").find(":selected").data("id");
+		itemType   = $(".sensorsOutCI").find(":selected").data("type");
+
+
+		url_rules         = window.base_url+"cadastros/CI_regras_sb/editar?item=";
+		url_scheduler     = window.base_url+"cadastros/CI_regras_agendamento/editar?item=";
+		// console.log(url);
+		$(".sensorsOutCI").find(":selected")[0].remove();
+		if(itemType === 2 ){
+			$(".ciSensorList").append("<li class='ciSensorItem' data-id='"+itemVal+"' data-text='"+itemText+"'><input type='hidden' name='contextointeresse_sensores[]' value='"+itemVal+"'><div class='col-xs-6'>"+itemText+"</div><div class='col-xs-5'><a class = 'singular_rule' href="+url_rules+itemId+" target='_blank'>Ver regra</a></div><div class='col-xs-1'><div class='removeSensorCI'><i class='fa fa-times fa-2x' style = 'padding-top : 2px'></div></i></div></li>");
+		}
+		else{
+			$(".ciSensorList").append("<li class='ciSensorItem' data-id='"+itemVal+"' data-text='"+itemText+"'><input type='hidden' name='contextointeresse_sensores[]' value='"+itemVal+"'><div class='col-xs-6'>"+itemText+"</div><div class='col-xs-5'><a class = 'singular_rule' href="+url_scheduler+itemId+" target='_blank'>Ver regra</a></div><div class='col-xs-1'><div class='removeSensorCI'><i class='fa fa-times fa-2x' style = 'padding-top : 2px'></div></i></div></li>");			
+		}
+	});
+	$('a.singular_rule').click(function () {
+
+	})
 	$('ul.ciSensorList').on('click', 'div.removeSensorCI', function(){
 		var e = $(this).parent().parent();
 		value = e.data('id');
@@ -793,6 +813,30 @@ $(document).ready(function(){
 			} else {
 				alert('Digite ao menos um número de telefone!');
 				ev.preventDefault();
+			}
+		});
+
+		$('.borda_url').each(function(){
+			var row = $(this).parent();
+			$.ajax({
+				url: window.base_url+"CI_visualizacao/checkServerStatus?addr="+$(this).text(),
+				complete: function(response) {
+					if (response.responseText=="1")
+	        			row.find('.borda_status').html('<i class="fa fa-circle" aria-hidden="true" style="color:green;"></i>').attr("title","Online");
+				}
+	    	});
+	  	});
+
+		if(document.getElementById('perfilusuario_superAdm') != null && document.getElementById('perfilusuario_superAdm').checked) {
+		    $("#menus-perfis").hide();
+		} else {
+		    $("#menus-perfis").show();
+		}
+	  	$('#perfilusuario_superAdm').click(function() {
+		    if(document.getElementById('perfilusuario_superAdm').checked) {
+			    $("#menus-perfis").hide();
+			} else {
+			    $("#menus-perfis").show();
 			}
 		});
 	});

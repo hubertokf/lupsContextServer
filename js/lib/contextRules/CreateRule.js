@@ -46,8 +46,14 @@ define(["jquery","bootbox"],function ($,bootbox) {
             compose_rule['inputs'].push($(this).val());
         });
         this.send_informations['name_rule'] = $("#name_rule").val();
-        this.send_informations['status']    = true;
-        this.send_informations['tipo']      = 1;
+
+        if($("#box_status_rules").val()) {
+          this.send_informations['status']    = true;
+        } else {
+          this.send_informations['status']    = false;
+        }
+
+        this.send_informations['tipo']      = 3;
         this.send_informations['id_rule']   = $("#editable_id_rule").val();
         if(this.send_informations['id_rule']){
             // console.log("ok");
@@ -79,10 +85,10 @@ define(["jquery","bootbox"],function ($,bootbox) {
       dataType: 'json',
       url:window.base_url+"cadastros/"+path[3]+"/gravar",
       complete: function (response) {
-         console.log("bugg",response['responseText']);
+         //console.log("bugg",response['responseText']);
           }
     });
-    // window.location.replace(window.base_url+"/cadastros/"+path[3]);
+    window.location.replace(window.base_url+"/cadastros/"+path[3]);
   };
 
   CreateRule.prototype. composition_conditions = function (finish) {
@@ -169,7 +175,6 @@ define(["jquery","bootbox"],function ($,bootbox) {
             before['parameters']   = parameters;
             all['all'].push(before);
             before                 = {};
-            // console.log(JSON.stringify(all));
             parameters             = {};
             before['name']         = this.compose_rule['conditions'][i+1];
             before['operator']     = this.compose_rule['compare'][i+1];
@@ -178,9 +183,6 @@ define(["jquery","bootbox"],function ($,bootbox) {
             parameters['url']      = this.compose_rule['url'][i+1];
             before['parameters']   = parameters;
             all['all'].push(before);
-
-            // rule['any'].push(all);
-
             i = i + 2;
           }
           else if(this.compose_rule['logic_op'][i-1] == "all"){

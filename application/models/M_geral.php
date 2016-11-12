@@ -20,12 +20,15 @@
     		return $title;
     	}
 
-    	function uploadFile($name){
+    	function uploadFile($name,$samefilename){
     		$config['upload_path'] = './uploads';
 			$config['allowed_types'] = 'gif|jpg|png';
 			//$config['max_size']	= '100';
 			//$config['max_width']  = '1024';
 			//$config['max_height']  = '768';
+			if($samefilename)
+				$config['file_name']=$name;          
+        	$config['overwrite'] = true;
 			$this->upload->initialize($config);
 			if ( ! $this->upload->do_upload($name))
 			{
@@ -45,18 +48,60 @@
 			$resultado  = $codigo->result();
 			return $resultado[0]->$campo;
 		}
+
+		function sendEmail($dest,$message,$subject){
+			$config = Array(
+                'protocol' => 'smtp',
+                'smtp_host' => $this->M_configuracoes->selecionar('email_host')->result_array()[0]['value'],
+                'smtp_port' => $this->M_configuracoes->selecionar('email_port')->result_array()[0]['value'],
+                'smtp_user' => $this->M_configuracoes->selecionar('email_user')->result_array()[0]['value'],
+                'smtp_pass' => $this->M_configuracoes->selecionar('email_pass')->result_array()[0]['value'],
+                'mailtype'  => 'html', 
+                'charset'   => 'utf-8'
+            );
+			$this->load->library('email', $config);
+            $this->email->set_newline("\r\n");
+            $this->email->from($this->M_configuracoes->selecionar('email_from')->result_array()[0]['value'], 'Me');
+            $this->email->reply_to($this->M_configuracoes->selecionar('email_from')->result_array()[0]['value'], 'Me');
+       		$this->email->to($dest);
+            $this->email->subject($subject);
+            $this->email->message($message);
+			$result = $this->email->send();
+			
+			return $result;
+		}
+
+		function generatePassword($length = 8) {
+		    $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+		    $count = mb_strlen($chars);
+
+		    for ($i = 0, $result = ''; $i < $length; $i++) {
+		        $index = rand(0, $count - 1);
+		        $result .= mb_substr($chars, $index, 1);
+		    }
+
+		    return $result;
+		}
 		
 		function build_menu()
 	    {
-	    	$this->db->select('menu.*');
-			$this->db->from('menu');
-			$this->db->join('relmenuperfil','menu.menu_id = relmenuperfil.menu_id');
-			$this->db->where('relmenuperfil.perfilusuario_id',$this->session->userdata('perfilusuario_id'));
+			$perfilusuario_id = $this->session->userdata('perfilusuario_id');
+
+			$this->db->select('superAdm');
+            $this->db->from('perfisusuarios');
+            $this->db->where('perfilusuario_id',$perfilusuario_id);
+            
+            $isAdm = $this->db->get()->row()->superAdm;
+
+	    	$this->db->select('menus.*');
+			$this->db->from('menus');
+			$this->db->join('relmenuperfil','menus.menu_id = relmenuperfil.menu_id', 'left');
+			if ($isAdm == 'f'){
+				$this->db->where('relmenuperfil.perfilusuario_id',$perfilusuario_id);
+			}
 	    	$this->db->order_by('ordem','asc');    
 	        $query = $this->db->get();
 
-
-	
 			$menu = false;
 	        foreach ($query->result() as $row)
 	        {
@@ -101,7 +146,7 @@
 	    
 		function buscarNomeMenu($idMenu) {
 			$this->db->select('nome');
-			$this->db->from('menu');
+			$this->db->from('menus');
 			$this->db->where('menu_id', $idMenu);	
 			$query = $this->db->get();
 			foreach ($query->result() as $row) {

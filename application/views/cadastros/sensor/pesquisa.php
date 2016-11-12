@@ -4,7 +4,7 @@
 
 <section class="tabelas">
 	<div class="container">
-		<form class="formLista" method="post" name="lista" action="<?php echo base_url()."cadastros/CI_sensor/"; ?>">
+		<form class="formLista" method="post" name="lista" action="<?php echo base_url()."cadastros/CI_sensores/"; ?>">
 		
 			<input class="item-selected" type="hidden" name="item" id="item" value="">
 			<div class="row">
@@ -68,7 +68,7 @@
 									<td data-id=".$linha['gateway_id'].">".$linha['gateway_nome']."</td>
 									<td data-id=".$linha['servidorborda_id'].">".$linha['servidorborda_nome']."</td>
 									<td class='buttons-row'>";
-							if ($this->session->userdata('perfilusuario_id') == 2 || $linha['podeeditar'] == "t")
+							if ($isAdm == 't' || $linha['podeeditar'] == "t")
 								echo "
 										<a class='botaoStatus' id='view-$linha[sensor_id]' data-status='$linha[status]' href='javascript:;' alt='Desativar Sensor' title='Desativar Sensor'><i class='fa fa-pause fa-2x'></i></a>
 										<a class='botaoEditar' id='edit-$linha[sensor_id]' href='javascript:;' alt='Editar Registro' title='Editar Registro'><i class='fa fa-pencil-square-o fa-2x'></i></a>
@@ -94,7 +94,7 @@
 									<td data-id=".$linha['gateway_id'].">".$linha['gateway_nome']."</td>
 									<td data-id=".$linha['servidorborda_id'].">".$linha['servidorborda_nome']."</td>
 									<td class='buttons-row'>";
-							if ($this->session->userdata('perfilusuario_id') == 2 || $linha['podeeditar'] == "t")
+							if ($isAdm == 't' || $linha['podeeditar'] == "t")
 								echo "
 										<a class='botaoStatus' id='view-$linha[sensor_id]' data-status='$linha[status]' href='javascript:;' alt='Ativar Sensor' title='Ativar Sensor'><i class='fa fa-play fa-2x'></i></a>
 										<a class='botaoEditar' id='edit-$linha[sensor_id]' href='javascript:;' alt='Editar Registro' title='Editar Registro'><i class='fa fa-pencil-square-o fa-2x'></i></a>

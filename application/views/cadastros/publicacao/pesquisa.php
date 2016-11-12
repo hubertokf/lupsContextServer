@@ -25,7 +25,7 @@
 								<td>".mdate('%d' . '/' . '%m' .  '/' . '%Y' . ' ' . '%G' . ':' . '%i' . ':' . '%s', strtotime($linha['datapublicacao']))."</td>
 								<td>".$linha['valorcoletado']." ".$linha['tiposensor_unidade']."</td>
 								<td class='buttons-row'>";
-						if ($this->session->userdata('perfilusuario_id') == 2 || $linha['podeeditar'] == "t")
+						if ($isAdm == 't' || $linha['podeeditar'] == "t")
 							echo "
 									<a class='botaoEditar' id='edit-$linha[publicacao_id]' href='javascript:;' alt='Editar Registro' title='Editar Registro'><i class='fa fa-pencil-square-o fa-2x'></i></a>
 									<a class='botaoExcluir' id='del-$linha[publicacao_id]' href='javascript:;' alt='Excluir Registro' title='Excluir Registro'><i class='fa fa-times fa-2x'></i></a>";

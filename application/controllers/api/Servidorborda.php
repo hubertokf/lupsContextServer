@@ -30,7 +30,7 @@ class Servidorborda extends REST_Controller {
         $this->methods['index_delete']['limit'] = 50; // 50 requests per hour per user/key
 
         //Load Models
-        $this->load->model('M_servidorborda');
+        $this->load->model('M_servidoresborda');
         $this->load->model('M_servidorcontexto');
 
     }
@@ -40,7 +40,7 @@ class Servidorborda extends REST_Controller {
         $id = $this->get('id');
         if ($id === NULL){
             // Pega servidoresborda do banco através do model servidoresborda
-            $servidoresborda = $this->M_servidorborda->pesquisar('', array(), '', 0, 'asc')->result_array();
+            $servidoresborda = $this->M_servidoresborda->pesquisar('', array(), '', 0, 'asc')->result_array();
             if ($servidoresborda){
                 // Converte os dados adquiridos do banco (array) para Json
                 $servidoresborda_json = json_encode($servidoresborda, JSON_UNESCAPED_UNICODE);
@@ -55,7 +55,7 @@ class Servidorborda extends REST_Controller {
             }
         }else{
         // Requisições com ID - lista informações do elemento
-            $servidorborda = $this->M_servidorborda->selecionar($id)->result_array();
+            $servidorborda = $this->M_servidoresborda->selecionar($id)->result_array();
             if ($servidorborda){
                 // Converte os dados adquiridos do banco (array) para Json
                 $servidorborda_json = json_encode($servidorborda, JSON_UNESCAPED_UNICODE);
@@ -83,15 +83,15 @@ class Servidorborda extends REST_Controller {
             //se veio, o framework já transforma o json para array associativo com os dados
 
             //salva no objeto do model
-            $this->M_servidorborda->setservidorbordaNome($content["nome"]);
-            $this->M_servidorborda->setservidorbordaDesc($content["descricao"]);
-            $this->M_servidorborda->setservidorbordaUrl($content["url"]);
-            $this->M_servidorborda->setservidorbordaLatitude($content["latitude"]);
-            $this->M_servidorborda->setservidorbordaLongitude($content["longitude"]);
-            $this->M_servidorborda->setservidorbordaContexto('9');
+            $this->M_servidoresborda->setservidorbordaNome($content["nome"]);
+            $this->M_servidoresborda->setservidorbordaDesc($content["descricao"]);
+            $this->M_servidoresborda->setservidorbordaUrl($content["url"]);
+            $this->M_servidoresborda->setservidorbordaLatitude($content["latitude"]);
+            $this->M_servidoresborda->setservidorbordaLongitude($content["longitude"]);
+            $this->M_servidoresborda->setservidorbordaContexto('9');
 
             //salva o model no banco
-            if ($this->M_servidorborda->salvar() == "inc"){
+            if ($this->M_servidoresborda->salvar() == "inc"){
                 //se retornou inc, está salvo no banco
                 $message = "Dados registrados com sucesso!";
                 // retorna 201 (criado)
@@ -125,14 +125,14 @@ class Servidorborda extends REST_Controller {
             }else{
                 //se veio, o framework já transforma o json para array associativo com os dados
                 //salva no objeto do model
-                $this->M_servidorborda->setservidorbordaId($id);
-                $this->M_servidorborda->setservidorbordaNome($content["nome"]);
-                $this->M_servidorborda->setservidorbordaDesc($content["descricao"]);
-                $this->M_servidorborda->setservidorbordaUrl($content["url"]);
-                $this->M_servidorborda->setservidorbordaLatitude($content["latitude"]);
-                $this->M_servidorborda->setservidorbordaLongitude($content["longitude"]);
-                $this->M_servidorborda->setservidorbordaContexto('9');
-                if ($this->M_servidorborda->salvar() == "alt"){
+                $this->M_servidoresborda->setservidorbordaId($id);
+                $this->M_servidoresborda->setservidorbordaNome($content["nome"]);
+                $this->M_servidoresborda->setservidorbordaDesc($content["descricao"]);
+                $this->M_servidoresborda->setservidorbordaUrl($content["url"]);
+                $this->M_servidoresborda->setservidorbordaLatitude($content["latitude"]);
+                $this->M_servidoresborda->setservidorbordaLongitude($content["longitude"]);
+                $this->M_servidoresborda->setservidorbordaContexto('9');
+                if ($this->M_servidoresborda->salvar() == "alt"){
                     //se retornou alt, está salvo no banco
                     $message = "Dados registrados com sucesso!";
                     // retorna 200 (OK)
@@ -153,8 +153,8 @@ class Servidorborda extends REST_Controller {
         $id = $this->get('id');
         if ($id !== NULL || $id != ""){
             //se o id estiver setado, salva o id em um objeto do model ambinete e aciona metodo de excluir
-            $this->M_servidorborda->setservidorbordaId($id);  
-            $this->M_servidorborda->excluir();
+            $this->M_servidoresborda->setservidorbordaId($id);  
+            $this->M_servidoresborda->excluir();
 
             $message = "Registro(s) excluído(s) com sucesso!";
             $this->set_response($message, REST_Controller::HTTP_OK);

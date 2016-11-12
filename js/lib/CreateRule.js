@@ -24,7 +24,6 @@ define(["jquery","bootbox"],function ($,bootbox) {
         compose_rule['actions']        = [];
         compose_rule['url']            = [];
         //-----------inicia coleta:
-        // atributo this não podem ser inseridos em funções do tipo each, change,
         $('.form-control.select_rules_context.compare').each(function(){
             compose_rule['compare'].push($(this).val());
         });
@@ -33,6 +32,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
             compose_rule['condtions_type'].push($(this).find(":selected").data('type'));
             compose_rule['url'].push($(this).find(":selected").data('url'))
             var index = $(this).val();
+            console.log(index);
               compose_rule['id_sensor'].push(index);
 
         });
@@ -46,11 +46,12 @@ define(["jquery","bootbox"],function ($,bootbox) {
             compose_rule['inputs'].push($(this).val());
         });
         this.send_informations['name_rule'] = $("#name_rule").val();
-        this.send_informations['status']    = true;
-        this.send_informations['tipo']      = 1;
+        this.send_informations['status']    = $("#box_status_rules").is(":checked");
+        this.send_informations['tipo']      = 2;
+        // this.send_informations['has_ajax']  = '';
         this.send_informations['id_rule']   = $("#editable_id_rule").val();
         if(this.send_informations['id_rule']){
-            console.log("ok");
+            // console.log("ok");
         }
 
         var str = $("#sensors").find(":selected").attr('id');
@@ -78,23 +79,24 @@ define(["jquery","bootbox"],function ($,bootbox) {
       type:"POST",
       data: this.send_informations,
       dataType: 'json',
-      url:window.base_url+"cadastros/"+path[3]+"/gravar",
+      url:window.base_url+"cadastros/"+path[3]+"/gravar?has_ajax=s",
       complete: function (response) {
-        //  console.log("bugg",response['responseText']);
+          //  console.log("bugg",response['responseText']);
+          //  console.log();
+         window.location.replace(window.base_url+"cadastros/"+path[3]+"?msg="+response['responseText']);
           }
     });
-    // window.location.replace(window.base_url+"/cadastros/"+path[3]);
   };
 
   CreateRule.prototype. composition_conditions = function (finish) {
+
     var i               = 0;
     var before          = {}; // objeto de condição
     var parameters      = {};
-    var rule        = {}; //  este vetor é o vetor pase para criar as regras
-    var all         = {}; // vetor para combinação secundárias, do tipo all
-    rule['any']     = [];  //  este vetor é o vetor pase para criar as regras
-    all['all']      = []; // vetor para combinação secundárias, do tipo all
-
+    var rule            = {}; //  este vetor é o vetor pase para criar as regras
+    var all             = {}; // vetor para combinação secundárias, do tipo all
+    rule['any']         = [];  //  este vetor é o vetor pase para criar as regras
+    all['all']          = []; // vetor para combinação secundárias, do tipo all
 
     do {
       if(finish == 2){ // se possui apenas duas condições
@@ -170,7 +172,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
             before['parameters']   = parameters;
             all['all'].push(before);
             before                 = {};
-            // console.log(JSON.stringify(all));
+
             parameters             = {};
             before['name']         = this.compose_rule['conditions'][i+1];
             before['operator']     = this.compose_rule['compare'][i+1];
@@ -180,7 +182,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
             before['parameters']   = parameters;
             all['all'].push(before);
 
-            // rule['any'].push(all);
+
 
             i = i + 2;
           }
@@ -198,7 +200,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
 
             }
             else{ //caso o op anterior for ou, insere vetor sec no vetor base
-              // rule['any'].push(all);
+
               all                    = {};
               all['all']             = [];
               before                 = {};
@@ -252,9 +254,10 @@ define(["jquery","bootbox"],function ($,bootbox) {
                 rule['any'].push(before);
                 i = i + 3;
               }
-              else{i++;}
-            }
-            else{
+              else{
+                i++;
+              }
+            } else {
               rule['any'].push(all);
 
               if(i == finish-1){
@@ -358,7 +361,6 @@ define(["jquery","bootbox"],function ($,bootbox) {
              }}).find('.modal-content').css({'background-color': '#fcf8e3','border-color':'#faebcc', 'font-weight' : 'bold', 'color': '#8a6d3b', 'font-size': '2em', 'font-weight' : 'bold'} );
 
   }
-
 
   return CreateRule;
 

@@ -11,36 +11,39 @@
 			}
 			parent::__construct();
 			
-		$this->load->model('M_geral');
-		$this->load->model('M_configuracoes');
-			$this->load->model('M_contextointeresse');
+			$this->load->model('M_geral');
+			$this->load->model('M_configuracoes');
+			$this->load->model('M_contextosinteresse');
 			$this->load->model('M_servidorcontexto');
-			$this->load->model('M_gateway');
-			$this->load->model('M_sensor');
-			$this->load->model('M_publicacao');
-			$this->load->model('M_usuario');
-			$this->load->model('M_servidorborda');
+			$this->load->model('M_gateways');
+			$this->load->model('M_sensores');
+			$this->load->model('M_publicacoes');
+			$this->load->model('M_usuarios');
+			$this->load->model('M_servidoresborda');
+			$this->load->model('M_perfisusuarios');
 			if ($this->session->userdata('usuario_id') != 0 && $this->session->userdata('usuario_id') != ""){
 				$this->dados['isLoged'] = true;
 				$this->dados['usuario_logado'] = $this->session->userdata('nome');
 			}else
 				$this->dados['isLoged'] = false;
-			if (isset($this->M_configuracoes->selByUser($this->session->userdata('usuario_id'))->result_array()[0]["titulo"]))
-				$this->dados['title'] = $this->M_configuracoes->selByUser($this->session->userdata('usuario_id'))->result_array()[0]["titulo"];
-			else
-				$this->dados['title'] = $title = $this->M_configuracoes->selecionar(1)->result_array()[0]["titulo"];
+			if ($this->session->userdata('usuario_id') != null && $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"] != ""){
+				$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"];				
+			}else{
+				$this->dados['title'] = $this->M_configuracoes->selecionar('titulo')->result_array()[0]["value"];
+			}
 			$this->dados["caminho"] = $this->uri->segment(1)."/".$this->uri->segment(2);
 
 		}
 	
 		function index(){
 			if ($this->session->userdata('usuario_id') != null){
-				if ($this->session->userdata('perfilusuario_id') == 2)
-					$this->dados["contextos_interesse"] = $this->M_contextointeresse->pesquisar('', array(), 10000, 0, 'asc', FALSE);			
+				$perfilusuario_id = $this->session->userdata('perfilusuario_id');
+				if ($this->M_perfisusuarios->isAdm($perfilusuario_id) == 't')
+					$this->dados["contextos_interesse"] = $this->M_contextosinteresse->pesquisar('', array(), 10000, 0, 'asc', FALSE);			
 				else
-					$this->dados["contextos_interesse"] = $this->M_contextointeresse->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 10000, 0, 'asc', TRUE);
+					$this->dados["contextos_interesse"] = $this->M_contextosinteresse->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 10000, 0, 'asc', TRUE);
 			}else
-				$this->dados["contextos_interesse"] = $this->M_contextointeresse->pesquisar('', array('publico' => 'TRUE'), 10, 0, 'asc', FALSE);
+				$this->dados["contextos_interesse"] = $this->M_contextosinteresse->pesquisar('', array('publico' => 'TRUE'), 10, 0, 'asc', FALSE);
 
 			$this->dados["index"] = true;		
 			$this->load->view('inc/topo',$this->dados);			
@@ -51,10 +54,10 @@
 		function getSensoresByCiID($id=""){
 			if ($id==""){	
 				if(isset($_POST["contextointeresse"])) {
-					$sensores = $this->M_contextointeresse->selecionar($_POST["contextointeresse"]);
+					$sensores = $this->M_contextosinteresse->selecionar($_POST["contextointeresse"]);
 				}
 			}else{
-				$sensores = $this->M_contextointeresse->selecionar($id);
+				$sensores = $this->M_contextosinteresse->selecionar($id);
 			}
 
 		    echo json_encode($sensores[0]['sensores']);
@@ -68,11 +71,11 @@
 			     $_SESSION['sensor'] = $_POST['sensor'];
 			}
 
-			$this->dados["contextointeresse"] = $this->M_contextointeresse->selecionarCI($_SESSION['contextointeresse']);
+			$this->dados["contextointeresse"] = $this->M_contextosinteresse->selecionarCI($_SESSION['contextointeresse']);
 
 			foreach (array($_SESSION['sensor']) as $key => $value) {
-				$this->dados["publicacoes"][] = $this->M_publicacao->selBySensorID($value)->result_array();
-				$sensor_temp = $this->M_sensor->selecionar($value)->result_array();
+				$this->dados["publicacoes"][] = $this->M_publicacoes->selBySensorID($value)->result_array();
+				$sensor_temp = $this->M_sensores->selecionar($value)->result_array();
 				$this->dados["sensor"][] = $sensor_temp[0];
 			}
 
@@ -90,7 +93,7 @@
 			}
 
 			if(isset($_SESSION['contextointeresse'])) {
-				$this->dados["contextointeresse"] = $this->M_contextointeresse->pesquisar('', array('contextointeresse_id' => $_SESSION['contextointeresse']), 10, $this->uri->segment(5));
+				$this->dados["contextointeresse"] = $this->M_contextosinteresse->pesquisar('', array('contextointeresse_id' => $_SESSION['contextointeresse']), 10, $this->uri->segment(5));
 			}
 
 			$this->load->view('inc/topo',$this->dados);
@@ -105,18 +108,18 @@
 			}
 
 			if (isset($_POST['sensor']) && is_array($_POST['sensor'])) {
-				$this->dados["contextointeresse"] = $this->M_contextointeresse->selecionarCI($_SESSION['contextointeresse']);
+				$this->dados["contextointeresse"] = $this->M_contextosinteresse->selecionarCI($_SESSION['contextointeresse']);
 
 				foreach ($_POST['sensor'] as $key => $value) {
 
-					$pub = $this->M_publicacao->selBySensorID($value)->result_array();
+					$pub = $this->M_publicacoes->selBySensorID($value)->result_array();
 					for ($i=0; $i < sizeof($pub); $i++) {
 						$date = new DateTime($pub[$i]["datacoleta"]);
 						$pub[$i]["datacoleta"] = $date->format('Y-m-d H:i');
 					}
 					$this->dados["publicacoes"][] = $pub;
 
-					$sensor_temp = $this->M_sensor->selecionar($value)->result_array();
+					$sensor_temp = $this->M_sensores->selecionar($value)->result_array();
 
 					$this->dados["sensor"][] = $sensor_temp[0];
 				}
@@ -138,8 +141,8 @@
 					'datacoleta <=' => $_POST['datafim']
 					);
 				foreach ($_POST['sensor'] as $key => $value) {
-					$this->dados["publicacoes"][] = $this->M_publicacao->selBySensorID($value,$where)->result_array();
-					$sensor_temp = $this->M_sensor->selecionar($value)->result_array();
+					$this->dados["publicacoes"][] = $this->M_publicacoes->selBySensorID($value,$where)->result_array();
+					$sensor_temp = $this->M_sensores->selecionar($value)->result_array();
 
 					$this->dados["sensor"][] = $sensor_temp[0];
 				}
@@ -177,26 +180,41 @@
 			     $_SESSION['sensor'] = $_POST['sensor'];
 			}
 			
-			$this->dados["contextointeresse"] = $this->M_contextointeresse->selecionarCI($_SESSION['contextointeresse']);
-			$this->dados["sensor"] = $this->M_sensor->selecionar($_SESSION['sensor'])->result_array();
+			$this->dados["contextointeresse"] = $this->M_contextosinteresse->selecionarCI($_SESSION['contextointeresse']);
+			$this->dados["sensor"] = $this->M_sensores->selecionar($_SESSION['sensor'])->result_array();
 			$dias = 7;
 			$results = array();
 			$meds = array();
+			$meds2 = array();
 			$date = date("Y-m-d");
-			
-			for ($i = 0; $i < $dias; $i++) {
 
+			$i = 0;
+			$limit = 0;
+			while ($i <= 6) {
 				$where = array(
-					'publicacao.sensor_id' => $_SESSION["sensor"],
+					'publicacoes.sensor_id' => $_SESSION["sensor"],
 					'DATE(datacoleta)' => $date
 					);
 
-				$rows = $this->M_publicacao->getDataByDay($where)->result_array();
+				$rows = $this->M_publicacoes->getDataByDay($where)->result_array();
+				
 
-				array_push($results, $rows);
-				array_push($meds, $this->M_publicacao->getMMM($where)->result_array());
+				if(!empty($rows)){
+				
+					array_push($results, $rows);
+					array_push($meds, $this->M_publicacoes->getMMM($where)->result_array());
+
+					$i++;
+					$limit = 0;
+				}else{
+					$limit++;
+				}
 
 				$date = date('Y-m-d', strtotime($date . ' -1 day'));
+				
+				if($limit >= 120){
+					break;
+				}
 			}
 
 			$this->dados["dias"] = $results;
@@ -215,18 +233,19 @@
 			if (isset($_POST['sensor'])) {
 			     $_SESSION['sensor'] = $_POST['sensor'];
 			}
-			$this->dados["contextointeresse"] = $this->M_contextointeresse->selecionarCI($_SESSION['contextointeresse']);
+			$this->dados["contextointeresse"] = $this->M_contextosinteresse->selecionarCI($_SESSION['contextointeresse']);
 
-			$this->dados["sensor"] = $this->M_sensor->selecionar($_SESSION['sensor'])->result_array();
+			$this->dados["sensor"] = $this->M_sensores->selecionar($_SESSION['sensor'])->result_array();
 
 			if ($this->session->userdata('usuario_id') != null){
-				if ($this->session->userdata('perfilusuario_id') == 2){
-					$this->dados["sensores"] = $this->M_sensor->pesquisar('', array(), 10000, 0, 'asc', FALSE);
+				$perfilusuario_id = $this->session->userdata('perfilusuario_id');
+				if ($this->M_perfisusuarios->isAdm($perfilusuario_id) == 't'){
+					$this->dados["sensores"] = $this->M_sensores->pesquisar('', array(), 10000, 0, 'asc', FALSE);
 				}
 				else
-					$this->dados["sensores"] = $this->M_sensor->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 10000, 0, 'asc', TRUE);
+					$this->dados["sensores"] = $this->M_sensores->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 10000, 0, 'asc', TRUE);
 			}else{
-				$this->dados["sensores"] = $this->M_sensor->pesquisar('', array('ci.publico' => 'TRUE'), 10000, 0, 'asc', FALSE);	
+				$this->dados["sensores"] = $this->M_sensores->pesquisar('', array('ci.publico' => 'TRUE'), 10000, 0, 'asc', FALSE);	
 			}
 
 			$this->dados["sensores"] = array_unique($this->dados["sensores"]->result_array(),SORT_REGULAR);
@@ -243,13 +262,14 @@
 			FROM publicacoes
 			inner join sensor_public on publicacoes.sensor_public_id = sensor_public.sensor_public_id " . $where . "
 			 ORDER BY contexto_dthr ASC) AS A" ;*/
-			if ($this->session->userdata('perfilusuario_id') == 2)
-				$dados = $this->M_publicacao->pesquisar('', $where, 100000, 0, "datacoleta", 'asc', FALSE, $whereOR);
+			$perfilusuario_id = $this->session->userdata('perfilusuario_id');
+			if ($this->M_perfisusuarios->isAdm($perfilusuario_id) == 't')
+				$dados = $this->M_publicacoes->pesquisar('', $where, 100000, 0, "datacoleta", 'asc', FALSE, $whereOR);
 			else{
 				if ($this->session->userdata('usuario_id') != null)
-					$dados = $this->M_publicacao->pesquisar('', array_merge($where, array('p.usuario_id' => $this->session->userdata('usuario_id'))), 100000, 0, 'datacoleta', 'asc', TRUE, $whereOR);
+					$dados = $this->M_publicacoes->pesquisar('', array_merge($where, array('p.usuario_id' => $this->session->userdata('usuario_id'))), 100000, 0, 'datacoleta', 'asc', TRUE, $whereOR);
 				else
-					$dados = $this->M_publicacao->pesquisar('', array_merge($where, array('ci.publico' => true)), 100000, 0, 'datacoleta', 'asc', TRUE, $whereOR);
+					$dados = $this->M_publicacoes->pesquisar('', array_merge($where, array('ci.publico' => true)), 100000, 0, 'datacoleta', 'asc', TRUE, $whereOR);
 
 			}
 	   	    //echo $this->db->last_query();
@@ -285,6 +305,25 @@
 			}else
 				return '';
 		}
+
+		function checkServerStatus(){
+    		$url = $this->input->get('addr');
+			$curl  = curl_init($url);
+
+			curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
+			curl_setopt($curl, CURLOPT_CONNECTTIMEOUT ,5); 
+			curl_setopt($curl, CURLOPT_TIMEOUT, 5);
+			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+			$result = curl_exec($curl);
+			$info = curl_getinfo($curl);
+
+			curl_close($curl);
+
+			if ($info['http_code'] == 200)
+				echo TRUE;
+			else
+				echo FALSE;
+    	}
 
 		function buscaTeste(){
 			//['data','valor','sensorId','sensorNome','hora']

@@ -30,9 +30,11 @@ class Publicacoes extends REST_Controller {
         $this->methods['index_delete']['limit'] = 50; // 50 requests per hour per user/key
 
         //Load Models
-        $this->load->model('M_servidorborda');
-        $this->load->model('M_sensor');
-        $this->load->model('M_publicacao');
+        $this->load->model('M_geral');
+        $this->load->model('M_sensores');
+        $this->load->model('M_publicacoes');
+        $this->load->model('M_usuarios');
+        $this->load->model('M_relcontextointeresse');
     }
     // Requisições GET enviadas para o index.
     public function index_get(){
@@ -40,7 +42,7 @@ class Publicacoes extends REST_Controller {
         $id = $this->get('id');
         if ($id === NULL){
             // Pega publicações do banco através do model publicacao
-            $publicacoes = $this->M_publicacao->pesquisar('', array(), '', 0, 'publicacao_id', 'asc', FALSE, array())->result_array();
+            $publicacoes = $this->M_publicacoes->pesquisar('', array(), '', 0, 'publicacao_id', 'asc', FALSE, array())->result_array();
 
             if ($publicacoes){
                 // Converte os dados adquiridos do banco (array) para Json
@@ -56,7 +58,7 @@ class Publicacoes extends REST_Controller {
             }
         }else{
         // Requisições com ID - lista informações do elemento
-            $publicacao = $this->M_publicacao->selecionar($id)->result_array();
+            $publicacao = $this->M_publicacoes->selecionar($id)->result_array();
             if ($publicacao){
                 // Converte os dados adquiridos do banco (array) para Json
                 $publicacao_json = json_encode($publicacao, JSON_UNESCAPED_UNICODE);
@@ -74,6 +76,9 @@ class Publicacoes extends REST_Controller {
 
     public function index_post(){
         $content = $this->post('content');
+        $local = FCPATH."regras/";
+        $localMotor = FCPATH."motorRegras/";
+
         //verifica se o content da requisição veio
         if ($content === NULL || empty($content)){
             //se não veio, retorna erro 204 (no content)
@@ -84,22 +89,80 @@ class Publicacoes extends REST_Controller {
             //se veio, o framework já transforma o json para array associativo com os dados
 
             //salva no objeto do model
-            $this->M_publicacao->setPublicacaoservidorborda($content['servidorborda_id']);
-            $this->M_publicacao->setPublicacaoSensor($content['sensor_id']);
-            $this->M_publicacao->setPublicacaoDataColeta($content['datacoleta']);
-            $this->M_publicacao->setPublicacaoDataPublicacao($content['datapublicacao']);
-            $this->M_publicacao->setPublicacaoValorColetado($content['valorcoletado']);
-            //salva o model no banco
-            if ($this->M_publicacao->salvar() == "inc"){
-                //se retornou inc, está salvo no banco
-                $message = "Dados registrados com sucesso!";
-                // retorna 201 (criado)
-                $this->set_response($message, REST_Controller::HTTP_CREATED);
-            }else{
-                //se não retornou inc
-                $message = "Dados não registrados com sucesso!";
-                // retorna 409 (conflito)
-                $this->set_response($message, REST_Controller::HTTP_CONFLICT);
+            //verifica se a publicação veio com id incremental ou com uuid
+            if (isset($content['sensor_uuid'])) {
+                $sensor = $this->M_sensores->getByUuid($content['sensor_uuid'])->row();
+                $this->M_publicacoes->setPublicacaoSensor($sensor->sensor_id);
+            } else {                
+                $this->M_publicacoes->setPublicacaoSensor($content['sensor_id']);
+            }
+            $this->M_publicacoes->setPublicacaoDataColeta($content['datacoleta']);
+            if (isset($content['datapublicacao']))
+                $this->M_publicacoes->setPublicacaoDataPublicacao($content['datapublicacao']);
+            $this->M_publicacoes->setPublicacaoValorColetado($content['valorcoletado']);
+
+            //pega do BANCO o ambiente_id o qual aquele sensor estah instalado, valormax e min do sensor, e status do ambiente
+            $sensor = $this->M_sensores->selecionar($content['sensor_id'])->result_array();
+
+            //Se o sensor estiver desativado ou estiver num ambiente desativado, nao sera feita a publicacao na base de dados
+            if($sensor[0]["ambiente_status"]=='t'){
+                if($sensor[0]["status"]=='t'){
+                    //verifica se valor coletado é um codigo de erro
+                    if($content['valorcoletado'] < 990){
+                        //salva o model no banco
+                        if ($this->M_publicacoes->salvar() == "inc"){
+                            //se retornou inc, está salvo no banco
+                            $message = ['status' => TRUE,
+                            'message' => 'Dados registrados com sucesso!'];
+
+                            $regras = $this->M_relcontextointeresse->getBySensor($content['sensor_id'])->result_array();
+
+                            if($content['dispararegra'] == true){
+                                foreach ($regras as $regra) {
+                                    if ($regra['ativaregra'] == 't'){
+                                        if($regra['regra_id']!=null && $regra['regra_tipo']==1 && $regra['regra_status']=='t' && $regra['regra_arquivo']!=null){
+                                            // EXECUTA REGRA PYTHON
+                                            $cmd = $local ."".$regra['regra_arquivo']." ".$regra['contextointeresse_id']." ".$regra['sensor_id'];
+                                            $command = escapeshellcmd($cmd);
+                                            $regraOutput = shell_exec($command);
+
+                                        }elseif($regra['regra_id']!=null && $regra['regra_tipo']==3 && $regra['regra_status']=='t' && $regra['regra_arquivo']!=null) {
+                                            
+                                            $cmd = $localMotor ."main.py ".$regra['regra_arquivo'];
+                                            $command = escapeshellcmd($cmd);
+                                            $regraOutput = shell_exec($command);
+                                        }
+                                    }
+                                }
+                            }
+
+                            // retorna 201 (criado)
+                            $this->set_response($message, REST_Controller::HTTP_CREATED);
+                        }else{
+                            //se não retornou inc
+                            $message = ['status' => FALSE,
+                            'message' => 'Dados não registrados com sucesso!'];
+                            // retorna 409 (conflito)
+                            $this->set_response($message, REST_Controller::HTTP_CONFLICT);
+                        }
+                    }else{
+                        // ENVIA EMAIL DE VALOR DE ERRO
+
+                        $usuarios = $this->M_usuarios->selByPerfilUsuario(2)->result_array();
+                        $subject = "Erro PlenUS: ".$sensor[0]['servidorborda_nome']." - ".$sensor[0]['nome'];
+                        $message = "Erro PlenUS: Sensor desconectado \n\nServidor de Borda: ".$sensor[0]['servidorborda_nome']." \nSensor: ".$sensor[0]['nome']." \nData coleta: ".$content['datacoleta']." \nValor coletado: ".$content['valorcoletado']."\n\n\n";
+
+                        foreach ($usuarios as $usuario) {
+                            $result = $this->M_geral->sendEmail($usuario['email'],$message,$subject);
+                        }
+
+                        //se não retornou inc
+                        $message = ['status' => FALSE,
+                        'message' => 'Dados não registrados com sucesso. Erro PlenUS: Sensor desconectado. Servidor de Borda: '.$sensor[0]['servidorborda_nome'].' Sensor: '.$sensor[0]['nome'].' Data coleta: '.$content['datacoleta'].' Valor coletado: '.$content['valorcoletado'].'. E-mails enviados.'];
+                        // retorna 409 (conflito)
+                        $this->set_response($message, REST_Controller::HTTP_CONFLICT);
+                    }
+                }
             }
         }
     }
@@ -111,7 +174,7 @@ class Publicacoes extends REST_Controller {
         if ($id === NULL){
             //se não veio, retorna erro 204 (no content)
             $message = ['status' => FALSE,
-                        'message' => 'No ambiente was found'];
+                        'message' => 'No publication was found'];
             $this->set_response($message, REST_Controller::HTTP_NOT_FOUND);
         }else{
             // Requisições com ID - lista informações do elemento
@@ -124,13 +187,12 @@ class Publicacoes extends REST_Controller {
             }else{
                 //se veio, o framework já transforma o json para array associativo com os dados
                 //salva no objeto do model
-                $this->M_publicacao->setPublicacaoId($id);
-                $this->M_publicacao->setPublicacaoservidorborda($content['servidorborda_id']);
-                $this->M_publicacao->setPublicacaoSensor($content['sensor_id']);
-                $this->M_publicacao->setPublicacaoDataColeta($content['datacoleta']);
-                $this->M_publicacao->setPublicacaoDataPublicacao($content['datapublicacao']);
-                $this->M_publicacao->setPublicacaoValorColetado($content['valorcoletado']);
-                if ($this->M_publicacao->salvar() == "alt"){
+                $this->M_publicacoes->setPublicacaoId($id);
+                $this->M_publicacoes->setPublicacaoSensor($content['sensor_id']);
+                $this->M_publicacoes->setPublicacaoDataColeta($content['datacoleta']);
+                $this->M_publicacoes->setPublicacaoDataPublicacao($content['datapublicacao']);
+                $this->M_publicacoes->setPublicacaoValorColetado($content['valorcoletado']);
+                if ($this->M_publicacoes->salvar() == "alt"){
                     //se retornou alt, está salvo no banco
                     $message = "Dados registrados com sucesso!";
                     // retorna 200 (OK)
@@ -151,8 +213,8 @@ class Publicacoes extends REST_Controller {
         $id = $this->get('id');
         if ($id !== NULL || $id != ""){
             //se o id estiver setado, salva o id em um objeto do model ambinete e aciona metodo de excluir
-            $this->M_publicacao->setPublicacaoId($id);  
-            $this->M_publicacao->excluir();
+            $this->M_publicacoes->setPublicacaoId($id);  
+            $this->M_publicacoes->excluir();
 
             $message = "Registro(s) excluído(s) com sucesso!";
             $this->set_response($message, REST_Controller::HTTP_OK);

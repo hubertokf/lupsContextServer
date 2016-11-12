@@ -35,8 +35,9 @@
                                 <label for="agendamento_usuario">Usuário</label>
                             </div>
                         </div>
+                        
                         <div class="row">
-                        	<?php if ((int)$usuarioPerfil <= 2) { ?>
+                        	<?php if($isAdm == 't'){ ?>
 	                            <div class="col-xs-10 col-xs-offset-1">
 	                                <select name="agendamento_usuario">
 										<option value="" selected="" disabled="">Selecione...</option>

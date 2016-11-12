@@ -43,9 +43,9 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-10 col-xs-offset-1">
+                            <div class="col-xs-9 col-xs-offset-1">
                                 <select name="contextointeresse_regra">
-                                    <option value="" selected="" disabled="">Selecione...</option>
+                                    <option value="" selected="">Selecione...</option>
                                     <?php
                                         $selected = "";
                                         foreach ($regras->result() as $regra){
@@ -58,6 +58,11 @@
                                     ?>
                                 </select>
                             </div>
+														<div class="col-xs-1">
+																<div id="addRule">
+																		<i class="fa fa-plus-circle fa-3x"></i>
+																</div>
+														</div>
                         </div>
 
                         <div class="row">

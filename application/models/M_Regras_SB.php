@@ -8,6 +8,7 @@ class M_Regras_SB extends CI_Model{
         private $regra_contextointeresse;
         private $regra_sensor;
         private $regra_arquivo_py;
+        private $regra_id_borda;
 
 
     function get_rules($value='')
@@ -15,7 +16,7 @@ class M_Regras_SB extends CI_Model{
       $this->db->select('nome, regra_id');
       $this->db->from('regras');
       $this->db->where('sensor_id='.$value);
-      $this->db->where('tipo = 2');
+      $this->db->where('tipo = 4');
       return $this->db->get();
 
     }
@@ -44,7 +45,7 @@ class M_Regras_SB extends CI_Model{
 
           // $this->db->join('permissoes as p', 'r.regra_id = p.regra_id', 'inner');
 
-          $this->db->join('contextointeresse as ci', 'ci.regra_id = r.regra_id');
+          $this->db->join('contextosinteresse as ci', 'ci.regra_id = r.regra_id');
           $this->db->join('permissoes as p', 'ci.contextointeresse_id = p.contextointeresse_id', 'inner');
 
           // $this->db->join('relcontextointeresse as rci', 'r.regra_id = rci.regra_id', 'left');
@@ -61,15 +62,9 @@ class M_Regras_SB extends CI_Model{
 
     function selecionar($codigo) {
       $this->db->select('regras.*');
-
-      // $this->db->select('rci.contextointeresse_id');
-      // $this->db->select('rci.sensor_id');
-
-        $this->db->from('regras');
-
-        // $this->db->join('relcontextointeresse as rci', 'regras.regra_id = rci.regra_id', 'left');
-        $this->db->where("regras.regra_id", $codigo);
-        return $this->db->get();
+      $this->db->from('regras');
+      $this->db->where("regras.regra_id", $codigo);
+      return $this->db->get();
     }
 
   function salvar() {
@@ -78,7 +73,8 @@ class M_Regras_SB extends CI_Model{
             "nome" 			  => $this->regra_nome,
             "tipo" 			  => $this->regra_tipo,
             "arquivo_py" 	=> $this->regra_arquivo_py,
-            "sensor_id"   => $this->regra_sensor
+            "sensor_id"   => $this->regra_sensor,
+            "id_regra_borda" => $this->regra_id_borda
         );
 
   if ($this->regra_id == ""){
@@ -136,16 +132,29 @@ class M_Regras_SB extends CI_Model{
     // print_r($value);
     $this->db->select('selecoes.nome');
     $this->db->from('regras as r');
-    $this->db->join('sensor as selecoes','r.sensor_id = selecoes.sensor_id');
+    $this->db->join('sensores as selecoes','r.sensor_id = selecoes.sensor_id');
     $this->db->where('r.regra_id ='.$value);
     $respost = $this->db->get();
     return $respost;
   }
+
+  public function getRegraIdBorda($value)
+  {
+    $this->db->select('r.id_regra_borda');
+    $this->db->from('regras as r');
+    // print_r($value);
+    $this->db->where('r.regra_id ='.$value);
+    $respost = $this->db->get()->result_array();
+    // print_r($respost);
+    // print_r($this->db->last_query());
+    return $respost[0]["id_regra_borda"];
+  }
+
   public function get_sensor_id($value){
     // print_r($value);
     $this->db->select('selecoes.sensor_id');
     $this->db->from('regras as r');
-    $this->db->join('sensor as selecoes','r.sensor_id = selecoes.sensor_id');
+    $this->db->join('sensores as selecoes','r.sensor_id = selecoes.sensor_id');
     $this->db->where('r.regra_id ='.$value);
     $respost = $this->db->get();
     return $respost;
@@ -203,7 +212,11 @@ class M_Regras_SB extends CI_Model{
   public function setRegraId($valor){
     $this->regra_id = $valor;
   }
-
+  public function setRegraIdBorda($valor)
+  {
+    // print_r($valor);
+    $this->regra_id_borda = $valor;
+  }
   public function setRegraNome($valor){
   if(!is_string($valor)) {
     throw new InvalidArgumentException('Expected String');

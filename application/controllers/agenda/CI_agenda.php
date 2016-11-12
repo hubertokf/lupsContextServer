@@ -14,20 +14,22 @@
 			
 		$this->load->model('M_geral');
 		$this->load->model('M_configuracoes');
-			$this->load->model('M_agenda');
-			$this->load->model('M_ambiente');
-			$this->load->model('M_usuario');
-			$this->load->model('M_sensor');
+			$this->load->model('M_agendamentos');
+			$this->load->model('M_ambientes');
+			$this->load->model('M_usuarios');
+			$this->load->model('M_sensores');
+			$this->load->model('M_perfisusuarios');
 			$this->M_geral->verificaSessao();
 			if ($this->session->userdata('usuario_id') != 0 && $this->session->userdata('usuario_id') != ""){
 				$this->dados['isLoged'] = true;
 				$this->dados['usuario_logado'] = $this->session->userdata('nome');
 			}else
 				$this->dados['isLoged'] = false;
-			if (isset($this->M_configuracoes->selByUser($this->session->userdata('usuario_id'))->result_array()[0]["titulo"]))
-			$this->dados['title'] = $this->M_configuracoes->selByUser($this->session->userdata('usuario_id'))->result_array()[0]["titulo"];
-		else
-			$this->dados['title'] = $title = $this->M_configuracoes->selecionar(1)->result_array()[0]["titulo"];
+			if ($this->session->userdata('usuario_id') != null && $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"] != ""){
+				$this->dados['title'] = $this->M_usuarios->selecionar($this->session->userdata('usuario_id'))->result_array()[0]["website_titulo"];				
+			}else{
+				$this->dados['title'] = $this->M_configuracoes->selecionar('titulo')->result_array()[0]["value"];
+			}
 			$this->dados["caminho"] = $this->uri->segment(1)."/".$this->uri->segment(2);
 		}
 	
@@ -38,21 +40,21 @@
 		
 		function pesquisa($nr_pagina=20 ){
 			$usuarioId = $this->session->userdata('usuario_id');
-			$usuarioPerfil = $this->session->userdata('perfilusuario_id');
 			$this->dados["metodo"] = "pesquisa";
-			if ((int)$usuarioPerfil <= 2) {	
-				$this->dados["linhas"] = $this->M_agenda->pesquisar('', array(), $nr_pagina, $this->uri->segment(5));
+			$perfilusuario_id = $this->session->userdata('perfilusuario_id');
+			if ($this->M_perfisusuarios->isAdm($perfilusuario_id) == 't'){	
+				$this->dados["linhas"] = $this->M_agendamentos->pesquisar('', array(), $nr_pagina, $this->uri->segment(5));
 			} else {
-				$this->dados["linhas"] = $this->M_agenda->pesquisar('', array('agendamento.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5));				
+				$this->dados["linhas"] = $this->M_agendamentos->pesquisar('', array('agendamento.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5));				
 			}
                         
                         //foreach ($this->dados["linhas"] as $linha){
                         
 			$this->dados["nr_pagina"] = $nr_pagina;
-			$this->dados["total"] = $this->M_agenda->numeroLinhasTotais();
+			$this->dados["total"] = $this->M_agendamentos->numeroLinhasTotais();
 			$this->dados["tituloPesquisa"] = "Registro de Agendamentos";
 
-			//$this->dados["sensores"] = $this->M_agenda->getSensorList();		
+			//$this->dados["sensores"] = $this->M_agendamentos->getSensorList();		
 			
 			$pag['base_url'] = base_url.$this->dados["caminho"]."/".$this->dados["metodo"]."/".$nr_pagina."/";
 			$pag['total_rows'] = $this->dados["total"];
@@ -67,8 +69,10 @@
 		}
 	
 		function cadastro(){
-			$this->dados["usuario"] = $this->M_usuario->pesquisar(); 
-			$this->dados["ambiente"] = $this->M_ambiente->pesquisar();
+			$this->dados["usuario"] = $this->M_usuarios->pesquisar(); 
+			$this->dados["ambiente"] = $this->M_ambientes->pesquisar();
+			$perfilusuario_id = $this->session->userdata('perfilusuario_id');
+			$this->dados["isAdm"] = $this->M_perfisusuarios->isAdm($perfilusuario_id);
 			$this->load->view('inc/topo',$this->dados);
 			$this->load->view('inc/menu');
 			$this->load->view('agenda/agendamentos/cadastro');
@@ -90,13 +94,13 @@
 				}
 				
 			} else {
-				$this->M_agenda->setAgendamentoId($_POST["agendamento_id"]);
-				$this->M_agenda->setAgendamentoAmbiente($_POST["agendamento_ambiente"]);
-				$this->M_agenda->setAgendamentoUsuario($_POST["agendamento_usuario"]);
-				$this->M_agenda->setAgendamentoDesc($_POST["agendamento_desc"]);
-				$this->M_agenda->setAgendamentoDateTimeInicial($_POST["agendamento_datetimeinicial"]);
-				$this->M_agenda->setAgendamentoDateTimeFinal($_POST["agendamento_datetimefinal"]);
-				if ($this->M_agenda->salvar() == "inc"){
+				$this->M_agendamentos->setAgendamentoId($_POST["agendamento_id"]);
+				$this->M_agendamentos->setAgendamentoAmbiente($_POST["agendamento_ambiente"]);
+				$this->M_agendamentos->setAgendamentoUsuario($_POST["agendamento_usuario"]);
+				$this->M_agendamentos->setAgendamentoDesc($_POST["agendamento_desc"]);
+				$this->M_agendamentos->setAgendamentoDateTimeInicial($_POST["agendamento_datetimeinicial"]);
+				$this->M_agendamentos->setAgendamentoDateTimeFinal($_POST["agendamento_datetimefinal"]);
+				if ($this->M_agendamentos->salvar() == "inc"){
 					$this->dados["msg"] = "Dados registrados com sucesso!";
 					$this->pesquisa();	
 				}
@@ -110,13 +114,13 @@
 		function excluir($id=""){
 			if ($id==""){	
 				if(isset($_POST["item"])) {
-					$this->M_agenda->setAgendamentoId($_POST["item"]);	
-					$this->M_agenda->excluir();
+					$this->M_agendamentos->setAgendamentoId($_POST["item"]);	
+					$this->M_agendamentos->excluir();
 				}
 			}
 			else{
-				$this->M_agenda->setAgendamentoId($id);	
-				$this->M_agenda->excluir();
+				$this->M_agendamentos->setAgendamentoId($id);	
+				$this->M_agendamentos->excluir();
 			}
 			$this->dados["msg"] = "Registro(s) excluído(s) com sucesso!";
 			$this->pesquisa();
@@ -125,13 +129,13 @@
 	   function editar() {
 			
 			if(isset($_POST["item"])) {
-				$this->dados["registro"] = $this->M_agenda->selecionar($_POST["item"]);
+				$this->dados["registro"] = $this->M_agendamentos->selecionar($_POST["item"]);
 			}
 			$this->cadastro();
 		}
 		
 		function selecionar() {
-			$this->dados["ambiente"] = $this->M_ambiente->pesquisar();
+			$this->dados["ambiente"] = $this->M_ambientes->pesquisar();
 			$this->load->view('inc/topo',$this->dados);
 			$this->load->view('inc/menu');
 			$this->load->view('agenda/agendamentos/selecao');
@@ -139,7 +143,7 @@
 		}
 
 		function buscar() {
-			$this->dados["registro"] = $this->M_agenda->buscaEventos($_POST['item']);
+			$this->dados["registro"] = $this->M_agendamentos->buscaEventos($_POST['item']);
 			$this->load->view('inc/agenda',$this->dados);
 		}
 
@@ -182,7 +186,7 @@
 	
 			$this->load->library('Calendar',$prefs);
 
-			$dados = $this->M_agenda->pesquisar();
+			$dados = $this->M_agendamentos->pesquisar();
 			
 			function howDays($from, $to) {
 			    $first_date = strtotime($from);
@@ -196,7 +200,7 @@
  		    	$this->session->set_userdata('ambiente_id', $_POST['agendamento_ambiente']);
  		    }
  		    $idambiente = $this->session->userdata('ambiente_id');
- 		    $dadosAgendamento = $this->M_agenda->pesquisar($select='', $where='agendamento.ambiente_id = '.$idambiente.'', $limit=9999, $offset=0, $ordem='asc');	
+ 		    $dadosAgendamento = $this->M_agendamentos->pesquisar($select='', $where='ag.ambiente_id = '.$idambiente.'', $limit=9999, $offset=0, $ordem='asc');	
 
  		    foreach ($dadosAgendamento as $linha){	
  		    	$totalDays = howDays($linha['datetimeinicial'],$linha['datetimefinal']); 
@@ -223,16 +227,16 @@
 	
 		function verificarData() {
 			
-			$this->dados['totalRegistros'] = $this->M_agenda->pesquisarIntervalosDentro($select='',$_POST['idAg'], $_POST['DateTimeInicial'], $_POST['DateTimeFinal'], $_POST['agendamentoambiente']);					
+			$this->dados['totalRegistros'] = $this->M_agendamentos->pesquisarIntervalosDentro($select='',$_POST['idAg'], $_POST['DateTimeInicial'], $_POST['DateTimeFinal'], $_POST['agendamentoambiente']);					
 
 			if ($this->dados['totalRegistros'] == 0) {
-				$this->dados['totalRegistros'] = $this->M_agenda->pesquisarIntervalosFora($select='',$_POST['idAg'], $_POST['DateTimeInicial'], $_POST['DateTimeFinal'], $_POST['agendamentoambiente']);
+				$this->dados['totalRegistros'] = $this->M_agendamentos->pesquisarIntervalosFora($select='',$_POST['idAg'], $_POST['DateTimeInicial'], $_POST['DateTimeFinal'], $_POST['agendamentoambiente']);
 			}
 			if ($this->dados['totalRegistros'] == 0) {
-				$this->dados['totalRegistros'] = $this->M_agenda->pesquisarIntervalosservidorbordaEsquerda($select='',$_POST['idAg'], $_POST['DateTimeInicial'], $_POST['agendamentoambiente']);	
+				$this->dados['totalRegistros'] = $this->M_agendamentos->pesquisarIntervalosservidorbordaEsquerda($select='',$_POST['idAg'], $_POST['DateTimeInicial'], $_POST['agendamentoambiente']);	
 			}
 			if ($this->dados['totalRegistros'] == 0) {
-				$this->dados['totalRegistros'] = $this->M_agenda->pesquisarIntervalosservidorbordaDireita($select='',$_POST['idAg'], $_POST['DateTimeFinal'], $_POST['agendamentoambiente']);	
+				$this->dados['totalRegistros'] = $this->M_agendamentos->pesquisarIntervalosservidorbordaDireita($select='',$_POST['idAg'], $_POST['DateTimeFinal'], $_POST['agendamentoambiente']);	
 			}
 			
 			$this->load->view('inc/totalAgendamentos',$this->dados);
@@ -240,8 +244,8 @@
 		}
 
 		function relatorio() {
-			$this->dados["usuario"] = $this->M_usuario->pesquisar(); 
-			$this->dados["ambiente"] = $this->M_ambiente->pesquisar();
+			$this->dados["usuario"] = $this->M_usuarios->pesquisar(); 
+			$this->dados["ambiente"] = $this->M_ambientes->pesquisar();
 			$this->load->view('inc/topo',$this->dados);
 			$this->load->view('inc/menu');
 			$this->load->view('agenda/agendamentos/relatorio');
@@ -271,7 +275,7 @@
 				$dadosBusca['ambiente_id'] = $_POST['ambiente_id'];
 			}
 
-			$dadosRelatorio = $this->M_agenda->pesquisar($select='', $where = $dadosBusca, $limit='', $offset=0, $ordem='desc', $orderBy="datetimeinicial");
+			$dadosRelatorio = $this->M_agendamentos->pesquisar($select='', $where = $dadosBusca, $limit='', $offset=0, $ordem='desc', $orderBy="datetimeinicial");
 
 			foreach ($dadosRelatorio as $linha){
 				$db_data[] = array(

@@ -4,8 +4,8 @@
 			$servidorcontexto_id 		= $linha->servidorcontexto_id;
 			$servidorcontexto_nome		= $linha->nome;
 			$servidorcontexto_desc		= $linha->descricao;
-			$servidorcontexto_latitude	= $linha->latitude;
-			$servidorcontexto_longitude	= $linha->longitude;
+			$servidorcontexto_url	= $linha->url;
+			$servidorcontexto_access_token	= $linha->access_token;
 		}
 	}
 ?>
@@ -49,19 +49,25 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-xs-5 col-xs-offset-1 input">
-                                <label for="servidorcontexto_latitude">Latitude</label>
-                            </div>
-                            <div class="col-xs-5 input">
-                                <label for="servidorcontexto_longitude">Longitude</label>
+                            <div class="col-xs-10 col-xs-offset-1 input">
+                                <label for="servidorcontexto_url">URL</label>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-5 col-xs-offset-1 input">
-                                <input type="text" name="servidorcontexto_latitude" value="<?php echo @$servidorcontexto_latitude;?>" />
+                            <div class="col-xs-10 col-xs-offset-1 input">
+                                <input type="text" name="servidorcontexto_url" value="<?php echo @$servidorcontexto_url;?>" />
                             </div>
-                            <div class="col-xs-5 input">
-                                <input type="text" name="servidorcontexto_longitude" value="<?php echo @$servidorcontexto_longitude;?>" />
+                        </div>
+
+                        <div class="row">                            
+                            <div class="col-xs-10 col-xs-offset-1  input">
+                                <label for="servidorcontexto_access_token">Access Token</label>
+                            </div>
+                        </div>
+
+                        <div class="row">                            
+                            <div class="col-xs-10 col-xs-offset-1  input">
+                                <input type="text" name="servidorcontexto_access_token" value="<?php echo @$servidorcontexto_access_token;?>" />
                             </div>
                         </div>
 

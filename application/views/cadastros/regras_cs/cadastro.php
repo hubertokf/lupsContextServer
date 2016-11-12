@@ -37,15 +37,26 @@
           <div id="type-rule">
             <div class="col-md-6 col-md-offset-3" style="margin-top: 20px;">
               <label for="type-rule-select">Tipo de regra:</label>
-              <select id="type-rule-select">
-                <option value="1">Regra Python</option>
-                <option value="2" selected="selected">Motor de regras</option>
+              <?php
+                $tipo1 = $tipo3 = "";
+                if (!isset($regra_tipo)){
+                  $tipo1 = 'selected="selected"';
+                }elseif(isset($regra_tipo) && $regra_tipo == '1'){
+                  $tipo1 = 'selected="selected"';
+                }elseif(isset($regra_tipo) && $regra_tipo == '3'){
+                  $tipo3 = 'selected="selected"';
+                }
+              ?>
+
+              <select id="type-rule-select" <?php echo (isset($regra_tipo)) ? ' disabled' : ''; ?> >
+                <option value="1" <?php echo $tipo1 ?>>Regra Python</option>
+                <option value="3" <?php echo $tipo3 ?>>Motor de regras</option>
               </select>
             </div>
-          </div>          
+          </div>
         </div>
         <div id="python-rule" style="display: none;">
-          <form name="formCadastro" id="formCadastro" method="post" action="./gravar">
+          <form name="formCadastro" id="formCadastro" method="post" action="./gravar_python">
             <div class="row">
                 <div class="col-xs-12">
                     <div class="tituloCadastros">
@@ -58,7 +69,7 @@
                 <div class="col-sm-6 col-sm-offset-3">
                     <div class="cadastro-box">
                   <input type="hidden" name="regra_id" value="<?php echo @$regra_id;?>">
-                        
+
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1 input">
                                 <label for="regra_nome">Nome:</label>
@@ -70,18 +81,7 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-xs-10 col-xs-offset-1 input">
-                                <label for="regra_tipo">Tipo:</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-10 col-xs-offset-1">
-                                <select name="regra_tipo" class="sel_regra_tipo">
-                                    <option value="1" selected="" >Script Python</option>
-                                </select>
-                            </div>
-                        </div>
+                        <input type="hidden" name="regra_tipo" value="1" />
 
                         <div class="especific_field" id="script_python">
                             <div class="row">
@@ -116,12 +116,12 @@
                   <?php echo validation_errors(); ?>
                 </div>
               </div>
-            </div>                        
+            </div>
                         <div class="row">
                             <div class="submit">
                                 <div class="col-md-6 col-md-offset-3">
                                     <input type="submit" name="botao" value="Cadastrar" />
-                                </div>          
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -151,8 +151,19 @@
                    }?>
             </select>
            </div>
+					 <div class="col-md-4">
+				 			<div class="checkbox">
+				 				<input type="checkbox" id = "box_status_rules" ><label id = "label_box" style="margin-top:3px">Ativar Regra</label>
+				 			</div>
+				 	</div>
+					<div class="col-md-8">
+						<div class="checkbox">
+							<input type="checkbox" style = "display: none" ><label style="margin-top:3px; display: none">Ativar Regra</label>
+						</div>
 
-           <!-- <div class="col-md-4" id = "padding_size">
+				 </div>
+
+             <!-- <div class="col-md-4" id = "padding_size">
              oiiiiiiiiiiiiiiiiiiiiiiii
            </div> -->
            <div class="col-md-2 col-md-offset-3">
@@ -174,6 +185,10 @@
           </div>
         </div>
         </div>
-         
-      </div>
+				</div>
+			<!-- </div>
+
+
+
+      </div> -->
 </section>

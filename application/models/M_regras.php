@@ -8,8 +8,9 @@ class M_regras extends CI_Model {
 	private $regra_contextointeresse;
 	private $regra_sensor;
 	private $regra_arquivo_py;
+	private $id_regra_borda;
 
-        function pesquisar($select='', $where=array(), $limit=10, $offset=0, $ordem='asc', $perm=FALSE,$sens='') {
+        function pesquisar($select='',$where=array(), $limit=10, $offset=0, $ordem='asc', $perm=FALSE,$sens='',$or_where=array() ) {
         	if ($perm == FALSE){
 	            $this->db->select('r.*');
 
@@ -34,18 +35,18 @@ class M_regras extends CI_Model {
 
 	            // $this->db->join('permissoes as p', 'r.regra_id = p.regra_id', 'inner');
 
-	            $this->db->join('contextointeresse as ci', 'ci.regra_id = r.regra_id');
+	            $this->db->join('contextosinteresse as ci', 'ci.regra_id = r.regra_id');
 	            $this->db->join('permissoes as p', 'ci.contextointeresse_id = p.contextointeresse_id', 'inner');
 
 	            // $this->db->join('relcontextointeresse as rci', 'r.regra_id = rci.regra_id', 'left');
 	            // $this->db->join('contextointeresse as ci', 'ci.contextointeresse_id = rci.contextointeresse_id', 'left');
 	            // $this->db->join('sensor as s', 's.sensor_id = rci.sensor_id', 'left');
 	        }
-
-            $this->db->where($where);
-
+						$this->db->where($where);
+            $this->db->or_where($or_where);
             $this->db->order_by('r.nome',$ordem);
        	    $this->db->limit($limit, $offset);
+
             return $this->db->get();
         }
 
@@ -72,14 +73,12 @@ class M_regras extends CI_Model {
 
 			if ($this->regra_id == ""){
 	            $this->db->insert('regras', $arrayCampos);
-			    $insert_id = $this->db->insert_id();
-
-			    // old "insert regra_id into relcontextointeresse"
-				//$this->db->update('relcontextointeresse', array('regra_id' => $insert_id), array("contextointeresse_id"=>$this->regra_contextointeresse,"sensor_id"=>$this->regra_sensor));
+			    		$insert_id = $this->db->insert_id();
+			    		// old "insert regra_id into relcontextointeresse"
+							//$this->db->update('relcontextointeresse', array('regra_id' => $insert_id), array("contextointeresse_id"=>$this->regra_contextointeresse,"sensor_id"=>$this->regra_sensor));
 
 		        return "inc";
-			}
-        	else{
+			}else{
 	            $this->db->update('regras', $arrayCampos, array("regra_id"=>$this->regra_id));
 
 	            /*$this->db->set('regra_id', null);
@@ -106,8 +105,9 @@ class M_regras extends CI_Model {
 		    }
 		}
 
-		function numeroLinhasTotais($select='', $where=array()) {
-	    	$this->db->where($where);
+		function numeroLinhasTotais($select='', $where=array(), $or_where=array()) {
+	    		$this->db->where($where);
+					$this->db->or_where($or_where);
 	        $this->db->from('regras');
 	        return $this->db->count_all_results();
 	    }
@@ -181,7 +181,6 @@ class M_regras extends CI_Model {
 			}
 			$this->regra_nome = $valor;
 		}
-
 		public function setRegraStatus($valor){
 			$this->regra_status = $valor;
 		}

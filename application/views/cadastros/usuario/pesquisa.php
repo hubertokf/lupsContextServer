@@ -32,7 +32,7 @@
 								<td>$linha[nome_perfil]</td>
 								<td class='buttons-row'>";
 
-						if($this->session->userdata('perfilusuario_id') == '2'){
+						if($isAdm == 't'){
 							if($linha['perfilusuario_id'] != 2)
 								$row .= "<a class='botaoPermissao' id='perm-$linha[usuario_id]' href='javascript:;' alt='Editar Permissões' title='Editar Permissões'><i class='fa fa-lock fa-2x'></i></a>";
 							else

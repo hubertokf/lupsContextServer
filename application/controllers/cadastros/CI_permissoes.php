@@ -8,10 +8,11 @@ class CI_permissoes extends CI_controller {
 		$this->load->model('M_geral');
 		$this->load->model('M_configuracoes');
 		$this->load->model('M_permissoes');
-		$this->load->model('M_usuario');
-		$this->load->model('M_contextointeresse');
-		$this->load->model('M_sensor');
-		$this->load->model('M_ambiente');
+		$this->load->model('M_usuarios');
+		$this->load->model('M_perfisusuarios');
+		$this->load->model('M_contextosinteresse');
+		$this->load->model('M_sensores');
+		$this->load->model('M_ambientes');
 		$this->load->model('M_regras');
 		$this->M_geral->verificaSessao();
 		if ($this->session->userdata('usuario_id') != 0 && $this->session->userdata('usuario_id') != ""){
@@ -34,8 +35,8 @@ class CI_permissoes extends CI_controller {
 				$where = array('permissoes.usuario_id'=>$this->input->post('item'));
 				$this->dados["perm_user"] = $this->input->post('item');
 			}
-		$user_name = $this->M_usuario->selecionar($this->dados["perm_user"])->result_array()[0]["nome"];
-		$this->dados["perfil_user"] = $this->M_usuario->selecionar($this->dados["perm_user"])->result_array()[0]["perfilusuario_id"];
+		$user_name = $this->M_usuarios->selecionar($this->dados["perm_user"])->result_array()[0]["nome"];
+		$this->dados["perfil_user"] = $this->M_usuarios->selecionar($this->dados["perm_user"])->result_array()[0]["perfilusuario_id"];
 		$this->dados["metodo"] = "pesquisa";
 		$this->dados["linhas"] = $this->M_permissoes->pesquisar('',$where, $nr_pagina, $this->uri->segment(5), 'permissao_id', $ordem='asc');
 		$this->dados["nr_pagina"] = $nr_pagina;

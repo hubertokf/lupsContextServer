@@ -31,7 +31,7 @@ define(["jquery"], function($){
                  type:"POST",
                  data: {id_sensor:selected_value},
                  dataType: 'json',
-                 url:window.base_url+"cadastros/CI_Regra_Aquisicao/get_rules_names",
+                 url:window.base_url+"cadastros/CI_regras_agendamento/get_rules_names",
                  complete: function (response) {
                    $("#select_rules").empty();
                    $("#select_rules").append($('<option value selected disabled>Selecione</option> '));

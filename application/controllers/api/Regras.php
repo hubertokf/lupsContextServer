@@ -32,8 +32,8 @@ class Regras extends REST_Controller {
         //Load Models
         $this->load->model('M_regras');
         $this->load->model('M_relcontextointeresse');
-        $this->load->model('M_contextointeresse');
-        $this->load->model('M_sensor');
+        $this->load->model('M_contextosinteresse');
+        $this->load->model('M_sensores');
     }
     // Requisições GET enviadas para o index.
     public function index_get(){

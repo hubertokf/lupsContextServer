@@ -8,9 +8,11 @@
 			$gateway_modelo			= $linha->modelo;
 			$gateway_fabricante		= $linha->fabricante_id;
             $gateway_servidorborda          = $linha->servidorborda_id;
-			$gateway_status			= $linha->status;
+            $gateway_status         = $linha->status;
+			$gateway_uuid			= $linha->uuid;
 		}
 	}
+    
 ?>
 
 <section class="cadastros telaCadastro">
@@ -27,7 +29,23 @@
             <div class="row">
                 <div class="col-sm-4 col-sm-offset-4">
                     <div class="cadastro-box">
-		            	<input type="hidden" name="gateway_id" value="<?php echo @$gateway_id;?>">
+                        <div class="row">
+                            <div class="col-xs-1 col-xs-offset-1">
+                                <label for="gateway_id">ID:</label>
+                            </div>
+                            <div class="col-xs-10 col-xs-offset-1 input">
+                                <input type="text" name="gateway_id" readonly value="<?php echo @$gateway_id;?>" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-1 col-xs-offset-1">
+                                <label for="gateway_uuid">uuID:</label>
+                            </div>
+                            <div class="col-xs-10 col-xs-offset-1 input">
+                                <input type="text" name="gateway_uuid"  value="<?php echo @$gateway_uuid;?>" />
+                            </div>
+                        </div>
                         
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1 input">

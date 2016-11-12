@@ -30,10 +30,10 @@ class Ambientes extends REST_Controller {
         $this->methods['user_delete']['limit'] = 50; // 50 requests per hour per user/key
 
         //Load Models
-        $this->load->model('M_ambiente');
-        $this->load->model('M_gateway');
-        $this->load->model('M_usuario');
-        $this->load->model('M_sensor');
+        $this->load->model('M_ambientes');
+        $this->load->model('M_gateways');
+        $this->load->model('M_usuarios');
+        $this->load->model('M_sensores');
     }
     // Requisições GET enviadas para o index.
     public function index_get(){
@@ -41,7 +41,7 @@ class Ambientes extends REST_Controller {
         $id = $this->get('id');
         if ($id === NULL){
             // Pega ambientes do banco através do model ambiente
-            $ambientes = $this->M_ambiente->pesquisar('', array(), '', 0, 'asc', FALSE)->result_array();
+            $ambientes = $this->M_ambientes->pesquisar('', array(), '', 0, 'asc', FALSE)->result_array();
 
             if ($ambientes){
                 // Converte os dados adquiridos do banco (array) para Json
@@ -57,7 +57,7 @@ class Ambientes extends REST_Controller {
             }
         }else{
         // Requisições com ID - lista informações do elemento
-            $ambiente = $this->M_ambiente->selecionar($id)->result_array();
+            $ambiente = $this->M_ambientes->selecionar($id)->result_array();
 
             if ($ambiente){
                 // Converte os dados adquiridos do banco (array) para Json
@@ -102,13 +102,13 @@ class Ambientes extends REST_Controller {
             if ($id==""){
 
                 if(isset($_POST["item"])) {
-                    $this->M_ambiente->setAmbienteId($_POST["item"]);   
-                    $this->M_ambiente->excluir();
+                    $this->M_ambientes->setAmbienteId($_POST["item"]);   
+                    $this->M_ambientes->excluir();
                 }
             }
             else{
-                $this->M_ambiente->setAmbienteId($id);  
-                $this->M_ambiente->excluir();
+                $this->M_ambientes->setAmbienteId($id);  
+                $this->M_ambientes->excluir();
             }
             $this->dados["msg"] = "Registro(s) excluído(s) com sucesso!";
             $this->pesquisa();

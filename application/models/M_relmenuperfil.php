@@ -28,7 +28,7 @@ class M_relmenuperfil extends CI_Model {
 		        return "inc";
 			}
         	else{
-	            $this->db->update('menu', $arrayCampos, array("menu_id"=>$this->menu_id));
+	            $this->db->update('menus', $arrayCampos, array("menu_id"=>$this->menu_id));
 		        return "alt";
         	}
 		}

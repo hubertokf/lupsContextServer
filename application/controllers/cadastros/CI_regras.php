@@ -10,9 +10,10 @@ class CI_regras extends CI_controller {
 		$this->load->model('M_configuracoes');
 		$this->load->model('M_regras');
 		$this->load->model('M_relcontextointeresse');
-		$this->load->model('M_usuario');
-		$this->load->model('M_contextointeresse');
-		$this->load->model('M_sensor');
+		$this->load->model('M_usuarios');
+		$this->load->model('M_perfisusuarios');
+		$this->load->model('M_contextosinteresse');
+		$this->load->model('M_sensores');
 		$this->M_geral->verificaSessao();
 		if ($this->session->userdata('usuario_id') != 0 && $this->session->userdata('usuario_id') != ""){
 			$this->dados['isLoged'] = true;
@@ -37,7 +38,9 @@ class CI_regras extends CI_controller {
 	function pesquisa($nr_pagina=20 ){
 		$this->dados["metodo"] = "pesquisa";
 
-		if ($this->session->userdata('perfilusuario_id') == 2)
+		$perfilusuario_id = $this->session->userdata('perfilusuario_id');
+		$this->dados["isAdm"] = $this->M_perfisusuarios->isAdm($perfilusuario_id);
+		if ($this->dados["isAdm"] == 't')
 			$this->dados["linhas"] = $this->M_regras->pesquisar('', array(), $nr_pagina, $this->uri->segment(5), 'asc', FALSE);
 		else
 			$this->dados["linhas"] = $this->M_regras->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5), 'asc', TRUE);
@@ -60,10 +63,11 @@ class CI_regras extends CI_controller {
 	function cadastro(){
 		$this->dados["regras"] = $this->M_regras->pesquisar();
 
-		if ($this->session->userdata('perfilusuario_id') == 2)
-			$this->dados["contextointeresse"] = $this->M_contextointeresse->pesquisar($select='', $where=array(), $limit=100, $offset=0, $ordem='asc');
+		$perfilusuario_id = $this->session->userdata('perfilusuario_id');
+		if ($this->M_perfisusuarios->isAdm($perfilusuario_id) == 't')
+			$this->dados["contextointeresse"] = $this->M_contextosinteresse->pesquisar($select='', $where=array(), $limit=100, $offset=0, $ordem='asc');
 		else
-			$this->dados["contextointeresse"] = $this->M_contextointeresse->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 100, 0, 'asc', TRUE);
+			$this->dados["contextointeresse"] = $this->M_contextosinteresse->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 100, 0, 'asc', TRUE);
 		
 		$this->load->view('inc/topo',$this->dados);
 		$this->load->view('inc/menu');
