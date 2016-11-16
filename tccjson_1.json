@@ -1,0 +1,21 @@
+[
+   {
+      "conditions":{
+         "any":[
+            {
+               "name":"get_verify_sensor",
+               "operator":"greater_than",
+               "value":1222
+            }
+         ]
+      },
+      "actions":[
+         {
+            "name":"send_email_user",
+            "params":{
+               "foo":""
+            }
+         }
+      ]
+   }
+]

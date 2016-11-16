@@ -137,7 +137,7 @@ define (["jquery","context/selects_condition","context/select_logic_operators","
         dataType: 'json',
         url:window.base_url+"cadastros/"+path[3]+"/sendInformation",
         complete: function (information) {
-          console.log(JSON.stringify(information['responseJSON']));
+          // console.log(JSON.stringify(information['responseJSON']));
           handle_edit(information['responseJSON']);
         }
     });

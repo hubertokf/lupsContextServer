@@ -515,11 +515,25 @@ $(document).ready(function(){
 
 	$('#insertRulesCI').click(function(){
 		itemText = $(".sensorsOutCI").find(":selected")[0].text;
-		itemVal = $(".sensorsOutCI").find(":selected")[0].value;
-		$(".ciSensorList").append("<li class='ciSensorItem' data-id='"+itemVal+"' data-text='"+itemText+"'><input type='hidden' name='contextointeresse_sensores[]' value='"+itemVal+"'><div class='col-xs-11'>"+itemText+"</div><div class='col-xs-1'><div class='removeSensorCI'><i class='fa fa-times fa-2x' style = 'padding-top : 2px'></div></i></div></li>");
-		$(".sensorsOutCI").find(":selected")[0].remove();
-	});
+		itemVal  = $(".sensorsOutCI").find(":selected")[0].value;
+		itemId   = $(".sensorsOutCI").find(":selected").data("id");
+		itemType   = $(".sensorsOutCI").find(":selected").data("type");
 
+
+		url_rules         = window.base_url+"cadastros/CI_regras_sb/editar?item=";
+		url_scheduler     = window.base_url+"cadastros/CI_regras_agendamento/editar?item=";
+		// console.log(url);
+		$(".sensorsOutCI").find(":selected")[0].remove();
+		if(itemType === 2 ){
+			$(".ciSensorList").append("<li class='ciSensorItem' data-id='"+itemVal+"' data-text='"+itemText+"'><input type='hidden' name='contextointeresse_sensores[]' value='"+itemVal+"'><div class='col-xs-6'>"+itemText+"</div><div class='col-xs-5'><a class = 'singular_rule' href="+url_rules+itemId+" target='_blank'>Ver regra</a></div><div class='col-xs-1'><div class='removeSensorCI'><i class='fa fa-times fa-2x' style = 'padding-top : 2px'></div></i></div></li>");
+		}
+		else{
+			$(".ciSensorList").append("<li class='ciSensorItem' data-id='"+itemVal+"' data-text='"+itemText+"'><input type='hidden' name='contextointeresse_sensores[]' value='"+itemVal+"'><div class='col-xs-6'>"+itemText+"</div><div class='col-xs-5'><a class = 'singular_rule' href="+url_scheduler+itemId+" target='_blank'>Ver regra</a></div><div class='col-xs-1'><div class='removeSensorCI'><i class='fa fa-times fa-2x' style = 'padding-top : 2px'></div></i></div></li>");			
+		}
+	});
+	$('a.singular_rule').click(function () {
+
+	})
 	$('ul.ciSensorList').on('click', 'div.removeSensorCI', function(){
 		var e = $(this).parent().parent();
 		value = e.data('id');

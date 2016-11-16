@@ -63,7 +63,7 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
 
     AddRule.prototype.checkbox_group = function () {
       $("#box_group_rules").click(function () {
-          console.log("ok");
+          // console.log("ok");
           if($(this).is(":checked")){
               $("#button_condition_action").hide();
               $("#group_rule").show();
@@ -102,7 +102,7 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
     function handle_data_action(data) {
       var action = new AddActions(iterator_action,data);
       $("#div_action").append(action);
-      // iterator_action++;
+      iterator_action++;
     }
 
     var get_bd_conditions= function(handle){
@@ -146,7 +146,7 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
 
   }
   function handle_edit(data) {
-    var iterator       = 0;
+    var iterator        = 0;
     var iterator_action = 0;
     var e;
     var option_select_condition = data['condictions']; // informações para construição do  seletor de condições
