@@ -95,6 +95,7 @@ class Publicacoes extends REST_Controller {
                 $this->M_publicacoes->setPublicacaoSensor($sensor->sensor_id);
             } else {                
                 $this->M_publicacoes->setPublicacaoSensor($content['sensor_id']);
+                $sensor = $this->M_sensores->selecionar($content['sensor_id'])->result_array();
             }
             $this->M_publicacoes->setPublicacaoDataColeta($content['datacoleta']);
             if (isset($content['datapublicacao']))
@@ -102,7 +103,6 @@ class Publicacoes extends REST_Controller {
             $this->M_publicacoes->setPublicacaoValorColetado($content['valorcoletado']);
 
             //pega do BANCO o ambiente_id o qual aquele sensor estah instalado, valormax e min do sensor, e status do ambiente
-            $sensor = $this->M_sensores->selecionar($content['sensor_id'])->result_array();
 
             //Se o sensor estiver desativado ou estiver num ambiente desativado, nao sera feita a publicacao na base de dados
             if($sensor[0]["ambiente_status"]=='t'){
