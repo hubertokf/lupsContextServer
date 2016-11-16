@@ -106,7 +106,6 @@ class Publicacoes extends REST_Controller {
             //pega do BANCO o ambiente_id o qual aquele sensor estah instalado, valormax e min do sensor, e status do ambiente
 
             //Se o sensor estiver desativado ou estiver num ambiente desativado, nao sera feita a publicacao na base de dados
-            print_r($sensor);
             if($sensor->ambiente_status=='t'){
                 if($sensor->status=='t'){
                     //verifica se valor coletado é um codigo de erro
