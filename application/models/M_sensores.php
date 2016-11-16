@@ -176,8 +176,12 @@ class M_sensores extends CI_Model{
         }
 
         function getByUuid($codigo) {
-            $this->db->where("uuid", $codigo);
-            return $this->db->get('sensores');
+        	$this->db->select('s.*');
+			$this->db->from('sensores as s');
+        	$this->db->join('ambientes as e', 's.ambiente_id = e.ambiente_id');
+        	$this->db->select('e.status as ambiente_status');
+            $this->db->where("s.uuid", $codigo);
+            return $this->db->get();
 
         }
 
