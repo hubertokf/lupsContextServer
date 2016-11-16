@@ -117,7 +117,7 @@ class Publicacoes extends REST_Controller {
                             $message = ['status' => TRUE,
                             'message' => 'Dados registrados com sucesso!'];
 
-                            $regras = $this->M_relcontextointeresse->getBySensor($sensor['sensor_id'])->result_array();
+                            $regras = $this->M_relcontextointeresse->getBySensor($sensor->sensor_id)->result_array();
 
                             if($content['dispararegra'] == true){
                                 foreach ($regras as $regra) {
