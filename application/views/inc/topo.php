@@ -54,8 +54,12 @@
                         <?php 
                             if ($this->session->userdata('usuario_id') != null && $this->M_usuarios->selecionar($usuario_id)->result_array()[0]["titulo_projeto"] != "")
                                 echo $this->M_usuarios->selecionar($usuario_id)->result_array()[0]["titulo_projeto"];
-                            else
-                                echo $this->M_configuracoes->selecionar('titulo_projeto')->result_array()[0]["value"];
+                            else{
+                                $titulo_bd = $this->M_configuracoes->selecionar('titulo_projeto')->result_array()[0]["value"];
+                                if ($titulo_bd != null)
+                                    echo $titulo_bd;
+                            }
+
                         ?>
                     </div>
                     <div class="app <?php if ($this->uri->segment(1) == 'CI_visualizacao' || $this->uri->segment(1) == '') echo 'ativo'; ?>">
@@ -102,10 +106,13 @@
                         <?php
                         if ($this->session->userdata('usuario_id') != null && $this->M_usuarios->selecionar($usuario_id)->result_array()[0]["img_projeto"] != "")
                             $file = $this->M_usuarios->selecionar($usuario_id)->result_array()[0]["img_projeto"];
-                        else
+                        else{
                             $file = $this->M_configuracoes->selecionar('img_projeto')->result_array()[0]["value"];
+                            if ($file != null)
+                                echo '<img src="<?php echo base_url()?>uploads/<?php echo $file?>" />';
+                        }
                         ?>
-                        <img src="<?php echo base_url()?>uploads/<?php echo $file?>" />
+                        
 
                     </div>
                 </div>
