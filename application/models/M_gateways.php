@@ -144,7 +144,7 @@ class M_gateways extends CI_Model{
 			return $this->gateway_servidorborda;
 		}
 
-		public function getGatewayUID() {
+		public function getGatewayUuid() {
 		    if($this->gateway_uuid === NULL) {
         		$this->gateway_uuid = new GatewayUID;
     		}			
@@ -200,7 +200,7 @@ class M_gateways extends CI_Model{
 			$this->gateway_servidorborda = $valor;
 		}
 
-		public function setGatewayUID($valor){
+		public function setGatewayUuid($valor){
 			if(!is_string($valor)) {
 				throw new InvalidArgumentException('Expected String');
 			}

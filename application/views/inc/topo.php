@@ -109,7 +109,7 @@
                         else{
                             $file = $this->M_configuracoes->selecionar('img_projeto')->result_array()[0]["value"];
                             if ($file != null)
-                                echo '<img src="<?php echo base_url()?>uploads/<?php echo $file?>" />';
+                                echo '<img src="'.base_url().'uploads/'.$file.'" />';
                         }
                         ?>
                         
