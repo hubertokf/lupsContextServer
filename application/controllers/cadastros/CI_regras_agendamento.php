@@ -200,7 +200,6 @@ class CI_regras_agendamento extends CI_controller {
 		$url               = $get_url[0]["url"];
 		$token             = $get_url[0]["token"];
 		$url_rule          = $url."schedules/".$id_regra_borda."/";
-		print_r($url_rule);
 		$ch                = curl_init($url_rule);
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

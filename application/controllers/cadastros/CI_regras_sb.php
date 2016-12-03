@@ -17,6 +17,7 @@ class CI_regras_sb extends CI_controller {
 		$this->load->model('M_conditions');
 		$this->load->model('M_actions');
 		$this->load->model('M_relidregras');
+		$this->load->model('M_servidoresborda');
 		$this->M_geral->verificaSessao();
 		if ($this->session->userdata('usuario_id') != 0 && $this->session->userdata('usuario_id') != ""){
 			$this->dados['isLoged'] = true;
@@ -45,12 +46,19 @@ class CI_regras_sb extends CI_controller {
 		// $this->dados["msg"] =
 		$this->dados["metodo"] = "pesquisa";
 		$perfilusuario_id = $this->session->userdata('perfilusuario_id');
-
-		if ($this->M_perfisusuarios->isAdm($perfilusuario_id) == 't'){
-			$this->dados["linhas"] = $this->M_regras->pesquisar('', array('r.tipo'=>2), $nr_pagina, $this->uri->segment(5), 'asc', FALSE,1);
+		$this->dados["sb"] = $this->M_servidoresborda->pesquisar('', array(), 1000);
+		if (isset($_POST["pesquisa_filter"]) && $_POST["pesquisa_filter"]!= ""){
+			if ($this->M_perfisusuarios->isAdm($perfilusuario_id) == 't'){
+				$this->dados["linhas"] = $this->M_regras->pesquisar_borda('', array('r.tipo'=>2), $nr_pagina, $this->uri->segment(5), 'asc', FALSE,1,array("borda.servidorborda_id" => $_POST["pesquisa_filter"]));
+			} else {
+				$this->dados["linhas"] = $this->M_regras->pesquisar_borda('', array('r.tipo'=>2,'p.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5), 'asc', TRUE,1,array("borda.servidorborda_id" => $_POST["pesquisa_filter"]));
+			}
 		} else {
-			$this->dados["linhas"] = $this->M_regras->pesquisar('', array('r.tipo'=>2,'p.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5), 'asc', TRUE,1);
-
+			if ($this->M_perfisusuarios->isAdm($perfilusuario_id) == 't'){
+				$this->dados["linhas"] = $this->M_regras->pesquisar('', array('r.tipo'=>2), $nr_pagina, $this->uri->segment(5), 'asc', FALSE,1);
+			} else {
+				$this->dados["linhas"] = $this->M_regras->pesquisar('', array('r.tipo'=>2,'p.usuario_id' => $this->session->userdata('usuario_id')), $nr_pagina, $this->uri->segment(5), 'asc', TRUE,1);
+			}
 		}
 
 		$this->dados["nr_pagina"] = $nr_pagina;
@@ -264,7 +272,8 @@ class CI_regras_sb extends CI_controller {
 		array( 'nome_legivel' => "", 'nome' => "get_verify_sensor" ),
 		array( 'nome_legivel' => 'Variação' , 'nome' => "diff_values_sensor" ),
 		array( 'nome_legivel' => 'Duração de tempo em minutos' , 'nome' => "verify_time_minute"),
-		array( 'nome_legivel' => 'Duração de tempo em horas' ,   'nome' => "verify_time_hour" )
+		array( 'nome_legivel' => 'Duração de tempo em horas' ,   'nome' => "verify_time_hour" ),
+		array( 'nome_legivel' => 'Erro ' ,   'nome' => "check_fault" )
 
 		);
 
@@ -272,13 +281,13 @@ class CI_regras_sb extends CI_controller {
 		$output    = array();
 		// print_r($condicoes);
 		foreach ($array_condictions as $array) {
-			if($array['nome'] == "diff_values_sensor" || $array['nome'] =="get_verify_sensor"){
+			if($array['nome'] == "diff_values_sensor" || $array['nome'] =="get_verify_sensor" || $array['nome'] =="check_fault"){
 			foreach($info_conditions as $v) {
 				$tipo     = 'number';
 				if($v['tipo']=="Estado de Evento"){
 						$tipo = 'string';
 				}
-				$obj  = array('url'=> $v['url'],'nome_legivel'=>$array['nome_legivel'].$v['tipo']." do ".$v['nome'],'tipo'=>'number',"sensor"=>null,'nome' => $array['nome']);
+				$obj  = array('url'=> $v['url'],'nome_legivel'=>$array['nome_legivel'].$v['tipo']." do ".$v['nome'],'tipo'=>'number',"sensor"=>$v['uuid'],'nome' => $array['nome']);
 				$obj      = json_encode($obj,JSON_FORCE_OBJECT);
 				$output[] = $obj;
 			}
