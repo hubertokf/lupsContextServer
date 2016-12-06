@@ -273,7 +273,8 @@ class CI_regras_sb extends CI_controller {
 		array( 'nome_legivel' => 'Variação' , 'nome' => "diff_values_sensor" ),
 		array( 'nome_legivel' => 'Duração de tempo em minutos' , 'nome' => "verify_time_minute"),
 		array( 'nome_legivel' => 'Duração de tempo em horas' ,   'nome' => "verify_time_hour" ),
-		array( 'nome_legivel' => 'Erro ' ,   'nome' => "check_fault" )
+		array( 'nome_legivel' => 'Erro ' ,   'nome' => "check_fault" ),
+		array( 'nome_legivel' => 'Calcular média' ,   'nome' => "calcule_average" )
 
 		);
 
@@ -282,15 +283,20 @@ class CI_regras_sb extends CI_controller {
 		// print_r($condicoes);
 		foreach ($array_condictions as $array) {
 			if($array['nome'] == "diff_values_sensor" || $array['nome'] =="get_verify_sensor" || $array['nome'] =="check_fault"){
-			foreach($info_conditions as $v) {
-				$tipo     = 'number';
-				if($v['tipo']=="Estado de Evento"){
+				foreach($info_conditions as $v) {
+					$tipo     = 'number';
+					if($v['tipo']=="Estado de Evento"){
 						$tipo = 'string';
+					}
+					$obj  = array('url'=> $v['url'],'nome_legivel'=>$array['nome_legivel'].$v['tipo']." do ".$v['nome'],'tipo'=>'number',"sensor"=>$v['uuid'],'nome' => $array['nome']);
+					$obj      = json_encode($obj,JSON_FORCE_OBJECT);
+					$output[] = $obj;
 				}
-				$obj  = array('url'=> $v['url'],'nome_legivel'=>$array['nome_legivel'].$v['tipo']." do ".$v['nome'],'tipo'=>'number',"sensor"=>$v['uuid'],'nome' => $array['nome']);
+			}
+			elseif ($array['nome'] == "calcule_average") {
+				$obj      = array('url'=> $v['url'],'nome_legivel'=>$array['nome_legivel'],'tipo'=>$tipo,"sensor"=>null,'nome' => $array['nome']);
 				$obj      = json_encode($obj,JSON_FORCE_OBJECT);
 				$output[] = $obj;
-			}
 			}
 			else{
 				$obj      = array('url'=> $v['url'],'nome_legivel'=>$array['nome_legivel'],'tipo'=>$tipo,"sensor"=>$v['uuid'],'nome' => $array['nome']);
@@ -338,8 +344,13 @@ class CI_regras_sb extends CI_controller {
 
 	function getActions($value="") // busca no banco as açoes pre definidas e retorna para a app
 	{
-		$actions = $this->M_actions->get_acoes_SB();
-		$output  = array();
+		// $actions = $this->M_actions->get_acoes_SB();
+		// $output  = array();
+		$actions = array(
+		array( 'nome_legivel' => "Atuar", 'nome' => "proceeding" ),
+		array( 'nome_legivel' => 'Enviar email' , 'nome' => "test_post_event" )
+		);
+
 
 		foreach($actions as $v) {
 				$obj      = array('nome_legivel'=>$v['nome_legivel'],'nome'=>$v['nome']);
