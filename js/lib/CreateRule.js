@@ -46,7 +46,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
         $('.inputs').each(function(){
             compose_rule['inputs'].push($(this).val());
         });
-        $('.form-group.input_action').each(function(){
+        $('.form-group.input_action:visible').each(function(){
             compose_rule['inputs'].push($(this).children.val());
         });
         this.send_informations['name_rule'] = $("#name_rule").val();
@@ -294,7 +294,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
         var params       = {};
         action['name']   = this.compose_rule['actions'][i];
         if(action['name']=='test_post_Event'){
-            params["info_adicional"] = compose_rule['input_of_action'].pop()
+            params["email"] = compose_rule['input_of_action'].pop()
         }
         else{
           params["foo"] = "";
