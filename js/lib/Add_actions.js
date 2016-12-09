@@ -12,7 +12,7 @@ define (["lib/ConditionsRules"], function(ConditionsRules){
           id: "group"+select
         }).hide(); // cria um bloco do tipo select, selecionar parametros, como grupos de regras, atuadores, usuários e etc
         this.select_for_parameter2 =$('<select>',{ // inserir ao menos outra classe, para diferenciar do seletor de ações
-          class: "form-control select_rules_context select_parametes2",
+          class: "form-control select_rules_context select_parameters2",
           id: "group"+select}).hide();
         // cria um tipo input
         this.form_control = $('<form>',{class: 'form-inline'}).hide();

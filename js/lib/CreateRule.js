@@ -20,10 +20,11 @@ define(["jquery","bootbox"],function ($,bootbox) {
         compose_rule['id_sensor']      = [];
         compose_rule['condtions_type'] = [];
         compose_rule['logic_op']       = [];
-        compose_rule['inputs']         = [];
-        compose_rule['actions']        = [];
-        compose_rule['input_of_action']=  [];
-        compose_rule['url']            = [];
+        compose_rule['inputs']            = [];
+        compose_rule['actions']           = [];
+        compose_rule['input_of_action']   = [];
+        compose_rule['select_parametes2'] = [];
+        compose_rule['url']               = [];
         //-----------inicia coleta:
         $('.form-control.select_rules_context.compare').each(function(){
             compose_rule['compare'].push($(this).val());
@@ -40,15 +41,17 @@ define(["jquery","bootbox"],function ($,bootbox) {
         $('.form-control.select_rules_context.operators').each(function(){
             compose_rule['logic_op'].push($(this).val());
         });
-        $('.form-control.select_rules_context.actions').each(function(){
-            compose_rule['input_of_action'].push($(this).val());
-        });
+
         $('.inputs').each(function(){
             compose_rule['inputs'].push($(this).val());
         });
         $('.form-group.input_action:visible').each(function(){
-            compose_rule['inputs'].push($(this).children.val());
+            compose_rule['input_of_action'].push($(this).children.val());
         });
+        $('.form-group.select_parameters2:visible').each(function(){
+            compose_rule['parameters2'].push($(this).children.val());
+        });
+
         this.send_informations['name_rule'] = $("#name_rule").val();
         this.send_informations['status']    = $("#box_status_rules").is(":checked");
         this.send_informations['tipo']      = 2;
@@ -294,7 +297,11 @@ define(["jquery","bootbox"],function ($,bootbox) {
         var params       = {};
         action['name']   = this.compose_rule['actions'][i];
         if(action['name']=='test_post_Event'){
-            params["email"] = compose_rule['input_of_action'].pop()
+            params["email"] = compose_rule['input_of_action'].pop();
+        }
+        else if (action['name']=='test_post_Event') {
+          params["timer"] = compose_rule['input_of_action'].pop();
+          params["uuid"]  = compose_rule['parameters2'].pop();
         }
         else{
           params["foo"] = "";
@@ -343,6 +350,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
     var rule      = {};
     var rules_sensor       = this.compose_rule['id_sensor'];
     var action             = {name: "test_post_Event", params:{info_adicional:""}};
+
     for(i=0; i < rules_sensor.length;i++){
         before['name']     = "fault_check"+rules_sensor[i];
         before['operator'] = "equal"
