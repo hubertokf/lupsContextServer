@@ -72,8 +72,8 @@ class CI_servidorcontexto extends CI_controller {
 			$this->M_servidorcontexto->setservidorcontextoId($_POST["servidorcontexto_id"]);
 			$this->M_servidorcontexto->setservidorcontextoNome($_POST["servidorcontexto_nome"]);
 			$this->M_servidorcontexto->setservidorcontextoDesc($_POST["servidorcontexto_desc"]);
-			$this->M_servidorcontexto->setservidorcontextoLatitude($_POST["servidorcontexto_latitude"]);
-			$this->M_servidorcontexto->setservidorcontextoLongitude($_POST["servidorcontexto_longitude"]);
+			$this->M_servidorcontexto->setservidorcontextoUrl($_POST["servidorcontexto_url"]);
+			$this->M_servidorcontexto->setservidorcontextoAccessToken($_POST["servidorcontexto_access_token"]);
 			if ($this->M_servidorcontexto->salvar() == "inc"){
 				$this->dados["msg"] = "Dados registrados com sucesso!";
 				$this->pesquisa();	

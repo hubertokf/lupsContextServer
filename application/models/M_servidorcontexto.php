@@ -75,16 +75,16 @@
 			return $this->servidorcontexto_nome;
 		}
 
-		public function getservidorcontextoLatitude() {
+		public function getservidorcontextoUrl() {
 		    if($this->servidorcontexto_url === NULL) {
-        		$this->servidorcontexto_url = new servidorcontextoLatitude;
+        		$this->servidorcontexto_url = new servidorcontextoUrl;
     		}			
 			return $this->servidorcontexto_url;
 		}
 
-		public function getservidorcontextoLongitude() {
+		public function getservidorcontextoAccessToken() {
 		    if($this->servidorcontexto_acess_token === NULL) {
-        		$this->servidorcontexto_acess_token = new servidorcontextoLongitude;
+        		$this->servidorcontexto_acess_token = new servidorcontextoAccessToken;
     		}			
 			return $this->servidorcontexto_acess_token;
 		}
@@ -104,25 +104,25 @@
 			$this->servidorcontexto_nome = $valor;
 		}
 
-		public function setservidorcontextoLatitude($valor){
-			if(!is_string($valor)) {
-				throw new InvalidArgumentException('Expected String');
-			}
-			$this->servidorcontexto_url = $valor;
-		}
-		
-		public function setservidorcontextoLongitude($valor){
-			if(!is_string($valor)) {
-				throw new InvalidArgumentException('Expected String');
-			}
-			$this->servidorcontexto_acess_token = $valor;
-		}
-
 		public function setservidorcontextoDesc($valor){
 			if(!is_string($valor)) {
 				throw new InvalidArgumentException('Expected String');
 			}
 			$this->servidorcontexto_desc = $valor;
+		}
+
+		public function setservidorcontextoUrl($valor){
+			if(!is_string($valor)) {
+				throw new InvalidArgumentException('Expected String');
+			}
+			$this->servidorcontexto_url = $valor;
+		}
+
+		public function setservidorcontextoAccessToken($valor){
+			if(!is_string($valor)) {
+				throw new InvalidArgumentException('Expected String');
+			}
+			$this->servidorcontexto_acess_token = $valor;
 		}
 
 	}
