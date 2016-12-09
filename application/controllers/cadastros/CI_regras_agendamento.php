@@ -68,11 +68,11 @@ class CI_regras_agendamento extends CI_controller {
 		$perfilusuario_id = $this->session->userdata('perfilusuario_id');
 		if ($this->M_perfisusuarios->isAdm($perfilusuario_id) == 't'){
 			$this->dados["contextointeresse"] = $this->M_contextosinteresse->pesquisar($select='', $where=array(), $limit=100, $offset=0, $ordem='asc');
-			$this->dados["sensores"] = $this->M_sensores->pesquisar();
+			$this->dados["sensores"] = $this->M_sensores->pesquisar($select='', $where=array(), $limit=1000, $offset=0, $ordem='asc', $perm=FALSE);
 		}
 		else{
 			$this->dados["contextointeresse"] = $this->M_contextosinteresse->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 100, 0, 'asc', TRUE);
-			$this->dados["sensores"] = $this->M_sensores->pesquisar();
+			$this->dados["sensores"] = $this->M_sensores->pesquisar($select='', $where=array(), $limit=1000, $offset=0, $ordem='asc', $perm=FALSE);
 		}
 
 		if(!isset($this->dados["editable"])){
