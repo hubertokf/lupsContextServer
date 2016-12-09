@@ -32,7 +32,21 @@ else{
 		</div>
 	</div>
 	<div class="row">
+			<div class ="col-md-2 col-md-offset-2" style = "padding-top: 13px;">
+				<label>Ativar Agendmento</label>
+			</div>
+			<div class ="col-md-2">
+				<div class="checkbox">
+					<input type="checkbox" value="status" id = "status" >
+				</div>
+			</div>
+		</div>
+
+	<!-- </div> -->
+	<div class="row">
 		<div class="col-md-2 col-md-offset-2" id= "label_sensor"><label>Escolha o Sensor</label></div>
+		<div class="col-md-2 col-md-offset-2" id= "label_sensor"><label>Tipo do proximo evento</label></div>
+
 	</div>
 
 	<div class="row">
@@ -45,7 +59,14 @@ else{
 				}?>
 			</select>
 		</div>
+			<div class="col-md-4" id = "select_type_event" style= "padding-top: 9px">
+				<select class="form-control" id = "select_sensors">
+					<option value selected disabled>Selecione</option> == $0
+					<option value= "publisher" >Coleta</option> == $0
+					<option value="proceeding" >Atuação</option> == $0
+				</select>
 	</div>
+</div>
 
 	<div class="row">
 		<div class="col-md-4 col-md-offset-2" id = "div_select_rules">
@@ -56,10 +77,11 @@ else{
 		<div class="col-md-4">
 			<button type="button" class = "button_rule " id = "get_scheduler">Selecionar agendamento Existente</button>
 		</div>
+
 		<!-- <div class="col-md-4" id= "alert_sensor" ><p id= "size-text"><strong>Este sensor já possiu uma regra vinculada<strong></p></div> -->
 	</div>
 	<div class="row">
-		<div class="col-md-2 col-md-offset-5">
+		<div class="col-md-2 col-md-offset-2">
 			<button type="button" class = "button_rule" id = "create_scheduler">Construir agendamento</button>
 		</div>
 		<div class="col-md-2">
@@ -72,54 +94,64 @@ else{
 </div>
 <div class="container" id = "create_aquisiton">
 	<div class="row">
-		<div class="col-md-2 col-md-offset-5">
+		<div class="col-md-2 col-md-offset-2">
 			<select class= "form-control" name="select_aquisiiton" id = "select_aquisiiton">
 				<option value selected disabled>Selecione</option>
 			</select>
 		</div>
 	</div>
-	<div class="row" id="option_with_check_inputs" style="display:none">
-		<div class ="col-md-2 col-md-offset-5">
+	<div class="row" id="option_with_check_inputs" style="display:none; padding-top: 20px ">
+		<div class="row">
+		<div class ="col-md-1 col-md-offset-2">
 			<div class="checkbox">
 				<label id = "labelminutes"><input type="checkbox" value="minutes" id = "checkminutes" >Minutos</label>
 			</div>
 		</div>
-		<div class ="col-md-3">
+		<div class ="col-md-2">
 			<div class="form-group">
 				<input type="text" class="form-control" id="inputminutes" >
 			</div>
 		</div>
-		<div class ="col-md-2 col-md-offset-5">
+	</div>
+	<div class="row">
+		<div class ="col-md-1 col-md-offset-2">
 			<div class="checkbox">
 				<label id = "labelhour"><input type="checkbox" value="hours" id = "checkhour" >Horas</label>
 			</div>
 		</div>
-		<div class ="col-md-3">
+		<div class ="col-md-2">
 			<div class="form-group">
 				<input type="text" class="form-control" id="inputhours" >
 			</div>
 		</div>
+	</div>
 
-		<div class ="col-md-2 col-md-offset-5">
+	<div class="row">
+		<div class ="col-md-1 col-md-offset-2">
 			<div class="checkbox">
 				<label id = "labelday"><input type="checkbox" value="days" id = "checkday" >Dias</label>
 			</div>
 		</div>
-		<div class ="col-md-3">
+		<div class ="col-md-2">
 			<div class="form-group">
 				<input type="text" class="form-control" id="inputdays" >
 			</div>
 		</div>
-		<div class ="col-md-2 col-md-offset-5">
+	</div>
+
+	<div class="row">
+		<div class ="col-md-1 col-md-offset-2">
 			<div class="checkbox">
 				<label id = "labelmonth"><input type="checkbox" value="months" id = "checkmonth" >Mês</label>
 			</div>
 		</div>
-		<div class ="col-md-3">
+		<div class ="col-md-2">
 			<div class="form-group">
 				<input type="text" class="form-control" id="inputmonths" >
 			</div>
 		</div>
+	</div>
+
 	</div>
 	<div class="row" id = "interval" style="display:none">
 		<div class="col-xs-6 col-xs-offset-3">

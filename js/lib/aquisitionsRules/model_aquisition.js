@@ -4,6 +4,7 @@ define(["jquery","bootbox"],function($,bootbox) {
 
   ModelAquisition = function() {
     this.select_sensor             = $("#select_sensor");
+    this.select_type_event         = $("#select_type_event");
     this.parent_element            = $("#create_aquisiton");
     this.option_generate_scheduler = {}; //contem todas as informações para da regra de aquisição, bem como infromações do sensor selecionado
     this.rules_scheduler           = {}; // objeto para criar regra de aquisição,
@@ -13,7 +14,8 @@ define(["jquery","bootbox"],function($,bootbox) {
   ModelAquisition.prototype.get_informations= function () { //coleta informaços do view.
 
     var bar = {}; // variavel intermediária. Responsável por armazenar quais opções de tempo foram selecionada
-    this.rules_scheduler['value']  = this.parent_element.find(":selected").val(); //pega valor da opção de aquisição
+    this.rules_scheduler['value']               = this.parent_element.find(":selected").val(); //pega valor da opção de aquisição
+    this.rules_scheduler['event']               = this.select_type_event.find(":selected").val(); //pega valor do tipo de evento
     this.option_generate_scheduler['id_sensor'] = this.select_sensor.find(":selected").val(); //pega id do sensor
 
     this.parent_element.find("input:checked").each(function() { //pega informações de cada checkobx selecionado e seus respectivos inputs
@@ -29,6 +31,9 @@ define(["jquery","bootbox"],function($,bootbox) {
 
     var generate_open = true;
     this.get_informations();
+    //----- instanciado aqui year e second, so como teste
+    this.rules_scheduler['second'] = 0;
+    this.rules_scheduler['year']   = *;
     switch (this.rules_scheduler['value']) {
 
       case "A cada":
@@ -263,30 +268,29 @@ ModelAquisition.prototype.generate_rule_interval = function () {
 
   ModelAquisition.prototype.send_scheduler = function () { //metodo que pegaas ibfomarções e envia ára o back=end
 
-    // console.log(this.option_generate_scheduler['id_sensor'])
-    // console.log($("#editable_id_rule").val());
+
     this.option_generate_scheduler['rules_name'] = $("#rules_name").val();
+    console.log(this.option_generate_scheduler);
     if($("#editable_id_rule").val() != ""){
-      // console.log("okkk");
       this.option_generate_scheduler['id_rule'] = $("#editable_id_rule").val() ;
     }
     if(this.option_generate_scheduler['id_sensor'] === ''){
       // view_error("Sensor não selecionado");
-      // alert("Sensor não selecionado");
+      alert("Sensor não selecionado");
     }
     else{
 
       this.option_generate_scheduler['rule']   = JSON.stringify(this.rules_scheduler);
-      this.option_generate_scheduler['status'] = true;
-      // $.ajax({
-      //   type:"POST",
-      //   data: this.option_generate_scheduler,
-      //   dataType: 'json',
-      //   url:window.base_url+"cadastros/CI_regras_agendamento/gravar",
-      //   complete: function (response) {
-      //       // window.location.replace(window.base_url+"cadastros/"+path[3]+"?msg="+response['responseText']);
-      //       }
-      // });
+      this.option_generate_scheduler['status'] = $("#status").is(':checked');
+      $.ajax({
+        type:"POST",
+        data: this.option_generate_scheduler,
+        dataType: 'json',
+        url:window.base_url+"cadastros/CI_regras_agendamento/gravar",
+        complete: function (response) {
+            window.location.replace(window.base_url+"cadastros/"+path[3]+"?msg="+response['responseText']);
+            }
+      });
 
     }
     // console.log(this.rules_scheduler);
@@ -370,7 +374,7 @@ ModelAquisition.prototype.generate_rule_interval = function () {
 
     // analise para as aquisições diferente de "No intervo"
     if(minutes.length > 5) { // tem minimo para "30 60"
-        var minutes_split = minutes.split(" ");
+        var minutes_split = minutes.split(",");
         view_rule = minutes_split[1];
         $("#inputminutes").val(view_rule).show();
         $("#checkminutes").prop("checked",true);

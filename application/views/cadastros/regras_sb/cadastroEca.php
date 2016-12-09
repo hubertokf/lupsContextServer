@@ -39,7 +39,7 @@
              <select class="form-control ", id = "sensors">
                  <option value="" selected="" disabled="">Selecione...</option>
              <?php $result = $sensores->result_array();
-						 				print_r($result);
+										// 	print_r($result);
                    foreach ($result as $linha) {
                      echo "<option id= 'sensor-$linha[sensor_id]'value=$linha[nome]>Leitura $linha[nome] $linha[tiposensor_nome]</option>";
                    }?>

@@ -22,6 +22,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
         compose_rule['logic_op']       = [];
         compose_rule['inputs']         = [];
         compose_rule['actions']        = [];
+        compose_rule['input_of_action']=  [];
         compose_rule['url']            = [];
         //-----------inicia coleta:
         $('.form-control.select_rules_context.compare').each(function(){
@@ -40,10 +41,13 @@ define(["jquery","bootbox"],function ($,bootbox) {
             compose_rule['logic_op'].push($(this).val());
         });
         $('.form-control.select_rules_context.actions').each(function(){
-            compose_rule['actions'].push($(this).val());
+            compose_rule['input_of_action'].push($(this).val());
         });
         $('.inputs').each(function(){
             compose_rule['inputs'].push($(this).val());
+        });
+        $('.form-group.input_action').each(function(){
+            compose_rule['inputs'].push($(this).children.val());
         });
         this.send_informations['name_rule'] = $("#name_rule").val();
         this.send_informations['status']    = $("#box_status_rules").is(":checked");
@@ -289,7 +293,12 @@ define(["jquery","bootbox"],function ($,bootbox) {
         var action       = {};
         var params       = {};
         action['name']   = this.compose_rule['actions'][i];
-        params["foo"]    = "";
+        if(action['name']=='test_post_Event'){
+            params["info_adicional"] = compose_rule['input_of_action'].pop()
+        }
+        else{
+          params["foo"] = "";
+        }
         action['params'] = params;
         action_group.push(action);
       }
