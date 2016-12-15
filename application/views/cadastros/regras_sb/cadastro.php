@@ -26,7 +26,7 @@ else{
 		<div class="col-md-8">
 			<div class="col-md-8">
 				<div class="form-group">
-					<input type="text" class="form-control" id="rules_name" >
+					<input type="text" class="form-control" id="rules_name" name="rules_scheduler_name">
 				</div>
 			</div>
 		</div>

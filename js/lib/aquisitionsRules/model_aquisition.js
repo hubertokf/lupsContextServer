@@ -33,7 +33,7 @@ define(["jquery","bootbox"],function($,bootbox) {
     this.get_informations();
     //----- instanciado aqui year e second, so como teste
     this.rules_scheduler['second'] = 0;
-    this.rules_scheduler['year']   = *;
+    this.rules_scheduler['year']   = "*";
     switch (this.rules_scheduler['value']) {
 
       case "A cada":

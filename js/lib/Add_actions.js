@@ -8,18 +8,26 @@ define (["lib/ConditionsRules"], function(ConditionsRules){
           id: select
         }); // cria um bloco do tipo select, para selecionar a açaõ
         this.group_rule = $('<select>',{ // inserir ao menos outra classe, para diferenciar do seletor de ações
-          class: "form-control select_rules_context actions",
+          class: "form-control select_rules_context select_parameters1",
           id: "group"+select
         }).hide(); // cria um bloco do tipo select, selecionar parametros, como grupos de regras, atuadores, usuários e etc
-        this.select_for_parameter2 =$('<select>',{ // inserir ao menos outra classe, para diferenciar do seletor de ações
-          class: "form-control select_rules_context select_parameters2",
-          id: "group"+select}).hide();
+        this.select_for_parameter2 =$('<select>',{
+                                class: "form-control select_rules_context select_parameters2",
+                                id: "group"+select}
+                                ).hide();
+        this.button_remove = $('<a>',{class:"botaoExcluir remove",id: "exc"+select});
+        this.div_col       = $('<div>',{class: "col-md-1",id: "mid"+select})
+        // console.log(iterator != "ed-0",iterator);
+        this.button_remove.click(function () {
+              $(this).parent().parent().remove();
+        })
         // cria um tipo input
         this.form_control = $('<form>',{class: 'form-inline'}).hide();
-        var inline_form  = $('<div>',{class: 'form-group input_action', style: "padding-top: 6px"});
-        var input_email  = $('<input>',{class:'form-control',type:'email'});
+        var inline_form   = $('<div>',{class: 'form-group input_action', style: "padding-top: 6px"});
+        var input_email   = $('<input>',{class:'form-control',type:'email'});
         inline_form.append(input_email);
         this.form_control.append(inline_form);
+
         this.generateOption(select,data);
         this.generateRow(this.select_construct,this.group_rule,4,select);
         this.generate_groups(this.group_rule,select);
@@ -27,6 +35,7 @@ define (["lib/ConditionsRules"], function(ConditionsRules){
         input_email.click(function functionName() {
           $(this).val("");
         })
+
         if(isNaN(selected)){ // se for umas string, seta o valor
             var type = $("#"+select).val(selected);
         }
@@ -34,16 +43,20 @@ define (["lib/ConditionsRules"], function(ConditionsRules){
 
     AddActions.prototype.generateRow = function (select_acoes,group_rule,size,select) {
       var row  = $('<div>',{class: "row bin"})
-      var col  = $('<div>',{class: "col-md-"+size+" col-md-offset-1"});
+      var col  = $('<div>',{class: "col-md-"+size});
       var div_param_1 = $('<div>',{class: "col-md-"+size, id:"group_div"+select})
       var div_param_2  = $('<div>',{class: "col-md-"+3, id:"parameter2-"+select})
+      var insert_icon    = $('<i>',{class: "fa fa-times fa-2x"});
       col.append(select_acoes);
       row.append(col);
       row.append(div_param_1);
       div_param_1.append(this.form_control);
       div_param_1.append(this.group_rule);
       row.append(div_param_2);
-      console.log(this.select_for_parameter2);
+      this.button_remove.append(insert_icon);
+      this.div_col.append(this.button_remove);
+      row.append(this.div_col)
+      // console.log(this.select_for_parameter2);
       div_param_2.append(this.select_for_parameter2);
       $('#div_action').append(row)
 

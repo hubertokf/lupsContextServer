@@ -41,17 +41,21 @@ define(["jquery","bootbox"],function ($,bootbox) {
         $('.form-control.select_rules_context.operators').each(function(){
             compose_rule['logic_op'].push($(this).val());
         });
+        $('.form-control.select_rules_context.actions').each(function(){
+           compose_rule['actions'].push($(this).val());
+       });
+       console.log(typeof compose_rule['input_of_action']);
 
         $('.inputs').each(function(){
             compose_rule['inputs'].push($(this).val());
         });
         $('.form-group.input_action:visible').each(function(){
-            compose_rule['input_of_action'].push($(this).children.val());
+            compose_rule['input_of_action'].push($(this).children().val());
         });
         $('.form-group.select_parameters2:visible').each(function(){
-            compose_rule['parameters2'].push($(this).children.val());
+            compose_rule['parameters2'].push($(this).children().val());
         });
-
+        console.log(typeof compose_rule['input_of_action']);
         this.send_informations['name_rule'] = $("#name_rule").val();
         this.send_informations['status']    = $("#box_status_rules").is(":checked");
         this.send_informations['tipo']      = 2;
@@ -296,12 +300,18 @@ define(["jquery","bootbox"],function ($,bootbox) {
         var action       = {};
         var params       = {};
         action['name']   = this.compose_rule['actions'][i];
-        if(action['name']=='test_post_Event'){
-            params["email"] = compose_rule['input_of_action'].pop();
+        if(action['name']=='test_post_event'){
+            params["email"] = this.compose_rule['input_of_action'].shift();
         }
-        else if (action['name']=='test_post_Event') {
-          params["timer"] = compose_rule['input_of_action'].pop();
-          params["uuid"]  = compose_rule['parameters2'].pop();
+        else if (action['name']=='proceeding') {
+
+          try {
+            params["timer"]   = this.compose_rule['input_of_action'].shift();
+            params["uuid"]  = this.compose_rule['parameters2'].shift();
+          } catch (e) {
+            // params["uuid"] = "9872398210923812093810"
+            alert("Não foi inserido parametro");
+          }
         }
         else{
           params["foo"] = "";
