@@ -31,6 +31,7 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
           if(this.controller_conditition <= 5){
             if($('#condition_label').is(':hidden')){
                 $('#condition_label').show();
+                $('#sub_labels').show();
                 }
             var condition         = $('<div>',{class: "row", id: "Condition"+this.iterator})
             $("#div_conditions").append(condition);
@@ -217,12 +218,12 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
     }
 
     $('#action_label').show();
-   var rules                    = JSON.parse(data['rule']);
-    e = "ed"+iterator_action;
-    rules                        = rules[0]['actions'];
+   var rules = JSON.parse(data['rule']);
+    e        = "ed"+iterator_action;
+    rules    = rules[0]['actions'];
 
     for (var i = 0; i < rules.length; i++) {
-      console.log(rules[i]['name']);
+      // console.log(rules[i]['name']);
       var action = new AddActions(e,option_select_action,rules[i]['name']);
       $("#div_action").append(action);
       iterator_action++;

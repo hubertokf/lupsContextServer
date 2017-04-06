@@ -30,10 +30,11 @@ define (["jquery","context/selects_condition","context/select_logic_operators","
           if(this.controller_conditition <= 5){
             if($('#condition_label').is(':hidden')){
                 $('#condition_label').show();
+                $('#sub_labels').show();
+
                 }
             var condition         = $('<div>',{class: "row", id: "Condition"+this.iterator})
             $("#div_conditions").append(condition);
-            // $("#div_conditions").css({"border": "double 1px", "border-color": "red"});
             get_bd_conditions(handle_data_condition);
             var logicOperators    = new LogicOperators(this.iterator,set_button_logic);
             set_button_logic      = true;

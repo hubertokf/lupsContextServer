@@ -1,13 +1,14 @@
 <?php
 	if(isset($registro)){
     // print_r($registro->result_object());
-    $regra = $registro->result_array();
-		$sensor_name = $sensor->result_array();
-
+    $regra            = $registro->result_array();
+		$sensor_name      = $sensor->result_array();
+		$data_sensor_json = $sensor_json_encode;
 	  }
 
   else{
     $regra = "";
+
   }
 
 
@@ -123,7 +124,23 @@
 					</div>
 					</div>
 
-         <div class = "row" id = "div_conditions"><h3 id = "condition_label" style = "display: none">Condições</h3></div>
+         <div class = "row" id = "div_conditions"><h3 id = "condition_label" style = "display: none">Condições</h3>
+				 <div class="row" id = "sub_labels" style = "display: none">
+					 <div class="col-md-1 col-md-offset-1">
+					 	<h5 class = "alter_labels">Op Lógico</h5>
+					 </div>
+					 <div class="col-md-4">
+					 	<h5 class = "alter_labels">Variavel de condição</h5>
+					 </div>
+					 <div class="col-md-3">
+					 	<h5 class = "alter_labels">Operador Comparativo</h5>
+					 </div>
+					 <div class="col-md-2">
+					 	<h5 class = "alter_labels">valor</h5>
+					 </div>
+				 </div>
+
+				 </div>
          <div class= "row" id = "div_action">
            <h3 id = "action_label" style = "display: none">Ações</h3>
            <!-- <div class="row bin"></div> -->

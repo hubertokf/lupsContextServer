@@ -13,13 +13,13 @@ define(["jquery","bootbox"],function ($,bootbox) {
 
   CreateRule.prototype.create_rule = function () {
         // variavel do método responsável por armazenar info da app web
-        this.rules_list                = [];
-        var compose_rule               = {};
-        compose_rule['compare']        = [];
-        compose_rule['conditions']     = [];
-        compose_rule['id_sensor']      = [];
-        compose_rule['condtions_type'] = [];
-        compose_rule['logic_op']       = [];
+        this.rules_list                   = [];
+        var compose_rule                  = {};
+        compose_rule['compare']           = [];
+        compose_rule['conditions']        = [];
+        compose_rule['id_sensor']         = [];
+        compose_rule['condtions_type']    = [];
+        compose_rule['logic_op']          = [];
         compose_rule['inputs']            = [];
         compose_rule['actions']           = [];
         compose_rule['input_of_action']   = [];
@@ -55,9 +55,12 @@ define(["jquery","bootbox"],function ($,bootbox) {
         $('.form-group.select_parameters2:visible').each(function(){
             compose_rule['parameters2'].push($(this).children().val());
         });
+        $('.form-group.select_parameters3:visible').each(function(){
+            compose_rule['parameters3'].push($(this).children().val());
+        });
         console.log(typeof compose_rule['input_of_action']);
         this.send_informations['name_rule'] = $("#name_rule").val();
-        this.send_informations['status']    = $("#box_status_rules").is(":checked");
+        this.send_informations['status']    = $("#box_status_rules").is(":checked"); //jeito elegante, sábio
         this.send_informations['tipo']      = 2;
         // this.send_informations['has_ajax']  = '';
         this.send_informations['id_rule']   = $("#editable_id_rule").val();
@@ -92,11 +95,10 @@ define(["jquery","bootbox"],function ($,bootbox) {
       dataType: 'json',
       url:window.base_url+"cadastros/"+path[3]+"/gravar?has_ajax=s",
       complete: function (response) {
-          //  console.log("bugg",response['responseText']);
-          //  console.log();
          window.location.replace(window.base_url+"cadastros/"+path[3]+"?msg="+response['responseText']);
           }
     });
+    // console.log(this.send_informations);
   };
 
   CreateRule.prototype. composition_conditions = function (finish) {
@@ -292,36 +294,48 @@ define(["jquery","bootbox"],function ($,bootbox) {
     }while (i < finish);
       return rule;
   };
-
+/*compostion_action: médoto responsável por normalizar as ações para o padrão da regra*/
   CreateRule.prototype.composition_actions = function () {
 
       var action_group = [];
       for(i = 0; i < this.compose_rule['actions'].length; i++){
         var action       = {};
-        var params       = {};
         action['name']   = this.compose_rule['actions'][i];
-        if(action['name']=='test_post_event'){
-            params["email"] = this.compose_rule['input_of_action'].shift();
-        }
-        else if (action['name']=='proceeding') {
-
-          try {
-            params["timer"]   = this.compose_rule['input_of_action'].shift();
-            params["uuid"]  = this.compose_rule['parameters2'].shift();
-          } catch (e) {
-            // params["uuid"] = "9872398210923812093810"
-            alert("Não foi inserido parametro");
-          }
-        }
-        else{
-          params["foo"] = "";
-        }
-        action['params'] = params;
+        action['params'] = this.standardize_parameters(action['name']);
         action_group.push(action);
       }
       return action_group
   };
+  /*standardize_parameters: método que realiza a padronização dos parametros de uma ação.
+  Verifica qual é a ação a ser tratada e gera um objeto javascript params que conterá atributos.
+  Cada atributo é referente a um determinado parâmetro da ação*/
+  CreateRule.prototype.standardize_parameters = function (action_name) {
+    var params       = {};
 
+    switch (action_name) {
+      case 'test_post_event':
+           params["email"] = this.compose_rule['input_of_action'].shift();
+        break;
+
+      case 'proceeding':
+        try {
+            params["timer"]   = this.compose_rule['input_of_action'].shift();
+            params["uuid"]    = this.compose_rule['parameters2'].shift();
+          } catch (e) {
+            // params["uuid"] = "9872398210923812093810"
+            alert("Não foi inserido parametro");
+          }
+        break;
+
+      case 'publish':
+        params["uuid"]    = this.compose_rule['parameter3'.shift();
+        break; 
+      default:
+        params["foo"] = "";
+
+    }
+    return params
+  };
   CreateRule.prototype.to_number = function () {
       for(i = 0; i < this.compose_rule['condtions_type'].length ;i++){
         // var regex = new RegExp(/\d\d|\d/);

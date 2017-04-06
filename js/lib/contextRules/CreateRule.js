@@ -45,9 +45,16 @@ define(["jquery","bootbox"],function ($,bootbox) {
         $('.inputs').each(function(){
             compose_rule['inputs'].push($(this).val());
         });
+        $('.form-group.input_action:visible').each(function(){		// pega as divs que contêm parametros do tipo campo
+            compose_rule['input_of_action'].push($(this).children().val());
+        });
+        $('.form-group.select_parameters2:visible').each(function(){		// pega as divs que contêm parametros do tipo seleção
+            compose_rule['parameters2'].push($(this).children().val());
+        });
+        console.log(typeof compose_rule['input_of_action']);
         this.send_informations['name_rule'] = $("#name_rule").val();
 
-        if($("#box_status_rules").val()) {
+        if($("#box_status_rules").val()) { // jeito feio e burro
           this.send_informations['status']    = true;
         } else {
           this.send_informations['status']    = false;
@@ -55,6 +62,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
 
         this.send_informations['tipo']      = 3;
         this.send_informations['id_rule']   = $("#editable_id_rule").val();
+
         if(this.send_informations['id_rule']){
             // console.log("ok");
         }
@@ -280,6 +288,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
       return rule;
   };
 
+/*compostion_action: médoto responsável por normalizar as ações para o padrão da regra*/
   CreateRule.prototype.composition_actions = function () {
 
       var action_group = [];
@@ -289,10 +298,34 @@ define(["jquery","bootbox"],function ($,bootbox) {
         action['name']   = this.compose_rule['actions'][i];
         params["foo"]    = "";
         action['params'] = params;
+        // action['params'] = this.standardize_parameters(action['name']);
         action_group.push(action);
       }
       return action_group
   };
+  /*standardize_parameters: método que realiza a padronização dos parametros de uma ação.
+ Verifica qual é a ação a ser tratada e gera um objeto javascript params que conterá atributos.
+ Cada atributo é referente a um determinado parâmetro da ação*/
+ CreateRule.prototype.standardize_parameters = function (action_name) {
+   var params       = {};
+   switch (action_name) {
+     case 'test_post_event':
+          params["email"] = this.compose_rule['input_of_action'].shift();
+       break;
+     case 'proceeding':
+       try {
+           params["timer"]   = this.compose_rule['input_of_action'].shift();
+           params["uuid"]    = this.compose_rule['parameters2'].shift();
+         } catch (e) {
+           // params["uuid"] = "9872398210923812093810"
+           alert("Não foi inserido parametro");
+         }
+       break;
+     default:
+       params["foo"] = "";
+   }
+   return params
+ };
 
   CreateRule.prototype.to_number = function () {
       for(i = 0; i < this.compose_rule['condtions_type'].length ;i++){
