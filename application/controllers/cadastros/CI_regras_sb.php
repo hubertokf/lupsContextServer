@@ -359,7 +359,8 @@ class CI_regras_sb extends CI_controller {
 		$actions = array(
 		array( 'nome_legivel' => "Atuar", 'nome' => "proceeding" ),
 		array( 'nome_legivel' => 'Enviar email' , 'nome' => "test_post_event" ),
-		array('nome_legivel' => 'Publicar sensor', 'nome' => "publish" )
+		array('nome_legivel' => 'Publicar sensor', 'nome' => "publish" ),
+		array('nome_legivel' => 'Publicar Todos Sensores', 'nome' =>"publisher_all")
 		);
 
 		foreach($actions as $v) {

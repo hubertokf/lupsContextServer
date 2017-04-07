@@ -29,12 +29,13 @@ define(["jquery","bootbox"],function ($,bootbox) {
         $('.form-control.select_rules_context.compare').each(function(){
             compose_rule['compare'].push($(this).val());
         });
+        /*ideia: pegar a data name e toda a data(), este ultimo passado para um método que padroniza as parametros da condição*/
         $('.form-control.select_rules_context.conditions').each(function(){
             compose_rule['conditions'].push($(this).find(":selected").data('name'));
             compose_rule['condtions_type'].push($(this).find(":selected").data('type'));
             compose_rule['url'].push($(this).find(":selected").data('url'))
             var index = $(this).val();
-            console.log(index);
+            // console.log(index);
               compose_rule['id_sensor'].push(index);
 
         });
@@ -310,7 +311,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
   Verifica qual é a ação a ser tratada e gera um objeto javascript params que conterá atributos.
   Cada atributo é referente a um determinado parâmetro da ação*/
   CreateRule.prototype.standardize_parameters = function (action_name) {
-    var params       = {};
+    var params = {};
 
     switch (action_name) {
       case 'test_post_event':
@@ -328,8 +329,8 @@ define(["jquery","bootbox"],function ($,bootbox) {
         break;
 
       case 'publish':
-        params["uuid"]    = this.compose_rule['parameter3'.shift();
-        break; 
+        params["uuid"]    = this.compose_rule['parameter2'].shift();
+        break;
       default:
         params["foo"] = "";
 

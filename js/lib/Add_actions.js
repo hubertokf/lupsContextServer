@@ -91,13 +91,16 @@ define (["lib/ConditionsRules"], function(ConditionsRules){
     AddActions.prototype.generate_groups = function (group_select,select) {
 
       var group             = [{'nome': "Janela Dia", 'id' : 32},{'nome': "Janela Noite", 'id' : 33}]
-      var group_rules       = group_select;
-      var input_action      = this.form_control;
-      var select_parametes2 = this.select_for_parameter2;
-      var sensors_selector  = this.sensors_selector_for_paramater;
-      var div_param_1       = this.div_param_1;
-      var div_param_2       = this.div_param_2;
+      //elementos HTML referente aos parâmetros das ações
+      var group_rules       = group_select; // seletor de grupo de regras (em breve)
+      var input_action      = this.form_control; //tem info sobre campo input,
+      var select_parametes2 = this.select_for_parameter2; // seletor usado para possível atuação (nesse ira os atuadores)
+      var sensors_selector  = this.sensors_selector_for_paramater; //seletor com sensores para serem publicados
+      var div_param_1       = this.div_param_1; //div pai do input_action
+      var div_param_2       = this.div_param_2; //div pai do  group_rules, select_parametes2 e sensors_selector
 
+      /* quando o seletor de ações é alterado: realiza a alteração na DOM, mostrando e ocultando os elementos 
+      relacioados à suas respectivas ações*/
       this.select_construct.change(function () {
 
         var run_ajax_sensors = function(get_ajax_sensors){
@@ -170,6 +173,7 @@ define (["lib/ConditionsRules"], function(ConditionsRules){
 
               var opt_base = $('<option value selected disabled> sensor</option>');
               group_rules.hide();
+              div_param_2.hide()
               div_param_1.show();
               div_param_1.children().remove();
               div_param_1.append(sensors_selector);
@@ -177,8 +181,16 @@ define (["lib/ConditionsRules"], function(ConditionsRules){
               sensors_selector.append(opt_base);
               run_ajax_sensors(get_ajax_sensors);
               break;
+              case "publisher_all":
+                // var sensor   = JSON.parse($("#sensor_for_action").val());
 
+                group_rules.hide();
+                div_param_1.hide();
+                div_param_2.hide();
+                div_param_1.children().remove();
+                break;
             default:
+            break;
 
           }
 
