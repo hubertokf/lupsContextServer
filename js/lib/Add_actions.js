@@ -1,6 +1,6 @@
 define (["lib/ConditionsRules"], function(ConditionsRules){
 
-    var AddActions = function (select,data,selected){
+    var AddActions = function (select,data,selected,set_parameteres,set_parameteres_ation){
       // constroi a estrutura para seleção de ações
 
         this.div_param_1 = $('<div>',{class: "col-md-"+4, id:"group_div"+select});
@@ -48,8 +48,9 @@ define (["lib/ConditionsRules"], function(ConditionsRules){
           $(this).val("");
         })
 
-        if(isNaN(selected)){ // se for umas string, seta o valor
+        if(isNaN(selected)){ // se for umas string, é uma ediçaõ de regra e seta o seletor
             var type = $("#"+select).val(selected);
+            this.set_DOM_parameters(this.group_rule,select,selected,set_parameteres_ation);
         }
     }
 
@@ -73,7 +74,9 @@ define (["lib/ConditionsRules"], function(ConditionsRules){
 
       return
     }
+
     AddActions.prototype.generateOption = function (select,data){
+      /**/
       var opt_base = $('<option value selected disabled>Selecione</option>');
       this.select_construct.append(opt_base);
       for(i = 0; i < Object.keys(data).length; i++){
@@ -99,11 +102,11 @@ define (["lib/ConditionsRules"], function(ConditionsRules){
       var div_param_1       = this.div_param_1; //div pai do input_action
       var div_param_2       = this.div_param_2; //div pai do  group_rules, select_parametes2 e sensors_selector
 
-      /* quando o seletor de ações é alterado: realiza a alteração na DOM, mostrando e ocultando os elementos 
+      /* quando o seletor de ações é alterado: realiza a alteração na DOM, mostrando e ocultando os elementos
       relacioados à suas respectivas ações*/
       this.select_construct.change(function () {
 
-        var run_ajax_sensors = function(get_ajax_sensors){
+          var run_ajax_sensors = function(get_ajax_sensors){
             var path = window.location.pathname.split('/');
             $.ajax({
                 type:"POST",
@@ -112,11 +115,11 @@ define (["lib/ConditionsRules"], function(ConditionsRules){
                 complete: function (data) {
                     get_ajax_sensors(data["responseJSON"]);
                 },
-                async: false
+                // async: false
                   });
         };
 
-        var get_ajax_sensors = function (data) { // serve para manipular os dados vindos do ajax
+          var get_ajax_sensors = function (data) { // serve para manipular os dados vindos do ajax
 
             for(i = 0; i < Object.keys(data).length; i++){
                 json_data = JSON.parse(data[i])
@@ -150,10 +153,15 @@ define (["lib/ConditionsRules"], function(ConditionsRules){
               break;
 
             case "test_post_event":
-              div_param_2.show(); //para deixar o temanho da row padrão
+
+              div_param_1.show();
+              div_param_1.children().remove();
+              div_param_2.show(); //para deixar o tamanho da row padrão
               group_rules.hide();
               select_parametes2.hide();
               input_action.show().children().children().prop('type','email');
+              div_param_1.append(input_action);
+              console.log(input_action.parent());
               break;
 
             case "group_rules":
@@ -176,10 +184,12 @@ define (["lib/ConditionsRules"], function(ConditionsRules){
               div_param_2.hide()
               div_param_1.show();
               div_param_1.children().remove();
+              if(sensors_selector.children().length == 0){
+                sensors_selector.append(opt_base);
+                run_ajax_sensors(get_ajax_sensors);
+              }
               div_param_1.append(sensors_selector);
               sensors_selector.show();
-              sensors_selector.append(opt_base);
-              run_ajax_sensors(get_ajax_sensors);
               break;
               case "publisher_all":
                 // var sensor   = JSON.parse($("#sensor_for_action").val());
@@ -196,6 +206,114 @@ define (["lib/ConditionsRules"], function(ConditionsRules){
 
       });
 
+    };
+
+    AddActions.prototype.set_DOM_parameters = function (group_select,select,action_selected,set_parameteres) {
+      /*possui a função de configurar os parametros das ações de regras editadas*/
+      var group_rules       = group_select; // seletor de grupo de regras (em breve)
+      var input_action      = this.form_control; //tem info sobre campo input,
+      var select_parametes2 = this.select_for_parameter2; // seletor usado para possível atuação (nesse ira os atuadores)
+      var sensors_selector  = this.sensors_selector_for_paramater; //seletor com sensores para serem publicados
+      var div_param_1       = this.div_param_1; //div pai do input_action
+      var div_param_2       = this.div_param_2; //div pai do  group_rules, select_parametes2 e sensors_selector
+
+      var run_ajax_sensors = function(get_ajax_sensors){
+          var path = window.location.pathname.split('/');
+          $.ajax({
+              type:"POST",
+              dataType: 'json',
+              url:window.base_url+"cadastros/"+path[3]+"/get_sensors",
+              complete: function (data) {
+                  get_ajax_sensors(data["responseJSON"]);
+              },
+              // async: false
+                });
+      };
+
+      var get_ajax_sensors = function (data) { // serve para manipular os dados vindos do ajax
+
+          for(i = 0; i < Object.keys(data).length; i++){
+              json_data = JSON.parse(data[i])
+              var opt = $('<option>', {
+              value: json_data['uuid'],
+              text:  json_data['nome']
+          });
+          sensors_selector.append(opt);
+          }
+      }
+
+        input_action.hide();
+        select_parametes2.hide();
+        sensors_selector.hide()
+        group_rules.show();
+        var ajax_sensor_selector = sensors_selector;
+        switch (action_selected) { //verifica qual é a ação e seta os DOM dos parametros
+
+          /*case "active_rules_group":
+            select_parametes2.hide();
+            var opt_base = $('<option value selected disabled>Selecione</option>');
+            group_rules.append(opt_base)
+            for(i = 0; i < group.length; i++){
+                var opt = $('<option>', {
+                    value: group[i]['id'],
+                    text:  group[i]['nome']
+                });
+                group_rules.append(opt);
+          }
+            break;*/
+
+          case "test_post_event":
+
+            div_param_1.show();
+            div_param_1.children().remove();
+            div_param_2.show(); //para deixar o tamanho da row padrão
+            group_rules.hide();
+            select_parametes2.hide();
+            input_action.show().children().children().prop('type','email');
+            input_action.children().children().val(set_parameteres['email']);
+            div_param_1.append(input_action);
+            // console.log(input_action.parent());
+            break;
+
+      /*    case "group_rules":
+            var opt_base = $('<option value selected disabled>Selecionar atuador</option>');
+            group_rules.hide();
+            div_param_2.show()
+            input_action.show().children().children().prop('type','text');
+            input_action.show().children().children().val("digite tempo (minutos)");
+            sensors_selector.hide();
+            select_parametes2.show();
+            select_parametes2.append(opt_base);
+            break;*/
+
+          case "publish":
+            // var sensor   = JSON.parse($("#sensor_for_action").val());
+
+            var opt_base = $('<option value selected disabled> sensor</option>');
+            group_rules.hide();
+            div_param_2.hide()
+            div_param_1.show();
+            div_param_1.children().remove();
+            if(sensors_selector.children().length == 0){
+              sensors_selector.append(opt_base);
+              run_ajax_sensors(get_ajax_sensors);
+            }
+            div_param_1.append(sensors_selector);
+            sensors_selector.show();
+            sensors_selector.val(set_parameteres['uuid']);
+            break;
+            case "publisher_all":
+              // var sensor   = JSON.parse($("#sensor_for_action").val());
+
+              group_rules.hide();
+              div_param_1.show().children().remove();
+              div_param_2.hide();
+              div_param_1.children().remove();
+              break;
+          default:
+          break;
+
+        }
     };
 
     return AddActions;

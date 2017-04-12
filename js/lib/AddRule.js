@@ -55,11 +55,8 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
 
     AddRule.prototype.press_button_create_rule = function () {
 
-      // if($('#action_label').is(':hidden')){view_error("Escolha ao menos uma Ação")}
-      // else if($('#condition_label').is(':hidden')){view_error("Escolha ao menos uma condição")}
-      // else {
         this.create_rule.create_rule();
-      // }
+
     };
 
     AddRule.prototype.checkbox_group = function () {
@@ -154,6 +151,7 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
     var option_select_action    = data['action'];
     var rules                   = JSON.parse(data['rule']);
     rule                        = rules[0]['conditions']['any'];
+    // console.log(option_select_condition);
     for(i = 0; i < Object.keys(option_select_condition).length; i++){
       option_select_condition[i] = JSON.parse(option_select_condition[i]);
     }
@@ -172,8 +170,8 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
           var condition_div = $('<div>',{class: "row", id: "Condition"+e})
           $("#div_conditions").append(condition_div);
           //processo de setagem dos parametros
-          new LogicOperators(e,enable_logic,'any'); // cira e seta botão de seleção de operadores logicos
-          new SelectCondition(e,option_select_condition,objetc_condition['parameters']['sensor'],objetc_condition['operator']);
+          new LogicOperators(e,enable_logic,'any'); // cria e seta botão de seleção de operadores logicos
+          new SelectCondition(e,option_select_condition,objetc_condition['parameters']['sensor']+"|"+objetc_condition['name'],objetc_condition['operator']);
           new Inputs(e,objetc_condition['value']); //cria e set os valores de input
           if(i != 0){ // caso seja a primeira inserçã no DOM, botão de remover não sera inserido
           new ButtonRemove(e); // cria botão de remover
@@ -187,7 +185,7 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
               var condition_div = $('<div>',{class: "row", id: "Condition"+e})
               $("#div_conditions").append(condition_div);
               new LogicOperators(e,true,'all');
-              new SelectCondition(e,option_select_condition,objetc_condition['parameters']['sensor'],objetc_condition['operator']);
+              new SelectCondition(e,option_select_condition,objetc_condition['parameters']['sensor']+"|"+objetc_condition['name'],objetc_condition['operator']);
               new Inputs(e,objetc_condition['value']);
               new ButtonRemove(e);
               iterator++;
@@ -208,23 +206,22 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
         $("#div_conditions").append(condition_div);
 
         new LogicOperators(e,enable_logic,'any');
-        new SelectCondition(e,option_select_condition,objetc_condition['parameters']['sensor'],objetc_condition['operator']);
+        new SelectCondition(e,option_select_condition,objetc_condition['parameters']['sensor']+"|"+objetc_condition['name'],objetc_condition['operator']);
         new Inputs(e,objetc_condition['value']);
         new ButtonRemove(e);
         iterator++;
         e  = "ed-"+iterator;
-
       }
     }
 
     $('#action_label').show();
-   var rules = JSON.parse(data['rule']);
+    var rules = JSON.parse(data['rule']);
     e        = "ed"+iterator_action;
     rules    = rules[0]['actions'];
 
     for (var i = 0; i < rules.length; i++) {
-      // console.log(rules[i]['name']);
-      var action = new AddActions(e,option_select_action,rules[i]['name']);
+      console.log(rules[i]);
+      var action = new AddActions(e,option_select_action,rules[i]['name'],rules[i]['params'],rules[i]['params']);
       $("#div_action").append(action);
       iterator_action++;
       e = "ed"+iterator_action;
