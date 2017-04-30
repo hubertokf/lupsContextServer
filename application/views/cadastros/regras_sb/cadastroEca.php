@@ -46,6 +46,30 @@
                    }?>
             </select>
            </div>
+
+
+
+           <div class="col-md-2 input" style="text-align : center">
+             <label id = "label_name_topico">Tópicos</label>
+           </div>
+
+           <div class="col-md-4" >
+             <select class="form-control ", id = "topicos">
+                 <option value="" selected="" disabled="">Selecione...</option>
+             <?php $result = $sensores->result_array();
+										// 	print_r($result);
+                   foreach ($result as $linha) {
+                     echo "<option id= 'sensor-$linha[sensor_id]'value=$linha[nome]>Leitura $linha[nome] $linha[tiposensor_nome]</option>";
+                   }?>
+            </select>
+           </div>
+
+
+
+
+
+
+
 					 	<div class="col-md-4">
 								<div class="checkbox">
 									<input type="checkbox" value="minutes" id = "box_status_rules" ><label id = "label_box">Ativar Regra</label>
