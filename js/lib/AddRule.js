@@ -82,6 +82,7 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
       $("#name_rule").prop("disabled","true");
       var sensor = $("#editable_sensor_chose").val();
       $("#sensors").val(sensor);
+      //$('#editable_topico').val(topico);
       $("#sensors").prop("disabled","true");
       get_information_editable(handle_edit);
     };
@@ -216,8 +217,8 @@ define (["jquery","lib/selects_condition","lib/select_logic_operators","lib/inpu
 
     $('#action_label').show();
     var rules = JSON.parse(data['rule']);
-    e        = "ed"+iterator_action;
-    rules    = rules[0]['actions'];
+    e         = "ed"+iterator_action;
+    rules     = rules[0]['actions'];
 
     for (var i = 0; i < rules.length; i++) {
       console.log(rules[i]);
