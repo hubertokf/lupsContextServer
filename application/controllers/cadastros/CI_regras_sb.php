@@ -18,6 +18,7 @@ class CI_regras_sb extends CI_controller {
 		$this->load->model('M_actions');
 		$this->load->model('M_relidregras');
 		$this->load->model('M_servidoresborda');
+		$this->load->model('M_topico');
 		$this->M_geral->verificaSessao();
 		if ($this->session->userdata('usuario_id') != 0 && $this->session->userdata('usuario_id') != ""){
 			$this->dados['isLoged'] = true;
@@ -380,6 +381,7 @@ function get_sensors(){
 			}
 			echo json_encode($output);
 }
+
 function sendInformation($value='')
 {
 	// $actions              = $this->M_actions->get_acoes_SB();
