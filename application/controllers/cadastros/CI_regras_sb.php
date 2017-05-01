@@ -85,12 +85,16 @@ class CI_regras_sb extends CI_controller {
 
 			$this->dados["sensores"] = $this->M_sensores->pesquisar($select='', $where=array(), $limit=1000, $offset=0, $ordem='asc', $perm=FALSE);
 			$this->dados["rules"]  = $this->M_regras->pesquisar('',array('r.tipo '=>2),'', $this->uri->segment(5), 'asc', FALSE,3,array('r.tipo '=>4));
-			$this->dados["topicos"] = $this->M_topico->pesquisar('', array(), $nr_pagina,  $this->uri->segment(5), 'asc');
+			$this->dados["topicos"] = $this->M_topico->pesquisar('', array(), 20,  $this->uri->segment(5), 'asc');
+
+
 
 		}else{
 			$this->dados["sensores"] = $this->M_sensores->pesquisar();
 				$this->dados["rules"]  = $this->M_regras->pesquisar('', array('r.tipo'=>2,'p.usuario_id' => $this->session->userdata('usuario_id')),'', $this->uri->segment(5), 'asc', TRUE,1);
 			$this->dados["contextointeresse"] = $this->M_contextosinteresse->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 100, 0, 'asc', TRUE);
+			$this->dados["topicos"] = $this->M_topico->pesquisar('', array(), 20,  $this->uri->segment(5), 'asc');
+
 		}
 		if(!isset($this->dados["editable"])){
 			$this->dados["editable"] = "false";

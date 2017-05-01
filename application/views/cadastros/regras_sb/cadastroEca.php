@@ -49,7 +49,7 @@
 
 
 
-           <div class="col-md-2 input" style="text-align : center">
+					 <div class="col-md-2 input" style="text-align : center">
              <label id = "label_name_topico">Tópicos</label>
            </div>
 
@@ -57,12 +57,12 @@
              <select class="form-control ", id = "topicos">
                  <option value="" selected="" disabled="">Selecione...</option>
              <?php $result = $topicos->result_array();
-										// 	print_r($result);
+										print_r($result);
                    foreach ($result as $linha) {
-										 echo "<option id= 'id-$linha[topico_id]'Nome=$linha[nome]>";
+										 echo "<option id= 'id $linha[topico_id]'> $linha[nome]</option>";
                    }?>
             </select>
-           </div>
+					</div>
 
 
 
