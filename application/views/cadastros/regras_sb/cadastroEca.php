@@ -56,10 +56,10 @@
            <div class="col-md-4" >
              <select class="form-control ", id = "topicos">
                  <option value="" selected="" disabled="">Selecione...</option>
-             <?php $result = $sensores->result_array();
+             <?php $result = $topicos->result_array();
 										// 	print_r($result);
                    foreach ($result as $linha) {
-                     echo "<option id= 'sensor-$linha[sensor_id]'value=$linha[nome]>Leitura $linha[nome] $linha[tiposensor_nome]</option>";
+										 echo "<option id= 'id-$linha[topico_id]'Nome=$linha[nome]>";
                    }?>
             </select>
            </div>
