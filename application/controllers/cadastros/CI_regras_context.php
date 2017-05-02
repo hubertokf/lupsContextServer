@@ -222,7 +222,7 @@ class CI_regras_context extends CI_controller {
 	{
 
 		$array_condictions = array(
-		array( 'nome_legivel' => "", 'nome' => "get_verify_sensor" ),
+		array( 'nome_legivel' => "", 'nome' => "get_value_sensor" ),
 		array( 'nome_legivel' => 'Variação' , 'nome' => "diff_values_sensor" ),
 		array( 'nome_legivel' => 'Duração de tempo em minutos' , 'nome' => "verify_time_minute"),
 		array( 'nome_legivel' => 'Duração de tempo em horas' ,   'nome' => "verify_time_hour" ),
