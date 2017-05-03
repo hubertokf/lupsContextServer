@@ -24,16 +24,20 @@ class ConditionsRules(BaseVariables):
 
         '''Método responsável por retorna o valor coletado do sensor'''
         try:
-            params_data = json.loads(params)
+            params_data = json.loads(params) #recebe o json com a informação sobre o uuID do sensor
             conn        = psycopg2.connect("dbname='contextServer' user='postgres' host='localhost' password='batata'")
             cur         = conn.cursor()
             r           = """SELECT valorcoletado from publicacoes as p where p.sensor_id in (SELECT s.sensor_id from sensores as s where uuid = '{0}')""".format(params_data['sensor'])
             cur.execute(r)
             rows   = cur.fetchall()
-            value  = rows[len(rows)-1]
-            return float(value[0])
+            value  = rows[len(rows)-1] #pega o último valor lido
+            return float(value[0]) # Força o resultado ser float
         except:
             return None
+        ''' Abaixo quando  API para uuid estiver funcionando '''
+        headers = {}
+        try:
+            get_sensor_data = requests.get(''.format(),headers = headers)
 
     @numeric_rule_variable
     def diff_values_sensor(self,params):
