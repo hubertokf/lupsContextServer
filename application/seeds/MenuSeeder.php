@@ -14,11 +14,6 @@ class MenuSeeder extends AbstractSeed{
     public function run(){
         $data = array(
             array(
-                'nome' => 'Administração',
-                'parente' => NULL,
-                'caminho' => NULL, 
-                'ordem' => 9),
-            array(
                 'nome' => 'Início',
                 'parente' => '',
                 'caminho' => 'CI_inicio',
@@ -28,6 +23,16 @@ class MenuSeeder extends AbstractSeed{
                 'parente' => NULL, 
                 'caminho' => 'cadastros/CI_servidorcontexto',
                 'ordem' => 2),
+            array(
+                'nome' => 'Servidores de Borda',
+                'parente' => NULL, 
+                'caminho' => 'cadastros/CI_servidoresborda', 
+                'ordem' => 4),
+            array(
+                'nome' => 'Ambientes',
+                'parente' => NULL, 
+                'caminho' => 'cadastros/CI_ambientes', 
+                'ordem' => 6),
             array(
                 'nome' => 'Sensores',
                 'parente' => NULL,
@@ -39,85 +44,86 @@ class MenuSeeder extends AbstractSeed{
                 'caminho' => 'agenda/CI_agenda',
                 'ordem' => 8),
             array(
-                'nome' => 'Tipo de sensores',
-                'parente' => '3', 
-                'caminho' => 'cadastros/CI_tipossensores',
-                'ordem' => 11),
-            array(
-                'nome' => 'Servidores de Borda',
-                'parente' => NULL, 
-                'caminho' => 'cadastros/CI_servidoresborda', 
-                'ordem' => 4),
-            array(
-                'nome' => 'Fabricantes',
-                'parente' => '6', 
-                'caminho' => 'cadastros/CI_fabricantes', 
-                'ordem' => 14),
-            array(
-                'nome' => 'Publicações Realizadas',
-                'parente' =>  '3', 
-                'caminho' => 'cadastros/CI_publicacoes', 
-                'ordem' => 16),
-            array(
-                'nome' => 'Perfis',
-                'parente' => '6', 
-                'caminho' => 'cadastros/CI_perfisusuarios', 
-                'ordem' => 18),
-            array(
-                'nome' => 'Usuários',
-                'parente' => '6', 
-                'caminho' => 'cadastros/CI_usuarios', 
-                'ordem' => 19),
-            array(
-                'nome' => 'Menus',
-                'parente' => '6', 
-                'caminho' => 'cadastros/CI_menus', 
-                'ordem' => 17),
-            array(
-                'nome' => 'Visualizar',
-                'parente' => '5', 
-                'caminho' => 'agenda/CI_agenda/selecionar', 
-                'ordem' => 23),
-            array(
-                'nome' => 'Ambientes',
-                'parente' => NULL, 
-                'caminho' => 'cadastros/CI_ambientes', 
-                'ordem' => 6),
-            array(
-                'nome' => 'Relatórios',
-                'parente' => '5', 
-                'caminho' => 'agenda/CI_agenda/relatorio', 
-                'ordem' => 22),
-            array(
-                'nome' => 'Gateway',
-                'parente' => '13', 
-                'caminho' => 'cadastros/CI_gateways', 
-                'ordem' => 5),
+                'nome' => 'Administração',
+                'parente' => NULL,
+                'caminho' => NULL, 
+                'ordem' => 9),
+
             array(
                 'nome' => 'Contexto de Interesse',
                 'parente' => '2', 
                 'caminho' => 'cadastros/CI_contextosinteresse', 
                 'ordem' => 0),
             array(
-                'nome' => 'Configurações',
-                'parente' =>  '6', 
-                'caminho' => 'configuracoes/CI_configuracoes/', 
-                'ordem' => 0),
-            array(
                 'nome' => 'Regra de Contexto',
                 'parente' => '2', 
                 'caminho' => 'cadastros/CI_regras_context', 
                 'ordem' => 2),
+
             array(
                 'nome' => 'Regra de Agendamento',
-                'parente' => '13', 
+                'parente' => '3', 
                 'caminho' => 'cadastros/CI_regras_agendamento', 
                 'ordem' => 3),
             array(
                 'nome' => 'Regra de Borda',
-                'parente' => '13', 
+                'parente' => '3', 
                 'caminho' => 'cadastros/CI_regras_sb', 
-                'ordem' => 4)
+                'ordem' => 4),
+            array(
+                'nome' => 'Gateway',
+                'parente' => '3', 
+                'caminho' => 'cadastros/CI_gateways', 
+                'ordem' => 5),
+
+            array(
+                'nome' => 'Tipo de sensores',
+                'parente' => '5', 
+                'caminho' => 'cadastros/CI_tipossensores',
+                'ordem' => 11),
+            array(
+                'nome' => 'Publicações Realizadas',
+                'parente' =>  '5', 
+                'caminho' => 'cadastros/CI_publicacoes', 
+                'ordem' => 16),
+
+            array(
+                'nome' => 'Relatórios',
+                'parente' => '6', 
+                'caminho' => 'agenda/CI_agenda/relatorio', 
+                'ordem' => 22),
+            array(
+                'nome' => 'Visualizar',
+                'parente' => '6', 
+                'caminho' => 'agenda/CI_agenda/selecionar', 
+                'ordem' => 23),
+
+            array(
+                'nome' => 'Configurações',
+                'parente' =>  '7', 
+                'caminho' => 'configuracoes/CI_configuracoes/', 
+                'ordem' => 0),
+            array(
+                'nome' => 'Fabricantes',
+                'parente' => '7', 
+                'caminho' => 'cadastros/CI_fabricantes', 
+                'ordem' => 14),
+            array(
+                'nome' => 'Menus',
+                'parente' => '7', 
+                'caminho' => 'cadastros/CI_menus', 
+                'ordem' => 17),
+            array(
+                'nome' => 'Perfis',
+                'parente' => '7', 
+                'caminho' => 'cadastros/CI_perfisusuarios', 
+                'ordem' => 18),
+            array(
+                'nome' => 'Usuários',
+                'parente' => '7', 
+                'caminho' => 'cadastros/CI_usuarios', 
+                'ordem' => 19)          
+            
         );
 
         $posts = $this->table('menus');
