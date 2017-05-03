@@ -15,6 +15,8 @@ class CI_regras_agendamento extends CI_controller {
 		$this->load->model('M_perfisusuarios');
 		$this->load->model('M_contextosinteresse');
 		$this->load->model('M_sensores');
+		$this->load->model('M_topico');
+
 		$this->M_geral->verificaSessao();
 		if ($this->session->userdata('usuario_id') != 0 && $this->session->userdata('usuario_id') != ""){
 			$this->dados['isLoged'] = true;

@@ -1,5 +1,8 @@
 define (["lib/ConditionsRules"], function(ConditionsRules){
-
+    /*select: é o id da div,
+      data_condition: objeto que possui as informações sobre as variaveis de estado,
+      selected: caso seja uma edição, este vem com a informação da variável de condição selecionada,
+      compare_selected: caseo seja uma edição, este vem com a informação do comparador selecionado.*/
     var SelectCondition = function (select,data_condition,selected,compare_selected){
         // console.log(select,data_condition,selected,compare_selected);
 
@@ -9,15 +12,15 @@ define (["lib/ConditionsRules"], function(ConditionsRules){
         });
 
         this.select_compare = $('<select>',{class: "form-control select_rules_context compare",id: "compare"+select})
-        var opt = data_condition;
-        this.select = new ConditionsRules(this.select_construct,opt,selected);
+        var opt             = data_condition;
+        this.select         = new ConditionsRules(this.select_construct,opt,selected);
         //cria div referente ao seletor de condição,
         this.generateRow(this.select_construct,4,select);
         //cria div referente ao seletor de comparação
         this.generateRow(this.select_compare,3,select);
 
-        if(selected !== undefined){ // se for uma string, seta o valor
-                var type = $("#condition"+select).val(selected).find(':selected').data("type");
+        if(selected !== undefined){ // se for uma string, seta o valor da variavél de condição e pega o seu tipo
+          var type = $("#condition"+select).val(selected).find(':selected').data("type");
 
           switch (type){
               case "string":
@@ -33,7 +36,6 @@ define (["lib/ConditionsRules"], function(ConditionsRules){
           }
         }
         this.set_events();
-
     }
 
     SelectCondition.prototype.generateRow = function (select_condition,size,select) {

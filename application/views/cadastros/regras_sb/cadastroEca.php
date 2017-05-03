@@ -1,13 +1,14 @@
 <?php
 	if(isset($registro)){
     // print_r($registro->result_object());
-    $regra = $registro->result_array();
-		$sensor_name = $sensor->result_array();
-
+    $regra            = $registro->result_array();
+		$sensor_name      = $sensor->result_array();
+		$data_sensor_json = $sensor_json_encode;
 	  }
 
   else{
     $regra = "";
+
   }
 
 
@@ -45,6 +46,30 @@
                    }?>
             </select>
            </div>
+
+
+
+					 <div class="col-md-2 input" style="text-align : center">
+             <label id = "label_name_topico">Tópicos</label>
+           </div>
+
+           <div class="col-md-4" >
+             <select class="form-control ", id = "topicos">
+                 <option value="" selected="" disabled="">Selecione...</option>
+             <?php $result = $topicos->result_array();
+										print_r($result);
+                   foreach ($result as $linha) {
+										 echo "<option id= 'id $linha[topico_id]'> $linha[nome]</option>";
+                   }?>
+            </select>
+					</div>
+
+
+
+
+
+
+
 					 	<div class="col-md-4">
 								<div class="checkbox">
 									<input type="checkbox" value="minutes" id = "box_status_rules" ><label id = "label_box">Ativar Regra</label>
@@ -123,7 +148,23 @@
 					</div>
 					</div>
 
-         <div class = "row" id = "div_conditions"><h3 id = "condition_label" style = "display: none">Condições</h3></div>
+         <div class = "row" id = "div_conditions"><h3 id = "condition_label" style = "display: none">Condições</h3>
+				 <div class="row" id = "sub_labels" style = "display: none">
+					 <div class="col-md-1 col-md-offset-1">
+					 	<h5 class = "alter_labels">Op Lógico</h5>
+					 </div>
+					 <div class="col-md-4">
+					 	<h5 class = "alter_labels">Variavel de condição</h5>
+					 </div>
+					 <div class="col-md-3">
+					 	<h5 class = "alter_labels">Operador Comparativo</h5>
+					 </div>
+					 <div class="col-md-2">
+					 	<h5 class = "alter_labels">valor</h5>
+					 </div>
+				 </div>
+
+				 </div>
          <div class= "row" id = "div_action">
            <h3 id = "action_label" style = "display: none">Ações</h3>
            <!-- <div class="row bin"></div> -->

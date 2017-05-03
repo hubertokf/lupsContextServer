@@ -220,18 +220,45 @@ class CI_regras_context extends CI_controller {
 
 	function getConditions($value="")
 	{
-		$condicoes = $this->M_conditions->get_conditions_CS();
+
+		$array_condictions = array(
+		array( 'nome_legivel' => "", 'nome' => "get_value_sensor" ),
+		array( 'nome_legivel' => 'Variação' , 'nome' => "diff_values_sensor" ),
+		array( 'nome_legivel' => 'Duração de tempo em minutos' , 'nome' => "verify_time_minute"),
+		array( 'nome_legivel' => 'Duração de tempo em horas' ,   'nome' => "verify_time_hour" ),
+		array( 'nome_legivel' => 'Erro ' ,   'nome' => "check_fault" ),
+		array( 'nome_legivel' => 'Calcular média' ,   'nome' => "calcule_average" )
+
+		);
+
+		$info_conditions = $this->M_conditions->get_conditions_CS();
 		$output    = array();
-		foreach($condicoes as $v) {
-			$tipo = 'number';
-			if($v['tipo']=="Estado de Evento"){
-					$tipo = 'string';
+		// print_r($condicoes);
+		foreach ($array_condictions as $array) {
+			if($array['nome'] == "diff_values_sensor" || $array['nome'] =="get_verify_sensor" || $array['nome'] =="check_fault"){
+				foreach($info_conditions as $v) {
+					$tipo  = 'number';
+					if($v['tipo']=="Estado de Evento"){
+						$tipo = 'string';
+					}
+					$obj  = array('url'=> $v['url'],'nome_legivel'=>$array['nome_legivel'].$v['tipo']." do ".$v['nome'],'tipo'=>'number',"sensor"=>$v['uuid'],'nome' => $array['nome']);
+					$obj      = json_encode($obj,JSON_FORCE_OBJECT);
+					$output[] = $obj;
+				}
 			}
-				$obj      = array('url'=> $v['url'],'nome_legivel'=>$v['tipo']." do".$v['nome'],'tipo'=>$tipo,"sensor"=>$v['sensor_id'],'nome' => 'get_verify_sensor');
+			elseif ($array['nome'] == "calcule_average") {
+				$obj      = array('url'=> $v['url'],'nome_legivel'=>$array['nome_legivel'],'tipo'=>$tipo,"sensor"=>null,'nome' => $array['nome']);
 				$obj      = json_encode($obj,JSON_FORCE_OBJECT);
 				$output[] = $obj;
-					}
-			echo json_encode($output);
+			}
+			else{
+				$obj      = array('url'=> $v['url'],'nome_legivel'=>$array['nome_legivel'],'tipo'=>$tipo,"sensor"=>$v['uuid'],'nome' => $array['nome']);
+				$obj      = json_encode($obj,JSON_FORCE_OBJECT);
+				$output[] = $obj;
+			}
+
+		}
+		echo json_encode($output);
 		// echo $output;
 
 	}

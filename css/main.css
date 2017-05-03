@@ -1,7 +1,9 @@
 #addRule{
   cursor: pointer;
 }
-
+.alter_labels{
+   font-weight: bold;
+}
 #button_rule{
        /*border:solid 1px;*/
        overflow:auto;

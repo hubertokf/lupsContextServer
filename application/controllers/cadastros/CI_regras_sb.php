@@ -18,6 +18,7 @@ class CI_regras_sb extends CI_controller {
 		$this->load->model('M_actions');
 		$this->load->model('M_relidregras');
 		$this->load->model('M_servidoresborda');
+		$this->load->model('M_topico');
 		$this->M_geral->verificaSessao();
 		if ($this->session->userdata('usuario_id') != 0 && $this->session->userdata('usuario_id') != ""){
 			$this->dados['isLoged'] = true;
@@ -78,19 +79,22 @@ class CI_regras_sb extends CI_controller {
 
 	function cadastro($value = ""){
 		$perfilusuario_id = $this->session->userdata('perfilusuario_id');
+		$this->dados["sensor_json_encode"] = json_encode(	$this->M_sensores->pesquisar()->result_array(),JSON_FORCE_OBJECT);
+
 		if ($this->M_perfisusuarios->isAdm($perfilusuario_id) == 't'){
-			// $this->dados["sensores"] = $this->M_sensores->pesquisar($select='', $where=array(), $limit=100, $offset=0, $ordem='asc');
-			/* $this->dados["sensores"] = $this->M_sensores->pesquisar();
-		}else{
-			// $this->dados["sensores"] = $this->M_sensores->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 100, 0, 'asc', TRUE);
-			$this->dados["sensores"] = $this->M_sensores->pesquisar();
-			$this->dados["contextointeresse"] = $this->M_contextosinteresse->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 100, 0, 'asc', TRUE);*/
+
 			$this->dados["sensores"] = $this->M_sensores->pesquisar($select='', $where=array(), $limit=1000, $offset=0, $ordem='asc', $perm=FALSE);
 			$this->dados["rules"]  = $this->M_regras->pesquisar('',array('r.tipo '=>2),'', $this->uri->segment(5), 'asc', FALSE,3,array('r.tipo '=>4));
+			$this->dados["topicos"] = $this->M_topico->pesquisar('', array(), 20,  $this->uri->segment(5), 'asc');
+
+
+
 		}else{
 			$this->dados["sensores"] = $this->M_sensores->pesquisar();
 				$this->dados["rules"]  = $this->M_regras->pesquisar('', array('r.tipo'=>2,'p.usuario_id' => $this->session->userdata('usuario_id')),'', $this->uri->segment(5), 'asc', TRUE,1);
 			$this->dados["contextointeresse"] = $this->M_contextosinteresse->pesquisar('', array('p.usuario_id' => $this->session->userdata('usuario_id')), 100, 0, 'asc', TRUE);
+			$this->dados["topicos"] = $this->M_topico->pesquisar('', array(), 20,  $this->uri->segment(5), 'asc');
+
 		}
 		if(!isset($this->dados["editable"])){
 			$this->dados["editable"] = "false";
@@ -112,7 +116,7 @@ class CI_regras_sb extends CI_controller {
 			$id_rule_edge = $this->distributed_rule($_POST["id_rule"],$_POST["id_sensor"],$get_test); //metodo para enviar regra ao servidor de borda
 			$this->M_Regras_SB->setRegraId($_POST["id_rule"]);
 
-			if($id_rule_edge == null){ //se for null, possível perda de comunicação ou problema no servidor de borda
+			if($id_rule_edge == NULL){ //se for null, possível perda de comunicação ou problema no servidor de borda
 				$id_rule_edge_off = $this->M_Regras_SB->getRegraIdBorda($_POST["id_rule"]); //seta a variavel com um valor já existente
 				$this->M_Regras_SB->setRegraIdBorda($id_rule_edge_off);
 			}
@@ -127,10 +131,10 @@ class CI_regras_sb extends CI_controller {
 		$this->M_Regras_SB->setRegraTipo($_POST["tipo"]);
 		$this->M_Regras_SB->setSensor($_POST["id_sensor"]);
 
-		if ($this->M_Regras_SB->salvar() == "inc"){
+		if ($this->M_Regras_SB->salvar() == "inc" && !is_null($id_rule_edge)){
 			$this->dados["msg"] = "Dados registrados com sucesso!";
 		}
-		elseif ($id_rule_edge == null) {
+		elseif ($id_rule_edge == NULL) {
 			$this->dados["msg"] = "Não foi possível registrar dados no servidor de borda. Tente mais tarde";
 		}
 		else{
@@ -171,9 +175,12 @@ class CI_regras_sb extends CI_controller {
 			 	'Authorization: token '.$token,
 				'Content-Type: application/json')
 		);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT ,0);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 		$result = curl_exec($ch);
+		$info   = curl_getinfo($ch);
 		curl_close($ch);
-		if($result !== null){
+		if($result !== null && $info['http_code'] != 0){
 			$this->dados["msg"] = "Registro(s) excluído(s) com sucesso!";
 		}
 		else{
@@ -189,30 +196,20 @@ class CI_regras_sb extends CI_controller {
 			$this->dados["registro"] = $this->M_regras->selecionar($_POST["item"]);
 			$this->dados["editable"] = "true";
 			$registro = $this->dados["registro"]->result_array();
-			// print "<pre>";
-			// print_r($this->M_Regras_SB);
-			// print "</pre>";
-			// print "<pre>";
-			// print_r($registro[0]);
-			// print "</pre>";
+
 			$this->dados["sensor"]   = $this->M_Regras_SB->get_sensor($registro[0]['regra_id']);
 			// $this->dados[]
 		} else if(isset($_GET["item"])) {
 			$this->dados["registro"] = $this->M_regras->selecionar($_GET["item"]);
 			$this->dados["editable"] = "true";
 			$registro = $this->dados["registro"]->result_array();
-			// print "<pre>";
-			// print_r($this->M_Regras_SB);
-			// print "</pre>";
-			// print "<pre>";
-			// print_r($registro[0]);
-			// print "</pre>";
+
 			$this->dados["sensor"]   = $this->M_Regras_SB->get_sensor($registro[0]['regra_id']);
 			// $this->dados[]
 		} else if ($valor != "") {
-			$this->dados["registro"] = $this->M_regras->selecionar($valor);
-			$this->dados["editable"] = "true";
-			$this->dados["sensor"]   = $this->M_Regras_SB->get_sensor($registro[0]['regra_id']);
+			$this->dados["registro"]           = $this->M_regras->selecionar($valor);
+			$this->dados["editable"]           = "true";
+			$this->dados["sensor"]             = $this->M_Regras_SB->get_sensor($registro[0]['regra_id']);
 			$registro = $this->dados["registro"]->result_array();
 		}
 		$this->cadastro();
@@ -284,7 +281,7 @@ class CI_regras_sb extends CI_controller {
 		foreach ($array_condictions as $array) {
 			if($array['nome'] == "diff_values_sensor" || $array['nome'] =="get_verify_sensor" || $array['nome'] =="check_fault"){
 				foreach($info_conditions as $v) {
-					$tipo     = 'number';
+					$tipo  = 'number';
 					if($v['tipo']=="Estado de Evento"){
 						$tipo = 'string';
 					}
@@ -308,23 +305,36 @@ class CI_regras_sb extends CI_controller {
 		echo json_encode($output);
 
 	}
-	public function distributed_rule($id_regra_context='',$id_sensor='',$array=array()){
+	/*distributed_rules: método responsável por distribuir as regras por meio da biblioteca curl
+		Parametros:
+			--id_regra_context = possui o id da regra, quando é realizado uma edição (dã)
+			--id_sensor = possui o sensor selecionado na concepção/edição da regra
+			--data_rule = possui informações relevantes da regra, como status da regra,
+										a regra propiamente.
+		Atributos:
+			-- requst = possui informação da requisição
+			-- get_info_edge = busca as informações do servidor de borda referente
+												 ao sensor selecinado na regra
+			-- url = recebe a url da borda
+			--url_rules = recebe o caminho para a base de regras (acesso via APIRest)
+			-- token    =*/
+	public function distributed_rule($id_regra_context='',$id_sensor='',$data_rule=array()){
 
 		$request         = "POST";
-		$get_url         = $this->M_sensores->get_acesso_borda(array('sensor_id' =>$id_sensor))->result_array();
-		$url             = $get_url[0]["url"];
-		$token           = $get_url[0]["token"];
+		$get_info_edge   = $this->M_sensores->get_acesso_borda(array('sensor_id' =>$id_sensor))->result_array();
+		$url             = $get_info_edge[0]["url"];
+		$token           = $get_info_edge[0]["token"];
 		$url_rule        = $url."rules/";
 
 		if($id_regra_context != ''){
 
 			$request           = "PUT";
-			$array["id_regra"] = $this->M_Regras_SB->getRegraIdBorda($id_regra_context);
-			$url_rule          = $url_rule.$array["id_regra"]."/"; // concatenar com id_regra_borda
+			$data_rule["id_regra"] = $this->M_Regras_SB->getRegraIdBorda($id_regra_context);
+			$url_rule          = $url_rule.$data_rule["id_regra"]."/"; // concatena o id_regra_borda com a url da regra, para o acesso direto a esta regra
 		}
 
 		$ch          = curl_init($url_rule);
-		$data_string = json_encode($array,JSON_FORCE_OBJECT);
+		$data_string = json_encode($data_rule,JSON_FORCE_OBJECT); //recebe os dados a serem enviados,
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $request);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -333,13 +343,15 @@ class CI_regras_sb extends CI_controller {
 				'Content-Type: application/json',
 			  'Content-Length: ' . strlen($data_string))
 		);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT ,0);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 		$result = curl_exec($ch);
 		$info   = curl_getinfo($ch);
 		curl_close($ch);
-		if ($info['http_code'] >= 200 && $info['http_code'] <= 299)
+		if ($info['http_code'] >= 200 && $info['http_code'] <= 299) // verifica se a comunicação ocorreu de forma correta
 		  return json_decode($result)->id;
 	  else
-			return null;
+			return NULL;
 	}
 
 	function getActions($value="") // busca no banco as açoes pre definidas e retorna para a app
@@ -348,9 +360,10 @@ class CI_regras_sb extends CI_controller {
 		// $output  = array();
 		$actions = array(
 		array( 'nome_legivel' => "Atuar", 'nome' => "proceeding" ),
-		array( 'nome_legivel' => 'Enviar email' , 'nome' => "test_post_event" )
+		array( 'nome_legivel' => 'Enviar email' , 'nome' => "test_post_event" ),
+		array('nome_legivel' => 'Publicar sensor', 'nome' => "publish" ),
+		array('nome_legivel' => 'Publicar Todos Sensores', 'nome' =>"publisher_all")
 		);
-
 
 		foreach($actions as $v) {
 				$obj      = array('nome_legivel'=>$v['nome_legivel'],'nome'=>$v['nome']);
@@ -365,31 +378,69 @@ function get_group_rules(){
 
 	// $group_rule = $this->M_regras->
 }
+function get_sensors(){
+	$sensors = $this->M_conditions->get_conditions_SB();
+	foreach($sensors as $v) {
+			$obj      = array('nome'=>$v['tipo']." ".$v['nome'],"uuid"=>$v['uuid']);
+			$obj      = json_encode($obj,JSON_FORCE_OBJECT);
+			$output[] = $obj;
+			}
+			echo json_encode($output);
+}
 
 function sendInformation($value='')
 {
-	$actions              = $this->M_actions->get_acoes_SB();
+	// $actions              = $this->M_actions->get_acoes_SB();
 	$condicoes            = $this->M_conditions->get_conditions_SB();
 	$output               = array();
 	$output_condiction    = array();
 	$output_action        = array();
 	$rule                 = $this->M_regras->selecionar($_POST["index"])->result_array();
 	$rule 								= $rule[0]["arquivo_py"];
+
+	$array_condictions = array(
+	array( 'nome_legivel' => "", 'nome' => "get_verify_sensor" ),
+	array( 'nome_legivel' => 'Variação' , 'nome' => "diff_values_sensor" ),
+	array( 'nome_legivel' => 'Duração de tempo em minutos' , 'nome' => "verify_time_minute"),
+	array( 'nome_legivel' => 'Duração de tempo em horas' ,   'nome' => "verify_time_hour" ),
+	array( 'nome_legivel' => 'Erro ' ,   'nome' => "check_fault" ),
+	array( 'nome_legivel' => 'Calcular média' ,   'nome' => "calcule_average" )
+
+	);
+	$actions = array(
+	array( 'nome_legivel' => "Atuar", 'nome' => "proceeding" ),
+	array( 'nome_legivel' => 'Enviar email' , 'nome' => "test_post_event" ),
+	array('nome_legivel' => 'Publicar sensor', 'nome' => "publish" ),
+	array('nome_legivel' => 'Publicar Todos Sensores', 'nome' =>"publisher_all")
+	);
+
 	foreach($actions as $v) {
 			$obj              = array('nome_legivel'=>$v['nome_legivel'],'nome'=>$v['nome']);
 			$output_action[]  = $obj;
 	}
-	foreach($condicoes as $v) {
-		$tipo = 'number';
-		if($v['tipo']=="Estado de Evento"){
-				$tipo = 'string';
-		}
-			$obj      = array('url'=> $v['url'],'nome_legivel'=>$v['tipo']." ".$v['nome'],'tipo'=>'number',"sensor"=>$v['uuid'],'nome' => 'get_verify_sensor');
-			$obj      = json_encode($obj,JSON_FORCE_OBJECT);
-			$obj              = json_encode($obj,JSON_FORCE_OBJECT);
-			$output_condiction[] = $obj;
+
+	foreach ($array_condictions as $array) {
+		if($array['nome'] == "diff_values_sensor" || $array['nome'] =="get_verify_sensor" || $array['nome'] =="check_fault"){
+
+			foreach($condicoes as $v) {
+				$tipo   = 'number';
+				if($v['tipo']=="Estado de Evento"){
+					$tipo = 'string';
 				}
-	$output               = array('rule'=>$rule,"condictions" =>$output_condiction,"action"=>$output_action);
+				$obj  = array('url'=> $v['url'],'nome_legivel'=>$array['nome_legivel'].$v['tipo']." do ".$v['nome'],'tipo'=>'number',"sensor"=>$v['uuid'],'nome' => $array['nome']);
+				$obj      = json_encode($obj,JSON_FORCE_OBJECT);
+				$output_condiction[] = $obj;
+			}
+		}
+		elseif ($array['nome'] == "calcule_average") {
+			$obj      = array('url'=> $v['url'],'nome_legivel'=>$array['nome_legivel'],'tipo'=>$tipo,"sensor"=>null,'nome' => $array['nome']);
+			$obj      = json_encode($obj,JSON_FORCE_OBJECT);
+			$output_condiction[] = $obj;
+		}
+	}
+
+
+	$output       = array('rule'=>$rule,"condictions" =>$output_condiction,"action"=>$output_action);
 	echo json_encode($output);
 	// echo $rule;
 }
