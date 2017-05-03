@@ -22,7 +22,7 @@ class ConditionsRules(BaseVariables):
     @numeric_rule_variable
     def get_value_sensor(self,params):
 
-        '''Método responsável por retorna o valor coletado do sensor'''
+        '''Método responsável por retornar o valor coletado do sensor'''
         try:
             params_data = json.loads(params) #recebe o json com a informação sobre o uuID do sensor
             conn        = psycopg2.connect("dbname='contextServer' user='postgres' host='localhost' password='batata'")
@@ -35,9 +35,17 @@ class ConditionsRules(BaseVariables):
         except:
             return None
         ''' Abaixo quando  API para uuid estiver funcionando '''
-        headers = {}
-        try:
-            get_sensor_data = requests.get(''.format(),headers = headers)
+        params_data = json.loads(params) #recebe o json com a informação sobre o uuID do sensor
+        # headers     = {'Content-type': 'application/json', 'X-API-KEY': 'cfb281929c3574091ad2a7cf80274421e6a87c59'}
+        # try:
+        #     sensor_data  = requests.get('http://localhost/lupsContextServer/api/sensores/uuid/{0}'.format(params_data['sensor']),headers = headers)
+        #     sensor_data  = json.loads(get_sensor_data.json())
+        #     publish_data = requests.get(''.format(get_sensor_data['sensor_id']),headers = headers)
+        #     publish_data = json.loads(publish_data.jsom())
+        #     index = len(publish_data) - 1
+        #     return publish_data[index]['value']
+        # except:
+        #     return None
 
     @numeric_rule_variable
     def diff_values_sensor(self,params):

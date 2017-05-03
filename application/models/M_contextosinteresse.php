@@ -102,6 +102,14 @@ class M_contextosinteresse extends CI_Model {
             return $query;
 		}
 
+		function selectCIbyRule($atribute)
+		{
+			$this->db->select("*");
+			$this->db->from("contextosinteresse");
+			$this->db->where("regra_id",$atribute);
+			return $this->db->get()->result_array();
+		}
+
 		function salvar() {
             $arrayCampos  = array(
                 "nome" 			=> $this->contextointeresse_nome,
