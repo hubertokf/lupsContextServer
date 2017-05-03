@@ -32,6 +32,15 @@ class UsuariosSeeder extends AbstractSeed{
                 'perfilusuario_id' => 1,
                 'token' => 'cfb281929c3574091ad2a7cf80274421e6a87c59'),
             array(
+                'username' =>'leonardo', 
+                'password' => '$2y$10$2EIOw3nabqxnPM8JLopoYuGCkCZ.SVaxL7nVj8iEEa/6DbL6sQGV6', 
+                'email' => 'ldrsjoao@inf.ufpel.edu.br', 
+                'nome' => 'Leonardo João', 
+                'telefone' => '55555555555', 
+                'celular' => '55555555555', 
+                'perfilusuario_id' => 1,
+                'token' => 'cfb281929c3574091ad2a7cf80274421e6a87c56'),
+            array(
                 'username' =>'trcarvalho', 
                 'password' => '$2y$10$2EIOw3nabqxnPM8JLopoYuGCkCZ.SVaxL7nVj8iEEa/6DbL6sQGV6', 
                 'email' => 'trcarvalho@inf.ufpel.edu.br', 
