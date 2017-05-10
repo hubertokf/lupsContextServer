@@ -14,20 +14,26 @@ class KeysSeeder extends AbstractSeed{
     public function run(){
         $data = array(
             array(
-                'level' => '10', 
-                'ignore_limits' => '0', 
-                'date_created' => '10', 
+                'level' => '10',
+                'ignore_limits' => '0',
+                'date_created' => '10',
                 'key' => 'cfb281929c3574091ad2a7cf80274421e6a87c58'),
             array(
-                'level' => '10', 
-                'ignore_limits' => '0', 
-                'date_created' => '10', 
+                'level' => '10',
+                'ignore_limits' => '0',
+                'date_created' => '10',
                 'key' => 'cfb281929c3574091ad2a7cf80274421e6a87c59'),
             array(
-                'level' => '10', 
-                'ignore_limits' => '0', 
-                'date_created' => '10', 
-                'key' => 'cfb281929c3574091ad2a7cf80274421e6a87c57')
+                'level' => '10',
+                'ignore_limits' => '0',
+                'date_created' => '10',
+                'key' => 'cfb281929c3574091ad2a7cf80274421e6a87c57'),
+                array(
+                    'level' => '10',
+                    'ignore_limits' => '0',
+                    'date_created' => '10',
+                    'key' => 'cfb281929c3574091ad2a7cf80274421e6a87c56')
+
         );
 
         $posts = $this->table('keys');

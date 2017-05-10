@@ -82,7 +82,7 @@ class CI_regras_context extends CI_controller {
 
 	}
 
-	function gravar(){
+	function gravar(){ // grava a regra criada ou editada
 		if(isset($_POST["id_rule"])and $_POST["id_rule"] != ""){
 			$this->M_Regras_SB->setRegraId($_POST["id_rule"]);
 		}
@@ -132,17 +132,32 @@ class CI_regras_context extends CI_controller {
 	}
 
 	function excluir($id=""){
+
 		if ($id==""){
 			if(isset($_POST["item"])) {
-				$this->M_regras->setRegraId($_POST["item"]);
-				$this->M_regras->excluir();
+				$this->has_RelCI = $this->M_contextosinteresse->selectCIbyRule($_POST["item"]);
+
+				if(!empty($this->has_RelCI)){
+					$this->dados["msg"] = "Não foi possível excluir registro, primeiro deve remove-lá do contexto de interesse";
+				}else {
+					$this->M_regras->setRegraId($_POST["item"]);
+					$this->M_regras->excluir();
+					$this->dados["msg"] = "Registro(s) excluído(s) com sucesso!";
+				}
 			}
 		}
 		else{
-			$this->M_regras->setRegraId($id);
-			$this->M_regras->excluir();
+			$this->has_RelCI = $this->M_contextosinteresse->selectCIbyRule($id);
+			if(!empty($this->has_RelCI)){
+				$this->dados["msg"] = "Não foi possível excluir registro, primeiro deve remove-lá do contexto de interesse";
+			}else {
+				$this->M_regras->setRegraId($id);
+				$this->M_regras->excluir();
+				$this->dados["msg"] = "Registro(s) excluído(s) com sucesso!";
+			}
 		}
-		$this->dados["msg"] = "Registro(s) excluído(s) com sucesso!";
+		// $this->dados["msg"] = "Registro(s) excluído(s) com sucesso!";
+		// $this->pesquisa();
 		$this->pesquisa();
 	}
 
@@ -222,7 +237,7 @@ class CI_regras_context extends CI_controller {
 	{
 
 		$array_condictions = array(
-		array( 'nome_legivel' => "", 'nome' => "get_verify_sensor" ),
+		array( 'nome_legivel' => "", 'nome' => "get_value_sensor" ),
 		array( 'nome_legivel' => 'Variação' , 'nome' => "diff_values_sensor" ),
 		array( 'nome_legivel' => 'Duração de tempo em minutos' , 'nome' => "verify_time_minute"),
 		array( 'nome_legivel' => 'Duração de tempo em horas' ,   'nome' => "verify_time_hour" ),
@@ -246,26 +261,32 @@ class CI_regras_context extends CI_controller {
 					$output[] = $obj;
 				}
 			}
-			elseif ($array['nome'] == "calcule_average") {
-				$obj      = array('url'=> $v['url'],'nome_legivel'=>$array['nome_legivel'],'tipo'=>$tipo,"sensor"=>null,'nome' => $array['nome']);
-				$obj      = json_encode($obj,JSON_FORCE_OBJECT);
-				$output[] = $obj;
-			}
+			// elseif ($array['nome'] == "calcule_average") {
+			// 	$obj      = array('url'=> $v['url'],'nome_legivel'=>$array['nome_legivel'],'tipo'=>$tipo,"sensor"=>null,'nome' => $array['nome']);
+			// 	$obj      = json_encode($obj,JSON_FORCE_OBJECT);
+			// 	$output[] = $obj;
+			// }
 			else{
-				$obj      = array('url'=> $v['url'],'nome_legivel'=>$array['nome_legivel'],'tipo'=>$tipo,"sensor"=>$v['uuid'],'nome' => $array['nome']);
+				$obj      = array('nome_legivel'=>$array['nome_legivel'],'nome' => $array['nome']);
 				$obj      = json_encode($obj,JSON_FORCE_OBJECT);
 				$output[] = $obj;
 			}
 
 		}
+
 		echo json_encode($output);
+		// echo json_encode(array("T"=>"V"));
 		// echo $output;
 
 	}
 
 	function getActions($value="") // busca no banco as açoes pre definidas e retorna para a app
 	{
-		$actions = $this->M_actions->get_acoes_CS();
+		$actions =  array(
+
+		array( 'nome_legivel' => 'Enviar email' , 'nome' => "send_email" )
+		);
+
 		$output    = array();
 
 		foreach($actions as $v) {

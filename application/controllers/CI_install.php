@@ -5,9 +5,9 @@ class CI_install extends CI_Controller {
        {
             parent::__construct();
             $this->load->helper('url');
-			if ($this->config->item('installed') == true){
+			/*if ($this->config->item('installed') == true){
 			    redirect('CI_login', 'refresh');
-			}
+			}*/
        }
  
 	function index(){	
@@ -37,6 +37,12 @@ class CI_install extends CI_Controller {
 		}
 		if (!is_writable('application/config/config.php')) {
 			$pre_error .= 'application/config/config.php precisa ter permissão de escrita 777!';
+		}
+		if (!is_writable('uploads')) {
+			$pre_error .= 'application/config/config.php precisa ter permissão de escrita 777!';
+		}
+		if (!in_array('mod_rewrite', apache_get_modules())){
+			$pre_error .= 'O mod_rewrite necessita estar habilitado!';
 		}
 		$this->dados['pre_error'] = $pre_error;
 
@@ -85,12 +91,13 @@ class CI_install extends CI_Controller {
 	    $port = $s['SERVER_PORT'];
 	    $port = ((!$ssl && $port=='80') || ($ssl && $port=='443')) ? '' : ':'.$port;
 	    $host = isset($s['HTTP_HOST']) ? $s['HTTP_HOST'] : $s['SERVER_NAME'];
-	    $uri = str_replace("index.php/CI_install/step2", "", $s['REQUEST_URI']);
-	    $uri = str_replace("index.php/CI_install/step3", "", $s['REQUEST_URI']);
+	    $uri = str_replace("CI_install/step1","",$s['REQUEST_URI']);
+	    $uri = str_replace("CI_install/step2","",$uri);
+	    $uri = str_replace("CI_install/step3","",$uri);
 	    return $protocol . '://' . $host . $port . $uri;
 	}
 
-	function write_database($_POST) {
+	function write_database() {
 		// Config path
 		$template_path 	= '../application/defaults/database.php';
 		$output_path 	= '../application/config/database.php';
@@ -117,7 +124,7 @@ class CI_install extends CI_Controller {
 		}
 	}
 
-	function write_config($_POST) {
+	function write_config() {
 		// Config path
 		$template_path 	= '../application/defaults/config.php';
 		$output_path 	= '../application/config/config.php';
@@ -142,8 +149,22 @@ class CI_install extends CI_Controller {
 		}
 	}
 
-	function create_database($_POST){
+	function create_database(){
 		$sql = "CREATE DATABASE IF NOT EXISTS ".$_POST['database_name'];
+		$this->db->query($sql);
+		
+		require __DIR__ . '/vendor/autoload.php';
+
+		$phinxApp = new \Phinx\Console\PhinxApplication();
+		$phinxTextWrapper = new \Phinx\Wrapper\TextWrapper($phinxApp);
+
+		$phinxTextWrapper->setOption('configuration', '/path/to/phinx.yml');
+		$phinxTextWrapper->setOption('parser', 'YAML');
+		$phinxTextWrapper->setOption('environment', 'development');
+
+		$log = $phinxTextWrapper->getMigrate();
+
+		/*$sql = "CREATE DATABASE IF NOT EXISTS ".$_POST['database_name'];
 		$this->db->query($sql);
 
 
@@ -156,7 +177,7 @@ class CI_install extends CI_Controller {
 		foreach($sqls as $statement){
 			$statment = $statement . ";";
 			$this->db->query($statement);	
-		}
+		}*/
 	}
 }
 ?>
