@@ -37,7 +37,7 @@
            </div>
 
            <div class="col-md-4" >
-             <select class="form-control ", id = "sensors">
+             <select class="form-control ", id = "sensors" required>
                  <option value="" selected="" disabled="">Selecione...</option>
              <?php $result = $sensores->result_array();
 										// 	print_r($result);
