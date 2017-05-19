@@ -262,7 +262,7 @@ define (["context/ConditionsRules"], function(ConditionsRules){
           }
             break;*/
 
-          case "test_post_event":
+          case "send_email":
 
             div_param_1.show();
             div_param_1.children().remove();
