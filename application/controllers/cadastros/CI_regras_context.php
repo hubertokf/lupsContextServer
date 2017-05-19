@@ -236,15 +236,19 @@ class CI_regras_context extends CI_controller {
 	function getConditions($value="")
 	{
 
-		$array_condictions = array(
+		$array_condictions = array( 
 		array( 'nome_legivel' => "", 'nome' => "get_value_sensor" ),
-		array( 'nome_legivel' => 'Variação' , 'nome' => "diff_values_sensor" ),
-		array( 'nome_legivel' => 'Duração de tempo em minutos' , 'nome' => "verify_time_minute"),
-		array( 'nome_legivel' => 'Duração de tempo em horas' ,   'nome' => "verify_time_hour" ),
-		array( 'nome_legivel' => 'Erro ' ,   'nome' => "check_fault" ),
-		array( 'nome_legivel' => 'Calcular média' ,   'nome' => "calcule_average" )
-
+		array( 'nome_legivel' => 'Variação' , 'nome' => "diff_values_sensor" )
 		);
+		// $array_condictions = array(
+		// array( 'nome_legivel' => "", 'nome' => "get_value_sensor" ),
+		// array( 'nome_legivel' => 'Variação' , 'nome' => "diff_values_sensor" ),
+		// array( 'nome_legivel' => 'Duração de tempo em minutos' , 'nome' => "verify_time_minute"),
+		// array( 'nome_legivel' => 'Duração de tempo em horas' ,   'nome' => "verify_time_hour" ),
+		// array( 'nome_legivel' => 'Erro ' ,   'nome' => "check_fault" ),
+		// array( 'nome_legivel' => 'Calcular média' ,   'nome' => "calcule_average" )
+		//
+		// );
 
 		$info_conditions = $this->M_conditions->get_conditions_CS();
 		$output    = array();
