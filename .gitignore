@@ -1,7 +1,9 @@
 /.project
 /a.sublimeproject
+application/config/database.php
 /application/config/database.php
 /application/config/config.php
+application/config/config.php
 /js/lib/contextRules/copy
 /lups.contextServer.sublime-workspace
 /lups.contextServer.sublime-project

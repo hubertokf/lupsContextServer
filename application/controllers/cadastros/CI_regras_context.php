@@ -104,7 +104,6 @@ class CI_regras_context extends CI_controller {
 		$this->form_validation->set_rules('regra_nome', 'Nome', 'trim|required');
 		$this->form_validation->set_rules('regra_status', 'Status', 'trim|required');
 		$this->form_validation->set_rules('regra_tipo', 'Tipo', 'trim|required');
-		$this->form_validation->set_rules('regra_tipo', 'Tipo', 'trim|required');
 		$this->form_validation->set_error_delimiters('<div class="field-errors">', '</div>');
 		$this->form_validation->set_message('required', 'Você deve preencher o campo "%s".');
 		if ($this->form_validation->run() == FALSE) {
