@@ -392,7 +392,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
     var before    = {};
     var rule      = {};
     var rules_sensor       = this.compose_rule['id_sensor'];
-    var action             = {name: "test_post_Event", params:{info_adicional:""}};
+    var action             = {name: "send_email", params:{info_adicional:""}};
 
     for(i=0; i < rules_sensor.length;i++){
         before['name']     = "fault_check"+rules_sensor[i];

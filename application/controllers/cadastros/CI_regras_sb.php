@@ -360,7 +360,7 @@ class CI_regras_sb extends CI_controller {
 		// $output  = array();
 		$actions = array(
 		array( 'nome_legivel' => "Atuar", 'nome' => "proceeding" ),
-		array( 'nome_legivel' => 'Enviar email' , 'nome' => "test_post_event" ),
+		array( 'nome_legivel' => 'Enviar email' , 'nome' => "send_email" ),
 		array('nome_legivel' => 'Publicar sensor', 'nome' => "publish" ),
 		array('nome_legivel' => 'Publicar Todos Sensores', 'nome' =>"publisher_all")
 		);
@@ -409,7 +409,7 @@ function sendInformation($value='')
 	);
 	$actions = array(
 	array( 'nome_legivel' => "Atuar", 'nome' => "proceeding" ),
-	array( 'nome_legivel' => 'Enviar email' , 'nome' => "test_post_event" ),
+	array( 'nome_legivel' => 'Enviar email' , 'nome' => "send_email" ),
 	array('nome_legivel' => 'Publicar sensor', 'nome' => "publish" ),
 	array('nome_legivel' => 'Publicar Todos Sensores', 'nome' =>"publisher_all")
 	);
