@@ -14,7 +14,7 @@ import requests
 import logging
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from email.utils import formatdate
+from email.utils import0 formatdate
 import smtplib
 
 class ActionRules(BaseActions):
