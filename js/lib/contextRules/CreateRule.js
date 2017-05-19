@@ -329,7 +329,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
     var params = {};
 
     switch (action_name) {
-      case 'test_post_event':
+      case 'send_email':
 
         params["email"] = this.compose_rule['input_of_action'].shift();
         break;
