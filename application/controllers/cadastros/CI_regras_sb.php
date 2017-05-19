@@ -262,7 +262,7 @@ class CI_regras_sb extends CI_controller {
 		}
 	    echo json_encode($sensores);
 	}
-
+	/*método que envia dados dos parametros de condições da regra*/
 	function getConditions($value="")
 	{
 		$array_condictions = array(
@@ -275,7 +275,7 @@ class CI_regras_sb extends CI_controller {
 
 		);
 
-		$info_conditions = $this->M_conditions->get_conditions_SB();
+		$info_conditions = $this->M_conditions->get_conditions_SB(); // recebe informações sobre os sensores , tais como  tipo, nome, url da borda
 		$output    = array();
 		// print_r($condicoes);
 		foreach ($array_condictions as $array) {
@@ -290,16 +290,16 @@ class CI_regras_sb extends CI_controller {
 					$output[] = $obj;
 				}
 			}
-			elseif ($array['nome'] == "calcule_average") {
-				$obj      = array('url'=> $v['url'],'nome_legivel'=>$array['nome_legivel'],'tipo'=>$tipo,"sensor"=>null,'nome' => $array['nome']);
-				$obj      = json_encode($obj,JSON_FORCE_OBJECT);
-				$output[] = $obj;
-			}
-			else{
-				$obj      = array('url'=> $v['url'],'nome_legivel'=>$array['nome_legivel'],'tipo'=>$tipo,"sensor"=>$v['uuid'],'nome' => $array['nome']);
-				$obj      = json_encode($obj,JSON_FORCE_OBJECT);
-				$output[] = $obj;
-			}
+			// elseif ($array['nome'] == "calcule_average") {
+			// 	$obj      = array('url'=> $v['url'],'nome_legivel'=>$array['nome_legivel'],'tipo'=>$tipo,"sensor"=>null,'nome' => $array['nome']);
+			// 	$obj      = json_encode($obj,JSON_FORCE_OBJECT);
+			// 	$output[] = $obj;
+			// }
+			// else{
+			// 	$obj      = array('url'=> $v['url'],'nome_legivel'=>$array['nome_legivel'],'tipo'=>$tipo,"sensor"=>$v['uuid'],'nome' => $array['nome']);
+			// 	$obj      = json_encode($obj,JSON_FORCE_OBJECT);
+			// 	$output[] = $obj;
+			// }
 
 		}
 		echo json_encode($output);

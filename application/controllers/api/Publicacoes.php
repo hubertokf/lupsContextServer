@@ -94,7 +94,7 @@ class Publicacoes extends REST_Controller {
                 $sensor = $this->M_sensores->getByUuid($content['sensor_uuid'])->row();
                 $this->M_publicacoes->setPublicacaoSensor($sensor->sensor_id);
 
-            } else {                
+            } else {
                 $this->M_publicacoes->setPublicacaoSensor($content['sensor_id']);
                 $sensor = $this->M_sensores->selecionar($content['sensor_id'])->result();
             }
@@ -128,8 +128,8 @@ class Publicacoes extends REST_Controller {
                                             $regraOutput = shell_exec($command);
 
                                         }elseif($regra['regra_id']!=null && $regra['regra_tipo']==3 && $regra['regra_status']=='t' && $regra['regra_arquivo']!=null) {
-                                            
-                                            $cmd = $localMotor ."main.py ".$regra['regra_arquivo'];
+
+                                            $cmd = $localMotor ."main.py ".$regra['regra_arquivo']." ".$regra['regra_nome'];
                                             $command = escapeshellcmd($cmd);
                                             $regraOutput = shell_exec($command);
                                         }
@@ -206,7 +206,7 @@ class Publicacoes extends REST_Controller {
                     $this->set_response($message, REST_Controller::HTTP_CONFLICT);
                 }
             }
-        }        
+        }
     }
 
     public function index_delete(){
@@ -214,7 +214,7 @@ class Publicacoes extends REST_Controller {
         $id = $this->get('id');
         if ($id !== NULL || $id != ""){
             //se o id estiver setado, salva o id em um objeto do model ambinete e aciona metodo de excluir
-            $this->M_publicacoes->setPublicacaoId($id);  
+            $this->M_publicacoes->setPublicacaoId($id);
             $this->M_publicacoes->excluir();
 
             $message = "Registro(s) excluído(s) com sucesso!";

@@ -12,7 +12,7 @@
 			$gateway_uuid			= $linha->uuid;
 		}
 	}
-    
+
 ?>
 
 <section class="cadastros telaCadastro">
@@ -43,10 +43,10 @@
                                 <label for="gateway_uuid">uuID:</label>
                             </div>
                             <div class="col-xs-10 col-xs-offset-1 input">
-                                <input type="text" name="gateway_uuid"  value="<?php echo @$gateway_uuid;?>" />
+                                <input type="text" name="gateway_uuid"  value="<?php echo @$gateway_uuid;?>" required />
                             </div>
                         </div>
-                        
+
                         <div class="row">
                             <div class="col-xs-10 col-xs-offset-1 input">
                                 <label for="gateway_nome">Nome:</label>
@@ -135,12 +135,12 @@
 									<?php echo validation_errors(); ?>
 								</div>
 							</div>
-						</div>                        
+						</div>
                         <div class="row">
                             <div class="submit">
                                 <div class="col-md-6 col-md-offset-3">
                                     <input type="submit" name="botao" value="Cadastrar" />
-                                </div>          
+                                </div>
                             </div>
                         </div>
                     </div>
