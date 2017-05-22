@@ -25,13 +25,17 @@ class ConditionsRules(BaseVariables):
         '''Método responsável por retornar o valor coletado do sensor'''
         try:
             params_data = json.loads(params) #recebe o json com a informação sobre o uuID do sensor
-            conn        = psycopg2.connect("dbname='contextServer' user='postgres' host='localhost' password='99766330'")
+            conn        = psycopg2.connect("dbname='contextServer' user='postgres' host='localhost' password='batata'")
             cur         = conn.cursor()
             r           = """SELECT valorcoletado from publicacoes as p where p.sensor_id in (SELECT s.sensor_id from sensores as s where uuid = '{0}')""".format(params_data['sensor'])
             cur.execute(r)
             rows   = cur.fetchall()
-            value  = rows[len(rows)-1] #pega o último valor lido
-            return float(value[0]) # Força o resultado ser float
+            if not rows:
+                value = -999
+            else:
+                value  = rows[len(rows)-1] #pega o último valor lido
+                value  = value[0]
+            return float(value) # Força o resultado ser float
         except:
             raise
             return None
@@ -54,7 +58,7 @@ class ConditionsRules(BaseVariables):
         '''Método responsável por retorna o valor coletado do sensor'''
         try:
             params_data = json.loads(params)
-            conn        = psycopg2.connect("dbname='contextServer' user='postgres' host='localhost' password='99766330'")
+            conn        = psycopg2.connect("dbname='contextServer' user='postgres' host='localhost' password='batata'")
             cur         = conn.cursor()
             r           = """SELECT valorcoletado from publicacoes as p where p.sensor_id in (SELECT s.sensor_id from sensores as s where uuid = '{0}')""".format(params_data['sensor'])
             cur.execute(r)

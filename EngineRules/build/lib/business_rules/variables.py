@@ -25,7 +25,6 @@ class BaseVariables(object):
 def rule_variable(field_type, label=None, options=None, cache_result=True):
     """ Decorator to make a function into a rule variable
     """
-    print("varable.py acionado")
     options = options or []
     def wrapper(func):
         if not (type(field_type) == type and issubclass(field_type, BaseType)):
