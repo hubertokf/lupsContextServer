@@ -40,7 +40,23 @@ class Publicacoes extends REST_Controller {
     public function index_get(){
         // Requisições sem ID - lista todos os elementos
         $id = $this->get('id');
-        if ($id === NULL){
+        $sensorUuid = $this->get('uuid');
+        if ($sensorUuid != NULL){
+            $publicacoes = $this->M_publicacoes->pesquisar('', array('s.uuid' => $sensorUuid), '', 0, 'publicacao_id', 'asc', FALSE, array())->result_array();
+            
+            if ($publicacoes){
+                // Converte os dados adquiridos do banco (array) para Json
+                $publicacao_json = json_encode($publicacoes, JSON_UNESCAPED_UNICODE);
+                // Define a resposta e finaliza com codigo 200 - OK
+                $this->response($publicacao_json, REST_Controller::HTTP_OK);
+            }else{
+                // Define a resposta de ERRO e finaliza com codigo 404 - Não encontrado (NOT_FOUND)
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'No publication was found'
+                ], REST_Controller::HTTP_NOT_FOUND);
+            }
+        }elseif ($id === NULL) {
             // Pega publicações do banco através do model publicacao
             $publicacoes = $this->M_publicacoes->pesquisar('', array(), '', 0, 'publicacao_id', 'asc', FALSE, array())->result_array();
 
