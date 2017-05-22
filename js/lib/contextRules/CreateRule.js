@@ -410,7 +410,7 @@ define(["jquery","bootbox"],function ($,bootbox) {
   CreateRule.prototype.standardize_parameters_condition = function (data_condtion,sensor_uuid) {
 
       var parameters                     = {};
-      var parameters_contains_sensor_url = data_condtion['name']=="get_verify_sensor"||data_condtion['name']=="diff_values_sensor"||data_condtion['name']=="check_fault";
+      var parameters_contains_sensor_url = data_condtion['name']=="get_value_sensor"||data_condtion['name']=="diff_values_sensor"||data_condtion['name']=="check_fault";
       var paramaters_contains_url        = data_condtion['name']=="calcule_average";
 
       if(parameters_contains_sensor_url){

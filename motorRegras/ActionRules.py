@@ -24,7 +24,6 @@ class ActionRules(BaseActions):
 
     @rule_action(params = {"email": FIELD_TEXT})
     def send_email(self, email):
-        print("oi")
 
         sender = 'teste@teste.com.br'
         receivers = [email]
