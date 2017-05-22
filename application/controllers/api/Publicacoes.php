@@ -139,7 +139,7 @@ class Publicacoes extends REST_Controller {
                                     if ($regra['ativaregra'] == 't'){
                                         if($regra['regra_id']!=null && $regra['regra_tipo']==1 && $regra['regra_status']=='t' && $regra['regra_arquivo']!=null){
                                             // EXECUTA REGRA PYTHON
-                                            $cmd = $local ."".$regra['regra_arquivo']." ".$regra['contextointeresse_id']." ".$regra['sensor_id'];
+                                            $cmd = "python3 ".$local ."".$regra['regra_arquivo']." ".$regra['contextointeresse_id']." ".$regra['sensor_id'];
 
                                             $command = escapeshellcmd($cmd);
                                             $regraOutput = shell_exec($command);
