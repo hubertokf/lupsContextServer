@@ -148,7 +148,7 @@
                  <option value="" selected="" disabled="">Selecione...</option>
              <?php $result = $sensores->result_array();
                    foreach ($result as $linha) {
-                     echo "<option id= 'sensor-$linha[sensor_id]'value=$linha[nome]>$linha[nome]</option>";
+                     echo "<option id= 'sensor-$linha[sensor_id]' value='$linha[nome]'>$linha[nome]</option>";
                    }?>
             </select>
            </div>
