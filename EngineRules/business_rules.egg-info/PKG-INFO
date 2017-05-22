@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: business-rules
+Version: 0.2.0
+Summary: Python DSL for setting up business intelligence rules that can be configured without code
+Home-page: https://github.com/venmo/business-rules
+Author: Venmo
+Author-email: open-source@venmo.com
+License: MIT
+Description: UNKNOWN
+Platform: UNKNOWN

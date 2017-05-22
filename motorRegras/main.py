@@ -10,7 +10,8 @@ try:
     import sys
 
     obj_parameters = sys.argv[2] # recebe o nome da regra
-    rules          = json.loads(sys.argv[1]) # recebe a regra e extrai a regra do json
+    newstr = sys.argv[1].replace("\\", "")
+    rules          = json.loads(newstr) # recebe a regra e extrai a regra do json
     condiction_satisfied = run_all(rule_list=rules,
                 defined_variables=ConditionsRules(obj_parameters),
                 defined_actions=ActionRules(obj_parameters),
