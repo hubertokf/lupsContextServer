@@ -25,7 +25,7 @@ class ConditionsRules(BaseVariables):
         '''Método responsável por retornar o valor coletado do sensor'''
         try:
             params_data = json.loads(params) #recebe o json com a informação sobre o uuID do sensor
-            conn        = psycopg2.connect("dbname='contextServer' user='postgres' host='localhost' password='batata'")
+            conn        = psycopg2.connect("dbname='contextServer' user='postgres' host='localhost' password='99766330'")
             cur         = conn.cursor()
             r           = """SELECT valorcoletado from publicacoes as p where p.sensor_id in (SELECT s.sensor_id from sensores as s where uuid = '{0}')""".format(params_data['sensor'])
             cur.execute(r)
@@ -33,6 +33,7 @@ class ConditionsRules(BaseVariables):
             value  = rows[len(rows)-1] #pega o último valor lido
             return float(value[0]) # Força o resultado ser float
         except:
+            raise
             return None
         ''' Abaixo quando  API para uuid estiver funcionando '''
         params_data = json.loads(params) #recebe o json com a informação sobre o uuID do sensor
@@ -53,13 +54,14 @@ class ConditionsRules(BaseVariables):
         '''Método responsável por retorna o valor coletado do sensor'''
         try:
             params_data = json.loads(params)
-            conn        = psycopg2.connect("dbname='contextServer' user='postgres' host='localhost' password='batata'")
+            conn        = psycopg2.connect("dbname='contextServer' user='postgres' host='localhost' password='99766330'")
             cur         = conn.cursor()
             r           = """SELECT valorcoletado from publicacoes as p where p.sensor_id in (SELECT s.sensor_id from sensores as s where uuid = '{0}')""".format(params_data['sensor'])
             cur.execute(r)
             rows            = cur.fetchall()
-            current_value   = float(rows[len(rows)-1])
-            preceding_value = float(rows[len(rows)-2])
+            current_value   = float(rows[len(rows)-1][0])
+            preceding_value = float(rows[len(rows)-2][0])
             return float(math.fabs(current_value - preceding_value))
         except:
+            raise
             return None
