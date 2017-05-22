@@ -43,7 +43,7 @@ class Publicacoes extends REST_Controller {
         $sensorUuid = $this->get('uuid');
         if ($sensorUuid != NULL){
             $publicacoes = $this->M_publicacoes->pesquisar('', array('s.uuid' => $sensorUuid), '', 0, 'publicacao_id', 'asc', FALSE, array())->result_array();
-            
+
             if ($publicacoes){
                 // Converte os dados adquiridos do banco (array) para Json
                 $publicacao_json = json_encode($publicacoes, JSON_UNESCAPED_UNICODE);
@@ -145,13 +145,13 @@ class Publicacoes extends REST_Controller {
                                             $regraOutput = shell_exec($command);
 
                                         }elseif($regra['regra_id']!=null && $regra['regra_tipo']==3 && $regra['regra_status']=='t' && $regra['regra_arquivo']!=null) {
-                                            
+
                                             $cmd = "python3 ".$localMotor ."main.py '".$regra['regra_arquivo']."' ".$regra['regra_nome'];
                                             // echo $cmd;
                                             $command = escapeshellcmd($cmd);
                                             /*$regraOutput = shell_exec($command);
                                             echo $regraOutput;*/
-                                            
+
                                             exec($command, $regraOutput, $status);
                                             print_r($regraOutput);
                                         }

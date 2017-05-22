@@ -80,6 +80,8 @@ define (["jquery","context/selects_condition","context/select_logic_operators","
       set_button_logic = true;
       $("#name_rule").val($("#editable_ruler_name").val());
       $("#name_rule").prop("disabled","true");
+      console.log($("#editable_sensor_chose").val());
+      $("#box_status_rules").prop("checked", $("#editable_rule_status").val());
       var sensor = $("#editable_sensor_chose").val();
       $("#sensors").val(sensor);
       $("#sensors").prop("disabled","true");
