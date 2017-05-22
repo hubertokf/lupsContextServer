@@ -14,21 +14,22 @@ import requests
 import logging
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from email.utils import0 formatdate
+from email.utils import formatdate
 import smtplib
 
 class ActionRules(BaseActions):
     def __init__ (self, parameters):
-        self.core_father = parent
+        self.name = parameters
 
 
     @rule_action(params = {"email": FIELD_TEXT})
     def send_email(self, email):
+        print("oi")
 
         sender = 'teste@teste.com.br'
         receivers = [email]
 
-        message = "Valores fora das condições estipuladas na regra {0}".format(paramters.name_rule)
+        message = "Valores fora das condições estipuladas na regra {0}".format(self.name)
         subject = "Faixa de valores fora dos padrões"
 
         #  build the message

@@ -5,7 +5,7 @@ import json
 import datetime
 import psycopg2
 import math
-import core.event_treatment
+# import core.event_treatment
 class ConditionsRules(BaseVariables):
 
     def __init__ (self, parameters):

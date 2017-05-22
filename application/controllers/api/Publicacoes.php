@@ -129,10 +129,12 @@ class Publicacoes extends REST_Controller {
                                             $regraOutput = shell_exec($command);
 
                                         }elseif($regra['regra_id']!=null && $regra['regra_tipo']==3 && $regra['regra_status']=='t' && $regra['regra_arquivo']!=null) {
-
-                                            $cmd = $localMotor ."main.py ".$regra['regra_arquivo']." ".$regra['regra_nome'];
+                                            
+                                            $cmd = "python3 ".$localMotor ."main.py ".$regra['regra_arquivo']." ".$regra['regra_nome'];
+                                            echo $cmd;
                                             $command = escapeshellcmd($cmd);
                                             $regraOutput = shell_exec($command);
+                                            echo $regraOutput;
                                         }
                                     }
                                 }
