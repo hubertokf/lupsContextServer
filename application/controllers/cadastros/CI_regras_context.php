@@ -261,7 +261,6 @@ class CI_regras_context extends CI_controller {
 				$obj      = json_encode($obj,JSON_FORCE_OBJECT);
 				$output[] = $obj;
 			}
-
 		}
 
 		echo json_encode($output);
@@ -273,7 +272,6 @@ class CI_regras_context extends CI_controller {
 		$actions =  array(
 		array( 'nome_legivel' => 'Enviar email' , 'nome' => "send_email" )
 		);
-
 		$output    = array();
 
 		foreach($actions as $v) {
@@ -288,27 +286,45 @@ class CI_regras_context extends CI_controller {
 function sendInformation($value='')
 {
 
-	$actions              = $this->M_actions->get_acoes_CS();
-	$condicoes            = $this->M_conditions->get_conditions_CS();
+	$data_sensors         = $this->M_conditions->get_conditions_CS();
 	$output               = array();
 	$output_condiction    = array();
 	$output_action        = array();
 	$rule                 = $this->M_regras->selecionar($_POST["index"])->result_array();
 	$rule 								= $rule[0]["arquivo_py"];
-	foreach($actions as $v) {
-			$obj              = array('nome_legivel'=>$v['nome_legivel'],'nome'=>$v['nome']);
-			$obj              = json_encode($obj,JSON_FORCE_OBJECT);
-			$output_action[]  = $obj;
-	}
-	foreach($condicoes as $v) {
-		$tipo = 'number';
-		if($v['tipo']=="Estado de Evento"){
-				$tipo = 'string';
+
+	$array_actions =  array(
+	array( 'nome_legivel' => 'Enviar email' , 'nome' => "send_email" )
+	);
+	$array_condictions = array( // array com info. das condições. @nome: nome da variável de condição na regra, @nome_legivel: nome que aparece na tela
+	array( 'nome_legivel' => "Valor coletado", 'nome' => "get_value_sensor" ),
+	array( 'nome_legivel' => 'Variação ' , 'nome' => "diff_values_sensor" )
+
+	foreach ($array_condictions as $array) {
+		// verifica os métodos que possuem relações dirta com os sensores, como coleta, diferença entre valor
+		if($array['nome'] == "diff_values_sensor" || $array['nome'] =="get_value_sensor"){
+			foreach($sensors_data as $v) {
+				$tipo  = 'number';
+				if($v['tipo']=="Estado de Evento"){
+					$tipo = 'string';
+				}
+				$obj      = array('url'=> $v['url'],'nome_legivel'=>$array['nome_legivel'].$v['tipo']." do ".$v['nome'],'tipo'=>'number',"sensor"=>$v['uuid'],'nome' => $array['nome']);
+				$obj      = json_encode($obj,JSON_FORCE_OBJECT);
+				$output_condiction[] = $obj;
+			}
 		}
-				$obj                  = array('nome'=> $v['nome'],'nome_legivel'=>$v['tipo']." do ".$v['nome'],'tipo'=>$tipo,"sensor"=>$v['sensor_id']);
-				$obj                  = json_encode($obj,JSON_FORCE_OBJECT);
-				$output_condiction[]  = $obj;
+		else{
+			$obj      = array('nome_legivel'=>$array['nome_legivel'],'nome' => $array['nome']);
+			$obj      = json_encode($obj,JSON_FORCE_OBJECT);
+			$output[] = $obj;
+		}
 	}
+
+	foreach($array_actions as $v) {
+			$obj      = array('nome_legivel'=>$v['nome_legivel'],'nome'=>$v['nome']);
+			$obj      = json_encode($obj,JSON_FORCE_OBJECT);
+			$output_action[] = $obj;
+				}
 	$output               = array('rule'=>$rule,"condictions" =>$output_condiction,"action"=>$output_action);
 	echo json_encode($output);
 }
