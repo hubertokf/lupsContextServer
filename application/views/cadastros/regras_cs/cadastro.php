@@ -32,6 +32,7 @@
       <input type="hidden" id="editable_ruler_name" value="<?php echo @$regra[0]['nome'] ?>">
       <input type="hidden" id="editable_sensor_chose" value="<?php echo @$sensor_name[0]['nome'] ?>">
 			<input type="hidden" id="editable_id_rule" value="<?php echo @$regra[0]['regra_id'] ?>">
+			<input type="hidden" id="editable_rule_status" value="<?php echo @$regra[0]['status'] ?>">
       <div class="container">
         <div class="row">
           <div id="type-rule">
