@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import traceback
 try:
     from business_rules import run_all
     from business_rules.actions import BaseActions, rule_action
@@ -8,7 +11,6 @@ try:
     # from Parameters import Parameters
     import json
     import sys
-
     obj_parameters = sys.argv[2] # recebe o nome da regra
     newstr = sys.argv[1].replace("\\", "")
     rules          = json.loads(newstr) # recebe a regra e extrai a regra do json
@@ -19,6 +21,8 @@ try:
                 )
     print(condiction_satisfied)
 except Exception as inst:
-    raise
+    # raise
+    for i in traceback.format_exc().splitlines():
+        print(i)
     print(type(inst))    # the exception instance
-    print(inst.args)     # arguments stored in .args
+    # print(inst.args)     # arguments stored in .args

@@ -21,9 +21,8 @@ class ActionRules(BaseActions):
     def __init__ (self, parameters):
         self.name = parameters
         headers = {'Content-type': 'application/json', 'X-API-KEY': 'cfb281929c3574091ad2a7cf80274421e6a87c59'}
-        url = "http://localhost/{0}/api/configuracoes".format(os.path.relpath("../","../../"))
+        url = "http://localhost/{0}/api/configuracoes".format(os.path.relpath(".","../"))
         r = requests.get(url, headers=headers)
-        print(r)
         initial_list = json.loads(r.json())
         self.configs = dict((item['name'], item) for item in initial_list)
 
