@@ -286,7 +286,7 @@ class CI_regras_context extends CI_controller {
 function sendInformation($value='')
 {
 
-	$data_sensors         = $this->M_conditions->get_conditions_CS();
+	$sensors_data         = $this->M_conditions->get_conditions_CS();
 	$output               = array();
 	$output_condiction    = array();
 	$output_action        = array();
@@ -298,9 +298,9 @@ function sendInformation($value='')
 	);
 	$array_condictions = array( // array com info. das condições. @nome: nome da variável de condição na regra, @nome_legivel: nome que aparece na tela
 	array( 'nome_legivel' => "Valor coletado", 'nome' => "get_value_sensor" ),
-	array( 'nome_legivel' => 'Variação ' , 'nome' => "diff_values_sensor" )
+	array( 'nome_legivel' => 'Variação ' , 'nome' => "diff_values_sensor" ));
 
-	foreach ($array_condictions as $array) {
+	foreach($array_condictions as $array) {
 		// verifica os métodos que possuem relações dirta com os sensores, como coleta, diferença entre valor
 		if($array['nome'] == "diff_values_sensor" || $array['nome'] =="get_value_sensor"){
 			foreach($sensors_data as $v) {
