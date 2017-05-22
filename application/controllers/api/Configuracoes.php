@@ -30,51 +30,68 @@ class Configuracoes extends REST_Controller {
         $this->methods['user_delete']['limit'] = 50; // 50 requests per hour per user/key
 
         //Load Models
-        $this->load->model('M_ambientes');
-        $this->load->model('M_gateways');
-        $this->load->model('M_usuarios');
-        $this->load->model('M_sensores');
+        $this->load->model('M_geral');
+		$this->load->model('M_configuracoes');
+		$this->load->model('M_usuarios');
+		$this->load->model('M_perfisusuarios');
     }
     // Requisições GET enviadas para o index.
     public function index_get(){
         // Requisições sem ID - lista todos os elementos
         $id = $this->get('id');
-        if ($id === NULL){
-            // Pega ambientes do banco através do model ambiente
-            $ambientes = $this->M_ambientes->pesquisar('', array(), '', 0, 'asc', FALSE)->result_array();
+        $configName = $this->get('name');
+        if ($configName != NULL){
+            // Pega config do banco através do model ambiente
+            $config = $this->M_configuracoes->pesquisar(array('name'=>$configName))->result_array();
 
-            if ($ambientes){
+            if ($config){
                 // Converte os dados adquiridos do banco (array) para Json
-                $ambientes_json = json_encode($ambientes, JSON_UNESCAPED_UNICODE);
+                $config_json = json_encode($config, JSON_UNESCAPED_UNICODE);
                 // Define a resposta e finaliza com codigo 200 - OK
-                $this->response($ambientes_json, REST_Controller::HTTP_OK);
+                $this->response($config_json, REST_Controller::HTTP_OK);
             }else{
                 // Define a resposta de ERRO e finaliza com codigo 404 - Não encontrado (NOT_FOUND)
                 $this->response([
                     'status' => FALSE,
-                    'message' => 'No ambients were found'
+                    'message' => 'No config were found'
+                ], REST_Controller::HTTP_NOT_FOUND);
+            }
+        }elseif ($id === NULL){
+            // Pega ambientes do banco através do model ambiente
+            $config = $this->M_configuracoes->pesquisar(array())->result_array();
+
+            if ($config){
+                // Converte os dados adquiridos do banco (array) para Json
+                $config_json = json_encode($config, JSON_UNESCAPED_UNICODE);
+                // Define a resposta e finaliza com codigo 200 - OK
+                $this->response($config_json, REST_Controller::HTTP_OK);
+            }else{
+                // Define a resposta de ERRO e finaliza com codigo 404 - Não encontrado (NOT_FOUND)
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'No config were found'
                 ], REST_Controller::HTTP_NOT_FOUND);
             }
         }else{
         // Requisições com ID - lista informações do elemento
-            $ambiente = $this->M_ambientes->selecionar($id)->result_array();
+            $config = $this->M_configuracoes->selecionar($id)->result_array();
 
-            if ($ambiente){
+            if ($config){
                 // Converte os dados adquiridos do banco (array) para Json
-                $ambiente_json = json_encode($ambiente, JSON_UNESCAPED_UNICODE);
+                $config_json = json_encode($config, JSON_UNESCAPED_UNICODE);
                 // Define a resposta e finaliza com codigo 200 - OK
-                $this->response($ambiente_json, REST_Controller::HTTP_OK);
+                $this->response($config_json, REST_Controller::HTTP_OK);
             }else{
                 // Define a resposta de ERRO e finaliza com codigo 404 - Não encontrado (NOT_FOUND)
                 $this->response([
                     'status' => FALSE,
-                    'message' => 'No ambient was found'
+                    'message' => 'No config was found'
                 ], REST_Controller::HTTP_NOT_FOUND);
             }
         }
     }
 
-    public function index_post(){
+    /*public function index_post(){
         $content = $this->post('content');
         if ($content === NULL){
 
@@ -102,16 +119,16 @@ class Configuracoes extends REST_Controller {
             if ($id==""){
 
                 if(isset($_POST["item"])) {
-                    $this->M_ambientes->setAmbienteId($_POST["item"]);   
-                    $this->M_ambientes->excluir();
+                    $this->M_configuracoes->setAmbienteId($_POST["item"]);   
+                    $this->M_configuracoes->excluir();
                 }
             }
             else{
-                $this->M_ambientes->setAmbienteId($id);  
-                $this->M_ambientes->excluir();
+                $this->M_configuracoes->setAmbienteId($id);  
+                $this->M_configuracoes->excluir();
             }
             $this->dados["msg"] = "Registro(s) excluído(s) com sucesso!";
             $this->pesquisa();
         }
-    }
+    }*/
 }
