@@ -231,30 +231,22 @@ class CI_regras_context extends CI_controller {
 
 	    echo json_encode($sensores);
 	}
-
+/*getConditions - Método que envia para o view informações sobre a condição,
+	tais como a variável de condição, o nome que aparecera para o usuário, informações sobre os sensores realcionados*/
 	function getConditions($value="")
 	{
 
-		$array_condictions = array( 
+		$array_condictions = array( // array com info. das condições. @nome: nome da variável de condição na regra, @nome_legivel: nome que aparece na tela
 		array( 'nome_legivel' => "Valor coletado", 'nome' => "get_value_sensor" ),
 		array( 'nome_legivel' => 'Variação ' , 'nome' => "diff_values_sensor" )
 		);
-		// $array_condictions = array(
-		// array( 'nome_legivel' => "", 'nome' => "get_value_sensor" ),
-		// array( 'nome_legivel' => 'Variação' , 'nome' => "diff_values_sensor" ),
-		// array( 'nome_legivel' => 'Duração de tempo em minutos' , 'nome' => "verify_time_minute"),
-		// array( 'nome_legivel' => 'Duração de tempo em horas' ,   'nome' => "verify_time_hour" ),
-		// array( 'nome_legivel' => 'Erro ' ,   'nome' => "check_fault" ),
-		// array( 'nome_legivel' => 'Calcular média' ,   'nome' => "calcule_average" )
-		//
-		// );
 
-		$info_conditions = $this->M_conditions->get_conditions_CS();
+		$sensors_data = $this->M_conditions->get_conditions_CS();
 		$output    = array();
-		// print_r($condicoes);
 		foreach ($array_condictions as $array) {
-			if($array['nome'] == "diff_values_sensor" || $array['nome'] =="get_verify_sensor" || $array['nome'] =="check_fault"){
-				foreach($info_conditions as $v) {
+			// verifica os métodos que possuem relações dirta com os sensores, como coleta, diferença entre valor
+			if($array['nome'] == "diff_values_sensor" || $array['nome'] =="get_value_sensor"){
+				foreach($sensors_data as $v) {
 					$tipo  = 'number';
 					if($v['tipo']=="Estado de Evento"){
 						$tipo = 'string';
@@ -264,11 +256,6 @@ class CI_regras_context extends CI_controller {
 					$output[] = $obj;
 				}
 			}
-			// elseif ($array['nome'] == "calcule_average") {
-			// 	$obj      = array('url'=> $v['url'],'nome_legivel'=>$array['nome_legivel'],'tipo'=>$tipo,"sensor"=>null,'nome' => $array['nome']);
-			// 	$obj      = json_encode($obj,JSON_FORCE_OBJECT);
-			// 	$output[] = $obj;
-			// }
 			else{
 				$obj      = array('nome_legivel'=>$array['nome_legivel'],'nome' => $array['nome']);
 				$obj      = json_encode($obj,JSON_FORCE_OBJECT);
@@ -278,15 +265,12 @@ class CI_regras_context extends CI_controller {
 		}
 
 		echo json_encode($output);
-		// echo json_encode(array("T"=>"V"));
-		// echo $output;
 
 	}
 
 	function getActions($value="") // busca no banco as açoes pre definidas e retorna para a app
 	{
 		$actions =  array(
-
 		array( 'nome_legivel' => 'Enviar email' , 'nome' => "send_email" )
 		);
 
@@ -300,6 +284,7 @@ class CI_regras_context extends CI_controller {
 			echo json_encode($output);
 
 }
+/*sendInformation: método que envia informações de uma regra a ser editada*/
 function sendInformation($value='')
 {
 
@@ -326,7 +311,6 @@ function sendInformation($value='')
 	}
 	$output               = array('rule'=>$rule,"condictions" =>$output_condiction,"action"=>$output_action);
 	echo json_encode($output);
-	// echo $rule;
 }
 
 
