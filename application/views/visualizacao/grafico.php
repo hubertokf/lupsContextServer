@@ -94,6 +94,39 @@
                             }
                         ]	*/			            
 			        },
+					rangeSelector: {
+						allButtonsEnabled: true,
+						buttons: [
+							{
+								type: 'day',
+								count: 1,
+								text: 'Day',
+								dataGrouping: {
+									forced: true,
+									units: [['day', [1]]]
+								}
+							}, {
+								type: 'week',
+								count: 1,
+								text: 'Week',
+								dataGrouping: {
+									forced: true,
+									units: [['week', [1]]]
+								}
+							}, {
+								type: 'all',
+								text: 'All',
+								dataGrouping: {
+									forced: true,
+									units: [['month', [1]]]
+								}
+							}
+						],
+						buttonTheme: {
+							width: 60
+						},
+						selected: 2
+					},
 			        tooltip: {pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b><br/>',
                         valueDecimals: 2
                     },
