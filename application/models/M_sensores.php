@@ -153,11 +153,19 @@ class M_sensores extends CI_Model{
                 "ambiente_id" 		=> $this->sensor_ambiente,
                 "gateway_id" 		=> $this->sensor_gateway,
                 "servidorborda_id" 	=> $this->sensor_servidorborda,
+                "uuid" 				=> $this->sensor_uuid,
                 "status" 			=> $this->sensor_status,
             );
 
-			$arrayCampos=array_filter($arrayCampos, function($value) {
-    				return ($value !== null && $value !== false && $value !== '');
+			$arrayCampos=array_filter($arrayCampos, function($val) use (&$arrayCampos){
+				if ($val !== null && $val !== false && $val !== ''){
+					next($arrayCampos);
+    				return true;
+				}else{
+					$this->db->set(key($arrayCampos), 'NULL', false);
+					next($arrayCampos);
+					return false;
+				}
 			});
 
 			if ($this->sensor_id == ""){
@@ -192,7 +200,7 @@ class M_sensores extends CI_Model{
                 "modelo" 			=> $this->sensor_modelo,
                 "precisao" 			=> $this->sensor_precisao,
                 "gateway_id" 		=> $this->sensor_gateway,
-                "uuid" 				=> $this->uuid,
+                "uuid" 				=> $this->sensor_uuid,
                 "servidorborda_id" 	=> $this->sensor_servidorborda,
             );
 
