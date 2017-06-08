@@ -18,7 +18,7 @@
             $sensor_gateway         = $linha->gateway_id;
             $sensor_servidorborda   = $linha->servidorborda_id;
             $sensor_status          = $linha->status;
-            $sensor_uuid          = $linha->uuid;
+            $sensor_uuid            = $linha->uuid;
 		}
 	}
 
