@@ -59,8 +59,8 @@ else{
 				}?>
 			</select>
 		</div>
-			<div class="col-md-4" id = "select_type_event" style= "padding-top: 9px">
-				<select class="form-control" id = "select_sensors">
+			<div class="col-md-4" id = "select_type_event" style= "padding-top: 9px" >
+				<select class="form-control" id = "select_sensors"required >
 					<option value selected disabled>Selecione</option> == $0
 					<option value= "publisher" >Coleta</option> == $0
 					<option value="proceeding" >Atuação</option> == $0
@@ -70,7 +70,7 @@ else{
 
 	<div class="row">
 		<div class="col-md-4 col-md-offset-2" id = "div_select_rules">
-			<select class="form-control" id = "select_rules">
+			<select class="form-control" id = "select_rules" required>
 				<option value selected disabled>Selecione</option> == $0
 			</select>
 		</div>

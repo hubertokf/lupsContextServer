@@ -100,8 +100,12 @@ class CI_regras_agendamento extends CI_controller {
 			if($id_rule_edge == null) { //se for null, possível perda de comunicação ou problema no servidor de borda
 					$id_rule_edge_off = $this->M_Regras_SB->getRegraIdBorda($_POST["id_rule"]); //seta a variavel com um valor já existente
 					$this->M_Regras_SB->setRegraIdBorda($id_rule_edge_off);
-				}
-		} else {
+			}
+			else{
+				$this->M_Regras_SB->setRegraIdBorda($id_rule_edge);				
+			}
+		}
+		else {
 			$id_rule_edge = $this->distributed_rule('',$_POST["id_sensor"],$get_information,$json);
 			$this->M_Regras_SB->setRegraIdBorda($id_rule_edge);
 		}
@@ -134,13 +138,12 @@ class CI_regras_agendamento extends CI_controller {
 	}
 
 	public function distributed_rule($id_regra_context='',$id_sensor='',$array=array(),$rules) {
-
 		$request         = "POST";
 		$get_url         = $this->M_sensores->get_acesso_borda(array('sensor_id' =>$id_sensor))->result_array();
 		$url             = $get_url[0]["url"];
 		$token           = $get_url[0]["token"];
 		$id_sensor_borda = $this->M_sensores->get_borda_id($id_sensor);
-		$array           = array_merge($array,array('sensor'=>$id_sensor_borda, 'minute'=> $rules->minutes,'hour'=> $rules->hours,'day'=> $rules->days,'month'=> $rules->months,'year'=> "*"));
+		$array           = array_merge($array,array('sensor'=>$id_sensor_borda, 'minute'=> $rules->minutes,'hour'=> $rules->hours,'day'=> $rules->days,'month'=> $rules->months,'year'=> "*",'second'=>$rules->second,'event'=>$rules->event));
 		$url_rule        = $url."schedules/";
 
 		if($id_regra_context != '') {
@@ -166,10 +169,9 @@ class CI_regras_agendamento extends CI_controller {
 		);
 
 		$result = curl_exec($ch);
-		$info = curl_getinfo($curl);
+		$info   = curl_getinfo($ch);
 		curl_close($ch);
-
-		if ($info['http_code'] == 200)
+		if ($info['http_code'] > 199 || $info['http_code'] <= 299)
 		  return json_decode($result)->id;
 	  else
 			return null;

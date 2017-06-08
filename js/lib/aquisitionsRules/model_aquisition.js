@@ -228,9 +228,10 @@ ModelAquisition.prototype.generate_rule_interval = function () {
   };
 
   ModelAquisition.prototype.generate_rule_each = function () {
-
     if (this.checked_information.hasOwnProperty('minutes')) {
-      if (60 % this.checked_information['minutestext']===0) {
+
+      // console.log((60 % this.checked_information['minutestext']===0) && (this.checked_information['minutestext']>10));
+      if ((60 % this.checked_information['minutestext']===0) && (this.checked_information['minutestext']>10)) {
           i = 0;
           this.rules_scheduler['minutes']  = '';
           while ((60-i*this.checked_information['minutestext']) != 0) {
@@ -277,6 +278,9 @@ ModelAquisition.prototype.generate_rule_interval = function () {
     if(this.option_generate_scheduler['id_sensor'] === ''){
       // view_error("Sensor não selecionado");
       alert("Sensor não selecionado");
+    }
+    else if (this.rules_scheduler['event'] === '') {
+      alert("Evento não escolhido");
     }
     else{
 
