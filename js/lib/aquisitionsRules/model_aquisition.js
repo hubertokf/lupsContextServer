@@ -279,6 +279,7 @@ ModelAquisition.prototype.generate_rule_interval = function () {
       // view_error("Sensor não selecionado");
       alert("Sensor não selecionado");
     }
+    // se o usuario nao escolher o evento, avisa
     else if (this.rules_scheduler['event'] === '') {
       alert("Evento não escolhido");
     }

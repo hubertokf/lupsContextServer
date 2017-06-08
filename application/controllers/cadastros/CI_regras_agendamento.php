@@ -101,8 +101,8 @@ class CI_regras_agendamento extends CI_controller {
 					$id_rule_edge_off = $this->M_Regras_SB->getRegraIdBorda($_POST["id_rule"]); //seta a variavel com um valor já existente
 					$this->M_Regras_SB->setRegraIdBorda($id_rule_edge_off);
 			}
-			else{
-				$this->M_Regras_SB->setRegraIdBorda($id_rule_edge);				
+			else{ // caso contrário, pega o id referente na borda
+				$this->M_Regras_SB->setRegraIdBorda($id_rule_edge);
 			}
 		}
 		else {
