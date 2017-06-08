@@ -27,7 +27,7 @@ class UpdateDbtopicos extends AbstractMigration
      */
     public function change(){
       $table = $this->table('topicos');
-      $table-> changeColumn('nome', 'string', array('limit' => 255))
+      $table-> changeColumn('nome', 'string', array('limit' => 255, 'null' => true))
             ->update();
 
     }
