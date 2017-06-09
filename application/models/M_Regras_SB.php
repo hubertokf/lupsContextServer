@@ -9,6 +9,7 @@ class M_Regras_SB extends CI_Model{
         private $regra_sensor;
         private $regra_arquivo_py;
         private $regra_id_borda;
+        private $regra_topico;
 
 
     function get_rules($value='')
@@ -74,6 +75,7 @@ class M_Regras_SB extends CI_Model{
             "tipo" 			  => $this->regra_tipo,
             "arquivo_py" 	=> $this->regra_arquivo_py,
             "sensor_id"   => $this->regra_sensor,
+            "topico_id"   => $this->regra_topico,
             "id_regra_borda" => $this->regra_id_borda
         );
 
@@ -239,6 +241,8 @@ class M_Regras_SB extends CI_Model{
     public function setSensor($valor){
       $this->regra_sensor = $valor;
     }
-
+    public function setTopico($valor){
+      $this->regra_topico = $valor;
+    }
 	}
 ?>

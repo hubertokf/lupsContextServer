@@ -109,6 +109,7 @@ class CI_regras_sb extends CI_controller {
 	function gravar(){
 		// print_r($_POST["status"]);
 		$get_test  = array(
+		'topico'     => $_POST["topico"],
 	  'jsonRule' => $_POST["rule"],
 	 	'status'   => $_POST["status"]);
 
@@ -133,6 +134,7 @@ class CI_regras_sb extends CI_controller {
 		$this->M_Regras_SB->setRegraArquivoPy($_POST["rule"]);
 		$this->M_Regras_SB->setRegraTipo($_POST["tipo"]);
 		$this->M_Regras_SB->setSensor($_POST["id_sensor"]);
+		$this->M_Regras_SB->setTopico($_POST["topico_id"]);
 
 		if ($this->M_Regras_SB->salvar() == "inc" && !is_null($id_rule_edge)){
 			$this->dados["msg"] = "Dados registrados com sucesso!";
@@ -335,7 +337,7 @@ class CI_regras_sb extends CI_controller {
 			$data_rule["id_regra"] = $this->M_Regras_SB->getRegraIdBorda($id_regra_context);
 			$url_rule          = $url_rule.$data_rule["id_regra"]."/"; // concatena o id_regra_borda com a url da regra, para o acesso direto a esta regra
 		}
-
+		//$data_rule = array_rule($data_rule,array('topic' => ));
 		$ch          = curl_init($url_rule);
 		$data_string = json_encode($data_rule,JSON_FORCE_OBJECT); //recebe os dados a serem enviados,
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $request);

@@ -1,4 +1,4 @@
-<?php
+]<?php
 
 class CI_regras_agendamento extends CI_controller {
 
