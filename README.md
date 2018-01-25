@@ -1,16 +1,93 @@
-# embrapa.contextServer
+# LUPS Context Server
 
-Para instalar o Servidor de Contexto basta:
+Step 1: Install Apache
 ------------------
-* cd vá_até_a_pasta_do_projeto/
-* php index install step1.
-  * Obs1: está em andamento;
 
-Fazer migração e inserção de dados báscios no BD sem o uso do install:
+sudo apt-get update
+sudo apt-get install apache2
+
+
+Step 2: Install Postgres
 ------------------
-* php vendor/bin/phinx migrate;
-* php vendor/bin/phinx seed:run
+sudo aptitude install postgresql
 
-Instalação do Motor de Regras
+
+Step 3: Install PHP
+------------------
+sudo apt-get install php5 libapache2-mod-php5 php5-mcrypt
+
+sudo apt-get install php5-pgsql
+
+sudo apt-get install pgadmin3
+
+
+Step 4: Alterar senha Postgres
+------------------
+sudo passwd postgres
+
+su - postgres
+
+PASSWORD 'batata'
+
+OBS: Mesmo alterando a senha aqui, pode dar erro de acesso no DB.
+
+Então fazer isso:
+
+sudo -u postgres psql
+
+ALTER USER postgres PASSWORD 'batata';
+
+Step 5: Instalar CURL no php
+------------------
+sudo apt-get install php5-curl
+
+Step 6: Ativar o mod_rewrite do apache
+------------------
+==================MODO 1=======================
+
+sudo nano /etc/apache2/apache2.conf
+
+-----------------------------------------------
+<Directory /var/www/>
+        Options Indexes FollowSymLinks
+        AllowOverride None # <---- ATENÇÂO
+        Require all granted
+</Directory>
+-----------------------------------------------
+
+Alterar para
+
+===============================================
+<Directory /var/www/>
+        Options Indexes FollowSymLinks
+        AllowOverride All # <---- ATENÇÂO
+        Require all granted
+</Directory>
+===============================================
+
+==================MODO 2=======================
+sudo a2enmod rewrite
+
+sudo /etc/init.d/apache2 restart
+
+===============================================
+
+
+
+Step 7: Criando o DB
+------------------
+
+sudo su - postgres
+psql
+CREATE DATABASE contextserver OWNER postgres;
+
+psql +TAB	Verifica os DB existentes
+
+php vendor/bin/phinx migrate -e development
+
+php vendor/bin/phinx seed:run -e development
+
+
+Step 8: (opcional) Instalação do Motor de Regras
 ------------------
 * pasta_do_motor_de_regras/sudo python setup.py install
