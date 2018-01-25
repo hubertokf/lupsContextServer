@@ -43,34 +43,31 @@ sudo apt-get install php5-curl
 
 Step 6: Ativar o mod_rewrite do apache
 ------------------
-==================MODO 1=======================
 
 sudo nano /etc/apache2/apache2.conf
 
------------------------------------------------
+```
 <Directory /var/www/>
         Options Indexes FollowSymLinks
         AllowOverride None # <---- ATENÇÂO
         Require all granted
 </Directory>
------------------------------------------------
+```
 
 Alterar para
 
-===============================================
+```
 <Directory /var/www/>
         Options Indexes FollowSymLinks
         AllowOverride All # <---- ATENÇÂO
         Require all granted
 </Directory>
-===============================================
+```
 
-==================MODO 2=======================
 sudo a2enmod rewrite
 
 sudo /etc/init.d/apache2 restart
 
-===============================================
 
 
 
