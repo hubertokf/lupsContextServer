@@ -59,7 +59,7 @@
              <?php $result = $topicos->result_array();
 										print_r($result);
                    foreach ($result as $linha) {
-										 echo "<option id= 'id $linha[topico_id]'> $linha[nome]</option>";
+										 echo "<option value= '".$linha["topico_id"]."'> ".$linha["nome"]."</option>";
                    }?>
             </select>
 					</div>

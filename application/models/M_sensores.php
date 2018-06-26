@@ -101,6 +101,7 @@ class M_sensores extends CI_Model{
 			);
 			$result = curl_exec($ch);
 			curl_close($ch);
+			// print_r("DDDD".$result);
 			return json_decode($result)[0]->id;
     }
 

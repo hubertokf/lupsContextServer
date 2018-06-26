@@ -64,7 +64,8 @@ define(["jquery","bootbox"],function ($,bootbox) {
             compose_rule['select_parametes2'].push($(this).val());
             console.log($(this).val());
         });
-        //this.send_informations['topico']  = $('#topicos').find(":selected").val();
+        this.send_informations['topico']  = $('#topicos').find(":selected").text();
+        this.send_informations['topico_id']  = $('#topicos').find(":selected").val();
         this.send_informations['name_rule'] = $("#name_rule").val();
         this.send_informations['status']    = $("#box_status_rules").is(":checked"); //jeito elegante, sábio
         this.send_informations['tipo']      = 2;
