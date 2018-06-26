@@ -28,7 +28,7 @@ class UpdateRegraTable extends AbstractMigration
     public function change()
     {
       $table = $this->table('regras');
-      $table->addColumn('topico_id', 'integer')
+      $table->addColumn('topico_id', 'integer', array('null' => true))
             ->addForeignKey('topico_id', 'topicos', 'topico_id', array('delete'=> 'SET_NULL', 'update'=> 'CASCADE'))
             ->update();
     }
