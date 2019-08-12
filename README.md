@@ -62,10 +62,16 @@ sudo a2enmod rewrite
 
 sudo /etc/init.d/apache2 restart
 
+Step 7: Clonando repositório
+------------------
+
+Acessar pasta do apache
+cd /var/www/html
+Clonar o repositório
+git clone https://github.com/hubertokf/lupsContextServer.git
 
 
-
-Step 7: Criando o DB
+Step 8: Criando o DB
 ------------------
 
 sudo su - postgres
@@ -73,17 +79,25 @@ psql
 CREATE DATABASE contextserver OWNER postgres;
 \q
 
-Alterar senha no arquivo phinx.yml para a senha definida anteriormente
-Exemplo: pass: '<senha>'
-
-Alterar senha no arquivo /application/config/database.php para a senha definida anteriormente
-Exemplo: 'password' => '<senha>'
-
 php vendor/bin/phinx migrate -e development
 
 php vendor/bin/phinx seed:run -e development
 
 
-Step 8: (opcional) Instalação do Motor de Regras
+Step 9: Finalizando configurações 
+------------------
+
+Alterar senha no arquivo phinx.yml para a senha definida anteriormente
+Exemplo: pass: '<senha>'
+
+Alterar senha no arquivo /application/config/database.php para a senha definida anteriormente
+Exemplo: 'password' => '<senha>'
+        
+Alterar base_url no arquivo /application/config/config.php para a url de acesso do sistema
+Exemplo: 
+Se a pasta de instalação for contextServer, e o domínio de acesso for http://exehda.ufpel.edu.br/. Então o base_url será http://exehda.ufpel.edu.br/contextServer
+
+
+Step 10: (opcional) Instalação do Motor de Regras
 ------------------
 * pasta_do_motor_de_regras/sudo python setup.py install
