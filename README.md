@@ -29,13 +29,11 @@ sudo passwd postgres
 
 su - postgres
 
-OBS: Mesmo alterando a senha aqui, pode dar erro de acesso no DB.
-
-Então fazer isso:
-
-sudo -u postgres psql
+psql
 
 ALTER USER postgres PASSWORD '<senha>';
+        
+\q
 
 Step 6: Ativar o mod_rewrite do apache
 ------------------
@@ -73,8 +71,9 @@ Step 7: Criando o DB
 sudo su - postgres
 psql
 CREATE DATABASE contextserver OWNER postgres;
+\q
 
-psql +TAB	Verifica os DB existentes
+Alterar senha no arquivo phinx.yml para a senha definida anteriormente
 
 php vendor/bin/phinx migrate -e development
 
