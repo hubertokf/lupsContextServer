@@ -3,22 +3,24 @@
 Step 1: Install Apache
 ------------------
 
-sudo apt-get update
-sudo apt-get install apache2
+sudo apt update
+sudo apt install apache2
 
 
 Step 2: Install Postgres
 ------------------
-sudo aptitude install postgresql
+sudo apt install postgresql
 
 
 Step 3: Install PHP
 ------------------
-sudo apt-get install php5 libapache2-mod-php5 php5-mcrypt
+sudo apt install php libapache2-mod-php php-mcrypt
 
-sudo apt-get install php5-pgsql
+sudo apt install php-pgsql
 
-sudo apt-get install pgadmin3
+sudo apt install php-curl
+
+sudo apt install pgadmin3
 
 
 Step 4: Alterar senha Postgres
@@ -27,19 +29,13 @@ sudo passwd postgres
 
 su - postgres
 
-PASSWORD 'batata'
-
 OBS: Mesmo alterando a senha aqui, pode dar erro de acesso no DB.
 
 Então fazer isso:
 
 sudo -u postgres psql
 
-ALTER USER postgres PASSWORD 'batata';
-
-Step 5: Instalar CURL no php
-------------------
-sudo apt-get install php5-curl
+ALTER USER postgres PASSWORD '<senha>';
 
 Step 6: Ativar o mod_rewrite do apache
 ------------------
