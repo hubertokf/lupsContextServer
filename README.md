@@ -74,6 +74,10 @@ CREATE DATABASE contextserver OWNER postgres;
 \q
 
 Alterar senha no arquivo phinx.yml para a senha definida anteriormente
+Exemplo: pass: '<senha>'
+
+Alterar senha no arquivo /application/config/database.php para a senha definida anteriormente
+Exemplo: 'password' => '<senha>'
 
 php vendor/bin/phinx migrate -e development
 
