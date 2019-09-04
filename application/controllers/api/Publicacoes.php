@@ -108,7 +108,7 @@ class Publicacoes extends REST_Controller {
             //verifica se a publicação veio com id incremental ou com uuid
             if (isset($content['sensor_uuid'])) {
                 $sensor = $this->M_sensores->getByUuid($content['sensor_uuid'])->row();
-                $this->M_publicacoes->setPublicacaoSensor($sensor->sensor_id);
+                $this->M_publicacoes->setPublicacaoSensor($sensor[0]->sensor_id);
 
             } else {
                 $this->M_publicacoes->setPublicacaoSensor($content['sensor_id']);
@@ -122,8 +122,8 @@ class Publicacoes extends REST_Controller {
             //pega do BANCO o ambiente_id o qual aquele sensor estah instalado, valormax e min do sensor, e status do ambiente
 
             //Se o sensor estiver desativado ou estiver num ambiente desativado, nao sera feita a publicacao na base de dados
-            if($sensor->ambiente_status=='t'){
-                if($sensor->status=='t'){
+            if($sensor[0]->ambiente_status=='t'){
+                if($sensor[0]->status=='t'){
                     //verifica se valor coletado é um codigo de erro
                     if($content['valorcoletado'] < 990){
                         //salva o model no banco
@@ -132,7 +132,7 @@ class Publicacoes extends REST_Controller {
                             $message = ['status' => TRUE,
                             'message' => 'Dados registrados com sucesso!'];
 
-                            $regras = $this->M_relcontextointeresse->getBySensor($sensor->sensor_id)->result_array();
+                            $regras = $this->M_relcontextointeresse->getBySensor($sensor[0]->sensor_id)->result_array();
 
                             if($content['dispararegra'] == true){
                                 foreach ($regras as $regra) {

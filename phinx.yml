@@ -10,7 +10,7 @@ environments:
         host: localhost
         name: contextserver
         user: postgres
-        pass: 'batata'
+        pass: 'UFPEL2o19'
         port: 5432
         charset: utf8
 
@@ -19,7 +19,7 @@ environments:
         host: localhost
         name: contextserver
         user: postgres
-        pass: 'batata'
+        pass: 'UFPEL2o19'
         port: 5432
         charset: utf8
 
@@ -28,6 +28,6 @@ environments:
         host: localhost
         name: contextserver
         user: postgres
-        pass: 'batata'
+        pass: 'UFPEL2o19'
         port: 5432
         charset: utf8

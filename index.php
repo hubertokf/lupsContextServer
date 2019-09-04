@@ -36,7 +36,9 @@
  * @filesource
  */
 
-define('base_url', $config['base_url']);
+//define('base_url', $config['base_url']);
+
+define('base_url', 'http://localhost/contextServerTeste/');
 
 /*
  *---------------------------------------------------------------

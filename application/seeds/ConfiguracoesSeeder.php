@@ -24,7 +24,7 @@ class ConfiguracoesSeeder extends AbstractSeed{
                 'value' => 'network-782707_640.png'),
             array(
                 'name' => 'img_projeto',
-                'value' => 'logotipo_lups_descricao.png'),
+                'value' => 'img_projeto.png'),
             array(
                 'name' => 'cor_predominante',
                 'value' => '#142b55'),

@@ -154,7 +154,7 @@ class M_sensores extends CI_Model{
                 "ambiente_id" 		=> $this->sensor_ambiente,
                 "gateway_id" 		=> $this->sensor_gateway,
                 "servidorborda_id" 	=> $this->sensor_servidorborda,
-                "uuid" 				=> $this->sensor_uuid,
+                //"uuid" 				=> $this->sensor_uuid,
                 "status" 			=> $this->sensor_status,
             );
 
@@ -201,7 +201,7 @@ class M_sensores extends CI_Model{
                 "modelo" 			=> $this->sensor_modelo,
                 "precisao" 			=> $this->sensor_precisao,
                 "gateway_id" 		=> $this->sensor_gateway,
-                "uuid" 				=> $this->sensor_uuid,
+                //"uuid" 				=> $this->sensor_uuid,
                 "servidorborda_id" 	=> $this->sensor_servidorborda,
             );
 
